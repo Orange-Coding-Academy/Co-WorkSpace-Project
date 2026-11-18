@@ -16,4 +16,8 @@ class Room extends Model
     public function workspace(): BelongsTo { return $this->belongsTo(Workspace::class); }
     public function bookings(): HasMany { return $this->hasMany(Booking::class); }
     public function facilities(): BelongsToMany { return $this->belongsToMany(Facility::class, 'room_facilities')->withTimestamps(); }
+    public function images()
+{
+    return $this->hasMany(RoomImage::class);
+}
 }
