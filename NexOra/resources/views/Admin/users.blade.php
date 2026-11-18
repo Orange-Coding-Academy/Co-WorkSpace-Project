@@ -1,4 +1,8 @@
+{{--
+Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
 
+Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+--}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
