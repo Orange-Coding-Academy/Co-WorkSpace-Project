@@ -8,17 +8,19 @@ use App\Http\Requests\UpdateWorkspaceRequest;
 
 class WorkspaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
-        //
+        
+        
+        $workspace = Workspace::all();
+
+         return view('',compact('workspace'));
+
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
@@ -61,6 +63,9 @@ class WorkspaceController extends Controller
      */
     public function destroy(Workspace $workspace)
     {
-        //
+        $workspace->is_active = false;
+        $workspace->save();
+          return redirect()->back()
+        ->with('success', 'Workspace deactivated successfully.');
     }
 }
