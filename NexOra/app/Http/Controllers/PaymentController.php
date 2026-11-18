@@ -13,54 +13,18 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaymentRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaymentRequest $request, Payment $payment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Payment $payment)
-    {
-        //
+           
     }
 }
+
+/*
+make index treturn just info 
+    -Successful payments
+    -Pending payments
+    -Failed payments
+    -Total revenue
+    - chart Successful payment amounts · Last 7 days or depain on fillter 
+
+make data return paymints => return all paymint in with fillter 
+make onther one for detals pymint => get{id}
+*/
