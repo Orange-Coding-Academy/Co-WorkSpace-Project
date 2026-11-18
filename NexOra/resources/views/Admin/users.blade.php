@@ -36,6 +36,7 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
                             type="text"
                             name="search"
                             class="form-control"
+                            value="{{ $search }}"
                             placeholder="Search by name">
                     </div>
 
@@ -43,8 +44,8 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
                         <label class="form-label">Role</label>
                         <select name="role" class="form-select">
                             <option value="">All Roles</option>
-                            <option value="member">Member</option>
-                            <option value="spaceManager">Space Manager</option>
+                            <option value="member" @selected($filter == 'member')>Member</option>
+                            <option value="spaceManager" @selected($filter == 'spaceManager')>Space Manager</option>
                         </select>
                     </div>
 
@@ -52,24 +53,24 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
                         <label class="form-label">Status</label>
                         <select name="status" class="form-select">
                             <option value="">All Statuses</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option value="1" @selected($status == '1')>Active</option>
+                            <option value="0" @selected($status == '0')>Inactive</option>
                         </select>
                     </div>
 
                     <div class="col-md-2">
                         <label class="form-label">Sort By</label>
                         <select name="sortBy" class="form-select">
-                            <option value="name">Name</option>
-                            <option value="created_at">Date Joined</option>
+                            <option value="name" @selected($sortBy == 'name') >Name</option>
+                            <option value="created_at" @selected($sortBy== 'created_at')>Date Joined</option>
                         </select>
                     </div>
 
                     <div class="col-md-2">
                         <label class="form-label">Direction</label>
                         <select name="sortDirection" class="form-select">
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
+                            <option value="asc" @selected($sortDirection == 'asc') >Ascending</option>
+                            <option value="desc"  @selected($sortDirection == 'desc')>Descending</option>
                         </select>
                     </div>
 
@@ -80,7 +81,7 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
                         Apply Filters
                     </button>
 
-                    <a href="" class="btn btn-outline-secondary">
+                    <a href="{{ url()->current() }}" class="btn btn-outline-secondary">
                         Reset
                     </a>
                 </div>
@@ -95,8 +96,7 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold mb-0">All Users</h5>
-                <span class="text-muted">Total Users: --</span>
-            </div>
+                    <span class="text-muted">Total Users: {{ $users->total() }}</span>            </div>
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
@@ -175,12 +175,9 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
             </div>
 
             <!-- Pagination will be added here using Blade -->
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                <small class="text-muted">Showing users</small>
-                <div>
-                    <!-- Laravel pagination links -->
-                </div>
-            </div>
+          <div class="d-flex justify-content-center mt-3">
+                 {{ $users->links('pagination::bootstrap-5') }}
+         </div>
 
         </div>
     </div>
