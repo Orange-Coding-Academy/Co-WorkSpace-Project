@@ -1,7 +1,11 @@
 {{--
+هاي لصفحة اليوزر كلهم بس بتعرضهم
 Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
 
+هاي اذا بدي اعمل is_active لمستخدم معين
 Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+
+هاي لصفحة التفاصيل لليوزر
 
 Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
 --}}
