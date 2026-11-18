@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ManagerAIController;
@@ -7,6 +8,9 @@ use App\Http\Controllers\Manager\ManagerAIController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
 Route::prefix('manager')->group(function () {
 
     Route::get('/ai', [ManagerAIController::class, 'index'])
