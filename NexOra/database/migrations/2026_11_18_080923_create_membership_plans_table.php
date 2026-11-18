@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('workspace_id')->constrained()->cascadeOnDelete();
             $table->string('plan_name');
-            $table->string('duration_type'); // daily, weekly, monthly, yearly, custom
+            $table->string('duration_type'); // weekly, monthly, yearly, custom
             $table->unsignedInteger('duration_days');
             $table->decimal('price', 10, 2);
             $table->text('description')->nullable();
