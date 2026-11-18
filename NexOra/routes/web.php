@@ -20,5 +20,8 @@ Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
     ->name('manager.ai.marketing');
     Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
     ->name('manager.ai.marketing.send');
-  });
+    });
+
+
+
 
