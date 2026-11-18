@@ -29,7 +29,29 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request)
     {
-        //
+        //  abort_unless(auth()->check(), 403);
+
+        // abort_unless(auth()->user()->role === 'member', 403);
+
+        $validated = $request->validate([
+            'workspace_id' => ['required', 'exists:workspaces,id'],
+            'rating' => ['required', 'integer', 'min:1', 'max:5'],
+            'comment' => ['nullable', 'string', 'max:2000'],
+        ]);
+
+        Review::create([
+            'user_id' => auth()->id(),
+            'workspace_id' => $validated['workspace_id'],
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'] ?? null,
+            'is_visible' => false,
+        ]);
+
+        return back()->with(
+            'success',
+            'Your review has been submitted and is waiting for admin approval.'
+        );
+    
     }
 
     /**
