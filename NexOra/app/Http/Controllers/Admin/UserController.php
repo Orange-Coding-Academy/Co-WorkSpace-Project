@@ -59,4 +59,22 @@ class UserController extends Controller
 
 
     }
+
+    public function show(string $id){
+        $user=User::findOrFail($id);
+       // dd($user);
+       $totalBookings = $user->bookings()->count();
+       $totalMemberships = $user->memberships()->count();
+       $totalWorkspaces=$user->managedWorkspaces()->count();
+       $recentBookings=$user->bookings()->latest('created_at')->take(5)->get();
+       $recentMemberships=$user->memberships()->latest('created_at')->take(5)->get();
+       $recentWorkspaces=$user->managedWorkspaces()->latest('created_at')->take(5)->get();
+
+    
+
+
+
+      return view('Admin.userDetails', compact('user','totalBookings','totalMemberships','totalWorkspaces','recentBookings','recentMemberships','recentWorkspaces'));
+    }
+    
 }
