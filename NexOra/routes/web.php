@@ -43,6 +43,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('reviews.destroy');
+        
+Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
+
+Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+
+Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
 });
+
+
+
+
 
 
