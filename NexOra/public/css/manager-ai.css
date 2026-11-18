@@ -1,0 +1,130 @@
+
+/* ===== NEXORA Manager AI ===== */
+
+body {
+    background: #f5f6fa;
+    font-family: 'Segoe UI', sans-serif;
+    color: #25243a;
+}
+
+.ai-page {
+    padding: 30px;
+}
+
+/* Page Header */
+.ai-header {
+    margin-bottom: 28px;
+}
+
+.ai-header h2 {
+    font-size: 27px;
+    font-weight: 700;
+    color: #29264b;
+}
+
+.ai-header p {
+    color: #85859a;
+    margin-top: 8px;
+}
+
+/* Cards */
+.ai-card {
+    background: #fff;
+    border: 1px solid #eeeef5;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 18px rgba(35, 30, 80, 0.04);
+}
+
+.ai-card h4 {
+    color: #302d52;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* Inputs */
+.ai-card input,
+.ai-card select,
+.ai-card textarea {
+    width: 100%;
+    border: 1px solid #e4e3ee;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 8px 0 16px;
+    outline: none;
+    background: #fcfcff;
+}
+
+.ai-card input:focus,
+.ai-card select:focus,
+.ai-card textarea:focus {
+    border-color: #7563d8;
+    box-shadow: 0 0 0 3px rgba(117, 99, 216, .12);
+}
+
+.ai-card textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* Buttons */
+.ai-btn {
+    background: #6554c0;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 22px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.ai-btn:hover {
+    background: #5040a6;
+    transform: translateY(-1px);
+}
+
+.ai-btn-secondary {
+    background: #eeeafd;
+    color: #5b4bb2;
+}
+
+.ai-btn-secondary:hover {
+    background: #e1dcfa;
+}
+
+/* AI Response */
+.ai-response {
+    background: #f7f5ff;
+    border: 1px solid #e7e2ff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-top: 18px;
+    color: #46416c;
+    line-height: 1.8;
+}
+
+/* Small labels */
+.ai-label {
+    font-weight: 600;
+    color: #55516f;
+    margin-bottom: 7px;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .ai-page {
+        padding: 15px;
+    }
+
+    .ai-card {
+        padding: 18px;
+    }
+
+    .ai-header h2 {
+        font-size: 22px;
+    }
+}
