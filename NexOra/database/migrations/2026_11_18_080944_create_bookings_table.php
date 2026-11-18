@@ -20,6 +20,11 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->string('status')->default('pending'); // pending, confirmed, cancelled, completed, expired
             $table->timestamp('payment_expires_at')->nullable();
+            $table->decimal('commission_rate', 5, 2)->nullable();
+
+$table->decimal('platform_commission_amount', 10, 3)->nullable();
+
+$table->decimal('workspace_net_amount', 10, 3)->nullable();
             $table->timestamps();
             $table->index(['room_id', 'start_date_time', 'end_date_time']);
         });

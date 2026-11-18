@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('approval_status')->default('pending');
             $table->boolean('is_active')->default(true);
+            $table->decimal('commission_rate', 5, 2)->default(10.00);
             $table->timestamps();
         });
     }
