@@ -152,9 +152,9 @@ Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admi
                             <td>{{ $user->created_at->format('M d, Y') }}</td>
 
                             <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-outline-primary">
-                                    View
-                                </a>
+                               <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-outline-primary">
+                                         View
+                                   </a>
 
                                <form action="{{ route('admin.users.deactivate', $user->id) }}" method="POST" class="d-inline">
                                              @csrf
