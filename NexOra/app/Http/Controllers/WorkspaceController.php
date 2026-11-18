@@ -8,19 +8,27 @@ use App\Http\Requests\UpdateWorkspaceRequest;
 
 class WorkspaceController extends Controller
 {
-   
+
     public function index()
     {
-        
-        
-        $workspace = Workspace::all();
-
-         return view('',compact('workspace'));
 
 
+        $workspaces = Workspace::with('manager')->get();
+
+            
+        $enabled = $workspaces->where('is_active', true);
+        $statistics = [
+            'total'    => $workspaces->count(),
+            'active'   => $enabled->where('approval_status', 'approved')->count(),
+            'pending'  => $enabled->where('approval_status', 'pending')->count(),
+            'inactive' => $workspaces->where('is_active', false)->count(),
+        ];
+       
+
+        return view('Admin.MangeWorkSpace', compact('workspaces','statistics'));
     }
+  
 
-    
     public function create()
     {
         //
@@ -65,7 +73,7 @@ class WorkspaceController extends Controller
     {
         $workspace->is_active = false;
         $workspace->save();
-          return redirect()->back()
-        ->with('success', 'Workspace deactivated successfully.');
+        return redirect()->back()
+            ->with('success', 'Workspace deactivated successfully.');
     }
 }
