@@ -7,7 +7,6 @@ use App\Http\Controllers\Manager\ManagerAIController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::prefix('manager')->group(function () {
 
     Route::get('/ai', [ManagerAIController::class, 'index'])
