@@ -4,6 +4,15 @@ use App\Http\Controllers\StripeController;
 use App\Models\Room;
 use App\Models\MembershipPlan;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
+
+
+// add this to make auth work 
+Auth::routes();
+
+
+
+// add for add for stripe
 
 Route::get('/stripe/test', function () {
     return view('payment.test', [
@@ -23,3 +32,20 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// this for payment admin
+
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::get('/payments', [PaymentController::class, 'index'])
+            ->name('payments.index');
+
+        Route::get('/payments/{id}', [PaymentController::class, 'show'])
+            ->whereNumber('id')
+            ->name('payments.show');
+    });

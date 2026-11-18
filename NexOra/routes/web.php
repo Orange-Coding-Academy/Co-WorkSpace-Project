@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\AdminReviewController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -43,7 +44,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('reviews.destroy');
 });
-
-
 
 
