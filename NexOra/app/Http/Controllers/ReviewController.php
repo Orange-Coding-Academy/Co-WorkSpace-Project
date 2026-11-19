@@ -8,9 +8,7 @@ use App\Http\Requests\UpdateReviewRequest;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+ 
     public function index()
     {
         //

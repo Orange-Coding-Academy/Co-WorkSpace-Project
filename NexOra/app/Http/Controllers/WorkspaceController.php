@@ -13,7 +13,7 @@ class WorkspaceController extends Controller
     {
 
 
-        $workspaces = Workspace::with(['manager', 'rooms',''])->get();
+        $workspaces = Workspace::with(['manager', 'rooms','images'])->get();
 
 
         $enabled = $workspaces->where('is_active', true);
