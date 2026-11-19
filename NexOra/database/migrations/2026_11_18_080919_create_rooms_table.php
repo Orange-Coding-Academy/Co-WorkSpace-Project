@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('room_type');
             $table->unsignedInteger('capacity');
+            $table->json('facilities')->nullable();
             $table->decimal('hourly_price', 10, 2);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

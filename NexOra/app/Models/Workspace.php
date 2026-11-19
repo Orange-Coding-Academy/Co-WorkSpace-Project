@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, BelongsToMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class Workspace extends Model
 {
@@ -36,11 +36,7 @@ class Workspace extends Model
     {
         return $this->hasMany(WorkspaceImage::class);
     }
-    public function facilities(): BelongsToMany
-    {
-        return $this->belongsToMany(Facility::class, 'workspace_facilities')->withTimestamps();
-    }
-
+ 
     public function bookings(): HasManyThrough
     {
         return $this->hasManyThrough(Booking::class, Room::class);
