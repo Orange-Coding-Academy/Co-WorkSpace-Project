@@ -53,7 +53,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/payments/{id}', [PaymentController::class, 'show'])
             ->whereNumber('id')
             ->name('payments.show');
-        
+
 Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
 
 Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
@@ -79,3 +79,5 @@ Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMe
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
+
+require __DIR__ . '/fuad.php';
