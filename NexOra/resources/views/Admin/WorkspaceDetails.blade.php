@@ -335,7 +335,7 @@
                 <section class="workspace-facilities" aria-labelledby="facilities-title">
                     <h2 id="facilities-title">Facilities</h2>
                     <ul class="workspace-facilities-list" role="list">
-                        @forelse (json_decode($workspace->facilities ?? '[]', true) ?? [] as $facility)
+                        @forelse ($workspace->facilities ?? '[]' ?? [] as $facility)
                             <li><span class="pill">{{ $facility }}</span></li>
                         @empty
                             <li>No facilities listed.</li>

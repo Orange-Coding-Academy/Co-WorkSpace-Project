@@ -566,7 +566,7 @@
                                 </td>
                                 <td class="workspace-actions">
                                     @if (! $workspace->is_active)
-                                    <form method="POST" action="{{ route('Enable', $workspace) }}">
+                                    <form method="POST" action="{{ route('admin.Enable', $workspace) }}">
                                         @csrf
                                         @method('PATCH')
 
