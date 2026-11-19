@@ -12,9 +12,13 @@ class Workspace extends Model
 
     protected $fillable = ['manager_id', 'name', 'location', 'description', 'approval_status', 'is_active'];
     protected function casts(): array
-    {
-        return ['is_active' => 'boolean'];
-    }
+{
+    return [
+        'facilities' => 'array',
+        'is_active' => 'boolean',
+        'commission_rate' => 'decimal:2',
+    ];
+}
 
     public function manager(): BelongsTo
     {
