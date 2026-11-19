@@ -21,9 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
-Route::prefix('manager')->group(function () {
+Route::prefix('manager')->name('manager.')->group(function () {
 
     Route::get('/ai', [ManagerAIController::class, 'index'])
         ->name('manager.ai.index');
@@ -39,15 +37,20 @@ Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
     Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
     ->name('reviews.index');
 
-Route::get('/Manager/reviews/{id}', [ManagerReviewController::class, 'show'])
+
+    
+Route::get('/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+    Route::get('/reviews/{id}', [ManagerReviewController::class, 'show'])
     ->whereNumber('id')
     ->name('reviews.show');
+
+
     });
 //   Route::post('/reviews', [ReviewController::class, 'store'])
 //     ->name('reviews.store');
-
 Route::prefix('admin')->name('admin.')->group(function () {
-
+Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
     Route::get('/reviews', [AdminReviewController::class, 'index'])
         ->name('reviews.index');
 
@@ -59,12 +62,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('reviews.destroy');
+    
+
         Route::get('/payments', [PaymentController::class, 'index'])
             ->name('payments.index');
 
         Route::get('/payments/{id}', [PaymentController::class, 'show'])
             ->whereNumber('id')
             ->name('payments.show');
+
+             Route::get('/workspaces', [WorkspaceController::class, 'index'])
+    ->name('workspaces');
+
+Route::patch('/workspaces/{workspace}/disable', [WorkspaceController::class, 'destroy'])
+    ->name('destroy');
+
+Route::patch('/workspaces/{workspace}/UpdateStatus', [WorkspaceController::class, 'UpdateStatus'])
+    ->name('UpdateStatus');
+
+Route::patch('/workspaces/{workspace}/enable', [WorkspaceController::class, 'enable'])
+    ->name('Enable');
+
+Route::get('/workspaces/{workspaceId}', [RoomController::class, 'index'])
+    ->name('workspace.details');
 
 Route::get('/userindex', [UserController::class, 'index'])->name('users.index');
 
@@ -115,5 +135,5 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
             'clear'
         ])->name('chatbot.clear');
         
+ 
 
-});
