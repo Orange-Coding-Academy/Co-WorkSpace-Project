@@ -545,7 +545,7 @@
                                 <td>
                                  
                                     <a class="workspace workspace-details-link"
-                                       href="{{ route('workspace.details',$workspace->id ) }}">
+                                       href="{{ route('admin.workspace.details',$workspace->id ) }}">
                                         <span class="initial" aria-hidden="true">{{ mb_strtoupper(mb_substr($workspace->name, 0, 1)) }}</span>
                                         <span>
                                             <span>{{ $workspace->name }}</span>
@@ -575,7 +575,7 @@
                                         </button>
                                     </form>
                                     @elseif ($workspace->approval_status === 'pending')
-                                    <form method="POST" action="{{ route('UpdateStatus', $workspace) }}">
+                                    <form method="POST" action="{{ route('admin.UpdateStatus', $workspace) }}">
                                         @csrf
                                         @method('PATCH')
 
@@ -585,7 +585,7 @@
                                     </form>
                                     @elseif ($workspace->approval_status === 'approved')
                                     <form method="POST"
-                                        action="{{Route('destroy',$workspace)}}"
+                                        action="{{Route('admin.destroy',$workspace)}}"
                                         onsubmit="return confirm('Disable this workspace?')">
                                         @csrf
                                         @method('PATCH')

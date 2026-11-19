@@ -276,7 +276,7 @@
 
 <body>
     <main>
-        <a class="back" href="{{ route('workspaces') }}">&larr; Workspace directory</a>
+        <a class="back" href="{{ route('admin.workspaces') }}">&larr; Workspace directory</a>
 
         <section class="card overview" aria-labelledby="workspace-title">
             @if ($workspace->relationLoaded('images'))
