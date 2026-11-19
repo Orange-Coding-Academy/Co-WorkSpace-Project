@@ -271,6 +271,21 @@
             color: #5d5670;
             font-size: .85rem;
         }
+        .approve-workspace {
+            margin-top: 18px;
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: #5033c4;
+            color: #fff;
+            font: inherit;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .approve-workspace:hover {
+            background: #3d259e;
+        }
     </style>
 </head>
 
@@ -327,6 +342,7 @@
                         @endforelse
                     </ul>
                 </section>
+                <button type="button" class="approve-workspace">Approve workspace</button>
             </div>
         </section>
 
