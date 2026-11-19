@@ -19,6 +19,7 @@ use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Member\UserChatbotController;
+use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -69,6 +70,42 @@ Route::get('/reviews', [ManagerReviewController::class, 'index'])
         '/rooms/{roomId}',
         [ManagerRoomController::class, 'destroy']
     )->name('rooms.destroy');
+     Route::get('/membership-plans',
+            [ManagerMembershipPlanController::class, 'index'])
+            ->name('membership-plans.index');
+
+        Route::get('/membership-plans/create',
+            [ManagerMembershipPlanController::class, 'create'])
+            ->name('membership-plans.create');
+
+        Route::post('/membership-plans',
+            [ManagerMembershipPlanController::class, 'store'])
+            ->name('membership-plans.store');
+
+        Route::get('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'show'])
+            ->whereNumber('id')
+            ->name('membership-plans.show');
+
+        Route::get('/membership-plans/{id}/edit',
+            [ManagerMembershipPlanController::class, 'edit'])
+            ->whereNumber('id')
+            ->name('membership-plans.edit');
+
+        Route::put('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'update'])
+            ->whereNumber('id')
+            ->name('membership-plans.update');
+
+        Route::patch('/membership-plans/{id}/status',
+            [ManagerMembershipPlanController::class, 'updateStatus'])
+            ->whereNumber('id')
+            ->name('membership-plans.status');
+
+        Route::get('/membership-plans/{id}/subscribers',
+            [ManagerMembershipPlanController::class, 'subscribers'])
+            ->whereNumber('id')
+            ->name('membership-plans.subscribers');
 
     });
 //   Route::post('/reviews', [ReviewController::class, 'store'])
