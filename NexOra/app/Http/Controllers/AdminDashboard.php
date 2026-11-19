@@ -18,66 +18,123 @@ class AdminDashboard extends Controller
     {
         $period = $request->query('period', '30d');
 
+        $allowedPeriods = [
+            'today',
+            '7d',
+            '30d',
+            '90d',
+            'this_month',
+        ];
+
+        if (!in_array($period, $allowedPeriods, true)) {
+            $period = '30d';
+        }
+
         $dateRange = $this->getDateRange($period);
 
         $kpis = $this->getDashboardKpis($dateRange);
-
         $bookingStatuses = $this->getBookingStatusData($dateRange);
-
+        $revenueChart = $this->getRevenueChartData($dateRange);
         $topWorkspaces = $this->getTopWorkspaces($dateRange);
-
         $recentActivities = $this->getRecentActivities();
-
         $alerts = $this->getDashboardAlerts();
 
         return view('Admin.dashboard', compact(
+            'period',
             'kpis',
             'bookingStatuses',
             'topWorkspaces',
             'recentActivities',
-            'alerts'
+            'alerts',
+            'revenueChart'
         ));
     }
 
+
     public function getDashboardKpis(array $dateRange): array
     {
-        return [
-            'platformCommission' => 0,
-            'bookingGMV' => Booking::sum('total_price'),
-            'totalBookings' => Booking::whereBetween('created_at', [
+        $financialTotals = Booking::query()
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
                 $dateRange['start'],
                 $dateRange['end']
-            ])->count(),
-            'totalMembers' => User::where('role', 'member')->count(),
-            'activeWorkspaces' => Workspace::where('is_active', true)
-                ->where('approval_status', 'approved')
-                ->count(),
+            ])
+            ->selectRaw('
+            COALESCE(SUM(total_price), 0) as booking_gmv,
+            COALESCE(SUM(platform_commission_amount), 0) as platform_commission
+        ')
+            ->first();
+
+        $totalBookings = Booking::query()
+            ->whereBetween('created_at', [
+                $dateRange['start'],
+                $dateRange['end']
+            ])
+            ->count();
+
+        $totalMembers = User::where('role', 'member')->count();
+
+        $activeWorkspaces = Workspace::query()
+            ->where('is_active', true)
+            ->where('approval_status', 'approved')
+            ->count();
+
+        return [
+            'platformCommission' => $financialTotals->platform_commission,
+            'bookingGMV' => $financialTotals->booking_gmv,
+            'totalBookings' => $totalBookings,
+            'totalMembers' => $totalMembers,
+            'activeWorkspaces' => $activeWorkspaces,
         ];
     }
 
-    // public function getRevenueChartData(): array
-    // {
-    //     $data = Booking::query()
-    //         ->selectRaw('
-    //         DATE(created_at) as date,
-    //         SUM(total_price) as booking_gmv,
-    //         SUM(platform_commission_amount) as platform_commission
-    //     ')
-    //         ->where('status', 'completed')
-    //         ->whereBetween('created_at', [
-    //             now()->subDays(29)->startOfDay(),
-    //             now()->endOfDay()
-    //         ])
-    //         ->groupByRaw('DATE(created_at)')
-    //         ->orderBy('date')
-    //         ->get();
 
-    //     return [
-    //         'labels' => $data->pluck('date'),
-    //         'bookingGMV' => $data->pluck('booking_gmv'),
-    //         //'platformCommission' => $data->pluck('platform_commission'),
-    //     ];
-    // }
+
+    public function getRevenueChartData(array $dateRange): array
+    {
+        $start = CarbonImmutable::parse($dateRange['start'])->startOfDay();
+        $end = CarbonImmutable::parse($dateRange['end'])->startOfDay();
+
+        $data = Booking::query()
+            ->selectRaw('
+            DATE(created_at) as date,
+            SUM(total_price) as booking_gmv,
+            SUM(platform_commission_amount) as platform_commission
+        ')
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                $dateRange['start'],
+                $dateRange['end']
+            ])
+            ->groupByRaw('DATE(created_at)')
+            ->orderBy('date')
+            ->get()
+            ->keyBy('date');
+
+        $labels = [];
+        $bookingGMV = [];
+        $platformCommission = [];
+
+        for ($date = $start; $date->lte($end); $date = $date->addDay()) {
+
+            $formattedDate = $date->toDateString();
+
+            $dayData = $data->get($formattedDate);
+
+            $labels[] = $formattedDate;
+
+            $bookingGMV[] = (float) ($dayData->booking_gmv ?? 0);
+
+            $platformCommission[] = (float) ($dayData->platform_commission ?? 0);
+        }
+
+        return [
+            'labels' => $labels,
+            'bookingGMV' => $bookingGMV,
+            'platformCommission' => $platformCommission,
+        ];
+    }
+
 
     public function getBookingStatusData(array $dateRange): array
     {
@@ -99,6 +156,7 @@ class AdminDashboard extends Controller
         ];
     }
 
+
     public function getTopWorkspaces(array $dateRange): array
     {
         return Workspace::query()
@@ -112,22 +170,25 @@ class AdminDashboard extends Controller
             ])
             ->withSum([
                 'bookings' => function ($query) use ($dateRange) {
-                    $query->whereBetween('bookings.created_at', [
-                        $dateRange['start'],
-                        $dateRange['end']
-                    ]);
+                    $query->where('bookings.status', 'completed')
+                        ->whereBetween('bookings.created_at', [
+                            $dateRange['start'],
+                            $dateRange['end']
+                        ]);
                 }
             ], 'total_price')
             ->orderByDesc('bookings_count')
             ->limit(5)
             ->get()
             ->map(fn($workspace) => [
+                'id' => $workspace->id,
                 'name' => $workspace->name,
                 'totalBookings' => $workspace->bookings_count,
-                'totalGMV' => $workspace->bookings_sum_total_price ?? 0,
+                'totalGMV' => (float) ($workspace->bookings_sum_total_price ?? 0),
             ])
             ->toArray();
     }
+
 
     public function getRecentActivities(): array
     {
@@ -135,7 +196,7 @@ class AdminDashboard extends Controller
 
         $bookings = Booking::latest()
             ->take($limit)
-            ->get()
+            ->get(['id', 'created_at'])
             ->map(fn($booking) => [
                 'type' => 'booking',
                 'title' => 'New Booking',
@@ -145,7 +206,7 @@ class AdminDashboard extends Controller
 
         $payments = Payment::latest()
             ->take($limit)
-            ->get()
+            ->get(['id', 'created_at'])
             ->map(fn($payment) => [
                 'type' => 'payment',
                 'title' => 'New Payment',
@@ -155,7 +216,7 @@ class AdminDashboard extends Controller
 
         $users = User::latest()
             ->take($limit)
-            ->get()
+            ->get(['id', 'name', 'created_at'])
             ->map(fn($user) => [
                 'type' => 'user',
                 'title' => 'New User',
@@ -165,7 +226,7 @@ class AdminDashboard extends Controller
 
         $workspaces = Workspace::latest()
             ->take($limit)
-            ->get()
+            ->get(['id', 'name', 'created_at'])
             ->map(fn($workspace) => [
                 'type' => 'workspace',
                 'title' => 'New Workspace',
@@ -189,7 +250,21 @@ class AdminDashboard extends Controller
 
     public function getDashboardAlerts(): array
     {
-        return [];
+        $pendingBookings = Booking::where('status', 'pending')->count();
+
+        $alerts = [];
+
+        if ($pendingBookings > 0) {
+            $alerts[] = [
+                'type' => 'booking',
+                'title' => 'Pending Bookings',
+                'description' => "{$pendingBookings} bookings are waiting for confirmation.",
+                'count' => $pendingBookings,
+                'priority' => 'warning',
+            ];
+        }
+
+        return $alerts;
     }
 
     private function getDateRange(string $period): array

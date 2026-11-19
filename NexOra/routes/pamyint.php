@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\StripeController;
 use App\Models\Room;
 use App\Models\MembershipPlan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PaymentController;
 
 
 // add this to make auth work 
-Auth::routes();
 
 
 
@@ -63,3 +64,14 @@ Route::get('/preview-email', function () {
 Route::get('/dashboard', function () {
     return view('User.dashboard')->name('dashboard');
 });
+
+
+
+Auth::routes();
+
+Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+
+Route::get('/Manager/reviews/{id}', [ManagerReviewController::class, 'show'])
+    ->whereNumber('id')
+    ->name('reviews.show');

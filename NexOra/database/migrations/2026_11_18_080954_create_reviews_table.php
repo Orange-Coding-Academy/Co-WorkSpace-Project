@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_visible')->default(false);
             $table->timestamps();
             $table->index(['workspace_id', 'rating']);
-        });
+        }); 
     }
 
     /**
