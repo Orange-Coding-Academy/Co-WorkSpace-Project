@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\AdminReviewController;
+use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
 use App\Models\Room;
@@ -76,3 +77,12 @@ Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMe
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
+
+
+
+
+
+
+
+
+

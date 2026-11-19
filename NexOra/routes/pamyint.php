@@ -63,3 +63,14 @@ Route::get('/preview-email', function () {
 Route::get('/dashboard', function () {
     return view('User.dashboard')->name('dashboard');
 });
+
+
+
+
+
+Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+
+Route::get('/Manager/reviews/{id}', [ManagerReviewController::class, 'show'])
+    ->whereNumber('id')
+    ->name('reviews.show');
