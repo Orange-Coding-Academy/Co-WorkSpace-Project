@@ -8,13 +8,36 @@
         </div>
 
         <div class="cw-header-actions">
-            <span class="cw-date-filter">
+            <form method="GET" action="{{ route('AdminDashboard') }}" class="cw-date-filter-form">
+
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                     <rect x="3" y="5" width="18" height="16" rx="2" />
                     <path d="M16 3v4M8 3v4M3 10h18" />
                 </svg>
-                Last 30 Days
-            </span>
+
+                <select name="period" onchange="this.form.submit()">
+                    <option value="today" @selected($period === 'today')>
+                        Today
+                    </option>
+
+                    <option value="7d" @selected($period === '7d')>
+                        Last 7 Days
+                    </option>
+
+                    <option value="30d" @selected($period === '30d')>
+                        Last 30 Days
+                    </option>
+
+                    <option value="90d" @selected($period === '90d')>
+                        Last 90 Days
+                    </option>
+
+                    <option value="this_month" @selected($period === 'this_month')>
+                        This Month
+                    </option>
+                </select>
+
+            </form>
             <button class="cw-export-btn" type="button" disabled>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                     <path d="M12 3v12m-5-5 5 5 5-5" />
@@ -299,23 +322,43 @@
 
         {{-- ALERTS --}}
         <section class="cw-panel cw-alerts-panel">
-            <div class="cw-panel-header">
-                <div>
-                    <h3>Platform Attention</h3>
-                    <p>Important issues that may require administrative action</p>
-                </div>
-                <span class="cw-alert-badge">MONITORING</span>
-            </div>
+            <div class="cw-alert-list">
 
-            <div class="cw-alert-empty">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                    <path d="m12 3 10 18H2L12 3Z" />
-                    <path d="M12 9v5m0 3h.01" />
-                </svg>
-                <div>
-                    <strong>No alerts to display</strong>
-                    <p>System alerts will appear here when monitoring is connected.</p>
-                </div>
+                @forelse ($alerts as $alert)
+                    <div class="cw-alert-item">
+
+                        <div class="cw-alert-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                                <path d="m12 3 10 18H2L12 3Z" />
+                                <path d="M12 9v5m0 3h.01" />
+                            </svg>
+                        </div>
+
+                        <div class="cw-alert-content">
+                            <strong>{{ $alert['title'] }}</strong>
+                            <p>{{ $alert['description'] }}</p>
+                        </div>
+
+                        <span class="cw-alert-count">
+                            {{ $alert['count'] }}
+                        </span>
+
+                    </div>
+
+                @empty
+
+                    <div class="cw-alert-empty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="m5 12 4 4L19 6" />
+                        </svg>
+
+                        <div>
+                            <strong>All Clear</strong>
+                            <p>There are no pending actions requiring attention.</p>
+                        </div>
+                    </div>
+                @endforelse
+
             </div>
         </section>
 

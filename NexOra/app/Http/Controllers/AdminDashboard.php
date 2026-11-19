@@ -18,21 +18,29 @@ class AdminDashboard extends Controller
     {
         $period = $request->query('period', '30d');
 
+        $allowedPeriods = [
+            'today',
+            '7d',
+            '30d',
+            '90d',
+            'this_month',
+        ];
+
+        if (!in_array($period, $allowedPeriods, true)) {
+            $period = '30d';
+        }
+
         $dateRange = $this->getDateRange($period);
 
         $kpis = $this->getDashboardKpis($dateRange);
-
         $bookingStatuses = $this->getBookingStatusData($dateRange);
-
         $revenueChart = $this->getRevenueChartData($dateRange);
-
         $topWorkspaces = $this->getTopWorkspaces($dateRange);
-
         $recentActivities = $this->getRecentActivities();
-
         $alerts = $this->getDashboardAlerts();
 
         return view('Admin.dashboard', compact(
+            'period',
             'kpis',
             'bookingStatuses',
             'topWorkspaces',
@@ -242,7 +250,21 @@ class AdminDashboard extends Controller
 
     public function getDashboardAlerts(): array
     {
-        return [];
+        $pendingBookings = Booking::where('status', 'pending')->count();
+
+        $alerts = [];
+
+        if ($pendingBookings > 0) {
+            $alerts[] = [
+                'type' => 'booking',
+                'title' => 'Pending Bookings',
+                'description' => "{$pendingBookings} bookings are waiting for confirmation.",
+                'count' => $pendingBookings,
+                'priority' => 'warning',
+            ];
+        }
+
+        return $alerts;
     }
 
     private function getDateRange(string $period): array
