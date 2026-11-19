@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\AdminReviewController;
-use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
 use App\Models\Room;
@@ -84,13 +83,10 @@ Route::get('/stripe/success', [StripeController::class, 'success'])->name('strip
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
-Route::prefix('member')->name('member.')->group(function () {
 
     Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
         ->name('workspace-ai.index');
 
     Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
         ->name('workspace-ai.recommend');
-
-});
 
