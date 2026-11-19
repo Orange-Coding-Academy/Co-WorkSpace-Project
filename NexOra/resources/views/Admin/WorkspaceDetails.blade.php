@@ -320,7 +320,7 @@
         </section>
     </main>
     <script>
-        const storageUrl = new URL(@json(asset('storage/')));
+        const storageUrl = "";
 
         for (const image of document.querySelectorAll('[data-image-path]')) {
             const path = image.dataset.imagePath.trim();
