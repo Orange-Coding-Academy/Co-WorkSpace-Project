@@ -10,6 +10,7 @@ use App\Http\Controllers\StripeController;
 use App\Models\Room;
 use App\Models\MembershipPlan;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminBookingController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -58,6 +59,8 @@ Route::get('userindex', [UserController::class, 'index'])->name('admin.users.ind
 Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
 
 Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
+Route::get('/bookings', [AdminBookingController::class, 'index'])
+    ->name('bookings.index');
 });
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
