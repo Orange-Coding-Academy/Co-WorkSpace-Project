@@ -79,7 +79,8 @@ class WorkspaceController extends Controller
 
             $workspace->approval_status = 'approved';
             $workspace->save();
-            return back()->with('success', 'Workspace approved successfully.');
+           return redirect()->route('admin.workspaces')
+    ->with('success', 'Workspace approved successfully.');
         } else {
 
             return back()->with('success', 'Already Approved');
