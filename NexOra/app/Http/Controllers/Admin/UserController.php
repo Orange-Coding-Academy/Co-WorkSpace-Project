@@ -69,12 +69,12 @@ class UserController extends Controller
        $recentBookings=$user->bookings()->latest('created_at')->take(5)->get();
        $recentMemberships=$user->memberships()->latest('created_at')->take(5)->get();
        $recentWorkspaces=$user->managedWorkspaces()->latest('created_at')->take(5)->get();
-
+       $recentPayments=$user->payments()->latest('created_at')->take(5)->get();
     
 
 
 
-      return view('Admin.userDetails', compact('user','totalBookings','totalMemberships','totalWorkspaces','recentBookings','recentMemberships','recentWorkspaces'));
+      return view('Admin.userDetails', compact('user','totalBookings','totalMemberships','totalWorkspaces','recentBookings','recentMemberships','recentWorkspaces','recentPayments'));
     }
     
 }
