@@ -1,9 +1,12 @@
 {{--
 Manager Bookings Routes
+use App\Http\Controllers\BookingController;
 
-Route::get('/bookings', [BookingController::class, 'index'])->name('manager.bookings.index');
+Route::get('/bookings', [BookingController::class, 'index'])
+    ->name('bookings.index');
 
-Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('manager.bookings.cancel');
+Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])
+    ->name('bookings.cancel');
 
 --}}
 <!DOCTYPE html>
