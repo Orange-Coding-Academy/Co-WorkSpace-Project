@@ -5,12 +5,12 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\AdminReviewController;
-use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
 use App\Models\Room;
 use App\Models\MembershipPlan;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminBookingController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -53,12 +53,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/payments/{id}', [PaymentController::class, 'show'])
             ->whereNumber('id')
             ->name('payments.show');
-        
+
 Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
 
 Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
 
 Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
+Route::get('/bookings', [AdminBookingController::class, 'index'])
+    ->name('bookings.index');
 });
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
@@ -77,10 +79,6 @@ Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMe
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
-
-
-
-
 
 
 

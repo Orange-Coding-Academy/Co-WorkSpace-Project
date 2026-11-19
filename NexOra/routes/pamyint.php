@@ -8,7 +8,6 @@ use App\Http\Controllers\PaymentController;
 
 
 // add this to make auth work 
-Auth::routes();
 
 
 
@@ -64,6 +63,9 @@ Route::get('/dashboard', function () {
     return view('User.dashboard')->name('dashboard');
 });
 
+
+
+Auth::routes();
 
 
 
