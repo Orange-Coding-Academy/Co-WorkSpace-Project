@@ -195,6 +195,4 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
             UserChatbotController::class,
             'clear'
         ])->name('chatbot.clear');
-        
- 
 
