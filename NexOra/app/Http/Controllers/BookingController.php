@@ -82,7 +82,7 @@ class BookingController extends Controller
 
         $workspaces = Workspace::where('manager_id', $managerId)->get();
 
-        return view('Manager.AI.bookings', compact('bookings', 'workspaces'));
+        return view('Manager.bookings', compact('bookings', 'workspaces'));
     }
 
     /**
