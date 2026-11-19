@@ -22,7 +22,7 @@ class ManagerAIController extends Controller
 
     public function index()
 {
-    $manager = User::where('email', 'manager@test.com')->firstOrFail();
+    $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
 
     $workspaces = $this->aiService->getManagerWorkspaces($manager);
 
@@ -36,7 +36,7 @@ class ManagerAIController extends Controller
         ]);
 
         try {
-        $manager = User::where('email', 'manager@test.com')->firstOrFail();
+        $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
 
    $answer = $this->aiService->askWithManagerData(
     $manager,
@@ -67,7 +67,7 @@ class ManagerAIController extends Controller
     ]);
 
     try {
-       $manager = User::where('email', 'manager@test.com')->firstOrFail();
+       $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
 
         $content = $this->aiService->generateMarketingContent(
             $manager,
@@ -100,7 +100,7 @@ public function sendMarketing(Request $request)
 
     try {
         // Temporary test manager until Auth is implemented
-        $manager = User::where('email', 'manager@test.com')->firstOrFail();
+        $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
 
         // Make sure the workspace belongs to this manager
         $workspace = \Illuminate\Support\Facades\DB::table('workspaces')
