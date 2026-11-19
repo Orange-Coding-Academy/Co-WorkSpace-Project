@@ -16,6 +16,7 @@ use App\Models\MembershipPlan;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\Member\UserChatbotController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,9 +36,15 @@ Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
     ->name('manager.ai.marketing');
     Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
     ->name('manager.ai.marketing.send');
+    Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+
+Route::get('/Manager/reviews/{id}', [ManagerReviewController::class, 'show'])
+    ->whereNumber('id')
+    ->name('reviews.show');
     });
-  Route::post('/reviews', [ReviewController::class, 'store'])
-    ->name('reviews.store');
+//   Route::post('/reviews', [ReviewController::class, 'store'])
+//     ->name('reviews.store');
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
@@ -92,5 +99,21 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
     Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
         ->name('workspace-ai.recommend');
+
+         Route::get('/chatbot', [
+            UserChatbotController::class,
+            'index'
+        ])->name('chatbot.index');
+
+        Route::post('/chatbot/send', [
+            UserChatbotController::class,
+            'send'
+        ])->name('chatbot.send');
+
+        Route::delete('/chatbot/clear', [
+            UserChatbotController::class,
+            'clear'
+        ])->name('chatbot.clear');
+        
 
 });
