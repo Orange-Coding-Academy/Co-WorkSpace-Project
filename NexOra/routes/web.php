@@ -8,12 +8,13 @@ use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\Member\WorkspaceAIController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ReviewController;
+// use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WorkspaceController;
 use App\Models\MembershipPlan;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Manager\ManagerRoomController;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
@@ -49,6 +50,25 @@ Route::get('/reviews', [ManagerReviewController::class, 'index'])
 
     Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('bookings.cancel');
 
+ Route::get(
+        '/workspaces/{workspaceId}/details',
+        [ManagerRoomController::class, 'index']
+    )->name('workspaces.details');
+
+    Route::post(
+        '/workspaces/{workspaceId}/rooms',
+        [ManagerRoomController::class, 'store']
+    )->name('rooms.store');
+
+    Route::put(
+        '/rooms/{roomId}',
+        [ManagerRoomController::class, 'update']
+    )->name('rooms.update');
+
+    Route::delete(
+        '/rooms/{roomId}',
+        [ManagerRoomController::class, 'destroy']
+    )->name('rooms.destroy');
 
     });
 //   Route::post('/reviews', [ReviewController::class, 'store'])
