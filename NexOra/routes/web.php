@@ -11,6 +11,8 @@ use App\Models\Room;
 use App\Models\MembershipPlan;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\Member\WorkspaceAIController;
+// use App\Http\Controllers\WorkspaceController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -54,14 +56,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->whereNumber('id')
             ->name('payments.show');
 
-Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
+Route::get('/userindex', [UserController::class, 'index'])->name('users.index');
 
-Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('users.deactivate');
 
-Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
+Route::get('usershow/{id}', [UserController::class, 'show'])->name('users.show');
 Route::get('/bookings', [AdminBookingController::class, 'index'])
     ->name('bookings.index');
 });
+
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
 
@@ -81,6 +84,9 @@ Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
 
+    Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
+        ->name('workspace-ai.index');
 
-
+    Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
+        ->name('workspace-ai.recommend');
 

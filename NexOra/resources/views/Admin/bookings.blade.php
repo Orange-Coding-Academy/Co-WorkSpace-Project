@@ -75,9 +75,6 @@
                                     <div class="fw-semibold">
                                         {{ $booking->user->name ?? 'N/A' }}
                                     </div>
-                                    <small class="text-muted">
-                                        {{ $booking->user->email ?? '' }}
-                                    </small>
                                 </td>
 
                                 <td>
