@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Membership Plan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <a href="{{ route('manager.membership-plans.index') }}" class="text-decoration-none">
+            &larr; Back to Membership Plans
+        </a>
+
+        <h3 class="fw-bold mt-3">Edit Membership Plan</h3>
+        <p class="text-muted">Update {{ $plan->plan_name }}.</p>
+    </div>
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+
+            <form action="{{ route('manager.membership-plans.update', $plan->id) }}"
+                  method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-3">
+                    <label class="form-label">Workspace</label>
+
+                    <select name="workspace_id" class="form-select" required>
+                        @foreach($workspaces as $workspace)
+                            <option value="{{ $workspace->id }}"
+                                {{ old('workspace_id', $plan->workspace_id) == $workspace->id ? 'selected' : '' }}>
+                                {{ $workspace->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('workspace_id')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Plan Name</label>
+
+                    <input type="text" name="plan_name" class="form-control"
+                           value="{{ old('plan_name', $plan->plan_name) }}" required>
+
+                    @error('plan_name')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Duration Type</label>
+
+                        <select name="duration_type" class="form-select" required>
+                            @foreach(['weekly', 'monthly', 'yearly', 'custom'] as $type)
+                                <option value="{{ $type }}"
+                                    {{ old('duration_type', $plan->duration_type) == $type ? 'selected' : '' }}>
+                                    {{ ucfirst($type) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Duration (Days)</label>
+
+                        <input type="number" name="duration_days" class="form-control"
+                               min="1"
+                               value="{{ old('duration_days', $plan->duration_days) }}" required>
+
+                        @error('duration_days')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+
+                    <input type="number" name="price" class="form-control"
+                           min="0" step="0.01"
+                           value="{{ old('price', $plan->price) }}" required>
+
+                    @error('price')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+
+                    <textarea name="description" class="form-control"
+                              rows="4">{{ old('description', $plan->description) }}</textarea>
+
+                    @error('description')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-check mb-4">
+                    <input type="hidden" name="is_active" value="0">
+
+                    <input type="checkbox" name="is_active" value="1"
+                           class="form-check-input" id="is_active"
+                           {{ old('is_active', $plan->is_active) ? 'checked' : '' }}>
+
+                    <label class="form-check-label" for="is_active">
+                        Active
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+
+                <a href="{{ route('manager.membership-plans.index') }}"
+                   class="btn btn-light">Cancel</a>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
