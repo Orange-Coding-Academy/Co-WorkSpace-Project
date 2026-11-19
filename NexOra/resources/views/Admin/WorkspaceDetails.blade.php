@@ -234,20 +234,61 @@
                 grid-template-columns: 1fr;
             }
         }
+        .room-image-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border: 1px solid #ffffff80;
+            border-radius: 50%;
+            background: #211a35cc;
+            color: #fff;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .room-image-button.previous { left: 10px; }
+        .room-image-button.next { right: 10px; }
+        .room-image-button:hover { background: #211a35; }
+        .room-image-button:focus-visible { outline-color: #fff; }
+        .workspace-facilities {
+            margin-top: 20px;
+        }
+
+        .workspace-facilities h2 {
+            font-size: .95rem;
+        }
+
+        .workspace-facilities-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 8px 0 0;
+            padding: 0;
+            list-style: none;
+            color: #5d5670;
+            font-size: .85rem;
+        }
     </style>
 </head>
 
 <body>
     <main>
-        <a class="back" href="{{ route('workspaces') }}">&larr; Workspace directory</a>
+        <a class="back" href="{{ route('admin.workspaces') }}">&larr; Workspace directory</a>
 
         <section class="card overview" aria-labelledby="workspace-title">
             @if ($workspace->relationLoaded('images'))
-            @foreach ($workspace->images->sortBy([['is_primary', 'desc'], ['sort_order', 'asc']])->take(1) as $cover)
-            <img class="cover" data-image-path="{{ $cover->image_path }}" alt="{{ $cover->alt_text ?: $workspace->name }}" hidden>
+               @foreach ($workspace->images->take(1) as $image)
+          <img class="cover"
+         src="{{ asset($image->image_path) }}"
+         alt="{{ $image->alt_text ?: $workspace->name }}">
             @endforeach
             @endif
-            <div>
+            
+    
+             <div>
                 <h1 id="workspace-title">{{ $workspace->name }}</h1>
                 @if (filled($workspace->description))
                 <p class="description">{{ $workspace->description }}</p>
@@ -276,22 +317,44 @@
                         </dd>
                     </div>
                 </dl>
+                <section class="workspace-facilities" aria-labelledby="facilities-title">
+                    <h2 id="facilities-title">Facilities</h2>
+                    <ul class="workspace-facilities-list" role="list">
+                        @forelse (json_decode($workspace->facilities ?? '[]', true) ?? [] as $facility)
+                            <li><span class="pill">{{ $facility }}</span></li>
+                        @empty
+                            <li>No facilities listed.</li>
+                        @endforelse
+                    </ul>
+                </section>
             </div>
         </section>
 
         <section class="rooms" aria-labelledby="rooms-title">
             <div class="rooms-header">
                 <h2 id="rooms-title">Rooms</h2>
-                <span class="pill">{{ $workspace->rooms->count() }}</span>
+                <span class="pill">{{ ($rooms ?? $workspace->rooms)->count() }}</span>
             </div>
 
             <div class="room-grid">
-                @forelse ($workspace->rooms as $room)
+                @forelse (($rooms ?? $workspace->rooms) as $room)
                 <article class="card room-card">
                     <div class="room-media">
                         <span class="room-placeholder" aria-hidden="true">{{ mb_strtoupper(mb_substr($room->name, 0, 1)) }}</span>
-                        @if (filled($room->image_path))
-                        <img data-image-path="{{ $room->image_path }}" alt="{{ $room->name }}" loading="lazy" hidden>
+
+                        @if ($room->relationLoaded('images'))
+                            @foreach ($room->images as $image)
+                                <img src="{{ asset($image->image_path) }}"
+                                     alt="{{ $image->alt_text ?: $room->name }}"
+                                     loading="lazy" @if (! $loop->first) hidden @endif>
+                            @endforeach
+
+                            @if ($room->images->count() > 1)
+                                <button type="button" class="room-image-button previous" data-image-step="-1"
+                                        aria-label="Previous image for {{ $room->name }}">&lsaquo;</button>
+                                <button type="button" class="room-image-button next" data-image-step="1"
+                                        aria-label="Next image for {{ $room->name }}">&rsaquo;</button>
+                            @endif
                         @endif
                     </div>
 
@@ -320,24 +383,17 @@
         </section>
     </main>
     <script>
-        const storageUrl = "";
+        for (const gallery of document.querySelectorAll('.room-media')) {
+            const images = gallery.querySelectorAll('img');
+            let current = 0;
 
-        for (const image of document.querySelectorAll('[data-image-path]')) {
-            const path = image.dataset.imagePath.trim();
-            if (!path) continue;
-
-            const relativePath = path.replace(/^\/+/, '').replace(/^storage\//, '');
-            const imageUrl = /^https?:\/\//i.test(path) ?
-                path :
-                storageUrl.href + relativePath;
-
-            image.addEventListener('error', () => {
-                image.hidden = true;
-            }, {
-                once: true
-            });
-            image.src = imageUrl;
-            image.hidden = false;
+            for (const button of gallery.querySelectorAll('[data-image-step]')) {
+                button.addEventListener('click', () => {
+                    images[current].hidden = true;
+                    current = (current + Number(button.dataset.imageStep) + images.length) % images.length;
+                    images[current].hidden = false;
+                });
+            }
         }
     </script>
 </body>
