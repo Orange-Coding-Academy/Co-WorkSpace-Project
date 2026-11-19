@@ -10,6 +10,9 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 
 
+
+use App\Http\Controllers\Member\MyBookingController;
+use App\Http\Controllers\Member\BookingCheckoutController;
 // add this to make auth work 
 
 
@@ -130,3 +133,38 @@ Route::prefix('manager')
             ->whereNumber('id')
             ->name('membership-plans.subscribers');
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Route::get('/my-bookings', [MyBookingController::class, 'index'])
+        ->name('member.bookings.index');
+
+    Route::get('/my-bookings/{id}', [MyBookingController::class, 'show'])
+        ->name('member.bookings.show');
+
+    Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])
+        ->name('member.bookings.cancel');
+
+
+    // Booking Checkout
+// Booking Checkout
+Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
+    ->name('member.bookings.checkout');
+

@@ -19,106 +19,65 @@ use Stripe\Webhook;
 
 class StripeController extends Controller
 {
-    public function checkoutBooking(Request $request)
-    {
-        Log::info('BOOKING CHECKOUT STARTED', [
-            'user_id' => Auth::id(),
-            'request' => $request->only(['room_id', 'start_at', 'end_at']),
+  
+public function checkoutBooking(Request $request)
+{
+    $data = $request->validate([
+        'booking_id' => ['required', 'integer', 'exists:bookings,id'],
+    ]);
+
+    // Only allow the owner to pay for their booking.
+    $booking = Booking::where('user_id', Auth::id())
+        ->where('status', 'pending')
+        ->findOrFail($data['booking_id']);
+
+    $room = Room::findOrFail($booking->room_id);
+
+    // Recheck availability, excluding this booking itself.
+    $overlap = Booking::where('room_id', $booking->room_id)
+        ->where('id', '!=', $booking->id)
+        ->whereIn('status', ['pending', 'confirmed'])
+        ->where('start_date_time', '<', $booking->end_date_time)
+        ->where('end_date_time', '>', $booking->start_date_time)
+        ->exists();
+
+    if ($overlap) {
+        return back()->withErrors([
+            'booking_id' => 'This room is no longer available for the selected time.',
         ]);
-
-        try {
-            $data = $request->validate([
-                'room_id' => ['required', 'integer', 'exists:rooms,id'],
-                'start_at' => ['required', 'date', 'after:now'],
-                'end_at' => ['required', 'date', 'after:start_at'],
-            ]);
-
-            Log::info('BOOKING VALIDATION PASSED');
-
-            $room = Room::findOrFail($data['room_id']);
-            $start = Carbon::parse($data['start_at']);
-            $end = Carbon::parse($data['end_at']);
-
-            Log::info('BOOKING ROOM AND TIME LOADED', [
-                'room_id' => $room->id,
-                'start' => $start->toDateTimeString(),
-                'end' => $end->toDateTimeString(),
-            ]);
-
-            $overlap = Booking::where('room_id', $room->id)
-                ->whereIn('status', ['pending', 'confirmed'])
-                ->where('start_date_time', '<', $end)
-                ->where('end_date_time', '>', $start)
-                ->exists();
-
-            if ($overlap) {
-                Log::warning('BOOKING OVERLAP DETECTED', [
-                    'room_id' => $room->id,
-                ]);
-
-                return back()->withErrors([
-                    'start_at' => 'This room is already booked at that time.'
-                ]);
-            }
-
-            $hours = $start->diffInMinutes($end) / 60;
-            $total = round($hours * $room->hourly_price, 2);
-
-            Log::info('BOOKING PRICE CALCULATED', [
-                'hours' => $hours,
-                'hourly_price' => $room->hourly_price,
-                'total' => $total,
-            ]);
-
-            $payment = DB::transaction(function () use ($room, $start, $end, $total) {
-                $booking = Booking::create([
-                    'user_id' => Auth::id(),
-                    'room_id' => $room->id,
-                    'start_date_time' => $start,
-                    'end_date_time' => $end,
-                    'total_price' => $total,
-                    'status' => 'pending',
-                ]);
-
-                Log::info('BOOKING CREATED', [
-                    'booking_id' => $booking->id,
-                ]);
-
-                $payment = Payment::create([
-                    'user_id' => Auth::id(),
-                    'booking_id' => $booking->id,
-                    'membership_id' => null,
-                    'provider' => 'stripe',
-                    'amount' => $total,
-                    'currency' => 'USD',
-                    'status' => 'pending',
-                ]);
-
-                Log::info('BOOKING PAYMENT CREATED', [
-                    'payment_id' => $payment->id,
-                    'booking_id' => $booking->id,
-                    'amount' => $payment->amount,
-                ]);
-
-                return $payment;
-            });
-
-            return $this->redirectToStripe(
-                $payment,
-                'Booking: ' . $room->name
-            );
-
-        } catch (\Throwable $e) {
-            Log::error('BOOKING CHECKOUT FAILED', [
-                'user_id' => Auth::id(),
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-
-            throw $e;
-        }
     }
+
+    // Reuse an existing payment instead of creating duplicates.
+    $payment = Payment::firstOrCreate(
+        ['booking_id' => $booking->id],
+        [
+            'user_id' => Auth::id(),
+            'membership_id' => null,
+            'provider' => 'stripe',
+            'amount' => $booking->total_price,
+            'currency' => 'USD',
+            'status' => 'pending',
+        ]
+    );
+
+    if ($payment->status === 'paid') {
+        return redirect()
+            ->route('member.bookings.show', $booking->id)
+            ->with('success', 'This booking has already been paid.');
+    }
+
+    if ($payment->status !== 'pending') {
+        return back()->withErrors([
+            'booking_id' => 'This payment cannot be processed. Please contact support.',
+        ]);
+    }
+
+    // Use the existing booking amount. Do not create another booking.
+    return $this->redirectToStripe(
+        $payment,
+        'Booking: ' . $room->name
+    );
+}
 
     public function checkoutMembership(Request $request)
     {
@@ -201,6 +160,17 @@ class StripeController extends Controller
 
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
+
+            if ($payment->stripe_checkout_session_id) {
+
+    $existingSession = Session::retrieve(
+        $payment->stripe_checkout_session_id
+    );
+
+    if ($existingSession->status === 'open') {
+        return redirect($existingSession->url);
+    }
+}
 
             $session = Session::create([
                 'mode' => 'payment',
