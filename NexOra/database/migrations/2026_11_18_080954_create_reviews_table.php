@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('workspace_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('rating');
             $table->text('comment')->nullable();
-            $table->boolean('is_visible')->default(true);
+            $table->boolean('is_visible')->default(false);
             $table->timestamps();
             $table->index(['workspace_id', 'rating']);
         });

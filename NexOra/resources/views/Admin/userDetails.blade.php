@@ -95,9 +95,11 @@
                         {{ $user->role}}
                     </span>
 
-                    <span class="badge bg-success">
-                        {{ $user->is_active }}
-                    </span>
+                   @if ($user->is_active == 1)
+    <span class="badge bg-success">Active</span>
+@else
+    <span class="badge bg-danger">Inactive</span>
+@endif
                 </div>
 
             </div>
@@ -125,8 +127,7 @@
 
                 <div class="col-md-6">
                     <div class="detail-label">Phone Number</div>
-                    <div class="detail-value">{{ $user->phone }}</div>
-                </div>
+<div class="detail-value">{{ $user->phone ?? 'Not Provided' }}</div>                </div>
 
                 <div class="col-md-6">
                     <div class="detail-label">User ID</div>
@@ -304,6 +305,70 @@
 </div>
 
 
+<!-- Recent Payments -->
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">Recent Payments</h5>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                   
+<tbody>
+    @foreach ($recentPayments as $payment)
+        <tr>
+            <td>#{{ $payment->id }}</td>
+
+            <td>
+                {{ number_format($payment->amount, 2) }}
+                {{ $payment->currency }}
+            </td>
+
+            <td>
+                        @if ($payment->status == 'paid')
+                             <span class="badge bg-success">Paid</span>
+
+                          @elseif ($payment->status == 'pending')
+                               <span class="badge bg-warning text-dark">Pending</span>
+
+                           @elseif ($payment->status == 'failed')
+                                  <span class="badge bg-danger">Failed</span>
+
+                                  @endif
+            </td>
+
+            <td>{{ $payment->created_at->format('Y-m-d') }}</td>
+        </tr>
+    @endforeach
+
+    @if ($recentPayments->isEmpty())
+        <tr>
+            <td colspan="4" class="text-center text-muted py-4">
+                No payments found.
+            </td>
+        </tr>
+    @endif
+</tbody>
+
+
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
 @elseif ($user->role=='spaceManager')
 
 <!-- Recent Managed Workspaces -->
@@ -349,7 +414,10 @@
 @endif
 
 
+
+
 </div>
+
 
 </body>
 </html>
