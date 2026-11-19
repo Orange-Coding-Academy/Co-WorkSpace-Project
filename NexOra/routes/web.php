@@ -8,39 +8,110 @@ use App\Http\Controllers\Manager\ManagerAIController;
 use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\Member\WorkspaceAIController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ReviewController;
+// use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WorkspaceController;
 use App\Models\MembershipPlan;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Manager\ManagerRoomController;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\Member\UserChatbotController;
+use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
-Route::prefix('manager')->group(function () {
+Route::prefix('manager')->name('manager.')->group(function () {
 
     Route::get('/ai', [ManagerAIController::class, 'index'])
-        ->name('manager.ai.index');
+        ->name('ai.index');
 
     Route::post('/ai/ask', [ManagerAIController::class, 'ask'])
-        ->name('manager.ai.ask');
+        ->name('ai.ask');
 
 
 Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
-    ->name('manager.ai.marketing');
+    ->name('ai.marketing');
     Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
-    ->name('manager.ai.marketing.send');
+    ->name('ai.marketing.send');
+    Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+
+
+    
+Route::get('/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+    Route::get('/reviews/{id}', [ManagerReviewController::class, 'show'])
+    ->whereNumber('id')
+    ->name('reviews.show');
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('bookings.cancel');
+
+ Route::get(
+        '/workspaces/{workspaceId}/details',
+        [ManagerRoomController::class, 'index']
+    )->name('workspaces.details');
+
+    Route::post(
+        '/workspaces/{workspaceId}/rooms',
+        [ManagerRoomController::class, 'store']
+    )->name('rooms.store');
+
+    Route::put(
+        '/rooms/{roomId}',
+        [ManagerRoomController::class, 'update']
+    )->name('rooms.update');
+
+    Route::delete(
+        '/rooms/{roomId}',
+        [ManagerRoomController::class, 'destroy']
+    )->name('rooms.destroy');
+     Route::get('/membership-plans',
+            [ManagerMembershipPlanController::class, 'index'])
+            ->name('membership-plans.index');
+
+        Route::get('/membership-plans/create',
+            [ManagerMembershipPlanController::class, 'create'])
+            ->name('membership-plans.create');
+
+        Route::post('/membership-plans',
+            [ManagerMembershipPlanController::class, 'store'])
+            ->name('membership-plans.store');
+
+        Route::get('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'show'])
+            ->whereNumber('id')
+            ->name('membership-plans.show');
+
+        Route::get('/membership-plans/{id}/edit',
+            [ManagerMembershipPlanController::class, 'edit'])
+            ->whereNumber('id')
+            ->name('membership-plans.edit');
+
+        Route::put('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'update'])
+            ->whereNumber('id')
+            ->name('membership-plans.update');
+
+        Route::patch('/membership-plans/{id}/status',
+            [ManagerMembershipPlanController::class, 'updateStatus'])
+            ->whereNumber('id')
+            ->name('membership-plans.status');
+
+        Route::get('/membership-plans/{id}/subscribers',
+            [ManagerMembershipPlanController::class, 'subscribers'])
+            ->whereNumber('id')
+            ->name('membership-plans.subscribers');
+
     });
-  Route::post('/reviews', [ReviewController::class, 'store'])
-    ->name('reviews.store');
-
+//   Route::post('/reviews', [ReviewController::class, 'store'])
+//     ->name('reviews.store');
 Route::prefix('admin')->name('admin.')->group(function () {
-
+Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
     Route::get('/reviews', [AdminReviewController::class, 'index'])
         ->name('reviews.index');
 
@@ -52,12 +123,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('reviews.destroy');
+    
+
         Route::get('/payments', [PaymentController::class, 'index'])
             ->name('payments.index');
 
         Route::get('/payments/{id}', [PaymentController::class, 'show'])
             ->whereNumber('id')
             ->name('payments.show');
+
+             Route::get('/workspaces', [WorkspaceController::class, 'index'])
+    ->name('workspaces');
+
+Route::patch('/workspaces/{workspace}/disable', [WorkspaceController::class, 'destroy'])
+    ->name('destroy');
+
+Route::patch('/workspaces/{workspace}/UpdateStatus', [WorkspaceController::class, 'UpdateStatus'])
+    ->name('UpdateStatus');
+
+Route::patch('/workspaces/{workspace}/enable', [WorkspaceController::class, 'enable'])
+    ->name('Enable');
+
+Route::get('/workspaces/{workspaceId}', [RoomController::class, 'index'])
+    ->name('workspace.details');
 
 Route::get('/userindex', [UserController::class, 'index'])->name('users.index');
 
@@ -86,7 +174,6 @@ Route::get('/stripe/success', [StripeController::class, 'success'])->name('strip
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
-Route::prefix('member')->name('member.')->group(function () {
 
     Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
         ->name('workspace-ai.index');
@@ -94,19 +181,20 @@ Route::prefix('member')->name('member.')->group(function () {
     Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
         ->name('workspace-ai.recommend');
 
-});
+         Route::get('/chatbot', [
+            UserChatbotController::class,
+            'index'
+        ])->name('chatbot.index');
 
-Route::get('/admin/workspaces', [WorkspaceController::class, 'index'])
-    ->name('workspaces');
+        Route::post('/chatbot/send', [
+            UserChatbotController::class,
+            'send'
+        ])->name('chatbot.send');
 
-Route::patch('/admin/workspaces/{workspace}/disable', [WorkspaceController::class, 'destroy'])
-    ->name('destroy');
+        Route::delete('/chatbot/clear', [
+            UserChatbotController::class,
+            'clear'
+        ])->name('chatbot.clear');
+        
+ 
 
-Route::patch('/admin/workspaces/{workspace}/UpdateStatus', [WorkspaceController::class, 'UpdateStatus'])
-    ->name('UpdateStatus');
-
-Route::patch('/admin/workspaces/{workspace}/enable', [WorkspaceController::class, 'enable'])
-    ->name('Enable');
-
-Route::get('/admin/workspaces/{workspaceId}', [RoomController::class, 'index'])
-    ->name('workspace.details');
