@@ -13,6 +13,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WorkspaceController;
 use App\Models\MembershipPlan;
+use App\Http\Controllers\BookingController;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
@@ -24,16 +25,16 @@ Route::get('/', function () {
 Route::prefix('manager')->name('manager.')->group(function () {
 
     Route::get('/ai', [ManagerAIController::class, 'index'])
-        ->name('manager.ai.index');
+        ->name('ai.index');
 
     Route::post('/ai/ask', [ManagerAIController::class, 'ask'])
-        ->name('manager.ai.ask');
+        ->name('ai.ask');
 
 
 Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
-    ->name('manager.ai.marketing');
+    ->name('ai.marketing');
     Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
-    ->name('manager.ai.marketing.send');
+    ->name('ai.marketing.send');
     Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
     ->name('reviews.index');
 
@@ -44,6 +45,9 @@ Route::get('/reviews', [ManagerReviewController::class, 'index'])
     Route::get('/reviews/{id}', [ManagerReviewController::class, 'show'])
     ->whereNumber('id')
     ->name('reviews.show');
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('bookings.cancel');
 
 
     });

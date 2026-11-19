@@ -8,7 +8,7 @@
         </div>
 
         <div class="cw-header-actions">
-            <form method="GET" action="{{ route('AdminDashboard') }}" class="cw-date-filter-form">
+            <form method="GET" action="{{ route('admin.AdminDashboard') }}" class="cw-date-filter-form">
 
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                     <rect x="3" y="5" width="18" height="16" rx="2" />
