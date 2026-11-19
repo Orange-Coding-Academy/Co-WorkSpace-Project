@@ -283,8 +283,13 @@
             cursor: pointer;
         }
 
-        .approve-workspace:hover {
+        .approve-workspace:hover:enabled {
             background: #3d259e;
+        }
+        .approve-workspace:disabled {
+            background: #def5eb;
+            color: #16634d;
+            cursor: default;
         }
     </style>
 </head>
@@ -342,7 +347,16 @@
                         @endforelse
                     </ul>
                 </section>
-                <button type="button" class="approve-workspace">Approve workspace</button>
+
+                <form method="POST" action="{{ route('admin.UpdateStatus', $workspace) }}">
+                  
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="approve-workspace"
+                            @if ($workspace->approval_status === 'approved') disabled @endif>
+                        {{ $workspace->approval_status === 'approved' ? 'Approved' : 'Approve workspace' }}
+                    </button>
+                </form>
             </div>
         </section>
 
