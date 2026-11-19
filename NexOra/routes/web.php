@@ -1,18 +1,20 @@
 <?php
 
-use App\Http\Controllers\AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Manager\ManagerAIController;
-use App\Http\Controllers\AdminReviewController;
-use App\Http\Controllers\Manager\ManagerReviewController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\StripeController;
-use App\Models\Room;
-use App\Models\MembershipPlan;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminBookingController;
+use App\Http\Controllers\AdminDashboard;
+use App\Http\Controllers\AdminReviewController;
+use App\Http\Controllers\Manager\ManagerAIController;
+use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\Member\WorkspaceAIController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\WorkspaceController;
+use App\Models\MembershipPlan;
+use App\Models\Room;
+use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Member\UserChatbotController;
 Route::get('/', function () {
@@ -91,7 +93,6 @@ Route::get('/stripe/success', [StripeController::class, 'success'])->name('strip
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
-Route::prefix('member')->name('member.')->group(function () {
 
     Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
         ->name('workspace-ai.index');
@@ -116,4 +117,3 @@ Route::prefix('member')->name('member.')->group(function () {
         
 
 });
-
