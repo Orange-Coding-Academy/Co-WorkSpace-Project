@@ -7,5 +7,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [WorkspaceController::class, 'index'])
-    ->name('workspaces');

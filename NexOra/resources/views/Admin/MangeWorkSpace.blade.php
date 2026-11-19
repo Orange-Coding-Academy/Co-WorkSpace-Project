@@ -1,3 +1,13 @@
+@php
+    $workspaceId = request()->query('workspace');
+    $selectedWorkspace = is_string($workspaceId)
+        ? $workspaces->first(fn ($workspace) => (string) $workspace->getKey() === $workspaceId)
+        : null;
+@endphp
+
+@if ($selectedWorkspace)
+    @include('Admin.WorkspaceDetails', ['workspace' => $selectedWorkspace])
+@else
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,22 +40,22 @@
         main {
             max-width: 1800px;
             margin: auto;
-            padding: clamp(16px, 2.5vw, 32px);
+            padding: clamp(12px, 1.6vw, 24px);
         }
 
         .summary,
         .dashboard {
             display: grid;
-            gap: 24px;
+            gap: 16px;
         }
 
         .summary {
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            margin-bottom: 28px;
+            margin-bottom: 16px;
         }
 
         .dashboard {
-            grid-template-columns: minmax(0, 2.7fr) minmax(250px, 1fr);
+            grid-template-columns: minmax(0, 1fr);
             align-items: start;
         }
 
@@ -57,7 +67,7 @@
         }
 
         .summary .card {
-            padding: 20px 24px;
+            padding: 14px 16px;
         }
 
         .metric-title,
@@ -86,8 +96,8 @@
 
         .metric-number {
             display: block;
-            margin-top: 8px;
-            font-size: 2.6rem;
+            margin-top: 2px;
+            font-size: 1.9rem;
             line-height: 1.15;
         }
 
@@ -107,14 +117,14 @@
 
         .directory-header,
         .status-panel {
-            padding: 24px 28px;
+            padding: 16px 20px;
         }
 
         .filters {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 16px;
+            margin-top: 12px;
         }
 
         .filters input,
@@ -144,7 +154,7 @@
 
         th,
         td {
-            padding: 14px 20px;
+            padding: 10px 16px;
             text-align: left;
             border-top: 1px solid var(--line);
         }
@@ -157,7 +167,7 @@
 
         th:first-child,
         td:first-child {
-            padding-left: 28px;
+            padding-left: 20px;
         }
 
         td {
@@ -321,6 +331,7 @@
                 height: 32px;
             }
         }
+
         .workspace-actions {
             text-align: right;
             white-space: nowrap;
@@ -333,18 +344,40 @@
         .workspace-action {
             min-width: 92px;
             padding: 6px 12px;
-            border: 1px solid #ded6ee;
+            border: 1px solid var(--action-border);
             border-radius: 9px;
-            background: #f5f0ff;
-            color: #5033c4;
+            background: var(--action-background);
+            color: var(--action-ink);
             font: inherit;
             font-size: .85rem;
             font-weight: 700;
             cursor: pointer;
         }
 
+        .workspace-action--disable {
+            --action-background: #fff1f2;
+            --action-border: #f3c6cd;
+            --action-ink: #9f2336;
+            --action-hover: #ffe1e6;
+        }
+
+        .workspace-action--review {
+            --action-background: #fff6df;
+            --action-border: #efd49a;
+            --action-ink: #805000;
+            --action-hover: #ffebbd;
+        }
+
+        .workspace-action--enable {
+            --action-background: #e7f7ef;
+            --action-border: #b7dfcd;
+            --action-ink: #176248;
+            --action-hover: #d2f0e2;
+        }
+
         .workspace-action:hover:not(:disabled) {
-            background: #ede4ff;
+            border-color: var(--action-ink);
+            background: var(--action-hover);
         }
 
         .workspace-action:focus-visible {
@@ -359,17 +392,119 @@
             cursor: default;
         }
 
+        .metric-title>div {
+            min-width: 0;
+        }
+
+        .summary .card,
+        .workspace-action,
+        .filters input,
+        .filters select {
+            transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+        }
+
+        th.rooms-column,
+        td.rooms-column {
+            text-align: center;
+        }
+
+        .rooms-column {
+            width: 1%;
+            font-variant-numeric: tabular-nums;
+        }
+
+        table {
+            min-width: 720px;
+        }
+
+        .filters :focus-visible,
+        .table-scroll:focus-visible {
+            outline: 2px solid var(--purple);
+            outline-offset: 2px;
+        }
+
+        tbody tr[data-workspace-status]:focus-within {
+            background: #faf7ff;
+        }
+
+        @media (hover: hover) {
+            .summary .card:hover {
+                border-color: #d9ccef;
+                box-shadow: 0 6px 18px #44258212;
+            }
+
+            tbody tr[data-workspace-status]:hover {
+                background: #faf7ff;
+            }
+
+            .filters input:hover,
+            .filters select:hover {
+                border-color: #b9a8e5;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .summary .card,
+            .workspace-action,
+            .filters input,
+            .filters select {
+                transition: none;
+            }
+        }
+        .workspace-details-link {
+            border: 0;
+            padding: 0;
+            background: transparent;
+            font: inherit;
+            font-weight: 700;
+            text-align: left;
+            text-decoration: none;
+        }
+
+        .workspace-details-label {
+            display: block;
+            margin-top: 2px;
+            color: var(--purple);
+            font-size: .75rem;
+            font-weight: 600;
+        }
+
+        .workspace-details-link:hover .workspace-details-label,
+        .workspace-details-link:focus-visible .workspace-details-label {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+
     </style>
 </head>
 
 <body>
     <main aria-label="Manage workspaces">
 
+        @php
+        $metricIcons = [
+        'total' => 'M3 21h18M6 21V3h12v18M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1',
+        'active' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM8 12l3 3 5-6',
+        'pending' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM12 7v5l3 2',
+        'inactive' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM8 12h8',
+        ];
+        @endphp
+
         <section class="summary" aria-label="Workspace summary">
             @foreach ($statistics as $key => $count)
-            <article class="card">
-                <strong>{{ ucfirst($key) }}</strong>
-                <strong class="metric-number">{{ number_format($count) }}</strong>
+            <article class="card metric-title">
+                <span class="icon {{ $key }}" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                        stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                        <path d="{{ $metricIcons[$key] ?? $metricIcons['total'] }}" />
+                    </svg>
+                </span>
+                <div>
+                    <strong>{{ ucfirst($key) }}</strong>
+                    <strong class="metric-number">{{ number_format($count) }}</strong>
+                </div>
             </article>
             @endforeach
         </section>
@@ -395,7 +530,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">Workspace</th>
+
                                 <th scope="col">Location</th>
+                                <th scope="col" class="rooms-column">Rooms</th>
                                 <th scope="col">Manager</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" class="workspace-actions">Actions</th>
@@ -406,41 +543,63 @@
 
                             <tr data-workspace-status="">
                                 <td>
-                                    <span class="workspace">
+                                 
+                                    <a class="workspace workspace-details-link"
+                                       href="{{ route('workspaces', ['workspace' => $workspace->getKey()]) }}">
                                         <span class="initial" aria-hidden="true">{{ mb_strtoupper(mb_substr($workspace->name, 0, 1)) }}</span>
-                                        {{ $workspace->name }}
-                                    </span>
+                                        <span>
+                                            <span>{{ $workspace->name }}</span>
+                                            <span class="workspace-details-label">View details <span aria-hidden="true">&rarr;</span></span>
+                                        </span>
+                                    </a>
                                 </td>
                                 <td>{{ $workspace->location ?: 'Location unavailable' }}</td>
+                                <td class="rooms-column">{{ $workspace->rooms->count() }}</td>
                                 <td>{{ $workspace->manager?->full_name ?? $workspace->manager?->name ?? 'Unassigned' }}</td>
                                 <td>
-                                    <span @class([
-                                        'badge',
-                                        'active' => $workspace->approval_status === 'approved',
+                                    <span @class([ 'badge' , 'active'=> $workspace->approval_status === 'approved',
                                         'pending' => $workspace->approval_status === 'pending',
                                         'inactive' => ! in_array($workspace->approval_status, ['approved', 'pending'], true),
-                                    ])>
+                                        ])>
                                         {{ ucfirst($workspace->approval_status) }}
                                     </span>
                                 </td>
                                 <td class="workspace-actions">
-                                    @if ($workspace->is_active)
+                                    @if (! $workspace->is_active)
+                                    <form method="POST" action="{{ route('Enable', $workspace) }}">
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button type="submit" class="workspace-action workspace-action--enable">
+                                            Enable
+                                        </button>
+                                    </form>
+                                    @elseif ($workspace->approval_status === 'pending')
+                                    <form method="POST" action="{{ route('UpdateStatus', $workspace) }}">
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button type="submit" class="workspace-action workspace-action--review">
+                                            Review
+                                        </button>
+                                    </form>
+                                    @elseif ($workspace->approval_status === 'approved')
                                     <form method="POST"
-                                        action=""
+                                        action="{{Route('destroy',$workspace)}}"
                                         onsubmit="return confirm('Disable this workspace?')">
                                         @csrf
                                         @method('PATCH')
 
-                                        <button type="submit" class="workspace-action">Disable</button>
+                                        <button type="submit" class="workspace-action workspace-action--disable">Disable</button>
                                     </form>
                                     @else
-                                    <button type="button" class="workspace-action" disabled>Disabled</button>
+                                    <span aria-label="No available actions">&mdash;</span>
                                     @endif
                                 </td>
                             </tr>
                             @endforeach
                             <tr id="workspace-empty" @if ($workspaces->isNotEmpty()) hidden @endif>
-                                <td class="empty" colspan="5" role="status">
+                                <td class="empty" colspan="6" role="status">
                                     {{ $workspaces->isEmpty() ? 'No workspaces yet.' : 'No workspaces match your filters.' }}
                                 </td>
                             </tr>
@@ -449,24 +608,7 @@
                 </div>
             </section>
 
-            <aside class="card status-panel" aria-labelledby="status-title">
-                <h2 id="status-title">Workspace status</h2>
-                <p class="muted">Activity across all workspaces</p>
-                <div class="donut" style="--active-share: {{ 60 }}%; --review-share: var(--amber)%;">
-                    <div class="donut-label">
-                        <strong>{{ round(60) }}%</strong>
-                        <span class="muted">Active</span>
-                    </div>
-                </div>
-                <ul class="legend">
-                    @foreach ($statistics as $key)
-                    <li>
-                        <span class="legend-label legend-{{ $key }}">{{ "null" }}</span>
-                        <strong>{{ number_format($key) }}</strong>
-                    </li>
-                    @endforeach
-                </ul>
-            </aside>
+
         </div>
     </main>
     <script>
@@ -481,8 +623,9 @@
             let hasResults = false;
 
             for (const row of workspaceRows) {
-                const matchesSearch = Array.from(row.cells).slice(0, 3).some(cell =>
-                    cell.textContent.toLocaleLowerCase().includes(search)
+                const workspaceSearchFields = [row.querySelector('.workspace-details-link span span').textContent, row.cells[1].textContent, row.cells[3].textContent];
+                const matchesSearch = workspaceSearchFields.some(value =>
+                    value.toLocaleLowerCase().includes(search)
                 );
                 const matchesStatus = !status || row.dataset.workspaceStatus === status;
                 row.hidden = !(matchesSearch && matchesStatus);
@@ -499,3 +642,4 @@
 </body>
 
 </html>
+@endif

@@ -13,21 +13,26 @@ class WorkspaceController extends Controller
     {
 
 
-        $workspaces = Workspace::with('manager')->get();
+        $workspaces = Workspace::with(['manager', 'rooms',''])->get();
 
-            
+
         $enabled = $workspaces->where('is_active', true);
+
+
+
         $statistics = [
             'total'    => $workspaces->count(),
             'active'   => $enabled->where('approval_status', 'approved')->count(),
             'pending'  => $enabled->where('approval_status', 'pending')->count(),
             'inactive' => $workspaces->where('is_active', false)->count(),
         ];
-       
 
-        return view('Admin.MangeWorkSpace', compact('workspaces','statistics'));
+
+
+
+        return view('Admin.MangeWorkSpace', compact('workspaces', 'statistics'));
     }
-  
+
 
     public function create()
     {
@@ -66,14 +71,47 @@ class WorkspaceController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
+    public function UpdateStatus(Workspace $workspace)
+    {
+
+        if ($workspace->approval_status === 'pending') {
+
+            $workspace->approval_status = 'approved';
+            $workspace->save();
+            return back()->with('success', 'Workspace approved successfully.');
+        } else {
+
+            return back()->with('success', 'Already Approved');
+        }
+    }
+
     public function destroy(Workspace $workspace)
     {
+        if (! $workspace->is_active) {
+            return back()->with('error', 'This workspace is already disabled.');
+        }
+
+        if ($workspace->approval_status !== 'approved') {
+            return back()->with('error', 'Only approved workspaces can be disabled.');
+        }
+
         $workspace->is_active = false;
         $workspace->save();
-        return redirect()->back()
-            ->with('success', 'Workspace deactivated successfully.');
+
+        return back()->with('success', 'Workspace disabled successfully.');
+    }
+
+
+    public function enable(Workspace $workspace)
+    {
+        if ($workspace->is_active) {
+            return back()->with('error', 'This workspace is already enabled.');
+        }
+
+        $workspace->is_active = true;
+        $workspace->save();
+
+        return back()->with('success', 'Workspace enabled successfully.');
     }
 }
