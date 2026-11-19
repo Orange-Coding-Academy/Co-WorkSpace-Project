@@ -545,7 +545,7 @@
                                 <td>
                                  
                                     <a class="workspace workspace-details-link"
-                                       href="{{ route('workspaces', ['workspace' => $workspace->getKey()]) }}">
+                                       href="{{ route('workspace.details',$workspace->id ) }}">
                                         <span class="initial" aria-hidden="true">{{ mb_strtoupper(mb_substr($workspace->name, 0, 1)) }}</span>
                                         <span>
                                             <span>{{ $workspace->name }}</span>
