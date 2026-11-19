@@ -49,3 +49,17 @@ Route::prefix('admin')
             ->whereNumber('id')
             ->name('payments.show');
     });
+
+
+
+// email to send 
+
+Route::get('/preview-email', function () {
+    $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
+
+    return view('emails.booking-reminder', ['booking' => $booking]);
+});
+
+Route::get('/dashboard', function () {
+    return view('User.dashboard')->name('dashboard');
+});
