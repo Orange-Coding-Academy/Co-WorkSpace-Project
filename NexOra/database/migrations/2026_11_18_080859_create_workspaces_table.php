@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('location');
             $table->text('description')->nullable();
+            $table->json('facilities')->nullable();
             $table->string('approval_status')->default('pending');
             $table->boolean('is_active')->default(true);
             $table->decimal('commission_rate', 5, 2)->default(10.00);
