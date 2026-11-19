@@ -24,6 +24,8 @@ class AdminDashboard extends Controller
 
         $bookingStatuses = $this->getBookingStatusData($dateRange);
 
+        $revenueChart = $this->getRevenueChartData($dateRange);
+
         $topWorkspaces = $this->getTopWorkspaces($dateRange);
 
         $recentActivities = $this->getRecentActivities();
@@ -35,14 +37,15 @@ class AdminDashboard extends Controller
             'bookingStatuses',
             'topWorkspaces',
             'recentActivities',
-            'alerts'
+            'alerts',
+            'revenueChart'
         ));
     }
 
     public function getDashboardKpis(array $dateRange): array
     {
         return [
-            'platformCommission' => 0,
+            'platformCommission' => Booking::sum('platform_commission_amount'),
             'bookingGMV' => Booking::sum('total_price'),
             'totalBookings' => Booking::whereBetween('created_at', [
                 $dateRange['start'],
@@ -55,29 +58,29 @@ class AdminDashboard extends Controller
         ];
     }
 
-    // public function getRevenueChartData(): array
-    // {
-    //     $data = Booking::query()
-    //         ->selectRaw('
-    //         DATE(created_at) as date,
-    //         SUM(total_price) as booking_gmv,
-    //         SUM(platform_commission_amount) as platform_commission
-    //     ')
-    //         ->where('status', 'completed')
-    //         ->whereBetween('created_at', [
-    //             now()->subDays(29)->startOfDay(),
-    //             now()->endOfDay()
-    //         ])
-    //         ->groupByRaw('DATE(created_at)')
-    //         ->orderBy('date')
-    //         ->get();
+    public function getRevenueChartData(array $dateRange): array
+    {
+        $data = Booking::query()
+            ->selectRaw('
+            DATE(created_at) as date,
+            SUM(total_price) as booking_gmv,
+            SUM(platform_commission_amount) as platform_commission
+        ')
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [
+                $dateRange['start'],
+                $dateRange['end']
+            ])
+            ->groupByRaw('DATE(created_at)')
+            ->orderBy('date')
+            ->get();
 
-    //     return [
-    //         'labels' => $data->pluck('date'),
-    //         'bookingGMV' => $data->pluck('booking_gmv'),
-    //         //'platformCommission' => $data->pluck('platform_commission'),
-    //     ];
-    // }
+        return [
+            'labels' => $data->pluck('date'),
+            'bookingGMV' => $data->pluck('booking_gmv'),
+            'platformCommission' => $data->pluck('platform_commission'),
+        ];
+    }
 
     public function getBookingStatusData(array $dateRange): array
     {
