@@ -12,6 +12,7 @@ use App\Models\MembershipPlan;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminBookingController;
 use App\Http\Controllers\Member\WorkspaceAIController;
+
 // use App\Http\Controllers\WorkspaceController;
 Route::get('/', function () {
     return view('welcome');
@@ -90,3 +91,5 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
     Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
         ->name('workspace-ai.recommend');
 
+
+  
