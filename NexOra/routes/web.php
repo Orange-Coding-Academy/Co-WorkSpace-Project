@@ -95,10 +95,3 @@ Route::prefix('member')->name('member.')->group(function () {
         ->name('workspace-ai.recommend');
 
 });
-
-
-
-
-
-
-
