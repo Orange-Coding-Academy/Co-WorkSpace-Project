@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,14 +6,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'Admin Dashboard') | NexOra</title>
+    <title>@yield('title', 'Dashboard') | NexOra</title>
 
     <link rel="stylesheet" href="{{ asset('css/nexora/design-tokens.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nexora/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nexora/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/typography.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nexora/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/pages-extracted.css') }}">
 
     @stack('styles')
 </head>
@@ -21,13 +24,16 @@
 
     <div class="nx-dashboard">
 
-        @include('layouts.dashboard.sidebars.admin')
+        @if(request()->routeIs('manager.*'))
+            @include('layouts.dashboard.sidebars.manager')
+        @else
+            @include('layouts.dashboard.sidebars.admin')
+        @endif
 
         <div class="nx-dashboard__content">
 
             @include('layouts.dashboard.header')
 
-            {{-- Current Page --}}
             <main class="nx-dashboard__main">
                 @yield('content')
             </main>
@@ -38,5 +44,4 @@
     @stack('scripts')
 
 </body>
-
 </html>
