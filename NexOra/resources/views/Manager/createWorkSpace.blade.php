@@ -1,3 +1,11 @@
+@if (request()->query('view') === 'list')
+    @include('Manager.MyWorkspaces', [
+        'workspaces' => auth()->user()->managedWorkspaces()
+            ->with(['images' => fn ($query) => $query->orderByDesc('is_primary')->orderBy('sort_order')])
+            ->latest()
+            ->get(),
+    ])
+@else
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -255,13 +263,28 @@
         .facility-options label:has(input:checked) { background: #e3ebde; }
 
         .facility-options input { margin: 0; accent-color: var(--forest); }
+        .workspace-directory-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            padding: 8px 12px;
+            border: 1px solid #b6cabd;
+            border-radius: 9px;
+            background: #e7efe5;
+            color: var(--forest);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .workspace-directory-link:hover { background: #d8e9dd; }
     </style>
 </head>
 <body>
     <header class="topbar">
         <div class="topbar-inner">
             <span class="brand">NexOra</span>
-            <a class="back" href="{{ url('/manager/workspaces') }}">&larr; My workspaces</a>
+            <a class="back" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">&larr; My workspaces</a>
         </div>
     </header>
 
@@ -269,10 +292,13 @@
         <header class="page-heading">
             <h1>Create workspace</h1>
             <p>Add your workspace details and a cover photo. You can add rooms after creating the workspace.</p>
+            <a class="workspace-directory-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
+                View my workspaces <span aria-hidden="true">&rarr;</span>
+            </a>
         </header>
 
         <form class="workspace-form" method="POST"
-              action="{{ url('/manager/workspaces') }}" enctype="multipart/form-data">
+              action="{{ route('manager.workspaces.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="form-grid">
@@ -354,7 +380,7 @@
             </div>
 
             <footer class="form-footer">
-                <a class="back cancel" href="{{ url('/manager/workspaces') }}">Cancel</a>
+                <a class="back cancel" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">Cancel</a>
                 <button class="submit" type="submit">
                     Create workspace <span aria-hidden="true">&rarr;</span>
                 </button>
@@ -389,3 +415,4 @@
     </script>
 </body>
 </html>
+@endif

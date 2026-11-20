@@ -51,6 +51,14 @@ class WorkspaceController extends Controller
 
 
 
+    private function saveWorkspaceImage(UploadedFile $image): string
+    {
+        $filename = Str::uuid() . '.' . $image->extension();
+        $image->move(public_path('img'), $filename);
+
+        return 'img/' . $filename;
+    }
+
     public function store(StoreWorkspaceRequest $request)
     {
         $data = $request->validated();
