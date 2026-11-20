@@ -93,10 +93,12 @@
             background: #119e95;
             color: white;
             padding: 12px 23px;
+            border: none;
             border-radius: 9px;
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -117,6 +119,18 @@
     <p class="subtitle">
         View your workspace memberships and subscription details.
     </p>
+
+    @if(session('success'))
+        <p style="color: #138f88;">
+            {{ session('success') }}
+        </p>
+    @endif
+
+    @if(session('error'))
+        <p style="color: #dc3545;">
+            {{ session('error') }}
+        </p>
+    @endif
 
     <div class="card">
 
@@ -165,12 +179,110 @@
                     </div>
 
                 </div>
+
+                {{-- Cancel Membership Button --}}
+                @if($membership->status === 'active')
+
+                    <form action="{{ route('member.memberships.cancel', $membership->id) }}"
+                          method="POST"
+                          style="margin-top: 20px;">
+
+                        @csrf
+                        @method('PATCH')
+
+                        <button type="submit"
+                                class="btn"
+                                onclick="return confirm('Are you sure you want to cancel this membership?')">
+                            Cancel Membership
+                        </button>
+
+                    </form>
+
+                @endif
+
             </div>
 
         @empty
 
             <p class="subtitle">
                 You don't have any memberships yet.
+            </p>
+
+        @endforelse
+
+    </div>
+
+    <div class="card">
+
+        <h2>Available Membership Plans</h2>
+
+        <p class="subtitle">
+            Explore available workspace membership plans.
+        </p>
+
+        @forelse($availablePlans as $plan)
+
+            <div class="membership-item">
+
+                <div class="membership-header">
+                    <h3>{{ $plan->plan_name }}</h3>
+
+                    <span class="membership-status">
+                        Available
+                    </span>
+                </div>
+
+                <div class="membership-details">
+
+                    <div>
+                        <span>Workspace</span>
+                        <strong>
+                            {{ $plan->workspace?->name ?? 'N/A' }}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Price</span>
+                        <strong>{{ $plan->price }} JOD</strong>
+                    </div>
+
+                    <div>
+                        <span>Duration</span>
+                        <strong>{{ $plan->duration_days }} Days</strong>
+                    </div>
+
+                    <div>
+                        <span>Description</span>
+                        <strong>
+                            {{ $plan->description ?? 'No description' }}
+                        </strong>
+                    </div>
+
+                </div>
+
+                {{-- Subscribe Button --}}
+                <form action="{{ route('member.stripe.checkout.membership') }}"
+                      method="POST"
+                      style="margin-top: 20px;">
+
+                    @csrf
+
+                    <input type="hidden"
+                           name="plan_id"
+                           value="{{ $plan->id }}">
+
+                    <button type="submit" class="btn">
+                        Subscribe
+                    </button>
+
+                </form>
+
+            </div>
+
+        @empty
+
+            <p class="subtitle">
+                No membership plans are available right now.
             </p>
 
         @endforelse
