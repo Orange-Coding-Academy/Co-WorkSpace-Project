@@ -271,6 +271,26 @@
             color: #5d5670;
             font-size: .85rem;
         }
+        .approve-workspace {
+            margin-top: 18px;
+            padding: 10px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: #5033c4;
+            color: #fff;
+            font: inherit;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .approve-workspace:hover:enabled {
+            background: #3d259e;
+        }
+        .approve-workspace:disabled {
+            background: #def5eb;
+            color: #16634d;
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -320,13 +340,23 @@
                 <section class="workspace-facilities" aria-labelledby="facilities-title">
                     <h2 id="facilities-title">Facilities</h2>
                     <ul class="workspace-facilities-list" role="list">
-                        @forelse (json_decode($workspace->facilities ?? '[]', true) ?? [] as $facility)
+                        @forelse ($workspace->facilities ?? '[]' ?? [] as $facility)
                             <li><span class="pill">{{ $facility }}</span></li>
                         @empty
                             <li>No facilities listed.</li>
                         @endforelse
                     </ul>
                 </section>
+
+                <form method="POST" action="{{ route('admin.UpdateStatus', $workspace) }}">
+                  
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="approve-workspace"
+                            @if ($workspace->approval_status === 'approved') disabled @endif>
+                        {{ $workspace->approval_status === 'approved' ? 'Approved' : 'Approve workspace' }}
+                    </button>
+                </form>
             </div>
         </section>
 

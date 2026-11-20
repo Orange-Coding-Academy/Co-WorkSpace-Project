@@ -1,12 +1,12 @@
 @php
-    $workspaceId = request()->query('workspace');
-    $selectedWorkspace = is_string($workspaceId)
-        ? $workspaces->first(fn ($workspace) => (string) $workspace->getKey() === $workspaceId)
-        : null;
+$workspaceId = request()->query('workspace');
+$selectedWorkspace = is_string($workspaceId)
+? $workspaces->first(fn ($workspace) => (string) $workspace->getKey() === $workspaceId)
+: null;
 @endphp
 
 @if ($selectedWorkspace)
-    @include('Admin.WorkspaceDetails', ['workspace' => $selectedWorkspace])
+@include('Admin.WorkspaceDetails', ['workspace' => $selectedWorkspace])
 @else
 <!DOCTYPE html>
 <html lang="en">
@@ -452,6 +452,7 @@
                 transition: none;
             }
         }
+
         .workspace-details-link {
             border: 0;
             padding: 0;
@@ -475,31 +476,43 @@
             text-decoration: underline;
             text-underline-offset: 3px;
         }
-
-
     </style>
 </head>
 
 <body>
     <main aria-label="Manage workspaces">
 
-        @php
-        $metricIcons = [
-        'total' => 'M3 21h18M6 21V3h12v18M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1',
-        'active' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM8 12l3 3 5-6',
-        'pending' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM12 7v5l3 2',
-        'inactive' => 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM8 12h8',
-        ];
-        @endphp
 
         <section class="summary" aria-label="Workspace summary">
             @foreach ($statistics as $key => $count)
             <article class="card metric-title">
                 <span class="icon {{ $key }}" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
-                        stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                        <path d="{{ $metricIcons[$key] ?? $metricIcons['total'] }}" />
-                    </svg>
+
+                    <span class="icon {{ $key }}" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.75" stroke-linecap="round"
+                            stroke-linejoin="round" focusable="false">
+
+                            @if ($key === 'active')
+                            {{-- علامة صح --}}
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="m8 12 3 3 5-6" />
+                            @elseif ($key === 'pending')
+                            {{-- ساعة --}}
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M12 7v5l3 2" />
+                            @elseif ($key === 'inactive')
+                            {{-- علامة ناقص --}}
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M8 12h8" />
+                            @else
+                            {{-- مبنى لبطاقة Total --}}
+                            <rect x="6" y="3" width="12" height="18" rx="2" />
+                            <path d="M10 7h4m-4 4h4m-4 4h4" />
+                            @endif
+
+                        </svg>
+                    </span>
                 </span>
                 <div>
                     <strong>{{ ucfirst($key) }}</strong>
@@ -543,9 +556,9 @@
 
                             <tr data-workspace-status="">
                                 <td>
-                                 
+
                                     <a class="workspace workspace-details-link"
-                                       href="{{ route('admin.workspace.details',$workspace->id ) }}">
+                                        href="{{ route('admin.workspace.details',$workspace->id ) }}">
                                         <span class="initial" aria-hidden="true">{{ mb_strtoupper(mb_substr($workspace->name, 0, 1)) }}</span>
                                         <span>
                                             <span>{{ $workspace->name }}</span>
@@ -566,7 +579,7 @@
                                 </td>
                                 <td class="workspace-actions">
                                     @if (! $workspace->is_active)
-                                    <form method="POST" action="{{ route('Enable', $workspace) }}">
+                                    <form method="POST" action="{{ route('admin.Enable', $workspace) }}">
                                         @csrf
                                         @method('PATCH')
 

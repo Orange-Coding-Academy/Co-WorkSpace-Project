@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Member\UserChatbotController;
 use App\Http\Controllers\Manager\ManagerMembershipPlanController;
+use App\Http\Controllers\Manager\ManagerProfileController;
+use App\Http\Controllers\Member\MyBookingController;
+use App\Http\Controllers\Member\BookingCheckoutController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -106,6 +109,11 @@ Route::get('/reviews', [ManagerReviewController::class, 'index'])
             [ManagerMembershipPlanController::class, 'subscribers'])
             ->whereNumber('id')
             ->name('membership-plans.subscribers');
+            Route::get('/profile', [ManagerProfileController::class, 'index'])->name('profile.index');
+
+Route::put('/profile', [ManagerProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+
+Route::put('/profile/password', [ManagerProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 
     });
 //   Route::post('/reviews', [ReviewController::class, 'store'])
@@ -162,12 +170,6 @@ Route::get('/preview-email', function () {
     return view('emails.booking-reminder', ['booking' => $booking]);
 });
 
-Route::get('/stripe/test', function () {
-    return view('payment.test', [
-        'rooms' => Room::all(),
-        'plans' => MembershipPlan::all(),
-    ]);
-})->name('stripe.test');
 Route::post('/stripe/checkout/booking', [StripeController::class, 'checkoutBooking'])->name('stripe.checkout.booking');
 Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMembership'])->name('stripe.checkout.membership');
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
@@ -175,6 +177,9 @@ Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
 
+
+Route::prefix('member')->name('member.')->group(function () {
+    
     Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
         ->name('workspace-ai.index');
 
@@ -195,4 +200,14 @@ Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
             UserChatbotController::class,
             'clear'
         ])->name('chatbot.clear');
+    Route::get('/my-bookings', [MyBookingController::class, 'index'])
+        ->name('bookings.index');
 
+    Route::get('/my-bookings/{id}', [MyBookingController::class, 'show'])
+        ->name('bookings.show');
+
+    Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])
+        ->name('bookings.cancel');
+Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
+    ->name('bookings.checkout');
+});

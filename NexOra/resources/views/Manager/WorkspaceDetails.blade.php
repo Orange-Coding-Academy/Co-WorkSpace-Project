@@ -1,4 +1,3 @@
-
 {{-- Workspace Details Page --}}
 
 <style>
@@ -15,76 +14,77 @@
         flex-wrap: wrap;
         margin-bottom: 25px;
     }
+
     .room-gallery {
-    width: 100%;
-    height: 230px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 14px;
-    background: #f1f1f1;
-}
+        width: 100%;
+        height: 230px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 14px;
+        background: #f1f1f1;
+    }
 
-.room-gallery-track {
-    width: 100%;
-    height: 100%;
-}
+    .room-gallery-track {
+        width: 100%;
+        height: 100%;
+    }
 
-.room-gallery-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
+    .room-gallery-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
 
-.room-gallery-image.active {
-    display: block;
-}
+    .room-gallery-image.active {
+        display: block;
+    }
 
-.gallery-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.55);
-    color: white;
-    cursor: pointer;
-    font-size: 17px;
-    z-index: 2;
-}
+    .gallery-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.55);
+        color: white;
+        cursor: pointer;
+        font-size: 17px;
+        z-index: 2;
+    }
 
-.gallery-arrow.prev {
-    left: 12px;
-}
+    .gallery-arrow.prev {
+        left: 12px;
+    }
 
-.gallery-arrow.next {
-    right: 12px;
-}
+    .gallery-arrow.next {
+        right: 12px;
+    }
 
-.gallery-arrow:hover {
-    background: rgba(0, 0, 0, 0.8);
-}
+    .gallery-arrow:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
 
-.gallery-counter {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-}
+    .gallery-counter {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+    }
 
-.no-room-image {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-}
+    .no-room-image {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+    }
 
     .ws-title {
         font-size: 27px;
@@ -124,7 +124,7 @@
         border-radius: 14px;
         padding: 22px;
         margin-bottom: 30px;
-        box-shadow: 0 3px 15px rgba(0,0,0,.04);
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .04);
     }
 
     .ws-gallery {
@@ -177,7 +177,7 @@
         background: white;
         border-radius: 14px;
         overflow: hidden;
-        box-shadow: 0 3px 15px rgba(0,0,0,.05);
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .05);
     }
 
     .ws-room-image {
@@ -363,6 +363,651 @@
             font-size: 22px;
         }
     }
+
+    .ws-add-room {
+        box-sizing: border-box;
+        width: min(680px, calc(100% - 24px));
+        max-width: none;
+        max-height: min(90dvh, 820px);
+        overflow: hidden;
+        padding: 0;
+        border: 1px solid #dde3d8;
+        border-radius: 22px;
+        color: #18352d;
+        background: #fffdf8;
+        box-shadow: 0 28px 80px #102c3a45;
+    }
+
+    .ws-add-room::backdrop {
+        background: #152c2bb3;
+    }
+
+    .ws-add-room h2,
+    .ws-add-room p,
+    .ws-add-previews {
+        margin: 0;
+    }
+
+    .ws-add-header,
+    .ws-add-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px clamp(16px, 4vw, 28px);
+    }
+
+    .ws-add-header {
+        background: #103b34;
+        color: #fffdf8;
+    }
+
+    .ws-add-header p {
+        margin-top: 2px;
+        color: #d6e7df;
+        font-size: .9rem;
+    }
+
+    .ws-add-room[open],
+    .ws-add-room>form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ws-add-room>form {
+        min-height: 0;
+    }
+
+    .ws-add-header,
+    .ws-add-actions {
+        flex: none;
+    }
+
+    .ws-add-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 20px clamp(16px, 4vw, 28px);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        scrollbar-width: thin;
+        scrollbar-color: #6f9284 #edf3e9;
+    }
+
+    .ws-add-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .ws-add-fields .ws-form-group {
+        margin-bottom: 0;
+    }
+
+    .ws-add-fields textarea {
+        resize: vertical;
+    }
+
+    .ws-add-wide {
+        grid-column: 1 / -1;
+    }
+
+    .ws-add-muted,
+    .ws-add-fields small {
+        color: #53665c;
+        font-size: .85rem;
+        font-weight: 400;
+    }
+
+    .ws-add-photos {
+        margin-top: 20px;
+    }
+
+    .ws-add-photos>label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 650;
+    }
+
+    .ws-add-dropzone {
+        display: grid;
+        gap: 8px;
+        padding: 16px;
+        border: 1px dashed #91aa9b;
+        border-radius: 12px;
+        background: #edf3e9;
+    }
+
+    .ws-add-dropzone.is-dragging {
+        border-color: #276a59;
+        background: #dcece0;
+    }
+
+    .ws-add-dropzone p {
+        color: #53665c;
+        font-size: .84rem;
+    }
+
+    .ws-add-dropzone input {
+        width: 100%;
+        font: inherit;
+        font-size: .88rem;
+    }
+
+    .ws-add-dropzone input::file-selector-button {
+        cursor: pointer;
+    }
+
+    .ws-add-previews {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .ws-add-previews:not(:empty),
+    #add-room-image-status:not(:empty) {
+        margin-top: 10px;
+    }
+
+    .ws-add-preview {
+        position: relative;
+        min-width: 0;
+    }
+
+    .ws-add-preview img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: 9px;
+        object-fit: cover;
+    }
+
+    .ws-add-cover-label {
+        display: inline-block;
+        margin-top: 3px;
+        color: #103b34;
+        font-size: .8rem;
+        font-weight: 700;
+    }
+
+    .ws-add-close,
+    .ws-add-remove,
+    .ws-add-save,
+    .ws-add-cancel {
+        border: 1px solid transparent;
+        border-radius: 9px;
+        font: inherit;
+        font-weight: 650;
+        cursor: pointer;
+    }
+
+    .ws-add-close,
+    .ws-add-remove {
+        width: 34px;
+        height: 34px;
+        background: #103b34;
+        color: #fff;
+    }
+
+    .ws-add-close {
+        border-color: #ffffff55;
+        font-size: 1.2rem;
+    }
+
+    .ws-add-remove {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .ws-add-close:hover,
+    .ws-add-remove:hover {
+        background: #24594e;
+    }
+
+    .ws-add-actions {
+        justify-content: flex-end;
+        border-top: 1px solid #dde3d8;
+    }
+
+    .ws-add-save,
+    .ws-add-cancel {
+        min-height: 44px;
+        padding: 8px 14px;
+        color: #18352d;
+    }
+
+    .ws-add-save {
+        background: #ff8750;
+    }
+
+    .ws-add-save:hover {
+        background: #ffa071;
+    }
+
+    .ws-add-cancel {
+        border-color: #dde3d8;
+        background: #fffdf8;
+    }
+
+    .ws-add-cancel:hover {
+        background: #edf3e9;
+    }
+
+    .ws-add-room :focus-visible {
+        outline: 2px solid #29745e;
+        outline-offset: 2px;
+    }
+
+    .ws-add-header :focus-visible {
+        outline-color: #ffae84;
+    }
+
+    .ws-add-errors {
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: #fff0ec;
+        color: #922f21;
+    }
+
+    .ws-add-errors ul {
+        margin: 0 0 6px;
+        padding-left: 18px;
+    }
+
+    @media (max-width: 480px) {
+        .ws-add-fields {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .ws-page {
+        --forest: #103b34;
+        --ink: #18352d;
+        --muted: #53665c;
+        --paper: #fffdf8;
+        --line: #dce2d6;
+        min-height: 100vh;
+        box-sizing: border-box;
+        padding: clamp(16px, 4vw, 48px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
+        background: #f7f1e7;
+        color: var(--ink);
+        font-family: system-ui, sans-serif;
+    }
+
+    .ws-page *,
+    .ws-page *::before,
+    .ws-page *::after {
+        box-sizing: border-box;
+    }
+
+    .ws-page :focus-visible {
+        outline: 3px solid #29745e;
+        outline-offset: 3px;
+    }
+
+    .ws-page .ws-overview {
+        display: grid;
+        gap: clamp(18px, 4vw, 36px);
+        align-items: center;
+        padding: clamp(20px, 4vw, 40px);
+        margin-bottom: 30px;
+        border-radius: 24px;
+        background: var(--forest);
+        color: var(--paper);
+        box-shadow: 0 14px 35px #103b3420;
+    }
+
+    .ws-overview:has(.ws-gallery) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .ws-overview h1 {
+        margin: 0;
+        font-size: clamp(2.1rem, 5vw, 3.5rem);
+        line-height: 1.06;
+        letter-spacing: -.055em;
+        overflow-wrap: anywhere;
+    }
+
+    .ws-overview-copy>p {
+        color: #e1ede8;
+        margin: 10px 0 0;
+    }
+
+    .ws-page .ws-info {
+        gap: 10px 20px;
+    }
+
+    .ws-overview .ws-info-item {
+        color: #bcd4c9;
+        font-size: .8rem;
+    }
+
+    .ws-overview .ws-info-item strong {
+        color: var(--paper);
+        font-size: .94rem;
+    }
+
+    .ws-facilities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        padding: 0;
+        margin: 18px 0 0;
+        list-style: none;
+    }
+
+    .ws-facilities li {
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: #ffffff22;
+        color: var(--paper);
+        font-size: .82rem;
+    }
+
+    .ws-page .ws-gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin: 0;
+    }
+
+    .ws-page .ws-gallery img {
+        display: block;
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    .ws-page .ws-gallery img:first-child {
+        grid-column: 1 / -1;
+        aspect-ratio: 16 / 9;
+        border-radius: 16px;
+    }
+
+    .ws-page .ws-section-header {
+        margin-bottom: 16px;
+    }
+
+    .ws-rooms-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        font-size: 1.65rem;
+        letter-spacing: -.04em;
+    }
+
+    .ws-room-count {
+        background: #e7ecdf;
+        color: #31564a;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: .82rem;
+        letter-spacing: 0;
+    }
+
+    .ws-page .ws-btn {
+        min-height: 44px;
+        font: inherit;
+        font-size: .9rem;
+        font-weight: 700;
+    }
+
+    .ws-page .ws-btn-primary {
+        background: #ff8750;
+        color: #252016;
+    }
+
+    .ws-page .ws-btn-primary:hover {
+        background: #ffa071;
+    }
+
+    .ws-page .ws-btn-edit {
+        background: #e7efe5;
+        color: #234f40;
+    }
+
+    .ws-page .ws-btn-edit:hover {
+        background: #d7e7da;
+    }
+
+    .ws-page .ws-btn-delete {
+        background: #fff0ec;
+        color: #963529;
+    }
+
+    .ws-page .ws-btn-delete:hover {
+        background: #ffe2d9;
+    }
+
+    .ws-page .ws-room-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
+        gap: 16px;
+    }
+
+    .ws-page .ws-room-card {
+        display: flex;
+        flex-direction: column;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: none;
+    }
+
+    .ws-page .ws-room-card:hover {
+        border-color: #afc2b3;
+        box-shadow: 0 8px 22px #103b3410;
+    }
+
+    .ws-page .room-gallery,
+    .ws-page .ws-no-image {
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border-radius: 0;
+        background: #e4ede2;
+    }
+
+    .ws-page .ws-no-image {
+        color: var(--muted);
+    }
+
+    .ws-page .gallery-arrow {
+        width: 44px;
+        height: 44px;
+        background: #103b34d9;
+    }
+
+    .ws-page .gallery-arrow:hover {
+        background: #103b34;
+    }
+
+    .ws-page .gallery-arrow:focus-visible {
+        outline-color: #fff;
+    }
+
+    .ws-page .ws-room-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 16px;
+    }
+
+    .ws-page .ws-room-content h3 {
+        margin-bottom: 8px;
+        overflow-wrap: anywhere;
+    }
+
+    .ws-page .ws-room-meta {
+        margin: 0;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+    }
+
+    .ws-room-meta strong {
+        color: var(--ink);
+        text-align: right;
+    }
+
+    .ws-page .ws-room-actions {
+        margin-top: auto;
+        padding-top: 14px;
+        flex-wrap: wrap;
+    }
+
+    .ws-page .ws-badge {
+        align-self: start;
+        background: #dceee3;
+        color: #185940;
+    }
+
+    .ws-page .ws-badge.is-inactive {
+        background: #eee9e2;
+        color: #5b5046;
+    }
+
+    @media (max-width: 700px) {
+        .ws-overview:has(.ws-gallery) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .ws-facility-picker {
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+
+    .ws-facility-picker legend {
+        margin-bottom: 8px;
+        padding: 0;
+        font-weight: 650;
+    }
+
+    .ws-facility-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .ws-facility-option {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 6px 12px;
+        border: 1px solid #dce5da;
+        border-radius: 9px;
+        background: #fffdf8;
+        font-size: .88rem;
+        cursor: pointer;
+    }
+
+    .ws-facility-option:hover {
+        border-color: #819e90;
+    }
+
+    .ws-facility-option:has(:checked) {
+        border-color: #558575;
+        background: #e3efe5;
+    }
+
+    .ws-facility-option input {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        accent-color: #276a59;
+    }
+
+    .ws-add-photos .ws-photo-label {
+        margin-bottom: 8px;
+        font-weight: 650;
+    }
+
+    .ws-add-dropzone {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .ws-upload-icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 11px;
+        background: #d8e9dd;
+        color: #103b34;
+        font-size: 1.25rem;
+        font-weight: 750;
+    }
+
+    .ws-upload-copy p {
+        margin-top: 3px;
+    }
+
+    .ws-file-picker {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px 13px;
+        border: 1px solid #2c6254;
+        border-radius: 9px;
+        background: #103b34;
+        color: #fffdf8;
+        font-size: .86rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .ws-file-picker:hover {
+        background: #24594e;
+    }
+
+    .ws-file-picker:focus-within {
+        outline: 2px solid #29745e;
+        outline-offset: 3px;
+    }
+
+    .ws-add-dropzone .ws-file-picker input {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .ws-add-preview img {
+        border: 1px solid #dce5da;
+    }
+
+    .ws-add-previews .ws-add-remove {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+    .ws-add-cover-label {
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #e3efe5;
+    }
+
+    @media (max-width: 480px) {
+        .ws-add-dropzone {
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .ws-file-picker {
+            grid-column: 1 / -1;
+            justify-self: start;
+        }
+    }
 </style>
 
 <div class="ws-page">
@@ -370,134 +1015,68 @@
     {{-- Alerts --}}
 
     @if(session('success'))
-        <div class="ws-alert ws-success">
-            {{ session('success') }}
-        </div>
+    <div class="ws-alert ws-success">
+        {{ session('success') }}
+    </div>
     @endif
 
     @if(session('error'))
-        <div class="ws-alert ws-error">
-            {{ session('error') }}
-        </div>
+    <div class="ws-alert ws-error">
+        {{ session('error') }}
+    </div>
     @endif
 
     @if($errors->any())
-        <div class="ws-alert ws-error">
-            <strong>Please check the following errors:</strong>
+    <div class="ws-alert ws-error">
+        <strong>Please check the following errors:</strong>
 
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
-    {{-- Header --}}
-
-    <div class="ws-header">
-        <div>
-            <h1 class="ws-title">Workspace Details</h1>
-            <p class="ws-subtitle">
-                Manage your workspace and its rooms.
-            </p>
-        </div>
-    </div>
-
     {{-- Workspace Overview --}}
+    <section class="ws-overview" aria-labelledby="workspace-title">
+        <div class="ws-overview-copy">
+            <h1 id="workspace-title">{{ $workspace->name }}</h1>
+            @if (filled($workspace->description))
+            <p>{{ $workspace->description }}</p>
+            @endif
 
-    <div class="ws-overview">
-
-        <h2>{{ $workspace->name }}</h2>
-
-        <p>{{ $workspace->description ?? 'No description available.' }}</p>
-
-        <div class="ws-info">
-
-            <div class="ws-info-item">
-                Location
-                <strong>{{ $workspace->location }}</strong>
+            <div class="ws-info">
+                <div class="ws-info-item">Location <strong>{{ $workspace->location }}</strong></div>
+                <div class="ws-info-item">Approval <strong>{{ ucfirst($workspace->approval_status) }}</strong></div>
+                <div class="ws-info-item">Commission <strong>{{ $workspace->commission_rate }}%</strong></div>
+                <div class="ws-info-item">Availability <strong>{{ $workspace->is_active ? 'Active' : 'Inactive' }}</strong></div>
             </div>
 
-            <div class="ws-info-item">
-                Approval Status
-                <strong>{{ ucfirst($workspace->approval_status) }}</strong>
-            </div>
-
-            <div class="ws-info-item">
-                Commission Rate
-                <strong>{{ $workspace->commission_rate }}%</strong>
-            </div>
-
-            <div class="ws-info-item">
-                Status
-                <strong>
-                    {{ $workspace->is_active ? 'Active' : 'Inactive' }}
-                </strong>
-            </div>
-
-            <div class="ws-info-item">
-                Total Rooms
-                <strong>{{ $rooms->count() }}</strong>
-            </div>
-
+            @if ($workspace->facilities)
+            <ul class="ws-facilities" role="list" aria-label="Workspace facilities">
+                @foreach ($workspace->facilities as $facility)
+                <li>{{ $facility }}</li>
+                @endforeach
+            </ul>
+            @endif
         </div>
 
-        {{-- Workspace Facilities --}}
-
-        @if($workspace->facilities)
-            <div style="margin-top:20px;">
-                <strong>Facilities</strong>
-
-                <p>
-                    {{ implode(', ', $workspace->facilities) }}
-                </p>
-            </div>
-        @endif
-
-        {{-- Workspace Images --}}
-
-        <h3 style="margin-top:25px;">Workspace Gallery</h3>
-
+        @if ($workspace->images->isNotEmpty())
         <div class="ws-gallery">
-
-            @forelse($workspace->images as $image)
-
-                <img
-                    src="{{ asset('storage/' . $image->image_path) }}"
-                    alt="{{ $image->alt_text ?? $workspace->name }}"
-                >
-
-            @empty
-
-                <p>No workspace images available.</p>
-
-            @endforelse
-
+            @foreach ($workspace->images as $image)
+            <img src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
+                alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}">
+            @endforeach
         </div>
-
-    </div>
-
-    {{-- Rooms Section --}}
+        @endif
+    </section>
 
     <div class="ws-section-header">
-
-        <div>
-            <h2>Workspace Rooms</h2>
-
-            <p class="ws-subtitle">
-                Manage all rooms belonging to this workspace.
-            </p>
-        </div>
-
-      <button
-    type="button"
-    class="ws-btn ws-btn-primary"
-    onclick="openAddModal()"
->
-    + Add New Room
-</button>
-
+        <h2 class="ws-rooms-title">Rooms <span class="ws-room-count">{{ $rooms->count() }}</span></h2>
+        <button type="button" class="ws-btn ws-btn-primary" onclick="openAddModal()">
+            <span aria-hidden="true">+</span> Add room
+        </button>
     </div>
 
     {{-- Room Cards --}}
@@ -506,147 +1085,115 @@
 
         @forelse($rooms as $room)
 
-            @php
-                $primaryImage = $room->images->firstWhere('is_primary', true)
-                    ?? $room->images->first();
-            @endphp
+        <div class="ws-room-card"
+             data-name="{{ $room->name }}"
+             data-type="{{ $room->room_type }}"
+             data-capacity="{{ $room->capacity }}"
+             data-price="{{ $room->hourly_price }}"
+             data-facilities="{{ implode(', ', $room->facilities ?? []) }}">
 
-            <div class="ws-room-card">
-
-                @if($primaryImage)
-<div class="room-gallery">
-
-    @php
-        $roomImages = $room->images
-            ->sortBy('sort_order')
-            ->sortByDesc('is_primary')
-            ->values();
-    @endphp
-
-    @if($roomImages->count() > 0)
-
-        <div class="room-gallery-track">
-
-            @foreach($roomImages as $index => $image)
-                <img
-                    src="{{ asset('storage/' . $image->image_path) }}"
-                    class="room-gallery-image {{ $index === 0 ? 'active' : '' }}"
-                    alt="{{ $image->alt_text ?? $room->name }}"
-                >
-            @endforeach
-
-        </div>
-
-        @if($roomImages->count() > 1)
-            <button type="button"
-                    class="gallery-arrow prev"
-                    onclick="changeRoomImage(this, -1)">
-                &#10094;
-            </button>
-
-            <button type="button"
-                    class="gallery-arrow next"
-                    onclick="changeRoomImage(this, 1)">
-                &#10095;
-            </button>
-
-            <div class="gallery-counter">
-                <span class="current-image">1</span>
-                /
-                {{ $roomImages->count() }}
-            </div>
-        @endif
-
-    @else
-
-        <div class="no-room-image">
-            No Images Available
-        </div>
-
-    @endif
-
-</div>
-                @endif
-
-                <div class="ws-room-content">
-
-                    <span class="ws-badge">Active</span>
-
-                    <h3 style="margin-top:12px;">
-                        {{ $room->name }}
-                    </h3>
-
-                    <div class="ws-room-meta">
-                        <span>Room Type</span>
-                        <strong>{{ $room->room_type }}</strong>
+            @if ($room->images->isNotEmpty())
+                <div class="room-gallery">
+                    <div class="room-gallery-track">
+                        @foreach ($room->images->sortBy([['is_primary', 'desc'], ['sort_order', 'asc']]) as $image)
+                            <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
+                                 src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
+                                 alt="{{ $image->alt_text ?: $room->name }}"
+                                 data-image-id="{{ $image->id }}"
+                                 data-primary="{{ $image->is_primary ? '1' : '0' }}"
+                                 loading="lazy">
+                        @endforeach
                     </div>
 
-                    <div class="ws-room-meta">
-                        <span>Capacity</span>
-                        <strong>{{ $room->capacity }} People</strong>
-                    </div>
-
-                    <div class="ws-room-meta">
-                        <span>Hourly Price</span>
-                        <strong>${{ number_format((float)$room->hourly_price, 2) }}</strong>
-                    </div>
-
-                    @if($room->facilities)
-                        <div style="margin-top:12px;">
-                            <small>
-                                <strong>Facilities:</strong>
-                                {{ implode(', ', $room->facilities) }}
-                            </small>
+                    @if ($room->images->count() > 1)
+                        <button type="button" class="gallery-arrow prev" aria-label="Previous room photo"
+                                onclick="changeRoomImage(this, -1)">&lsaquo;</button>
+                        <button type="button" class="gallery-arrow next" aria-label="Next room photo"
+                                onclick="changeRoomImage(this, 1)">&rsaquo;</button>
+                        <div class="gallery-counter">
+                            <span class="current-image">1</span> / {{ $room->images->count() }}
                         </div>
                     @endif
+                </div>
+            @else
+                <div class="ws-no-image">No room photos</div>
+            @endif
 
-                    <div class="ws-room-actions">
+            <div class="ws-room-content">
+
+                <span @class(['ws-badge', 'is-inactive'=> ! $room->is_active])>{{ $room->is_active ? 'Active' : 'Inactive' }}</span>
+
+                <h3 style="margin-top:12px;">
+                    {{ $room->name }}
+                </h3>
+
+                <div class="ws-room-meta">
+                    <span>Room Type</span>
+                    <strong>{{ $room->room_type }}</strong>
+                </div>
+
+                <div class="ws-room-meta">
+                    <span>Capacity</span>
+                    <strong>{{ $room->capacity }} People</strong>
+                </div>
+
+                <div class="ws-room-meta">
+                    <span>Hourly Price</span>
+                    <strong>${{ number_format((float)$room->hourly_price, 2) }}</strong>
+                </div>
+
+                @if($room->facilities)
+                <div style="margin-top:12px;">
+                    <small>
+                        <strong>Facilities:</strong>
+                        {{ implode(', ', $room->facilities) }}
+                    </small>
+                </div>
+                @endif
+
+                <div class="ws-room-actions">
+
+                    <button
+                        class="ws-btn ws-btn-edit"
+                        type="button" data-update-url="{{ route('manager.rooms.update', $room->id) }}" onclick="openEditModal(this)">
+                        Edit
+                    </button>
+
+                    <form
+                        method="POST"
+                        action="{{ route('manager.rooms.destroy', $room->id) }}"
+                        onsubmit="return confirm('Are you sure you want to deactivate this room?')">
+                        @csrf
+                        @method('DELETE')
 
                         <button
-                            class="ws-btn ws-btn-edit"
-                            onclick="openEditModal({{ $room->id }})"
-                        >
-                            Edit
+                            type="submit"
+                            class="ws-btn ws-btn-delete">
+                            Delete
                         </button>
-
-                        <form
-                            method="POST"
-                            action="{{ route('manager.rooms.destroy', $room->id) }}"
-                            onsubmit="return confirm('Are you sure you want to deactivate this room?')"
-                        >
-                            @csrf
-                            @method('DELETE')
-
-                            <button
-                                type="submit"
-                                class="ws-btn ws-btn-delete"
-                            >
-                                Delete
-                            </button>
-                        </form>
-
-                    </div>
+                    </form>
 
                 </div>
 
             </div>
 
+        </div>
+
         @empty
 
-            <div class="ws-empty" style="grid-column:1/-1;">
-                <h3>No Rooms Yet</h3>
+        <div class="ws-empty" style="grid-column:1/-1;">
+            <h3>No Rooms Yet</h3>
 
-                <p>
-                    Start by adding the first room to this workspace.
-                </p>
+            <p>
+                Start by adding the first room to this workspace.
+            </p>
 
-                <button
-                    class="ws-btn ws-btn-primary"
-                    onclick="openAddModal()"
-                >
-                    Add Your First Room
-                </button>
-            </div>
+            <button
+                class="ws-btn ws-btn-primary"
+                onclick="openAddModal()">
+                Add Your First Room
+            </button>
+        </div>
 
         @endforelse
 
@@ -656,113 +1203,102 @@
 
 
 {{-- ADD ROOM MODAL --}}
+<dialog class="ws-modal-content ws-add-room" id="addRoomModal" aria-labelledby="add-room-title">
+    <header class="ws-add-header">
+        <div>
+            <h2 id="add-room-title">Add room</h2>
+            <p>{{ $workspace->name }}</p>
+        </div>
+        <button type="button" class="ws-add-close" aria-label="Close add room" onclick="closeModal('addRoomModal')">&times;</button>
+    </header>
 
-<div class="ws-modal" id="addRoomModal">
+    <form method="POST" action="{{ route('manager.rooms.store', $workspace->id) }}" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="_room_form" value="add">
 
-    <div class="ws-modal-content">
+        <div class="ws-add-body">
+            <div class="ws-add-fields">
+                <div class="ws-form-group">
+                    <label for="add-room-name">Room name</label>
+                    <input id="add-room-name" name="name" type="text" maxlength="255" placeholder="e.g. The Boardroom"
+                        value="{{ old('_room_form') === 'add' ? old('name') : '' }}" required autofocus>
+                </div>
 
-        <div class="ws-modal-header">
-            <h2>Add New Room</h2>
+                <div class="ws-form-group">
+                    <label for="add-room-type">Room type</label>
+                    <input id="add-room-type" name="room_type" type="text" maxlength="100" placeholder="e.g. Meeting room"
+                        value="{{ old('_room_form') === 'add' ? old('room_type') : '' }}" required>
+                </div>
 
-            <button
-                type="button"
-                class="ws-close"
-                onclick="closeModal('addRoomModal')"
-            >
-                &times;
-            </button>
+                <div class="ws-form-group">
+                    <label for="add-room-capacity">Capacity</label>
+                    <input id="add-room-capacity" name="capacity" type="number" min="1" step="1" placeholder="e.g. 8"
+                        value="{{ old('_room_form') === 'add' ? old('capacity') : '' }}" required>
+                </div>
+
+                <div class="ws-form-group">
+                    <label for="add-room-price">Hourly price</label>
+                    <input id="add-room-price" name="hourly_price" type="number" min="0" step="0.01" placeholder="0.00"
+                        value="{{ old('_room_form') === 'add' ? old('hourly_price') : '' }}" required>
+                </div>
+
+                <fieldset class="ws-add-wide ws-facility-picker" id="add-room-facility-picker" hidden>
+                    <legend>Facilities <span class="ws-add-muted">(optional)</span></legend>
+                    <div class="ws-facility-options">
+                        @foreach (['Wi-Fi', 'Projector', 'Whiteboard', 'Display screen', 'Air conditioning', 'Video conferencing', 'Power outlets', 'Wheelchair access'] as $facility)
+                        <label class="ws-facility-option">
+                            <input type="checkbox" value="{{ $facility }}">
+                            <span>{{ $facility }}</span>
+                        </label>
+                        @endforeach
+                    </div>
+                </fieldset>
+
+                <div class="ws-form-group ws-add-wide" id="add-room-facility-fallback">
+                    <label for="add-room-facilities">Facilities <span class="ws-add-muted">(optional)</span></label>
+                    <textarea id="add-room-facilities" name="facilities" rows="2" placeholder="Projector, Wi-Fi, whiteboard"
+                        aria-describedby="add-room-facilities-hint">{{ old('_room_form') === 'add' ? old('facilities') : '' }}</textarea>
+                    <small id="add-room-facilities-hint">Separate each facility with a comma.</small>
+                </div>
+            </div>
+
+            <div class="ws-add-photos">
+                <p class="ws-photo-label" id="add-room-photo-label">Room photos <span class="ws-add-muted">(optional)</span></p>
+                <div class="ws-add-dropzone" id="add-room-dropzone">
+                    <span class="ws-upload-icon" aria-hidden="true">&uarr;</span>
+                    <div class="ws-upload-copy">
+                        <strong>Drag and drop room photos</strong>
+                        <p id="add-room-image-hint">JPG, PNG, or WebP up to 5 MB each. The first photo is the cover.</p>
+                    </div>
+                    <label class="ws-file-picker">
+                        <span>Choose photos</span>
+                        <input id="add-room-images" type="file" name="images[]" multiple
+                            accept="image/jpeg,image/png,image/webp"
+                            aria-describedby="add-room-photo-label add-room-image-hint">
+                    </label>
+                </div>
+                <p id="add-room-image-status" class="ws-add-muted" aria-live="polite"></p>
+                <ul id="add-room-previews" class="ws-add-previews" role="list" aria-label="Selected room photos"></ul>
+            </div>
+
+            @if (old('_room_form') === 'add' && $errors->any())
+            <div class="ws-add-errors" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <p>Please reselect your photos before saving.</p>
+            </div>
+            @endif
         </div>
 
-        <form
-            method="POST"
-            action="{{ route('manager.rooms.store', $workspace->id) }}"
-            enctype="multipart/form-data"
-        >
-
-            @csrf
-
-            <div class="ws-form-group">
-                <label>Room Name</label>
-                <input type="text" name="name" required>
-            </div>
-
-            <div class="ws-form-group">
-                <label>Room Type</label>
-
-                <input
-                    type="text"
-                    name="room_type"
-                    placeholder="Meeting Room, Private Office..."
-                    required
-                >
-            </div>
-
-            <div class="ws-form-group">
-                <label>Capacity</label>
-                <input type="number" name="capacity" min="1" required>
-            </div>
-
-            <div class="ws-form-group">
-                <label>Hourly Price</label>
-                <input
-                    type="number"
-                    name="hourly_price"
-                    step="0.01"
-                    min="0"
-                    required
-                >
-            </div>
-
-            <div class="ws-form-group">
-                <label>Facilities</label>
-
-                <textarea
-                    name="facilities"
-                    rows="3"
-                    placeholder="Projector, WiFi, Whiteboard, Screen"
-                ></textarea>
-
-                <small>Separate facilities with commas.</small>
-            </div>
-
-            <div class="ws-form-group">
-                <label>Room Images</label>
-
-                <input
-                    type="file"
-                    name="images[]"
-                    accept="image/*"
-                    multiple
-                >
-
-                <small>You can select multiple images.</small>
-            </div>
-
-            <div class="ws-modal-actions">
-
-                <button
-                    type="button"
-                    class="ws-btn"
-                    onclick="closeModal('addRoomModal')"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="ws-btn ws-btn-primary"
-                >
-                    Save Room
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
+        <footer class="ws-add-actions">
+            <button type="button" class="ws-add-cancel" onclick="closeModal('addRoomModal')">Cancel</button>
+            <button type="submit" class="ws-add-save">Save room</button>
+        </footer>
+    </form>
+</dialog>
 
 {{-- EDIT ROOM MODAL --}}
 
@@ -777,8 +1313,7 @@
             <button
                 type="button"
                 class="ws-close"
-                onclick="closeModal('editRoomModal')"
-            >
+                onclick="closeModal('editRoomModal')">
                 &times;
             </button>
 
@@ -787,8 +1322,7 @@
         <form
             method="POST"
             id="editRoomForm"
-            enctype="multipart/form-data"
-        >
+            enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
@@ -800,8 +1334,7 @@
                     type="text"
                     name="name"
                     id="edit_name"
-                    required
-                >
+                    required>
             </div>
 
             <div class="ws-form-group">
@@ -811,8 +1344,7 @@
                     type="text"
                     name="room_type"
                     id="edit_room_type"
-                    required
-                >
+                    required>
             </div>
 
             <div class="ws-form-group">
@@ -823,8 +1355,7 @@
                     name="capacity"
                     id="edit_capacity"
                     min="1"
-                    required
-                >
+                    required>
             </div>
 
             <div class="ws-form-group">
@@ -836,8 +1367,7 @@
                     id="edit_hourly_price"
                     step="0.01"
                     min="0"
-                    required
-                >
+                    required>
             </div>
 
             <div class="ws-form-group">
@@ -846,8 +1376,7 @@
                 <textarea
                     name="facilities"
                     id="edit_facilities"
-                    rows="3"
-                ></textarea>
+                    rows="3"></textarea>
             </div>
 
             <div class="ws-form-group">
@@ -856,8 +1385,7 @@
 
                 <div
                     class="ws-existing-images"
-                    id="existingRoomImages"
-                ></div>
+                    id="existingRoomImages"></div>
 
                 <small>
                     Select the checkbox below an image to remove it.
@@ -874,8 +1402,7 @@
                     type="file"
                     name="images[]"
                     accept="image/*"
-                    multiple
-                >
+                    multiple>
 
             </div>
 
@@ -884,15 +1411,13 @@
                 <button
                     type="button"
                     class="ws-btn"
-                    onclick="closeModal('editRoomModal')"
-                >
+                    onclick="closeModal('editRoomModal')">
                     Cancel
                 </button>
 
                 <button
                     type="submit"
-                    class="ws-btn ws-btn-primary"
-                >
+                    class="ws-btn ws-btn-primary">
                     Update Room
                 </button>
 
@@ -905,74 +1430,40 @@
 </div>
 
 
-{{-- Room Data for Edit Modal --}}
-
-@php
-    $roomsData = $rooms->mapWithKeys(function ($room) {
-        return [
-            $room->id => [
-                'id' => $room->id,
-                'name' => $room->name,
-                'room_type' => $room->room_type,
-                'capacity' => $room->capacity,
-                'hourly_price' => $room->hourly_price,
-                'facilities' => $room->facilities ?? [],
-                'images' => $room->images->map(function ($image) {
-                    return [
-                        'id' => $image->id,
-                        'path' => asset('storage/' . $image->image_path),
-                        'primary' => $image->is_primary,
-                    ];
-                })->values()->all(),
-            ],
-        ];
-    })->all();
-@endphp
-
 <script>
-    const roomsData = {{ Illuminate\Support\Js::from($roomsData) }};
-
     function openAddModal() {
-        document.getElementById('addRoomModal').classList.add('show');
+        document.getElementById('addRoomModal').showModal();
     }
 
-    function openEditModal(roomId) {
-        const room = roomsData[roomId];
+    function openEditModal(button) {
+        const card = button.closest('.ws-room-card');
+        const room = card.dataset;
 
-        if (!room) {
-            console.error('Room not found:', roomId);
-            return;
-        }
-
-        document.getElementById('editRoomForm').action =
-            `/manager/rooms/${room.id}`;
-
+        document.getElementById('editRoomForm').action = button.dataset.updateUrl;
         document.getElementById('edit_name').value = room.name;
-        document.getElementById('edit_room_type').value = room.room_type;
+        document.getElementById('edit_room_type').value = room.type;
         document.getElementById('edit_capacity').value = room.capacity;
-        document.getElementById('edit_hourly_price').value = room.hourly_price;
-
-        document.getElementById('edit_facilities').value =
-            (room.facilities || []).join(', ');
+        document.getElementById('edit_hourly_price').value = room.price;
+        document.getElementById('edit_facilities').value = room.facilities;
 
         const imagesContainer = document.getElementById('existingRoomImages');
-        imagesContainer.innerHTML = '';
+        imagesContainer.replaceChildren();
 
-        room.images.forEach(image => {
+        card.querySelectorAll('[data-image-id]').forEach(image => {
             const div = document.createElement('div');
             div.className = 'ws-existing-image';
 
             const img = document.createElement('img');
-            img.src = image.path;
-            img.alt = 'Room image';
+            img.src = image.src;
+            img.alt = image.alt;
 
             const primaryLabel = document.createElement('label');
             const radio = document.createElement('input');
 
             radio.type = 'radio';
             radio.name = 'primary_image_id';
-            radio.value = image.id;
-            radio.checked = image.primary;
+            radio.value = image.dataset.imageId;
+            radio.checked = image.dataset.primary === '1';
 
             primaryLabel.append(radio, ' Primary');
 
@@ -981,7 +1472,7 @@
 
             checkbox.type = 'checkbox';
             checkbox.name = 'remove_images[]';
-            checkbox.value = image.id;
+            checkbox.value = image.dataset.imageId;
 
             removeLabel.append(checkbox, ' Remove');
 
@@ -993,7 +1484,12 @@
     }
 
     function closeModal(modalId) {
-        document.getElementById(modalId).classList.remove('show');
+        const modal = document.getElementById(modalId);
+        if (modal instanceof HTMLDialogElement) {
+            modal.close();
+        } else {
+            modal.classList.remove('show');
+        }
     }
 
     function changeRoomImage(button, direction) {
@@ -1027,5 +1523,114 @@
         });
     });
 
-    console.log('Room JavaScript loaded');
+    const facilityPicker = document.getElementById('add-room-facility-picker');
+    const facilityText = document.getElementById('add-room-facilities');
+    const facilityOptions = Array.from(facilityPicker.querySelectorAll('input[type="checkbox"]'));
+    const savedFacilities = facilityText.value.split(',').map(value => value.trim()).filter(Boolean);
+    const knownFacilities = new Set(facilityOptions.map(option => option.value));
+    const otherFacilities = savedFacilities.filter(value => !knownFacilities.has(value));
+
+    for (const option of facilityOptions) {
+        option.checked = savedFacilities.includes(option.value);
+    }
+
+    facilityPicker.addEventListener('change', () => {
+        const selected = facilityOptions.filter(option => option.checked).map(option => option.value);
+        facilityText.value = [...selected, ...otherFacilities].join(', ');
+    });
+    document.getElementById('add-room-facility-fallback').hidden = true;
+    facilityPicker.hidden = false;
+
+    const roomPhotoInput = document.getElementById('add-room-images');
+    const roomPhotoDropzone = document.getElementById('add-room-dropzone');
+    const roomPhotoPreviews = document.getElementById('add-room-previews');
+    const roomPhotoStatus = document.getElementById('add-room-image-status');
+
+    let roomPhotos = [];
+    let roomPhotoUrls = [];
+
+    function renderRoomPhotos(message = '') {
+        roomPhotoUrls.forEach(url => URL.revokeObjectURL(url));
+        roomPhotoUrls = [];
+        roomPhotoPreviews.replaceChildren();
+
+        roomPhotos.forEach((file, index) => {
+            const item = document.createElement('li');
+            item.className = 'ws-add-preview';
+
+            const image = document.createElement('img');
+            image.src = URL.createObjectURL(file);
+            image.alt = file.name;
+            roomPhotoUrls.push(image.src);
+
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'ws-add-remove';
+            remove.textContent = '×';
+            remove.setAttribute('aria-label', 'Remove ' + file.name);
+            remove.addEventListener('click', () => {
+                roomPhotos.splice(index, 1);
+                syncRoomPhotos();
+                roomPhotoPreviews.querySelectorAll('button')[index]?.focus();
+                if (document.activeElement === document.body) roomPhotoInput.focus();
+            });
+
+            item.append(image, remove);
+
+            if (index === 0) {
+                const label = document.createElement('span');
+                label.className = 'ws-add-cover-label';
+                label.textContent = 'Cover photo';
+                item.append(label);
+            }
+
+            roomPhotoPreviews.append(item);
+        });
+
+        const count = roomPhotos.length;
+        roomPhotoStatus.textContent = message || (count ? count + (count === 1 ? ' photo selected' : ' photos selected') : '');
+    }
+
+    function syncRoomPhotos(message) {
+        const transfer = new DataTransfer();
+        roomPhotos.forEach(file => transfer.items.add(file));
+        roomPhotoInput.files = transfer.files;
+        renderRoomPhotos(message);
+    }
+
+    function addRoomPhotos(files) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        let rejected = 0;
+
+        for (const file of files) {
+            if (!allowedTypes.includes(file.type) || file.size > 5 * 1024 * 1024) {
+                rejected++;
+            } else if (!roomPhotos.some(photo => photo.name === file.name && photo.size === file.size && photo.lastModified === file.lastModified)) {
+                roomPhotos.push(file);
+            }
+        }
+
+        syncRoomPhotos(rejected ? 'Some files were skipped. Use JPG, PNG, or WebP up to 5 MB each.' : '');
+    }
+
+    if (typeof DataTransfer === 'function') {
+        roomPhotoInput.addEventListener('change', () => addRoomPhotos(roomPhotoInput.files));
+        roomPhotoDropzone.addEventListener('dragover', event => {
+            event.preventDefault();
+            roomPhotoDropzone.classList.add('is-dragging');
+        });
+        roomPhotoDropzone.addEventListener('dragleave', event => {
+            if (!roomPhotoDropzone.contains(event.relatedTarget)) {
+                roomPhotoDropzone.classList.remove('is-dragging');
+            }
+        });
+        roomPhotoDropzone.addEventListener('drop', event => {
+            event.preventDefault();
+            roomPhotoDropzone.classList.remove('is-dragging');
+            addRoomPhotos(event.dataTransfer.files);
+        });
+    }
 </script>
+    @if(old('_room_form') === 'add' && $errors > any())
+    openAddModal();
+    @endif
