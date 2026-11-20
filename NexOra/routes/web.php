@@ -26,6 +26,7 @@ use App\Http\Controllers\Guest\ExploreController;
 use App\Http\Controllers\Guest\RoomDetailsController;
 use App\Http\Controllers\Guest\RoomAvailabilityController;
 use App\Http\Controllers\ManagerDashboardController;
+use App\Http\Controllers\Member\MemberProfileController;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use Carbon\Carbon;
@@ -40,38 +41,7 @@ Route::get('/explore', [ExploreController::class, 'index'])->name('explore');
 Route::get('/rooms/{room}', [RoomDetailsController::class, 'show'])->name('rooms.details');
 Route::get('/rooms/{room}/availability', [RoomAvailabilityController::class, 'index'])->name('rooms.availability');
 
-// Save booking selection and redirect guest to login
-Route::post('/rooms/{room}/book', function (Request $request, Room $room) {
-    $validated = $request->validate(['start_date_time' => ['required', 'date', 'after:now'],'duration' => ['required', 'integer', 'min:1', 'max:168'],]);
-    $start = Carbon::parse($validated['start_date_time']);
-    $end = $start->copy()->addHours((int) $validated['duration']);
-    $roomIsPublic = Room::query()->whereKey($room->id)->where('is_active', true)
-        ->whereHas('workspace', function ($query) {
-        $query->where('is_active', true)
-        ->where('approval_status', 'approved'); })->exists();
-    abort_unless($roomIsPublic, 404);
-
-    $hasConflict = Booking::where('room_id', $room->id)->where('start_date_time', '<', $end)->where('end_date_time', '>', $start)->where(function ($query) {
-            $query->where('status', 'confirmed')->orWhere(function ($q) {
-            $q->where('status', 'pending')->where('payment_expires_at', '>', now());
-            });
-        })->exists();
-
-    if ($hasConflict) {
-        return back()->withErrors(['booking' => 'This time is no longer available. Please choose another time.',
-        ]);
-    }
-    session([
-         'booking_intent' => [
-            'room_id' => $room->id,
-            'start_date_time' => $start->toDateTimeString(),
-            'end_date_time' => $end->toDateTimeString(),
-            'duration' => (int) $validated['duration'],
-        ],
-    ]);
-    // Temporary redirect until your login system is ready.
-    return redirect('/login');
-})->name('rooms.book');
+Route::post('/rooms/{room}/book',[\App\Http\Controllers\Member\BookingController::class, 'store'])->name('rooms.book');
 
 //Member pages routes
 Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->group(function () 
@@ -86,7 +56,11 @@ Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->g
      Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])->name('bookings.cancel');
      Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])->name('bookings.checkout');
      Route::post('/stripe/checkout/booking', [StripeController::class, 'checkoutBooking'])->name('stripe.checkout.booking');
-       Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMembership'])->name('stripe.checkout.membership');
+     Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMembership'])->name('stripe.checkout.membership');
+     Route::get('/profile', [MemberProfileController::class, 'index'])->name('profile.index');
+     Route::put('/profile', [MemberProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+     Route::put('/profile/password', [MemberProfileController::class, 'updatePassword']) ->name('profile.updatePassword'); 
+       
 });
 
 // Space Manager Routes
