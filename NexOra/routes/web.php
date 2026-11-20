@@ -17,7 +17,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Manager\ManagerRoomController;
 use App\Models\Room;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Member\UserChatbotController;
 use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 use App\Http\Controllers\Manager\ManagerProfileController;
@@ -26,150 +25,120 @@ use App\Http\Controllers\Member\BookingCheckoutController;
 use App\Http\Controllers\Guest\ExploreController;
 use App\Http\Controllers\Guest\RoomDetailsController;
 use App\Http\Controllers\Guest\RoomAvailabilityController;
+use App\Http\Controllers\ManagerDashboardController;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
 
-Route::prefix('manager')->name('manager.')->group(function () {
+// Public pages routes
+Route::get('/explore', [ExploreController::class, 'index'])->name('explore');
+Route::get('/rooms/{room}', [RoomDetailsController::class, 'show'])->name('rooms.details');
+Route::get('/rooms/{room}/availability', [RoomAvailabilityController::class, 'index'])->name('rooms.availability');
 
-    Route::get('/ai', [ManagerAIController::class, 'index'])
-        ->name('ai.index');
+// Save booking selection and redirect guest to login
+Route::post('/rooms/{room}/book', function (Request $request, Room $room) {
+    $validated = $request->validate(['start_date_time' => ['required', 'date', 'after:now'],'duration' => ['required', 'integer', 'min:1', 'max:168'],]);
+    $start = Carbon::parse($validated['start_date_time']);
+    $end = $start->copy()->addHours((int) $validated['duration']);
+    $roomIsPublic = Room::query()->whereKey($room->id)->where('is_active', true)
+        ->whereHas('workspace', function ($query) {
+        $query->where('is_active', true)
+        ->where('approval_status', 'approved'); })->exists();
+    abort_unless($roomIsPublic, 404);
 
-    Route::post('/ai/ask', [ManagerAIController::class, 'ask'])
-        ->name('ai.ask');
+    $hasConflict = Booking::where('room_id', $room->id)->where('start_date_time', '<', $end)->where('end_date_time', '>', $start)->where(function ($query) {
+            $query->where('status', 'confirmed')->orWhere(function ($q) {
+            $q->where('status', 'pending')->where('payment_expires_at', '>', now());
+            });
+        })->exists();
 
+    if ($hasConflict) {
+        return back()->withErrors(['booking' => 'This time is no longer available. Please choose another time.',
+        ]);
+    }
+    session([
+         'booking_intent' => [
+            'room_id' => $room->id,
+            'start_date_time' => $start->toDateTimeString(),
+            'end_date_time' => $end->toDateTimeString(),
+            'duration' => (int) $validated['duration'],
+        ],
+    ]);
+    // Temporary redirect until your login system is ready.
+    return redirect('/login');
+})->name('rooms.book');
 
-Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
-    ->name('ai.marketing');
-    Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
-    ->name('ai.marketing.send');
-    Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
-    ->name('reviews.index');
-
-
-    
-Route::get('/reviews', [ManagerReviewController::class, 'index'])
-    ->name('reviews.index');
-    Route::get('/reviews/{id}', [ManagerReviewController::class, 'show'])
-    ->whereNumber('id')
-    ->name('reviews.show');
-    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-
-    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('bookings.cancel');
-
- Route::get(
-        '/workspaces/{workspaceId}/details',
-        [ManagerRoomController::class, 'index']
-    )->name('workspaces.details');
-
-    Route::post(
-        '/workspaces/{workspaceId}/rooms',
-        [ManagerRoomController::class, 'store']
-    )->name('rooms.store');
-
-    Route::put(
-        '/rooms/{roomId}',
-        [ManagerRoomController::class, 'update']
-    )->name('rooms.update');
-
-    Route::delete(
-        '/rooms/{roomId}',
-        [ManagerRoomController::class, 'destroy']
-    )->name('rooms.destroy');
-     Route::get('/membership-plans',
-            [ManagerMembershipPlanController::class, 'index'])
-            ->name('membership-plans.index');
-
-        Route::get('/membership-plans/create',
-            [ManagerMembershipPlanController::class, 'create'])
-            ->name('membership-plans.create');
-
-        Route::post('/membership-plans',
-            [ManagerMembershipPlanController::class, 'store'])
-            ->name('membership-plans.store');
-
-        Route::get('/membership-plans/{id}',
-            [ManagerMembershipPlanController::class, 'show'])
-            ->whereNumber('id')
-            ->name('membership-plans.show');
-
-        Route::get('/membership-plans/{id}/edit',
-            [ManagerMembershipPlanController::class, 'edit'])
-            ->whereNumber('id')
-            ->name('membership-plans.edit');
-
-        Route::put('/membership-plans/{id}',
-            [ManagerMembershipPlanController::class, 'update'])
-            ->whereNumber('id')
-            ->name('membership-plans.update');
-
-        Route::patch('/membership-plans/{id}/status',
-            [ManagerMembershipPlanController::class, 'updateStatus'])
-            ->whereNumber('id')
-            ->name('membership-plans.status');
-
-        Route::get('/membership-plans/{id}/subscribers',
-            [ManagerMembershipPlanController::class, 'subscribers'])
-            ->whereNumber('id')
-            ->name('membership-plans.subscribers');
-            Route::get('/profile', [ManagerProfileController::class, 'index'])->name('profile.index');
-
-Route::put('/profile', [ManagerProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
-
-Route::put('/profile/password', [ManagerProfileController::class, 'updatePassword'])->name('profile.updatePassword');
-
-    });
-//   Route::post('/reviews', [ReviewController::class, 'store'])
-//     ->name('reviews.store');
-Route::prefix('admin')->name('admin.')->group(function () {
-Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
-    Route::get('/reviews', [AdminReviewController::class, 'index'])
-        ->name('reviews.index');
-
-    Route::patch('/reviews/{id}/approve', [AdminReviewController::class, 'approve'])
-        ->name('reviews.approve');
-
-    Route::patch('/reviews/{id}/hide', [AdminReviewController::class, 'hide'])
-        ->name('reviews.hide');
-
-    Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
-        ->name('reviews.destroy');
-    
-
-        Route::get('/payments', [PaymentController::class, 'index'])
-            ->name('payments.index');
-
-        Route::get('/payments/{id}', [PaymentController::class, 'show'])
-            ->whereNumber('id')
-            ->name('payments.show');
-
-             Route::get('/workspaces', [WorkspaceController::class, 'index'])
-    ->name('workspaces');
-
-Route::patch('/workspaces/{workspace}/disable', [WorkspaceController::class, 'destroy'])
-    ->name('destroy');
-
-Route::patch('/workspaces/{workspace}/UpdateStatus', [WorkspaceController::class, 'UpdateStatus'])
-    ->name('UpdateStatus');
-
-Route::patch('/workspaces/{workspace}/enable', [WorkspaceController::class, 'enable'])
-    ->name('Enable');
-
-Route::get('/workspaces/{workspaceId}', [RoomController::class, 'index'])
-    ->name('workspace.details');
-
-Route::get('/userindex', [UserController::class, 'index'])->name('users.index');
-
-Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('users.deactivate');
-
-Route::get('usershow/{id}', [UserController::class, 'show'])->name('users.show');
-Route::get('/bookings', [AdminBookingController::class, 'index'])
-    ->name('bookings.index');
+//Member pages routes
+Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->group(function () 
+{
+     Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])->name('workspace-ai.index');
+     Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])->name('workspace-ai.recommend');
+     Route::get('/chatbot', [UserChatbotController::class,'index'])->name('chatbot.index');
+     Route::post('/chatbot/send', [UserChatbotController::class,'send'])->name('chatbot.send');
+     Route::delete('/chatbot/clear', [UserChatbotController::class,'clear'])->name('chatbot.clear');
+     Route::get('/my-bookings', [MyBookingController::class, 'index'])->name('bookings.index');
+     Route::get('/my-bookings/{id}', [MyBookingController::class, 'show'])->name('bookings.show');
+     Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])->name('bookings.cancel');
+     Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])->name('bookings.checkout');
+     Route::post('/stripe/checkout/booking', [StripeController::class, 'checkoutBooking'])->name('stripe.checkout.booking');
+       Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMembership'])->name('stripe.checkout.membership');
 });
+
+// Space Manager Routes
+Route::middleware(['auth', 'role:spaceManager'])->prefix('manager')->name('manager.')->group(function () {
+    Route::get('/dashboard', [ManagerDashboardController::class, 'index'])->name('dashboard');;
+    Route::get('/ai', [ManagerAIController::class, 'index'])->name('ai.index');
+    Route::post('/ai/ask', [ManagerAIController::class, 'ask'])->name('ai.ask');
+    Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])->name('ai.marketing');
+    Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])->name('ai.marketing.send');
+    Route::get('/workspaces/create', [WorkspaceController::class, 'create'])->name('workspaces.create');
+    Route::post('/workspaces', [WorkspaceController::class, 'store'])->name('workspaces.store');
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/workspaces/{workspaceId}/details',[ManagerRoomController::class, 'index'])->name('workspaces.details');
+    Route::post('/workspaces/{workspaceId}/rooms',[ManagerRoomController::class, 'store'])->name('rooms.store');
+    Route::put('/rooms/{roomId}',[ManagerRoomController::class, 'update'])->name('rooms.update');
+    Route::delete('/rooms/{roomId}',[ManagerRoomController::class, 'destroy'])->name('rooms.destroy');
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])->name('bookings.cancel');
+    Route::get('/membership-plans', [ManagerMembershipPlanController::class, 'index'])->name('membership-plans.index');
+    Route::get('/membership-plans/create',[ManagerMembershipPlanController::class, 'create'])->name('membership-plans.create');
+    Route::post('/membership-plans', [ManagerMembershipPlanController::class, 'store'])->name('membership-plans.store');
+    Route::get('/membership-plans/{id}',[ManagerMembershipPlanController::class, 'show'])->whereNumber('id')->name('membership-plans.show');
+    Route::get('/membership-plans/{id}/edit',[ManagerMembershipPlanController::class, 'edit'])->whereNumber('id')->name('membership-plans.edit');
+    Route::put('/membership-plans/{id}',[ManagerMembershipPlanController::class, 'update'])->whereNumber('id')->name('membership-plans.update');
+    Route::patch('/membership-plans/{id}/status',[ManagerMembershipPlanController::class, 'updateStatus'])->whereNumber('id')->name('membership-plans.status');
+    Route::get('/membership-plans/{id}/subscribers',[ManagerMembershipPlanController::class, 'subscribers']) ->whereNumber('id')->name('membership-plans.subscribers');
+    Route::get('/profile', [ManagerProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [ManagerProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
+    Route::put('/profile/password', [ManagerProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    Route::get('/reviews', [ManagerReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews/{id}', [ManagerReviewController::class, 'show'])->whereNumber('id')->name('reviews.show');
+    });
+// admin pages routes
+Route::middleware(['auth', 'role:admin'])
+->prefix('admin')->name('admin.')->group(function () {
+   Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('AdminDashboard');
+   Route::get('/userindex', [UserController::class, 'index'])->name('users.index');
+   Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('users.deactivate');
+   Route::get('usershow/{id}', [UserController::class, 'show'])->name('users.show');
+   Route::get('/workspaces', [WorkspaceController::class, 'index'])->name('workspaces');
+   Route::patch('/workspaces/{workspace}/disable', [WorkspaceController::class, 'destroy'])->name('destroy');
+   Route::patch('/workspaces/{workspace}/UpdateStatus', [WorkspaceController::class, 'UpdateStatus'])->name('UpdateStatus');
+   Route::patch('/workspaces/{workspace}/enable', [WorkspaceController::class, 'enable'])->name('Enable');
+   Route::get('/workspaces/{workspaceId}', [RoomController::class, 'index'])->name('workspace.details');
+   Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+   Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
+   Route::patch('/reviews/{id}/approve', [AdminReviewController::class, 'approve'])->name('reviews.approve');
+   Route::patch('/reviews/{id}/hide', [AdminReviewController::class, 'hide'])->name('reviews.hide');
+   Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
+   Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+   Route::get('/payments/{id}', [PaymentController::class, 'show'])->whereNumber('id')->name('payments.show');
+    });
+
 
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
@@ -177,111 +146,9 @@ Route::get('/preview-email', function () {
     return view('emails.booking-reminder', ['booking' => $booking]);
 });
 
-Route::post('/stripe/checkout/booking', [StripeController::class, 'checkoutBooking'])->name('stripe.checkout.booking');
-Route::post('/stripe/checkout/membership', [StripeController::class, 'checkoutMembership'])->name('stripe.checkout.membership');
 Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
 
 
-Route::prefix('member')->name('member.')->group(function () {
-    
-    Route::get('/workspace-ai', [WorkspaceAIController::class, 'index'])
-        ->name('workspace-ai.index');
-
-    Route::post('/workspace-ai/recommend', [WorkspaceAIController::class, 'recommend'])
-        ->name('workspace-ai.recommend');
-
-         Route::get('/chatbot', [
-            UserChatbotController::class,
-            'index'
-        ])->name('chatbot.index');
-
-        Route::post('/chatbot/send', [
-            UserChatbotController::class,
-            'send'
-        ])->name('chatbot.send');
-
-        Route::delete('/chatbot/clear', [
-            UserChatbotController::class,
-            'clear'
-        ])->name('chatbot.clear');
-    Route::get('/my-bookings', [MyBookingController::class, 'index'])
-        ->name('bookings.index');
-
-    Route::get('/my-bookings/{id}', [MyBookingController::class, 'show'])
-        ->name('bookings.show');
-
-    Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])
-        ->name('bookings.cancel');
-Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
-    ->name('bookings.checkout');
-});
-
-
-// Public Explore
-Route::get('/explore', [ExploreController::class, 'index'])
-    ->name('explore');
-
-// Public Room Details
-Route::get('/rooms/{room}', [RoomDetailsController::class, 'show'])
-    ->name('rooms.details');
-
-// Room Availability
-Route::get('/rooms/{room}/availability', [RoomAvailabilityController::class, 'index'])
-    ->name('rooms.availability');
-
-// Save booking selection and redirect guest to login
-Route::post('/rooms/{room}/book', function (Request $request, Room $room) {
-
-    $validated = $request->validate([
-        'start_date_time' => ['required', 'date', 'after:now'],
-        'duration' => ['required', 'integer', 'min:1', 'max:168'],
-    ]);
-
-    $start = Carbon::parse($validated['start_date_time']);
-    $end = $start->copy()->addHours((int) $validated['duration']);
-
-    $roomIsPublic = Room::query()
-        ->whereKey($room->id)
-        ->where('is_active', true)
-        ->whereHas('workspace', function ($query) {
-            $query->where('is_active', true)
-                ->where('approval_status', 'approved');
-        })
-        ->exists();
-
-    abort_unless($roomIsPublic, 404);
-
-    $hasConflict = Booking::where('room_id', $room->id)
-        ->where('start_date_time', '<', $end)
-        ->where('end_date_time', '>', $start)
-        ->where(function ($query) {
-            $query->where('status', 'confirmed')
-                ->orWhere(function ($q) {
-                    $q->where('status', 'pending')
-                        ->where('payment_expires_at', '>', now());
-                });
-        })
-        ->exists();
-
-    if ($hasConflict) {
-        return back()->withErrors([
-            'booking' => 'This time is no longer available. Please choose another time.',
-        ]);
-    }
-
-    session([
-        'booking_intent' => [
-            'room_id' => $room->id,
-            'start_date_time' => $start->toDateTimeString(),
-            'end_date_time' => $end->toDateTimeString(),
-            'duration' => (int) $validated['duration'],
-        ],
-    ]);
-
-    // Temporary redirect until your login system is ready.
-    return redirect('/login');
-
-})->name('rooms.book');
