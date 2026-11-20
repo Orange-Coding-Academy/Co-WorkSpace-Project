@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /*
@@ -18,23 +19,96 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+  use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
     protected $redirectTo = '/home';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // 1. Check if account is active
+        if (!$user->is_active) {
+            return $this->logoutWithError(
+                $request,
+                'Your account is inactive.'
+            );
+        }
+
+        // 2. Redirect according to user role
+        switch ($user->role) {
+
+            case 'admin':
+                return redirect()->route('admin.AdminDashboard');
+
+            case 'spaceManager':
+
+                // Get manager's workspace
+                $workspace = $user->managedWorkspaces()->latest()->first();
+
+                // No workspace found
+                if (!$workspace) {
+                    return $this->logoutWithError(
+                        $request,
+                        'No workspace application was found for your account.'
+                    );
+                }
+
+                // Application is pending
+                if ($workspace->approval_status === 'pending') {
+                    return $this->logoutWithError(
+                        $request,
+                        'Your workspace application is still pending admin approval.'
+                    );
+                }
+
+                // Application is rejected
+                if ($workspace->approval_status === 'rejected') {
+                    return $this->logoutWithError(
+                        $request,
+                        'Your workspace application has been rejected. Please contact the administrator.'
+                    );
+                }
+
+                // Application is approved
+                if ($workspace->approval_status === 'approved') {
+                  return redirect()->route('manager.dashboard');
+                }
+
+                // Unknown approval status
+                return $this->logoutWithError(
+                    $request,
+                    'Your workspace application has an invalid status.'
+                );
+
+            case 'member':
+                return redirect()->route('member.bookings.index');
+
+            default:
+                return $this->logoutWithError(
+                    $request,
+                    'Your account role is not valid.'
+                );
+        }
+    }
+
+    /**
+     * Logout user and return an error message.
+     */
+    private function logoutWithError(Request $request, string $message)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')
+            ->withErrors([
+                'email' => $message,
+            ]);
     }
 }

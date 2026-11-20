@@ -1,15 +1,4 @@
-{{ 
-//use App\Http\Controllers\Member\MemberProfileController;
 
-//Route::get('/member/profile', [MemberProfileController::class, 'index'])
- //   ->name('member.profile.index');
-
-//Route::put('/member/profile', [MemberProfileController::class, 'updatePersonal'])
-  //  ->name('member.profile.updatePersonal');
-
-//Route::put('/member/profile/password', [MemberProfileController::class, 'updatePassword'])
-   // ->name('member.profile.updatePassword'); 
-   }}
 
 <!DOCTYPE html>
 <html lang="en">

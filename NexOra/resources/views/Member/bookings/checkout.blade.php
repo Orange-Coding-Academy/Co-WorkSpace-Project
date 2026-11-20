@@ -41,7 +41,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('stripe.checkout.booking') }}">
+    <form method="POST" action="{{ route('member.stripe.checkout.booking') }}">
         @csrf
 
         <div class="row g-4">
