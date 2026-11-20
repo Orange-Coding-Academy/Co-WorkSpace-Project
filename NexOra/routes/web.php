@@ -23,6 +23,13 @@ use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 use App\Http\Controllers\Manager\ManagerProfileController;
 use App\Http\Controllers\Member\MyBookingController;
 use App\Http\Controllers\Member\BookingCheckoutController;
+use App\Http\Controllers\Guest\ExploreController;
+use App\Http\Controllers\Guest\RoomDetailsController;
+use App\Http\Controllers\Guest\RoomAvailabilityController;
+use Illuminate\Http\Request;
+use App\Models\Booking;
+use Carbon\Carbon;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -211,3 +218,70 @@ Route::prefix('member')->name('member.')->group(function () {
 Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
     ->name('bookings.checkout');
 });
+
+
+// Public Explore
+Route::get('/explore', [ExploreController::class, 'index'])
+    ->name('explore');
+
+// Public Room Details
+Route::get('/rooms/{room}', [RoomDetailsController::class, 'show'])
+    ->name('rooms.details');
+
+// Room Availability
+Route::get('/rooms/{room}/availability', [RoomAvailabilityController::class, 'index'])
+    ->name('rooms.availability');
+
+// Save booking selection and redirect guest to login
+Route::post('/rooms/{room}/book', function (Request $request, Room $room) {
+
+    $validated = $request->validate([
+        'start_date_time' => ['required', 'date', 'after:now'],
+        'duration' => ['required', 'integer', 'min:1', 'max:168'],
+    ]);
+
+    $start = Carbon::parse($validated['start_date_time']);
+    $end = $start->copy()->addHours((int) $validated['duration']);
+
+    $roomIsPublic = Room::query()
+        ->whereKey($room->id)
+        ->where('is_active', true)
+        ->whereHas('workspace', function ($query) {
+            $query->where('is_active', true)
+                ->where('approval_status', 'approved');
+        })
+        ->exists();
+
+    abort_unless($roomIsPublic, 404);
+
+    $hasConflict = Booking::where('room_id', $room->id)
+        ->where('start_date_time', '<', $end)
+        ->where('end_date_time', '>', $start)
+        ->where(function ($query) {
+            $query->where('status', 'confirmed')
+                ->orWhere(function ($q) {
+                    $q->where('status', 'pending')
+                        ->where('payment_expires_at', '>', now());
+                });
+        })
+        ->exists();
+
+    if ($hasConflict) {
+        return back()->withErrors([
+            'booking' => 'This time is no longer available. Please choose another time.',
+        ]);
+    }
+
+    session([
+        'booking_intent' => [
+            'room_id' => $room->id,
+            'start_date_time' => $start->toDateTimeString(),
+            'end_date_time' => $end->toDateTimeString(),
+            'duration' => (int) $validated['duration'],
+        ],
+    ]);
+
+    // Temporary redirect until your login system is ready.
+    return redirect('/login');
+
+})->name('rooms.book');
