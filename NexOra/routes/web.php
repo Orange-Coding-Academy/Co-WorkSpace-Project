@@ -25,12 +25,12 @@ Route::prefix('manager')->group(function () {
         ->name('manager.ai.ask');
 
 
-Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
-    ->name('manager.ai.marketing');
+    Route::post('/ai/marketing', [ManagerAIController::class, 'generateMarketing'])
+        ->name('manager.ai.marketing');
     Route::post('/ai/marketing/send', [ManagerAIController::class, 'sendMarketing'])
-    ->name('manager.ai.marketing.send');
-    });
-  Route::post('/reviews', [ReviewController::class, 'store'])
+        ->name('manager.ai.marketing.send');
+});
+Route::post('/reviews', [ReviewController::class, 'store'])
     ->name('reviews.store');
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -46,18 +46,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])
         ->name('reviews.destroy');
-        Route::get('/payments', [PaymentController::class, 'index'])
-            ->name('payments.index');
+    Route::get('/payments', [PaymentController::class, 'index'])
+        ->name('payments.index');
 
-        Route::get('/payments/{id}', [PaymentController::class, 'show'])
-            ->whereNumber('id')
-            ->name('payments.show');
-        
-Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/payments/{id}', [PaymentController::class, 'show'])
+        ->whereNumber('id')
+        ->name('payments.show');
 
-Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+    Route::get('userindex', [UserController::class, 'index'])->name('admin.users.index');
 
-Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
+    Route::put('deactivate/{id}', [UserController::class, 'deactivate'])->name('admin.users.deactivate');
+
+    Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.show');
 });
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();
