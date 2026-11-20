@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,6 +199,65 @@
             font-size: 12px;
             margin-top: 6px;
         }
+        .membership-item {
+    border: 1px solid #edf0f4;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 16px;
+}
+
+.membership-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.membership-header h3 {
+    margin: 0;
+    color: #183047;
+    font-size: 18px;
+}
+
+.membership-status {
+    background: #e0f4f2;
+    color: #138f88;
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.membership-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.membership-details span {
+    display: block;
+    color: #788596;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.membership-details strong {
+    color: #1c293b;
+    font-size: 14px;
+}
+
+.no-memberships {
+    color: #788596;
+    font-size: 14px;
+}
+
+@media (max-width: 650px) {
+    .membership-details {
+        grid-template-columns: 1fr;
+    }
+}
 
         @media (max-width: 650px) {
             .form-grid { grid-template-columns: 1fr; }
@@ -387,6 +445,22 @@
         </div>
 
     </div>
+{{-- My Memberships --}}
+<div class="profile-card">
+
+    <h2 class="section-title">My Memberships</h2>
+
+    <p class="subtitle">
+        View and manage your workspace memberships.
+    </p>
+
+   <a href="{{ route('member.memberships.index') }}"
+   class="btn btn-primary"
+   style="display: inline-block; text-decoration: none;">
+    View My Memberships
+</a>
+
+</div>
 
 </div>
 
