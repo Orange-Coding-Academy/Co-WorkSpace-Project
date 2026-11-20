@@ -1,5 +1,7 @@
 @extends('layouts.dashboard')
 
+@section('dashboard-role', 'admin')
+
 @section('title', 'Admin Dashboard')
 @section('page-title', 'Dashboard')
 

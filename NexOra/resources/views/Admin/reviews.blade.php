@@ -1,7 +1,20 @@
 
-@extends('layouts.app')
+@extends('layouts.dashboard')
+
+@section('dashboard-role', 'admin')
+@section('title', 'Reviews')
+@section('page-title', 'Reviews')
+
+@push('styles')
+@include('layouts.dashboard.partials.app-compat-styles')
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@endpush
 
 @section('content')
+<div class="nx-page-content py-4">
 
 <div class="container-fluid py-4">
 
@@ -201,4 +214,5 @@
 
 </div>
 
+</div>
 @endsection

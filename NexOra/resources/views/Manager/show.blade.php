@@ -13,7 +13,7 @@
 
 <style>
     .review-label {
-        color: #8490a3;
+        color: #7F8B84;
         font-size: 13px;
         margin-bottom: 5px;
     }
@@ -30,8 +30,8 @@
     }
 
     .review-comment {
-        background: #f7f8fb;
-        border: 1px solid #e9edf3;
+        background: #F8FAF7;
+        border: 1px solid #E9EEE9;
         border-radius: 10px;
         padding: 18px;
         line-height: 1.7;
