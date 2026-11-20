@@ -1,942 +1,446 @@
-<main class="cw-dashboard">
+@extends('layouts.dashboard')
 
-    <div class="cw-page-header">
-        <div>
-            <span class="cw-eyebrow">ADMINISTRATION</span>
-            <h1>Platform Overview</h1>
-            <p>Monitor your platform performance and business activity.</p>
-        </div>
+@section('title', 'Admin Dashboard')
+@section('page-title', 'Dashboard')
 
-        <div class="cw-header-actions">
-            <form method="GET" action="{{ route('admin.AdminDashboard') }}" class="cw-date-filter-form">
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-dashboard.css') }}">
+@endpush
 
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <rect x="3" y="5" width="18" height="16" rx="2" />
-                    <path d="M16 3v4M8 3v4M3 10h18" />
-                </svg>
+@section('content')
 
-                <select name="period" onchange="this.form.submit()">
-                    <option value="today" @selected($period === 'today')>
-                        Today
-                    </option>
+    <div class="nx-admin-dashboard">
 
-                    <option value="7d" @selected($period === '7d')>
-                        Last 7 Days
-                    </option>
-
-                    <option value="30d" @selected($period === '30d')>
-                        Last 30 Days
-                    </option>
-
-                    <option value="90d" @selected($period === '90d')>
-                        Last 90 Days
-                    </option>
-
-                    <option value="this_month" @selected($period === 'this_month')>
-                        This Month
-                    </option>
-                </select>
-
-            </form>
-            <button class="cw-export-btn" type="button" disabled>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M12 3v12m-5-5 5 5 5-5" />
-                    <path d="M5 17v4h14v-4" />
-                </svg>
-                Export Report
-            </button>
-        </div>
-    </div>
-
-    {{-- KPI CARDS --}}
-    <section class="cw-kpi-grid">
-
-        <div class="cw-kpi-card">
-            <div class="cw-kpi-top">
-                <span class="cw-kpi-icon green">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M12 2v20m5-15H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg>
-                </span>
-                <span class="cw-kpi-label">PLATFORM COMMISSION</span>
+        <section class="nx-page-header">
+            <div class="nx-page-header__copy">
+                <span class="nx-eyebrow">ADMINISTRATION</span>
+                <h1>Platform Overview</h1>
+                <p>Monitor your platform performance and business activity.</p>
             </div>
-            <h2>
-                {{ isset($kpis['platformCommission']) ? number_format((float) $kpis['platformCommission'], 2) : '—' }}
-                <small>JOD</small>
-            </h2>
-            <span class="cw-kpi-description">Platform earnings from bookings</span>
-        </div>
 
-        <div class="cw-kpi-card">
-            <div class="cw-kpi-top">
-                <span class="cw-kpi-icon blue">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <rect x="3" y="5" width="18" height="14" rx="2" />
-                        <path d="M3 10h18M7 15h3" />
-                    </svg>
-                </span>
-                <span class="cw-kpi-label">BOOKING GMV</span>
+            <div class="nx-page-header__actions">
+
+                <form method="GET" action="{{ route('admin.AdminDashboard') }}" class="nx-date-filter">
+
+                    <i data-feather="calendar"></i>
+
+                    <select name="period" aria-label="Filter dashboard period" onchange="this.form.submit()">
+
+                        <option value="today" @selected($period === 'today')>
+                            Today
+                        </option>
+
+                        <option value="7d" @selected($period === '7d')>
+                            Last 7 Days
+                        </option>
+
+                        <option value="30d" @selected($period === '30d')>
+                            Last 30 Days
+                        </option>
+
+                        <option value="90d" @selected($period === '90d')>
+                            Last 90 Days
+                        </option>
+
+                        <option value="this_month" @selected($period === 'this_month')>
+                            This Month
+                        </option>
+
+                    </select>
+                </form>
+
+                <button type="button" class="nx-btn nx-btn--primary" disabled
+                    title="Export functionality is not implemented yet">
+
+                    <i data-feather="download"></i>
+                    <span>Export Report</span>
+                </button>
+
             </div>
-            <h2>
-                {{ isset($kpis['bookingGMV']) ? number_format((float) $kpis['bookingGMV'], 2) : '—' }}
-                <small>JOD</small>
-            </h2>
-            <span class="cw-kpi-description">Total eligible booking value</span>
-        </div>
+        </section>
 
-        <div class="cw-kpi-card">
-            <div class="cw-kpi-top">
-                <span class="cw-kpi-icon purple">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <rect x="3" y="4" width="18" height="17" rx="2" />
-                        <path d="M16 2v4M8 2v4M3 9h18m-13 5 2 2 4-4" />
-                    </svg>
-                </span>
-                <span class="cw-kpi-label">TOTAL BOOKINGS</span>
-            </div>
-            <h2>
-                {{ isset($kpis['totalBookings']) ? number_format($kpis['totalBookings']) : '—' }}
-            </h2>
-            <span class="cw-kpi-description">Bookings created during the period</span>
-        </div>
 
-        <div class="cw-kpi-card">
-            <div class="cw-kpi-top">
-                <span class="cw-kpi-icon orange">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <circle cx="9" cy="8" r="4" />
-                        <path d="M2 21v-2a7 7 0 0 1 14 0v2M16 4a4 4 0 0 1 0 8m2 3a6 6 0 0 1 4 6" />
-                    </svg>
-                </span>
-                <span class="cw-kpi-label">TOTAL MEMBERS</span>
-            </div>
-            <h2>
-                {{ isset($kpis['totalMembers']) ? number_format($kpis['totalMembers']) : '—' }}
-            </h2>
-            <span class="cw-kpi-description">Registered members</span>
-        </div>
+        <section class="nx-kpi-grid">
 
-        <div class="cw-kpi-card">
-            <div class="cw-kpi-top">
-                <span class="cw-kpi-icon teal">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 9h.01M15 9h.01" />
-                    </svg>
-                </span>
-                <span class="cw-kpi-label">ACTIVE WORKSPACES</span>
-            </div>
-            <h2>
-                {{ isset($kpis['activeWorkspaces']) ? number_format($kpis['activeWorkspaces']) : '—' }}
-            </h2>
-            <span class="cw-kpi-description">Approved and bookable spaces</span>
-        </div>
-
-    </section>
-
-    {{-- CHARTS SECTION --}}
-    <section class="cw-charts-grid">
-
-        <div class="cw-panel cw-revenue-panel">
-            <div class="cw-panel-header">
-                <div>
-                    <h3>Revenue Performance</h3>
-                    <p>Booking value and platform commission over time</p>
+            <article class="nx-card nx-kpi-card">
+                <div class="nx-kpi-card__top">
+                    <div class="nx-kpi-card__icon">
+                        <i data-feather="trending-up"></i>
+                    </div>
+                    <span class="nx-kpi-card__label">PLATFORM COMMISSION</span>
                 </div>
-                <span class="cw-panel-tag">Financial Overview</span>
-            </div>
 
-            <div class="cw-chart-container">
-                <canvas id="revenueChart"></canvas>
-                <div class="cw-chart-empty" id="revenueEmpty">
-                    <span class="cw-empty-icon">⌁</span>
-                    <strong>No revenue data available</strong>
-                    <p>Revenue statistics will appear here once data is connected.</p>
+                <h2 class="nx-kpi-card__value">
+                    {{ number_format((float) ($kpis['platformCommission'] ?? 0), 2) }}
+                    <small>JOD</small>
+                </h2>
+
+                <p class="nx-kpi-card__description">
+                    Platform earnings from bookings
+                </p>
+            </article>
+
+
+            <article class="nx-card nx-kpi-card">
+                <div class="nx-kpi-card__top">
+                    <div class="nx-kpi-card__icon">
+                        <i data-feather="wallet"></i>
+                    </div>
+                    <span class="nx-kpi-card__label">BOOKING GMV</span>
                 </div>
-            </div>
-        </div>
 
-        <div class="cw-panel cw-bookings-panel">
-            <div class="cw-panel-header">
-                <div>
-                    <h3>Booking Overview</h3>
-                    <p>Booking status distribution</p>
+                <h2 class="nx-kpi-card__value">
+                    {{ number_format((float) ($kpis['bookingGMV'] ?? 0), 2) }}
+                    <small>JOD</small>
+                </h2>
+
+                <p class="nx-kpi-card__description">
+                    Total eligible booking value
+                </p>
+            </article>
+
+
+            <article class="nx-card nx-kpi-card">
+                <div class="nx-kpi-card__top">
+                    <div class="nx-kpi-card__icon">
+                        <i data-feather="calendar-check"></i>
+                    </div>
+                    <span class="nx-kpi-card__label">TOTAL BOOKINGS</span>
                 </div>
-                <span class="cw-panel-tag">Bookings</span>
-            </div>
 
-            <div class="cw-donut-wrapper">
-                <canvas id="bookingChart"></canvas>
-                <div class="cw-chart-empty" id="bookingEmpty">
-                    <span class="cw-empty-icon">◷</span>
-                    <strong>No booking data available</strong>
-                    <p>Booking statistics will appear here.</p>
+                <h2 class="nx-kpi-card__value">
+                    {{ number_format((int) ($kpis['totalBookings'] ?? 0)) }}
+                </h2>
+
+                <p class="nx-kpi-card__description">
+                    Bookings created during the period
+                </p>
+            </article>
+
+
+            <article class="nx-card nx-kpi-card">
+                <div class="nx-kpi-card__top">
+                    <div class="nx-kpi-card__icon">
+                        <i data-feather="users"></i>
+                    </div>
+                    <span class="nx-kpi-card__label">TOTAL MEMBERS</span>
                 </div>
-            </div>
 
-            <div class="cw-chart-legend" id="bookingLegend"></div>
-        </div>
+                <h2 class="nx-kpi-card__value">
+                    {{ number_format((int) ($kpis['totalMembers'] ?? 0)) }}
+                </h2>
 
-    </section>
+                <p class="nx-kpi-card__description">
+                    Registered members
+                </p>
+            </article>
 
-    {{-- BOTTOM SECTION --}}
-    <section class="cw-bottom-grid">
 
-        <div class="cw-panel cw-workspaces-panel">
-
-            <div class="cw-panel-header">
-                <div>
-                    <h3>Top Performing Workspaces</h3>
-                    <p>Workspaces ranked by booking activity</p>
+            <article class="nx-card nx-kpi-card">
+                <div class="nx-kpi-card__top">
+                    <div class="nx-kpi-card__icon">
+                        <i data-feather="briefcase"></i>
+                    </div>
+                    <span class="nx-kpi-card__label">ACTIVE WORKSPACES</span>
                 </div>
-                <a href="#" class="cw-view-all">View All →</a>
-            </div>
 
-            <div class="cw-table-wrapper">
-                <table class="cw-table">
-                    <thead>
-                        <tr>
-                            <th>WORKSPACE</th>
-                            <th>BOOKINGS</th>
-                            <th>GMV</th>
-                            <th>PERFORMANCE</th>
-                        </tr>
-                    </thead>
+                <h2 class="nx-kpi-card__value">
+                    {{ number_format((int) ($kpis['activeWorkspaces'] ?? 0)) }}
+                </h2>
 
-                    <tbody>
-                        @forelse ($topWorkspaces as $index => $workspace)
+                <p class="nx-kpi-card__description">
+                    Approved and bookable spaces
+                </p>
+            </article>
+
+        </section>
+
+
+        <section class="nx-dashboard-grid nx-dashboard-grid--charts">
+
+            <article class="nx-card nx-dashboard-panel nx-revenue-panel">
+
+                <div class="nx-panel-header">
+                    <div>
+                        <h3>Revenue Performance</h3>
+                        <p>Booking value and platform commission over time</p>
+                    </div>
+
+                    <span class="nx-panel-tag">
+                        Financial Overview
+                    </span>
+                </div>
+
+                <div class="nx-chart-container">
+                    <canvas id="revenueChart"></canvas>
+
+                    <div class="nx-chart-empty" id="revenueEmpty">
+                        <i data-feather="bar-chart-2"></i>
+                        <strong>No revenue data available</strong>
+                        <p>Revenue statistics will appear here once data is available.</p>
+                    </div>
+                </div>
+
+            </article>
+
+
+            <article class="nx-card nx-dashboard-panel nx-bookings-panel">
+
+                <div class="nx-panel-header">
+                    <div>
+                        <h3>Booking Overview</h3>
+                        <p>Booking status distribution</p>
+                    </div>
+
+                    <span class="nx-panel-tag">
+                        Bookings
+                    </span>
+                </div>
+
+                <div class="nx-donut-wrapper">
+                    <canvas id="bookingChart"></canvas>
+
+                    <div class="nx-chart-empty" id="bookingEmpty">
+                        <i data-feather="pie-chart"></i>
+                        <strong>No booking data available</strong>
+                        <p>Booking statistics will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="nx-chart-legend" id="bookingLegend"></div>
+
+            </article>
+
+        </section>
+
+
+        {{-- WORKSPACES AND ACTIVITIES --}}
+        <section class="nx-dashboard-grid nx-dashboard-grid--bottom">
+
+            {{-- TOP WORKSPACES --}}
+            <article class="nx-card nx-dashboard-panel">
+
+                <div class="nx-panel-header">
+                    <div>
+                        <h3>Top Performing Workspaces</h3>
+                        <p>Workspaces ranked by booking activity</p>
+                    </div>
+
+                    <a href="{{ url('/admin/workspaces') }}" class="nx-text-link">
+                        View All
+                        <i data-feather="arrow-up-right"></i>
+                    </a>
+                </div>
+
+                <div class="nx-table-wrapper">
+
+                    <table class="nx-table">
+
+                        <thead>
                             <tr>
-                                {{-- Workspace Name --}}
-                                <td>
-                                    <strong>{{ $workspace['name'] }}</strong>
-                                </td>
-
-                                {{-- Total Bookings --}}
-                                <td>
-                                    {{ number_format($workspace['totalBookings']) }}
-                                </td>
-
-                                {{-- GMV --}}
-                                <td>
-                                    {{ number_format($workspace['totalGMV'], 2) }} JOD
-                                </td>
-
-                                {{-- Performance --}}
-                                <td>
-                                    @php
-                                        $maxBookings = max(collect($topWorkspaces)->max('totalBookings'), 1);
-
-                                        $performance = ($workspace['totalBookings'] / $maxBookings) * 100;
-                                    @endphp
-
-                                    <div class="cw-performance">
-                                        <div class="cw-performance-track">
-                                            <div class="cw-performance-fill" style="width: {{ $performance }}%">
-                                            </div>
-                                        </div>
-
-                                        <span>{{ round($performance) }}%</span>
-                                    </div>
-                                </td>
+                                <th>WORKSPACE</th>
+                                <th>BOOKINGS</th>
+                                <th>GMV</th>
+                                <th>PERFORMANCE</th>
                             </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @php
+                                $maxBookings = max(collect($topWorkspaces)->max('totalBookings') ?? 0, 1);
+                            @endphp
+
+                            @forelse ($topWorkspaces as $workspace)
+                                @php
+                                    $performance = ($workspace['totalBookings'] / $maxBookings) * 100;
+                                @endphp
+
+                                <tr>
+                                    <td>
+                                        <strong class="nx-table-primary">
+                                            {{ $workspace['name'] }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ number_format($workspace['totalBookings']) }}
+                                    </td>
+
+                                    <td>
+                                        {{ number_format($workspace['totalGMV'], 2) }}
+                                        <small>JOD</small>
+                                    </td>
+
+                                    <td>
+                                        <div class="nx-performance">
+                                            <div class="nx-progress">
+                                                <div class="nx-progress__bar" style="width: {{ $performance }}%">
+                                                </div>
+                                            </div>
+
+                                            <span>{{ round($performance) }}%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="nx-empty-state">
+                                            <i data-feather="inbox"></i>
+                                            <strong>No workspace data available</strong>
+                                            <p>Workspace performance will appear here.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+
+            {{-- RECENT ACTIVITIES --}}
+            <article class="nx-card nx-dashboard-panel">
+
+                <div class="nx-panel-header">
+                    <div>
+                        <h3>Recent Activity</h3>
+                        <p>Latest platform activities</p>
+                    </div>
+
+                    <span class="nx-panel-tag">
+                        Latest
+                    </span>
+                </div>
+
+                <div class="nx-activity-list">
+
+                    @forelse ($recentActivities as $activity)
+                        <div class="nx-activity-item">
+
+                            <div class="nx-activity-icon nx-activity-icon--{{ $activity['type'] }}">
+
+                                @switch($activity['type'])
+                                    @case('booking')
+                                        <i data-feather="calendar"></i>
+                                    @break
+
+                                    @case('payment')
+                                        <i data-feather="credit-card"></i>
+                                    @break
+
+                                    @case('user')
+                                        <i data-feather="user"></i>
+                                    @break
+
+                                    @case('workspace')
+                                        <i data-feather="briefcase"></i>
+                                    @break
+
+                                    @default
+                                        <i data-feather="activity"></i>
+                                @endswitch
+
+                            </div>
+
+                            <div class="nx-activity-content">
+                                <strong>{{ $activity['title'] }}</strong>
+                                <p>{{ $activity['description'] }}</p>
+                            </div>
+
+                            <time datetime="{{ $activity['createdAt'] }}">
+                                {{ \Carbon\Carbon::parse($activity['createdAt'])->diffForHumans() }}
+                            </time>
+
+                        </div>
 
                         @empty
-                            <tr>
-                                <td colspan="4" class="cw-empty-table">
-                                    <div class="cw-table-empty">
-                                        <span>⌕</span>
-                                        <strong>No workspace data available</strong>
-                                        <p>Workspace performance will appear here.</p>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            <div class="nx-empty-state">
+                                <i data-feather="clock"></i>
+                                <strong>No recent activity</strong>
+                                <p>Platform activity will appear here.</p>
+                            </div>
                         @endforelse
-                    </tbody>
-
-                </table>
-            </div>
-
-        </div>
-
-        <div class="cw-panel cw-activity-panel">
-
-            <div class="cw-panel-header">
-                <div>
-                    <h3>Recent Activity</h3>
-                    <p>Latest platform activities</p>
-                </div>
-                <span class="cw-live-indicator">ACTIVITY</span>
-            </div>
-
-            <div class="cw-activity-list">
-
-                @forelse ($recentActivities as $activity)
-                    <div class="cw-activity-item">
-
-                        <div class="cw-activity-icon cw-activity-icon--{{ $activity['type'] }}">
-
-                            @switch($activity['type'])
-                                @case('booking')
-                                    <span>▣</span>
-                                @break
-
-                                @case('payment')
-                                    <span>₿</span>
-                                @break
-
-                                @case('user')
-                                    <span>♙</span>
-                                @break
-
-                                @case('workspace')
-                                    <span>⌂</span>
-                                @break
-                            @endswitch
-
-                        </div>
-
-                        <div class="cw-activity-content">
-                            <strong>{{ $activity['title'] }}</strong>
-                            <p>{{ $activity['description'] }}</p>
-                        </div>
-
-                        <time datetime="{{ $activity['createdAt'] }}">
-                            {{ \Carbon\Carbon::parse($activity['createdAt'])->diffForHumans() }}
-                        </time>
 
                     </div>
 
+                </article>
+
+            </section>
+
+
+            {{-- ALERTS --}}
+            <section class="nx-card nx-dashboard-panel nx-alerts-panel">
+
+                <div class="nx-panel-header">
+                    <div>
+                        <h3>Platform Alerts</h3>
+                        <p>Actions that may require your attention</p>
+                    </div>
+
+                    <span class="nx-panel-tag">
+                        Notifications
+                    </span>
+                </div>
+
+                <div class="nx-alert-list">
+
+                    @forelse ($alerts as $alert)
+                        <div class="nx-alert nx-alert--{{ $alert['priority'] ?? 'warning' }}">
+
+                            <div class="nx-alert__icon">
+                                <i data-feather="alert-triangle"></i>
+                            </div>
+
+                            <div class="nx-alert__content">
+                                <strong>{{ $alert['title'] }}</strong>
+                                <p>{{ $alert['description'] }}</p>
+                            </div>
+
+                            <span class="nx-alert__count">
+                                {{ $alert['count'] }}
+                            </span>
+
+                        </div>
+
                     @empty
 
-                        <div class="cw-activity-empty">
-                            <span>◷</span>
-                            <strong>No recent activity</strong>
-                            <p>Platform activity will appear here.</p>
+                        <div class="nx-alert-empty">
+                            <i data-feather="check-circle"></i>
+
+                            <div>
+                                <strong>All Clear</strong>
+                                <p>There are no pending actions requiring attention.</p>
+                            </div>
                         </div>
                     @endforelse
 
                 </div>
 
-            </div>
+            </section>
 
-        </section>
+        </div>
 
-        {{-- ALERTS --}}
-        <section class="cw-panel cw-alerts-panel">
-            <div class="cw-alert-list">
+    @endsection
 
-                @forelse ($alerts as $alert)
-                    <div class="cw-alert-item">
 
-                        <div class="cw-alert-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                                <path d="m12 3 10 18H2L12 3Z" />
-                                <path d="M12 9v5m0 3h.01" />
-                            </svg>
-                        </div>
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 
-                        <div class="cw-alert-content">
-                            <strong>{{ $alert['title'] }}</strong>
-                            <p>{{ $alert['description'] }}</p>
-                        </div>
+        <script>
+            window.adminDashboardData = {
+                revenue: @json($revenueChart),
+                bookingStatuses: @json($bookingStatuses),
+            };
+        </script>
 
-                        <span class="cw-alert-count">
-                            {{ $alert['count'] }}
-                        </span>
-
-                    </div>
-
-                @empty
-
-                    <div class="cw-alert-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                            <path d="m5 12 4 4L19 6" />
-                        </svg>
-
-                        <div>
-                            <strong>All Clear</strong>
-                            <p>There are no pending actions requiring attention.</p>
-                        </div>
-                    </div>
-                @endforelse
-
-            </div>
-        </section>
-
-    </main>
-
-    <style>
-        .cw-dashboard {
-            --cw-primary: #526044;
-            --cw-primary-dark: #3d4933;
-            --cw-bg: #f7f8f6;
-            --cw-card: #ffffff;
-            --cw-border: #e9ece7;
-            --cw-text: #20271f;
-            --cw-muted: #879087;
-
-            min-height: 100vh;
-            padding: 32px;
-            background: var(--cw-bg);
-            color: var(--cw-text);
-            font-family: inherit;
-            box-sizing: border-box;
-        }
-
-        .cw-dashboard *,
-        .cw-dashboard *::before,
-        .cw-dashboard *::after {
-            box-sizing: border-box;
-        }
-
-        .cw-page-header,
-        .cw-header-actions,
-        .cw-kpi-top,
-        .cw-panel-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .cw-page-header {
-            margin-bottom: 30px;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .cw-eyebrow {
-            color: var(--cw-primary);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .cw-page-header h1 {
-            font-size: 29px;
-            font-weight: 750;
-            letter-spacing: -0.8px;
-            margin: 7px 0;
-        }
-
-        .cw-page-header p,
-        .cw-panel-header p {
-            color: var(--cw-muted);
-            font-size: 13px;
-            margin: 0;
-        }
-
-        .cw-header-actions {
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .cw-date-filter,
-        .cw-export-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            padding: 11px 14px;
-            border: 1px solid var(--cw-border);
-            border-radius: 9px;
-            font-size: 12px;
-            font-weight: 600;
-            background: white;
-            color: #4b5549;
-        }
-
-        .cw-date-filter svg,
-        .cw-export-btn svg {
-            width: 17px;
-            height: 17px;
-        }
-
-        .cw-export-btn {
-            background: var(--cw-primary);
-            color: white;
-            border-color: var(--cw-primary);
-            cursor: not-allowed;
-            opacity: .65;
-        }
-
-        /* KPI CARDS */
-
-        .cw-kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 15px;
-            margin-bottom: 22px;
-        }
-
-        .cw-kpi-card {
-            padding: 19px;
-            background: var(--cw-card);
-            border: 1px solid var(--cw-border);
-            border-radius: 13px;
-            min-width: 0;
-            transition: transform .2s ease, box-shadow .2s ease;
-        }
-
-        .cw-kpi-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(35, 48, 30, .06);
-        }
-
-        .cw-kpi-top {
-            justify-content: flex-start;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .cw-kpi-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-
-        .cw-kpi-icon svg {
-            width: 19px;
-            height: 19px;
-        }
-
-        .cw-kpi-icon.green {
-            background: #edf4e9;
-            color: #607e4b;
-        }
-
-        .cw-kpi-icon.blue {
-            background: #eaf1f8;
-            color: #537caa;
-        }
-
-        .cw-kpi-icon.purple {
-            background: #f0edfa;
-            color: #8170b1;
-        }
-
-        .cw-kpi-icon.orange {
-            background: #fbf0e5;
-            color: #c1844b;
-        }
-
-        .cw-kpi-icon.teal {
-            background: #e6f3f0;
-            color: #4d8d7e;
-        }
-
-        .cw-kpi-label {
-            color: #879087;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: .65px;
-            line-height: 1.5;
-        }
-
-        .cw-kpi-card h2 {
-            font-size: clamp(20px, 2vw, 26px);
-            font-weight: 750;
-            letter-spacing: -1px;
-            margin: 0 0 8px;
-            overflow-wrap: anywhere;
-        }
-
-        .cw-kpi-card h2 small {
-            font-size: 12px;
-            color: var(--cw-muted);
-            font-weight: 500;
-            letter-spacing: 0;
-        }
-
-        .cw-kpi-description {
-            color: var(--cw-muted);
-            font-size: 10px;
-            line-height: 1.5;
-        }
-
-        /* PANELS */
-
-        .cw-charts-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr);
-            gap: 17px;
-            margin-bottom: 20px;
-        }
-
-        .cw-panel {
-            min-width: 0;
-            padding: 22px;
-            background: var(--cw-card);
-            border: 1px solid var(--cw-border);
-            border-radius: 13px;
-        }
-
-        .cw-panel-header {
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .cw-panel-header h3 {
-            margin: 0 0 6px;
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--cw-text);
-        }
-
-        .cw-panel-header p {
-            font-size: 11px;
-        }
-
-        .cw-panel-tag {
-            color: #718064;
-            background: #f0f4ed;
-            border-radius: 6px;
-            padding: 7px 9px;
-            font-size: 9px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .cw-chart-container {
-            height: 270px;
-            position: relative;
-        }
-
-        .cw-donut-wrapper {
-            height: 220px;
-            max-width: 260px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .cw-chart-empty {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: var(--cw-muted);
-            background: #fff;
-            z-index: 1;
-        }
-
-        .cw-empty-icon {
-            font-size: 27px;
-            color: #a7b09e;
-            margin-bottom: 9px;
-        }
-
-        .cw-chart-empty strong,
-        .cw-table-empty strong,
-        .cw-activity-empty strong {
-            font-size: 12px;
-            color: #657060;
-            font-weight: 650;
-        }
-
-        .cw-chart-empty p,
-        .cw-table-empty p,
-        .cw-activity-empty p {
-            font-size: 10px;
-            margin: 6px 0 0;
-            line-height: 1.6;
-        }
-
-        .cw-chart-legend {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 14px;
-            font-size: 10px;
-            color: var(--cw-muted);
-        }
-
-        /* BOTTOM */
-
-        .cw-bottom-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.55fr) minmax(270px, 1fr);
-            gap: 17px;
-            margin-bottom: 20px;
-        }
-
-        .cw-view-all {
-            color: var(--cw-primary);
-            font-size: 11px;
-            font-weight: 650;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .cw-table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        .cw-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        .cw-table th {
-            padding: 13px 10px;
-            border-bottom: 1px solid var(--cw-border);
-            color: #939b91;
-            font-size: 9px;
-            font-weight: 750;
-            letter-spacing: .5px;
-            white-space: nowrap;
-        }
-
-        .cw-table td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #f1f2ef;
-            font-size: 11px;
-        }
-
-        .cw-empty-table {
-            height: 180px;
-            text-align: center;
-        }
-
-        .cw-table-empty,
-        .cw-activity-empty {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            color: var(--cw-muted);
-        }
-
-        .cw-table-empty span,
-        .cw-activity-empty span {
-            font-size: 25px;
-            color: #a9b2a2;
-            margin-bottom: 10px;
-        }
-
-        .cw-live-indicator,
-        .cw-alert-badge {
-            font-size: 9px;
-            letter-spacing: .5px;
-            font-weight: 750;
-            color: #77876b;
-            background: #f0f4ed;
-            padding: 7px 10px;
-            border-radius: 6px;
-        }
-
-        .cw-activity-list {
-            min-height: 180px;
-        }
-
-        .cw-alerts-panel {
-            margin-bottom: 20px;
-        }
-
-        .cw-alert-empty {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px;
-            background: #f8f9f7;
-            border-radius: 9px;
-            color: var(--cw-muted);
-        }
-
-        .cw-alert-empty svg {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            color: #8b967e;
-        }
-
-        .cw-alert-empty strong {
-            display: block;
-            color: #596451;
-            font-size: 12px;
-        }
-
-        .cw-alert-empty p {
-            margin: 5px 0 0;
-            font-size: 10px;
-        }
-
-        /* RESPONSIVE */
-
-        @media (max-width: 1250px) {
-            .cw-kpi-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 900px) {
-
-            .cw-charts-grid,
-            .cw-bottom-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cw-dashboard {
-                padding: 22px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .cw-dashboard {
-                padding: 15px;
-            }
-
-            .cw-kpi-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 10px;
-            }
-
-            .cw-kpi-card {
-                padding: 14px;
-            }
-
-            .cw-kpi-top {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 9px;
-            }
-
-            .cw-kpi-label {
-                font-size: 8px;
-            }
-
-            .cw-page-header h1 {
-                font-size: 24px;
-            }
-
-            .cw-header-actions {
-                width: 100%;
-            }
-
-            .cw-date-filter,
-            .cw-export-btn {
-                justify-content: center;
-                flex: 1;
-            }
-
-            .cw-panel {
-                padding: 15px;
-            }
-
-            .cw-panel-header {
-                align-items: flex-start;
-            }
-        }
-
-
-        .cw-performance {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 100px;
-        }
-
-        .cw-performance-track {
-            flex: 1;
-            height: 6px;
-            background: #edf0ea;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .cw-performance-fill {
-            height: 100%;
-            background: var(--cw-primary);
-            border-radius: 10px;
-            transition: width .3s ease;
-        }
-
-        .cw-performance span {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--cw-primary);
-            min-width: 30px;
-        }
-
-        .cw-activity-list {
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cw-activity-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 13px 0;
-            border-bottom: 1px solid var(--cw-border);
-        }
-
-        .cw-activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .cw-activity-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 17px;
-            font-weight: 700;
-        }
-
-        .cw-activity-icon--booking {
-            background: #edf2e9;
-            color: #526044;
-        }
-
-        .cw-activity-icon--payment {
-            background: #eaf3ef;
-            color: #43816a;
-        }
-
-        .cw-activity-icon--user {
-            background: #f1eef8;
-            color: #77649b;
-        }
-
-        .cw-activity-icon--workspace {
-            background: #f5f0e8;
-            color: #a17d49;
-        }
-
-        .cw-activity-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cw-activity-content strong {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--cw-text);
-        }
-
-        .cw-activity-content p {
-            margin: 4px 0 0;
-            font-size: 10px;
-            color: var(--cw-muted);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .cw-activity-item time {
-            font-size: 9px;
-            color: var(--cw-muted);
-            white-space: nowrap;
-        }
-    </style>
+        <script src="{{ asset('js/pages/admin-dashboard.js') }}"></script>
+    @endpush

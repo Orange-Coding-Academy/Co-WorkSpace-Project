@@ -1,0 +1,101 @@
+/* Load these families once through the existing Blade layout or Vite pipeline. */
+:root {
+    --nx-font-heading: "Manrope", "Noto Sans Arabic", sans-serif;
+    --nx-font-body: "Inter", "Noto Sans Arabic", sans-serif;
+
+    --nx-text-display: 3rem;
+    --nx-text-h1: 2.25rem;
+    --nx-text-h2: 1.875rem;
+    --nx-text-h3: 1.5rem;
+    --nx-text-h4: 1.25rem;
+    --nx-text-body-lg: 1.125rem;
+    --nx-text-body: 1rem;
+    --nx-text-body-sm: 0.875rem;
+    --nx-text-caption: 0.75rem;
+    --nx-text-label: 0.8125rem;
+}
+
+html {
+    font-family: var(--nx-font-body);
+}
+body {
+    color: var(--nx-text);
+    font-family: var(--nx-font-body);
+    font-size: var(--nx-text-body);
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+.nx-heading {
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    margin: 0;
+}
+h1,
+.nx-h1 {
+    font-size: var(--nx-text-h1);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+h2,
+.nx-h2 {
+    font-size: var(--nx-text-h2);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+h3,
+.nx-h3 {
+    font-size: var(--nx-text-h3);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+h4,
+.nx-h4 {
+    font-size: var(--nx-text-h4);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+.nx-display {
+    font-family: var(--nx-font-heading);
+    font-size: var(--nx-text-display);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+}
+.nx-body-lg {
+    font-size: var(--nx-text-body-lg);
+    line-height: 1.65;
+}
+.nx-body-sm {
+    font-size: var(--nx-text-body-sm);
+    line-height: 1.5;
+}
+.nx-caption {
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    line-height: 1.45;
+}
+.nx-label {
+    color: var(--nx-text);
+    font-size: var(--nx-text-label);
+    font-weight: 500;
+    line-height: 1.4;
+}
+.nx-muted {
+    color: var(--nx-text-secondary);
+}
+
+:lang(ar),
+[dir="rtl"] {
+    letter-spacing: normal;
+}
