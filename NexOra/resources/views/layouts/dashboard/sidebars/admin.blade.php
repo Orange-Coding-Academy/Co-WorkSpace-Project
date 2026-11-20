@@ -1,63 +1,53 @@
-<aside class="nx-dashboard__sidebar">
+@php
+    // name => [route name (used only when registered), existing fallback path, active path pattern, label]
+    $nxAdminLinks = [
+        ['admin.AdminDashboard', '/admin/dashboard', 'admin/dashboard', 'Dashboard', 'grid'],
+        ['admin.users.index', '/admin/userindex', 'admin/userindex*', 'Users', 'users'],
+        ['admin.workspaces', '/admin/workspaces', 'admin/workspaces*', 'Workspaces', 'briefcase'],
+        [null, '/admin/bookings', 'admin/bookings*', 'Bookings', 'calendar'],
+        ['admin.payments.index', '/admin/payments', 'admin/payments*', 'Payments', 'credit-card'],
+        ['admin.reviews.index', '/admin/reviews', 'admin/reviews*', 'Reviews', 'star'],
+    ];
+    $nxHomeUrl = Route::has('admin.AdminDashboard') ? route('admin.AdminDashboard') : url('/admin/dashboard');
+@endphp
+<aside class="nx-dashboard__sidebar" id="nxSidebar">
 
     <div class="nx-sidebar__brand">
-        <a href="{{ url('/admin/dashboard') }}" class="nx-sidebar__logo">
+        <a href="{{ $nxHomeUrl }}" class="nx-sidebar__logo">
             NexOra
         </a>
         <span class="nx-sidebar__subtitle">Admin Panel</span>
     </div>
 
-    <nav class="nx-sidebar__nav">
+    <nav class="nx-sidebar__nav" aria-label="Admin navigation">
 
         <span class="nx-sidebar__section">MAIN MENU</span>
 
-        <a href="{{ url('/admin/dashboard') }}"
-            class="nx-sidebar__link {{ request()->is('admin/dashboard') ? 'is-active' : '' }}">
-            <i data-feather="grid"></i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="{{ url('/admin/userindex') }}"
-            class="nx-sidebar__link {{ request()->is('admin/userindex*') ? 'is-active' : '' }}">
-            <i data-feather="users"></i>
-            <span>Users</span>
-        </a>
-
-        <a href="{{ url('/admin/workspaces') }}"
-            class="nx-sidebar__link {{ request()->is('admin/workspaces*') ? 'is-active' : '' }}">
-            <i data-feather="briefcase"></i>
-            <span>Workspaces</span>
-        </a>
-
-        <a href="{{ url('/admin/bookings') }}"
-            class="nx-sidebar__link {{ request()->is('admin/bookings*') ? 'is-active' : '' }}">
-            <i data-feather="calendar"></i>
-            <span>Bookings</span>
-        </a>
-
-        <a href="{{ url('/admin/payments') }}"
-            class="nx-sidebar__link {{ request()->is('admin/payments*') ? 'is-active' : '' }}">
-            <i data-feather="credit-card"></i>
-            <span>Payments</span>
-        </a>
-
-        <a href="{{ url('/admin/reviews') }}"
-            class="nx-sidebar__link {{ request()->is('admin/reviews*') ? 'is-active' : '' }}">
-            <i data-feather="star"></i>
-            <span>Reviews</span>
-        </a>
-
-        @auth
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-
-        <button type="submit" class="btn btn-outline-danger">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </button>
-    </form>
-@endauth
-
+        @foreach ($nxAdminLinks as [$nxName, $nxPath, $nxPattern, $nxLabel, $nxIcon])
+            @php
+                $nxHasRoute = $nxName && Route::has($nxName);
+                $nxActive = request()->is($nxPattern) || ($nxHasRoute && request()->routeIs($nxName));
+            @endphp
+            <a href="{{ $nxHasRoute ? route($nxName) : url($nxPath) }}"
+                class="nx-sidebar__link {{ $nxActive ? 'is-active' : '' }}"
+                @if ($nxActive) aria-current="page" @endif>
+                @include('layouts.dashboard.partials.icon', ['name' => $nxIcon])
+                <span>{{ $nxLabel }}</span>
+            </a>
+        @endforeach
+ @auth
+            @if (Route::has('logout'))
+                <form method="POST" action="{{ route('logout') }}" class="nx-topbar__logout">
+                    @csrf
+                    <button type="submit" class="nx-topbar__logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" />
+                        </svg>
+                        <span>Log out</span>
+                    </button>
+                </form>
+            @endif
+        @endauth
     </nav>
 
     <div class="nx-sidebar__footer">

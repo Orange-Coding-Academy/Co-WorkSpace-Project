@@ -1,81 +1,62 @@
-<aside class="nx-dashboard__sidebar">
+@php
+    $nxManagerSections = [
+        'MAIN MENU' => [
+            ['manager.dashboard', [], ['manager.dashboard'], 'Dashboard', 'grid'],
+        ],
+        'MANAGEMENT' => [
+            ['manager.ai.index', [], ['manager.ai.*'], 'AI Assistant', 'cpu'],
+            ['manager.workspaces.create', [], ['manager.workspaces.*', 'manager.rooms.*'], 'Workspaces', 'briefcase'],
+            ['manager.bookings.index', [], ['manager.bookings.*'], 'Bookings', 'calendar'],
+            ['manager.membership-plans.index', [], ['manager.membership-plans.*'], 'Membership Plans', 'layers'],
+            ['manager.reviews.index', [], ['manager.reviews.*'], 'Reviews', 'star'],
+        ],
+        'ACCOUNT' => [
+            ['manager.profile.index', [], ['manager.profile.*'], 'My Profile', 'user'],
+        ],
+    ];
+@endphp
+<aside class="nx-dashboard__sidebar" id="nxSidebar">
 
     {{-- BRAND --}}
     <div class="nx-sidebar__brand">
-        <a href="{{ route('manager.dashboard') }}" class="nx-sidebar__logo">
-            NexOra
-        </a>
+        @if (Route::has('manager.dashboard'))
+            <a href="{{ route('manager.dashboard') }}" class="nx-sidebar__logo">NexOra</a>
+        @else
+            <span class="nx-sidebar__logo">NexOra</span>
+        @endif
         <span class="nx-sidebar__subtitle">Manager Panel</span>
     </div>
 
     {{-- NAVIGATION --}}
-    <nav class="nx-sidebar__nav">
+    <nav class="nx-sidebar__nav" aria-label="Manager navigation">
+        @foreach ($nxManagerSections as $nxSection => $nxLinks)
+            <span class="nx-sidebar__section">{{ $nxSection }}</span>
 
-        <span class="nx-sidebar__section">MAIN MENU</span>
-
-        {{-- Dashboard --}}
-        <a href="{{ route('manager.dashboard') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.dashboard') ? 'is-active' : '' }}">
-            <i data-feather="grid"></i>
-            <span>Dashboard</span>
-        </a>
-
-        {{-- AI Assistant --}}
-        <span class="nx-sidebar__section">MANAGEMENT</span>
-
-        <a href="{{ route('manager.ai.index') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.ai.*') ? 'is-active' : '' }}">
-            <i data-feather="cpu"></i>
-            <span>AI Assistant</span>
-        </a>
-
-        {{-- Workspaces --}}
-        <a href="{{ route('manager.workspaces.create') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.workspaces.*') || request()->routeIs('manager.rooms.*') ? 'is-active' : '' }}">
-            <i data-feather="briefcase"></i>
-            <span>Workspaces</span>
-        </a>
-
-        {{-- Bookings --}}
-        <a href="{{ route('manager.bookings.index') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.bookings.*') ? 'is-active' : '' }}">
-            <i data-feather="calendar"></i>
-            <span>Bookings</span>
-        </a>
-
-        {{-- Membership Plans --}}
-        <a href="{{ route('manager.membership-plans.index') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.membership-plans.*') ? 'is-active' : '' }}">
-            <i data-feather="layers"></i>
-            <span>Membership Plans</span>
-        </a>
-
-        {{-- Reviews --}}
-        <a href="{{ route('manager.reviews.index') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.reviews.*') ? 'is-active' : '' }}">
-            <i data-feather="star"></i>
-            <span>Reviews</span>
-        </a>
-
-        {{-- ACCOUNT --}}
-        <span class="nx-sidebar__section">ACCOUNT</span>
-
-        <a href="{{ route('manager.profile.index') }}"
-            class="nx-sidebar__link {{ request()->routeIs('manager.profile.*') ? 'is-active' : '' }}">
-            <i data-feather="user"></i>
-            <span>My Profile</span>
-        </a>
-        @auth
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
-
-        <button type="submit" class="btn btn-outline-danger">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </button>
-    </form>
-@endauth
-
+            @foreach ($nxLinks as [$nxName, $nxParams, $nxPatterns, $nxLabel, $nxIcon])
+                @if (Route::has($nxName))
+                    @php $nxActive = request()->routeIs(...$nxPatterns); @endphp
+                    <a href="{{ route($nxName, $nxParams) }}"
+                        class="nx-sidebar__link {{ $nxActive ? 'is-active' : '' }}"
+                        @if ($nxActive) aria-current="page" @endif>
+                        @include('layouts.dashboard.partials.icon', ['name' => $nxIcon])
+                        <span>{{ $nxLabel }}</span>
+                    </a>
+                @endif
+            @endforeach
+        @endforeach
+         @auth
+            @if (Route::has('logout'))
+                <form method="POST" action="{{ route('logout') }}" class="nx-topbar__logout">
+                    @csrf
+                    <button type="submit" class="nx-topbar__logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" />
+                        </svg>
+                        <span>Log out</span>
+                    </button>
+                </form>
+            @endif
+        @endauth
     </nav>
 
     {{-- FOOTER --}}

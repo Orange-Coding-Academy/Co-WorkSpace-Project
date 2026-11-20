@@ -5,7 +5,7 @@
 
 <style>
     .register-page {
-        background: #f5f7fb;
+        background: #F5F7F3;
         min-height: 100vh;
         padding: 55px 15px;
     }
@@ -22,24 +22,24 @@
 
     .register-header h2 {
         font-weight: 800;
-        color: #172554;
+        color: #203D34;
         margin-bottom: 10px;
     }
 
     .register-header p {
-        color: #64748b;
+        color: #53615A;
     }
 
     .register-card {
         background: #fff;
         border-radius: 18px;
         padding: 35px;
-        box-shadow: 0 8px 35px rgba(15, 23, 42, .07);
+        box-shadow: 0 8px 35px rgba(21, 42, 35, .07);
         margin-bottom: 25px;
     }
 
     .section-title {
-        color: #172554;
+        color: #203D34;
         font-weight: 700;
         font-size: 20px;
         margin-bottom: 20px;
@@ -47,24 +47,24 @@
 
     .form-label {
         font-weight: 600;
-        color: #334155;
+        color: #1D2924;
     }
 
     .form-control,
     .form-select {
         border-radius: 9px;
         padding: 11px 13px;
-        border-color: #dbe2ea;
+        border-color: #E2E8E2;
     }
 
     .form-control:focus,
     .form-select:focus {
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, .12);
+        border-color: #C9D4CC;
+        box-shadow: 0 0 0 3px rgba(201, 212, 204, .12);
     }
 
     .account-option {
-        border: 2px solid #e2e8f0;
+        border: 2px solid #E9EEE9;
         border-radius: 12px;
         padding: 20px;
         cursor: pointer;
@@ -73,12 +73,12 @@
     }
 
     .account-option:hover {
-        border-color: #818cf8;
+        border-color: #C9D4CC;
     }
 
     .account-option.active {
-        border-color: #4f46e5;
-        background: #eef2ff;
+        border-color: #315C4D;
+        background: #F5F7F3;
     }
 
     .account-option input {
@@ -87,12 +87,12 @@
 
     .account-option h6 {
         font-weight: 700;
-        color: #172554;
+        color: #203D34;
         margin-top: 10px;
     }
 
     .account-option p {
-        color: #64748b;
+        color: #53615A;
         font-size: 13px;
         margin-bottom: 0;
     }
@@ -101,8 +101,8 @@
         display: inline-flex;
         align-items: center;
         gap: 7px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: #F5F7F3;
+        border: 1px solid #E9EEE9;
         padding: 9px 13px;
         border-radius: 8px;
         margin: 5px;
@@ -111,15 +111,15 @@
     }
 
     .facility-item input {
-        accent-color: #4f46e5;
+        accent-color: #315C4D;
     }
 
     .room-card {
-        border: 1px solid #e2e8f0;
+        border: 1px solid #E9EEE9;
         border-radius: 13px;
         padding: 22px;
         margin-bottom: 20px;
-        background: #fcfdff;
+        background: #F5F7F3;
     }
 
     .room-card-header {
@@ -130,13 +130,13 @@
     }
 
     .room-card-header h5 {
-        color: #172554;
+        color: #203D34;
         font-weight: 700;
         margin: 0;
     }
 
     .btn-primary-custom {
-        background: #4f46e5;
+        background: #315C4D;
         border: none;
         color: white;
         padding: 12px 25px;
@@ -145,14 +145,14 @@
     }
 
     .btn-primary-custom:hover {
-        background: #4338ca;
+        background: #315C4D;
         color: white;
     }
 
     .btn-add-room {
-        border: 1px dashed #6366f1;
-        background: #eef2ff;
-        color: #4338ca;
+        border: 1px dashed #C9D4CC;
+        background: #F5F7F3;
+        color: #315C4D;
         padding: 12px 18px;
         border-radius: 9px;
         font-weight: 600;
@@ -160,7 +160,7 @@
     }
 
     .btn-add-room:hover {
-        background: #e0e7ff;
+        background: #F5F7F3;
     }
 
     .btn-remove-room {
@@ -181,12 +181,12 @@
     }
 
     .section-divider {
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid #E9EEE9;
         margin: 28px 0;
     }
 
     .help-text {
-        color: #94a3b8;
+        color: #7F8B84;
         font-size: 12px;
         margin-top: 5px;
     }

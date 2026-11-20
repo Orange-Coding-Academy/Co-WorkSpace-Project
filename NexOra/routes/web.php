@@ -29,6 +29,7 @@ use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\Member\MemberProfileController;
 use App\Http\Controllers\Member\MemberMembershipController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Member\MemberReviewController;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use Carbon\Carbon;
@@ -67,6 +68,12 @@ Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->g
      Route::put('/profile/password', [MemberProfileController::class, 'updatePassword']) ->name('profile.updatePassword'); 
      Route::get('/memberships', [MemberMembershipController::class, 'index'])->name('memberships.index');
      Route::patch('/memberships/{id}/cancel',[MemberMembershipController::class, 'cancel'])->name('memberships.cancel');
+     Route::get('/reviews',[MemberReviewController::class,'index'])->name('reviews.index');
+     Route::get('/reviews/create', [MemberReviewController::class, 'createreview'])->name('reviews.create');
+     Route::post('/reviews', [MemberReviewController::class, 'store'])->name('reviews.store');
+     Route::get('/reviews/{id}/edit', [MemberReviewController::class, 'edit'])->name('reviews.edit');
+     Route::put('/reviews/{id}', [MemberReviewController::class, 'update'])->name('reviews.update');
+     Route::delete('/reviews/{id}', [MemberReviewController::class, 'destroy'])->name('reviews.destroy');  
        
 });
 
