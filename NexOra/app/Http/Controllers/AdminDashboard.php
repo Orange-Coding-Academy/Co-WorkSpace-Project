@@ -39,7 +39,7 @@ class AdminDashboard extends Controller
         $recentActivities = $this->getRecentActivities();
         $alerts = $this->getDashboardAlerts();
 
-        return view('Admin.dashboard', compact(
+        return view('Admin.Dashboard', compact(
             'period',
             'kpis',
             'bookingStatuses',
