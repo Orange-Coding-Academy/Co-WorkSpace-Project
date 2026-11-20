@@ -1,28 +1,4 @@
-{{ 
 
-
-        
-/*use App\Http\Controllers\Member\MemberMembershipController;
-use App\Http\Controllers\Member\MemberProfileController; */
-
-
-   /*Route::get('/member/profile', [MemberProfileController::class, 'index'])
-        ->name('member.profile.index');
-
-
-Route::put('/member/profile', [MemberProfileController::class, 'updatePersonal'])
-    ->name('member.profile.updatePersonal');
-
-Route::put('/member/profile/password', [MemberProfileController::class, 'updatePassword'])
-   ->name('member.profile.updatePassword');
-
-   Route::get('/member/memberships', [MemberMembershipController::class, 'index'])
-    ->name('member.memberships.index');
- 
-Route::patch('/member/memberships/{id}/cancel',
-    [MemberMembershipController::class, 'cancel']
-)->name('member.memberships.cancel');*/
- }}
 <!DOCTYPE html>
 <html lang="en">
 <head>

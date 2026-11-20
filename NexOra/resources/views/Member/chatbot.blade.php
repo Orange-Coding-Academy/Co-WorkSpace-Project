@@ -234,7 +234,16 @@
     </header>
 
     <main class="chat-messages" id="chat-messages">
+@auth
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
 
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </button>
+    </form>
+@endauth
         <div class="message assistant">
            
 

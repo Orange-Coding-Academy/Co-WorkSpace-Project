@@ -47,6 +47,17 @@
             <span>Reviews</span>
         </a>
 
+        @auth
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </button>
+    </form>
+@endauth
+
     </nav>
 
     <div class="nx-sidebar__footer">
