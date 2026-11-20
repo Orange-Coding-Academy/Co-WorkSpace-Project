@@ -12,3 +12,13 @@ Route::patch('/admin/workspaces/{workspace}/enable', [WorkspaceController::class
 
 Route::get('/admin/workspaces/{workspaceId}', [RoomController::class, 'index'])
     ->name('workspace.details');
+    ////////////////manger route 
+    Route::get('/workspaces/create', [WorkspaceController::class, 'create'])
+    ->name('workspaces.create');
+
+Route::post('/workspaces', [WorkspaceController::class, 'store'])
+    ->name('workspaces.store');
+
+
+ Route::post('/workspaces/{workspaceId}/rooms', [ManagerRoomController::class, 'store'])
+    ->name('rooms.store');

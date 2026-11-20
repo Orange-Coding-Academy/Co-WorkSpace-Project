@@ -12,10 +12,6 @@
     <link rel="stylesheet" href="{{ asset('css/nexora/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/typography.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/utilities.css') }}">
-
-
-
-
     <link rel="stylesheet" href="{{ asset('css/nexora/layout.css') }}">
 
     @stack('styles')

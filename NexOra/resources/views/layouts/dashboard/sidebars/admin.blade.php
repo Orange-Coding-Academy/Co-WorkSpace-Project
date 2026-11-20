@@ -17,8 +17,8 @@
             <span>Dashboard</span>
         </a>
 
-        <a href="{{ url('/admin/users') }}"
-            class="nx-sidebar__link {{ request()->is('admin/users*') ? 'is-active' : '' }}">
+        <a href="{{ url('/admin/userindex') }}"
+            class="nx-sidebar__link {{ request()->is('admin/userindex*') ? 'is-active' : '' }}">
             <i data-feather="users"></i>
             <span>Users</span>
         </a>
