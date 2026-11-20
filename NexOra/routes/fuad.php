@@ -18,3 +18,7 @@ Route::get('/admin/workspaces/{workspaceId}', [RoomController::class, 'index'])
 
 Route::post('/workspaces', [WorkspaceController::class, 'store'])
     ->name('workspaces.store');
+
+
+ Route::post('/workspaces/{workspaceId}/rooms', [ManagerRoomController::class, 'store'])
+    ->name('rooms.store');
