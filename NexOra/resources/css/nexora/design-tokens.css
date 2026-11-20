@@ -1,0 +1,100 @@
+:root {
+    /* Brand */
+    --nx-primary: #315c4d;
+    --nx-primary-hover: #274b3f;
+    --nx-primary-active: #203d34;
+    --nx-secondary: #6f806e;
+    --nx-accent: #c58a62;
+
+    /* Surfaces */
+    --nx-bg: #f5f7f3;
+    --nx-surface: #f8faf7;
+    --nx-card: #ffffff;
+    --nx-sidebar: #203d34;
+
+    /* Text */
+    --nx-text: #1d2924;
+    --nx-text-secondary: #53615a;
+    --nx-text-muted: #7f8b84;
+
+    /* Borders */
+    --nx-border: #e2e8e2;
+    --nx-divider: #e9eee9;
+    --nx-border-strong: #c9d4cc;
+
+    /* Semantic: success */
+    --nx-success-bg: #eaf6ef;
+    --nx-success-text: #145c3a;
+    --nx-success-border: #bce2c9;
+    --nx-success-icon: #16794c;
+
+    /* Semantic: warning */
+    --nx-warning-bg: #fff6e5;
+    --nx-warning-text: #754c05;
+    --nx-warning-border: #f0d79e;
+    --nx-warning-icon: #9a6508;
+
+    /* Semantic: danger */
+    --nx-danger-bg: #fdedec;
+    --nx-danger-text: #912018;
+    --nx-danger-border: #f5c2be;
+    --nx-danger-icon: #b42318;
+
+    /* Semantic: info */
+    --nx-info-bg: #edf5fc;
+    --nx-info-text: #195a91;
+    --nx-info-border: #c5ddf2;
+    --nx-info-icon: #1d6fb8;
+
+    /* Semantic: disabled */
+    --nx-disabled-bg: #f0f2ef;
+    --nx-disabled-text: #657169;
+    --nx-disabled-border: #d9deda;
+    --nx-disabled-icon: #87928b;
+
+    /* Spacing: 4px base */
+    --nx-space-1: 4px;
+    --nx-space-2: 8px;
+    --nx-space-3: 12px;
+    --nx-space-4: 16px;
+    --nx-space-5: 20px;
+    --nx-space-6: 24px;
+    --nx-space-8: 32px;
+    --nx-space-10: 40px;
+    --nx-space-12: 48px;
+    --nx-space-16: 64px;
+    --nx-space-20: 80px;
+
+    /* Radius */
+    --nx-radius-xs: 4px;
+    --nx-radius-sm: 8px;
+    --nx-radius-md: 12px;
+    --nx-radius-lg: 16px;
+    --nx-radius-xl: 24px;
+    --nx-radius-pill: 999px;
+
+    /* Shadows */
+    --nx-shadow-1: 0 1px 2px rgba(29, 41, 36, 0.05);
+    --nx-shadow-2: 0 4px 12px rgba(29, 41, 36, 0.07);
+    --nx-shadow-3: 0 12px 32px rgba(29, 41, 36, 0.12);
+
+    /* Layout */
+    --nx-public-container: 1200px;
+    --nx-dashboard-container: 1440px;
+    --nx-sidebar-width: 264px;
+    --nx-sidebar-collapsed: 76px;
+    --nx-topbar-height: 72px;
+    --nx-public-header-height: 76px;
+
+    /* Controls */
+    --nx-control-height: 44px;
+    --nx-control-height-sm: 36px;
+    --nx-control-height-lg: 52px;
+    --nx-focus-ring: 0 0 0 3px rgba(49, 92, 77, 0.22);
+
+    /* Motion */
+    --nx-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --nx-duration-fast: 120ms;
+    --nx-duration-standard: 160ms;
+    --nx-duration-surface: 200ms;
+}

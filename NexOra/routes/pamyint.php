@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Manager\ManagerMembershipPlanController;
+use App\Http\Controllers\Admin\AdminProfileController;
 
 
 
@@ -168,3 +169,21 @@ Route::prefix('manager')
 Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
     ->name('member.bookings.checkout');
 
+
+
+
+    
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/profile', [AdminProfileController::class, 'index'])
+        ->name('profile.index');
+
+    Route::patch('/profile/personal', [AdminProfileController::class, 'updatePersonal'])
+        ->name('profile.personal');
+
+    Route::patch('/profile/password', [AdminProfileController::class, 'updatePassword'])
+        ->name('profile.password');
+
+});

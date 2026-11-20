@@ -8,16 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class MemberProfileController extends Controller
 {
-    public function index(){
-       $member=auth()->user();
-       // dd($member);
-       
-           //$member = \App\Models\User::where('role', 'member')->firstOrFail(); //هاي بس عشان اجرب افتح الصفحة بدون تسجيل دخول
+public function index()
+{
+    //$member = \App\Models\User::findOrFail(1);
+             $member = auth()->user();
 
-        return view ('Member.profile',compact('member'));
-    }
-
-
+    return view('Member.profile', compact('member'));
+}
     public function updatePersonal(Request $request){
         $member=auth()->user();
         $request->validate([

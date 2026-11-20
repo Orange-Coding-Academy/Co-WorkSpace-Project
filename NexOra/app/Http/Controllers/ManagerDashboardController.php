@@ -19,7 +19,7 @@ class ManagerDashboardController extends Controller
     {
         $currentUserId = Auth::id();
 
-        $workspaceIds = $this->getManagerWorkspaceIds(2);
+        $workspaceIds = $this->getManagerWorkspaceIds($currentUserId);
 
         $period = $request->query('period', '30d');
         $dateRange = $this->getDateRange($period);
@@ -36,31 +36,31 @@ class ManagerDashboardController extends Controller
 
         $alerts = $this->getDashboardAlerts($workspaceIds);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Manager Dashboard Data Retrieved Successfully',
-            'data' => [
-                'period' => $period,
-                'dateRange' => $dateRange,
-                'kpis' => $kpis,
-                'revenueChart' => $revenueChart,
-                'bookingTrend' => $bookingTrend,
-                'recentBookings' => $recentBookings,
-                'recentReviews' => $recentReviews,
-                'alerts' => $alerts,
-            ]
-        ], 200);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Manager Dashboard Data Retrieved Successfully',
+        //     'data' => [
+        //         'period' => $period,
+        //         'dateRange' => $dateRange,
+        //         'kpis' => $kpis,
+        //         'revenueChart' => $revenueChart,
+        //         'bookingTrend' => $bookingTrend,
+        //         'recentBookings' => $recentBookings,
+        //         'recentReviews' => $recentReviews,
+        //         'alerts' => $alerts,
+        //     ]
+        // ], 200);
 
-        // return view('manager.dashboard', compact(
-        //     'period',
-        //     'dateRange',
-        //     'kpis',
-        //     'revenueChart',
-        //     'bookingTrend',
-        //     'recentBookings',
-        //     'recentReviews',
-        //     'alerts'
-        // ));
+        return view('Manager.Dashboard', compact(
+            'period',
+            'dateRange',
+            'kpis',
+            'revenueChart',
+            'bookingTrend',
+            'recentBookings',
+            'recentReviews',
+            'alerts'
+        ));
     }
 
 
