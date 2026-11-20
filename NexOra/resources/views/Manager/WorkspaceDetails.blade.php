@@ -1008,6 +1008,21 @@
             justify-self: start;
         }
     }
+    .ws-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 16px;
+        padding: 8px 12px;
+        border: 1px solid #b6cabd;
+        border-radius: 9px;
+        background: #e7efe5;
+        color: #103b34;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .ws-back-link:hover { background: #d8e9dd; }
 </style>
 
 <div class="ws-page">
@@ -1037,6 +1052,10 @@
         </ul>
     </div>
     @endif
+
+    <a class="ws-back-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
+        <span aria-hidden="true">&larr;</span> My workspaces
+    </a>
 
     {{-- Workspace Overview --}}
     <section class="ws-overview" aria-labelledby="workspace-title">
