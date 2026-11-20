@@ -12,7 +12,7 @@ class StoreWorkspaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->role === 'spaceManager';
     }
 
     /**
@@ -20,10 +20,15 @@ class StoreWorkspaceRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
+   public function rules(): array
+{
+    return [
+        'name' => ['required', 'string', 'max:255'],
+        'location' => ['required', 'string', 'max:255'],
+        'description' => ['nullable', 'string'],
+        'facilities' => ['nullable', 'array'],
+        'facilities.*' => ['string', 'max:100'],
+        'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+    ];
+} 
 }
