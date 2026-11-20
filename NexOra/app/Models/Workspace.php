@@ -10,7 +10,15 @@ class Workspace extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['manager_id', 'name', 'location', 'description', 'approval_status', 'is_active'];
+    protected $fillable = [
+    'manager_id',
+    'name',
+    'location',
+    'description',
+    'facilities',
+    'approval_status',
+    'is_active'
+];
     protected function casts(): array
 {
     return [

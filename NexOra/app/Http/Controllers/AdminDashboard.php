@@ -51,7 +51,7 @@ class AdminDashboard extends Controller
     }
 
 
-    public function getDashboardKpis(array $dateRange): array
+    private function getDashboardKpis(array $dateRange): array
     {
         $financialTotals = Booking::query()
             ->where('status', 'completed')
@@ -90,7 +90,7 @@ class AdminDashboard extends Controller
 
 
 
-    public function getRevenueChartData(array $dateRange): array
+    private function getRevenueChartData(array $dateRange): array
     {
         $start = CarbonImmutable::parse($dateRange['start'])->startOfDay();
         $end = CarbonImmutable::parse($dateRange['end'])->startOfDay();
@@ -136,7 +136,7 @@ class AdminDashboard extends Controller
     }
 
 
-    public function getBookingStatusData(array $dateRange): array
+    private function getBookingStatusData(array $dateRange): array
     {
         $statuses = Booking::query()
             ->select('status')
@@ -157,7 +157,7 @@ class AdminDashboard extends Controller
     }
 
 
-    public function getTopWorkspaces(array $dateRange): array
+    private function getTopWorkspaces(array $dateRange): array
     {
         return Workspace::query()
             ->withCount([
@@ -190,7 +190,7 @@ class AdminDashboard extends Controller
     }
 
 
-    public function getRecentActivities(): array
+    private function getRecentActivities(): array
     {
         $limit = 10;
 
@@ -248,7 +248,7 @@ class AdminDashboard extends Controller
             ->toArray();
     }
 
-    public function getDashboardAlerts(): array
+    private function getDashboardAlerts(): array
     {
         $pendingBookings = Booking::where('status', 'pending')->count();
 

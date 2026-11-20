@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Workspace;
 use App\Http\Requests\StoreWorkspaceRequest;
 use App\Http\Requests\UpdateWorkspaceRequest;
+use App\Models\Workspace;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class WorkspaceController extends Controller
 {
@@ -13,7 +17,7 @@ class WorkspaceController extends Controller
     {
 
 
-        $workspaces = Workspace::with(['manager', 'rooms','images'])->get();
+        $workspaces = Workspace::with(['manager', 'rooms', 'images'])->get();
 
 
         $enabled = $workspaces->where('is_active', true);
@@ -34,17 +38,55 @@ class WorkspaceController extends Controller
     }
 
 
+
+
+
     public function create()
     {
-        //
+
+
+
+        return view('Manager.createWorkSpace');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+
     public function store(StoreWorkspaceRequest $request)
     {
-        //
+        $data = $request->validated();
+        $imagePath = $this->saveWorkspaceImage($request->file('image'));
+
+        try {
+            $workspace = DB::transaction(function () use ($data, $request, $imagePath) {
+
+            
+                $workspace = Workspace::create([
+                    'manager_id' => $request->user()->id,
+                    'name' => $data['name'],
+                    'location' => $data['location'],
+                    'description' => $data['description'] ?? null,
+                    'facilities' => $data['facilities'] ?? [],
+                    'approval_status' => 'pending',
+                    'is_active' => true,
+                ]);
+
+                $workspace->images()->create([
+                    'image_path' => $imagePath,
+                    'alt_text' => $workspace->name,
+                    'is_primary' => true,
+                    'sort_order' => 0,
+                ]);
+
+                return $workspace;
+            });
+        } catch (\Throwable $error) {
+            File::delete(public_path($imagePath));
+            throw $error;
+        }
+
+        return redirect()->route('manager.workspaces.details', [
+            'workspaceId' => $workspace->id,
+        ])->with('success', 'Workspace created successfully.');
     }
 
     /**
@@ -79,7 +121,8 @@ class WorkspaceController extends Controller
 
             $workspace->approval_status = 'approved';
             $workspace->save();
-            return back()->with('success', 'Workspace approved successfully.');
+            return redirect()->route('admin.workspaces')
+                ->with('success', 'Workspace approved successfully.');
         } else {
 
             return back()->with('success', 'Already Approved');

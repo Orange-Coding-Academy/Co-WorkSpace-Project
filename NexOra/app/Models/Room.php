@@ -10,7 +10,15 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['workspace_id', 'name', 'room_type', 'capacity', 'hourly_price', 'is_active'];
+   protected $fillable = [
+    'workspace_id',
+    'name',
+    'room_type',
+    'capacity',
+    'hourly_price',
+    'facilities',
+    'is_active'
+];
    protected function casts(): array
 {
     return [
