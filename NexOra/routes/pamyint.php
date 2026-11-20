@@ -1,14 +1,19 @@
 <?php
 
+use App\Http\Controllers\Manager\ManagerReviewController;
 use App\Http\Controllers\StripeController;
 use App\Models\Room;
 use App\Models\MembershipPlan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Manager\ManagerMembershipPlanController;
 
 
+
+use App\Http\Controllers\Member\MyBookingController;
+use App\Http\Controllers\Member\BookingCheckoutController;
 // add this to make auth work 
-Auth::routes();
 
 
 
@@ -63,3 +68,103 @@ Route::get('/preview-email', function () {
 Route::get('/dashboard', function () {
     return view('User.dashboard')->name('dashboard');
 });
+
+
+
+Auth::routes();
+
+Route::get('/Manager/reviews', [ManagerReviewController::class, 'index'])
+    ->name('reviews.index');
+
+Route::get('/Manager/reviews/{id}', [ManagerReviewController::class, 'show'])
+    ->whereNumber('id')
+    ->name('reviews.show');
+
+
+
+
+
+
+
+
+
+
+          
+    Auth::routes();
+
+Route::prefix('manager')
+    ->name('manager.')
+    ->group(function () {
+
+        Route::get('/membership-plans',
+            [ManagerMembershipPlanController::class, 'index'])
+            ->name('membership-plans.index');
+
+        Route::get('/membership-plans/create',
+            [ManagerMembershipPlanController::class, 'create'])
+            ->name('membership-plans.create');
+
+        Route::post('/membership-plans',
+            [ManagerMembershipPlanController::class, 'store'])
+            ->name('membership-plans.store');
+
+        Route::get('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'show'])
+            ->whereNumber('id')
+            ->name('membership-plans.show');
+
+        Route::get('/membership-plans/{id}/edit',
+            [ManagerMembershipPlanController::class, 'edit'])
+            ->whereNumber('id')
+            ->name('membership-plans.edit');
+
+        Route::put('/membership-plans/{id}',
+            [ManagerMembershipPlanController::class, 'update'])
+            ->whereNumber('id')
+            ->name('membership-plans.update');
+
+        Route::patch('/membership-plans/{id}/status',
+            [ManagerMembershipPlanController::class, 'updateStatus'])
+            ->whereNumber('id')
+            ->name('membership-plans.status');
+
+        Route::get('/membership-plans/{id}/subscribers',
+            [ManagerMembershipPlanController::class, 'subscribers'])
+            ->whereNumber('id')
+            ->name('membership-plans.subscribers');
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Route::get('/my-bookings', [MyBookingController::class, 'index'])
+        ->name('member.bookings.index');
+
+    Route::get('/my-bookings/{id}', [MyBookingController::class, 'show'])
+        ->name('member.bookings.show');
+
+    Route::patch('/my-bookings/{id}/cancel', [MyBookingController::class, 'cancel'])
+        ->name('member.bookings.cancel');
+
+
+    // Booking Checkout
+// Booking Checkout
+Route::get('/my-bookings/{id}/checkout', [BookingCheckoutController::class, 'index'])
+    ->name('member.bookings.checkout');
+
