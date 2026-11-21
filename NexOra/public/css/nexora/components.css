@@ -777,3 +777,51 @@ textarea.nx-control {
 [dir="rtl"] .nx-switch input:checked + .nx-switch__track .nx-switch__thumb {
     transform: translateX(-18px);
 }
+
+/* ---- Additions (design-system pass) ---- */
+
+/* Empty state: icon + title + description (works with feather <i> and <svg>) */
+.nx-empty-state :is(i, svg) {
+    width: 32px;
+    height: 32px;
+    color: var(--nx-secondary);
+}
+.nx-empty-state__title,
+.nx-chart-empty .nx-empty-state__title {
+    margin: 0;
+    color: var(--nx-text);
+    font: 600 var(--nx-text-body-sm) / 1.4 var(--nx-font-heading);
+}
+.nx-empty-state__description {
+    margin: 0;
+    font-size: var(--nx-text-label);
+}
+.nx-empty-state--compact {
+    gap: var(--nx-space-2);
+    min-height: 160px;
+    padding: var(--nx-space-5);
+    align-content: center;
+}
+
+/* Compact table: dashboard panels, inside a card (no outer border needed) */
+.nx-table--compact {
+    font-size: var(--nx-text-body-sm);
+}
+.nx-table--compact th {
+    padding: 10px var(--nx-space-4);
+}
+.nx-table--compact td {
+    height: 48px;
+    padding: 10px var(--nx-space-4);
+}
+.nx-table th.nx-table__num,
+.nx-table td.nx-table__num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+}
+.nx-table--compact tbody tr:hover {
+    background: var(--nx-surface);
+}
+.nx-table--compact td {
+    white-space: nowrap;
+}

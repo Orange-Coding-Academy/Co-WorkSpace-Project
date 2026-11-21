@@ -13,34 +13,6 @@
     .nx-grid--3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .nx-dashboard__sidebar {
-        position: fixed;
-        inset-block: 0;
-        inset-inline-start: 0;
-        width: var(--nx-sidebar-width);
-        transform: translateX(-100%);
-        transition: transform var(--nx-duration-surface) var(--nx-ease);
-    }
-    [dir="rtl"] .nx-dashboard__sidebar {
-        transform: translateX(100%);
-    }
-    .nx-dashboard.is-sidebar-open .nx-dashboard__sidebar {
-        transform: none;
-        box-shadow: var(--nx-shadow-3);
-    }
-    .nx-dashboard.is-sidebar-open .nx-dashboard__overlay {
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 35;
-        background: rgba(29, 41, 36, 0.45);
-    }
-    .nx-dashboard.is-collapsed .nx-dashboard__sidebar {
-        width: var(--nx-sidebar-width);
-    }
-    .nx-topbar {
-        padding-inline: var(--nx-space-4);
-    }
 }
 @media (max-width: 767px) {
     .nx-container {
