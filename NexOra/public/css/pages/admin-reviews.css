@@ -1,0 +1,1155 @@
+
+/* =========================================================
+   NEXORA — ADMIN REVIEWS
+   Uses shared NexOra design tokens and typography.
+   Page-specific styles only.
+   ========================================================= */
+
+.nx-admin-reviews {
+    width: 100%;
+    min-width: 0;
+}
+
+.nx-admin-reviews,
+.nx-admin-reviews * {
+    box-sizing: border-box;
+}
+
+.nx-admin-reviews .nx-reviews-container {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+}
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.nx-admin-reviews .nx-reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.nx-admin-reviews .nx-reviews-header__content {
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-reviews-eyebrow {
+    display: inline-block;
+    margin-bottom: 9px;
+    color: var(--nx-primary);
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 1.7px;
+}
+
+.nx-admin-reviews .nx-reviews-header h1 {
+    margin: 0 0 8px;
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    font-size: clamp(25px, 2.4vw, 32px);
+    font-weight: 750;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.nx-admin-reviews .nx-reviews-header p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.nx-admin-reviews .nx-reviews-header__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-pill);
+    background: var(--nx-card);
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.nx-admin-reviews .nx-reviews-header__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--nx-success-icon);
+    box-shadow: 0 0 0 4px var(--nx-success-bg);
+}
+
+/* =========================================================
+   SUCCESS ALERT
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 54px;
+    margin-bottom: 22px;
+    padding: 12px 16px;
+    border: 1px solid var(--nx-success-border);
+    border-radius: var(--nx-radius-md);
+    background: var(--nx-success-bg);
+    color: var(--nx-success-text);
+    font-size: 13px;
+    font-weight: 600;
+    animation: nx-review-enter 0.35s ease both;
+}
+
+.nx-admin-reviews .nx-review-alert__icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(22, 121, 76, 0.10);
+}
+
+.nx-admin-reviews .nx-review-alert__icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.nx-admin-reviews .nx-reviews-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.nx-admin-reviews .nx-review-stat {
+    position: relative;
+    min-width: 0;
+    padding: 21px 22px;
+    overflow: hidden;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-lg);
+    background: var(--nx-card);
+    box-shadow: var(--nx-shadow-1);
+    transition:
+        transform var(--nx-duration-surface) var(--nx-ease),
+        border-color var(--nx-duration-standard),
+        box-shadow var(--nx-duration-surface);
+}
+
+.nx-admin-reviews .nx-review-stat::after {
+    position: absolute;
+    inset-inline-end: -28px;
+    bottom: -48px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--nx-border);
+    border-radius: 50%;
+    content: "";
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.nx-admin-reviews .nx-review-stat:hover {
+    transform: translateY(-3px);
+    border-color: var(--nx-border-strong);
+    box-shadow: var(--nx-shadow-2);
+}
+
+.nx-admin-reviews .nx-review-stat__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.nx-admin-reviews .nx-review-stat__icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: var(--nx-radius-md);
+}
+
+.nx-admin-reviews .nx-review-stat__icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+.nx-admin-reviews .nx-review-stat__icon--total {
+    background: #edf2ee;
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-review-stat__icon--pending {
+    background: var(--nx-warning-bg);
+    color: var(--nx-warning-icon);
+}
+
+.nx-admin-reviews .nx-review-stat__icon--approved {
+    background: var(--nx-success-bg);
+    color: var(--nx-success-icon);
+}
+
+.nx-admin-reviews .nx-review-stat__caption {
+    color: var(--nx-text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 1px;
+    text-align: end;
+}
+
+.nx-admin-reviews .nx-review-stat__bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.nx-admin-reviews .nx-review-stat__label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--nx-text-secondary);
+    font-size: 12px;
+    font-weight: 550;
+}
+
+.nx-admin-reviews .nx-review-stat__bottom h3 {
+    margin: 0;
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    font-size: 29px;
+    font-weight: 750;
+    letter-spacing: -1px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-admin-reviews .nx-review-stat__symbol {
+    color: var(--nx-border-strong);
+    font-family: var(--nx-font-heading);
+    font-size: 27px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* =========================================================
+   MAIN REVIEWS PANEL
+   ========================================================= */
+
+.nx-admin-reviews .nx-reviews-panel {
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-lg);
+    background: var(--nx-card);
+    box-shadow: var(--nx-shadow-1);
+}
+
+.nx-admin-reviews .nx-reviews-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 23px;
+}
+
+.nx-admin-reviews .nx-reviews-panel__eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--nx-primary);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 1.5px;
+}
+
+.nx-admin-reviews .nx-reviews-panel__header h2 {
+    margin: 0 0 5px;
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    font-size: 19px;
+    font-weight: 750;
+    letter-spacing: -0.4px;
+}
+
+.nx-admin-reviews .nx-reviews-panel__header p {
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.nx-admin-reviews .nx-reviews-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 33px;
+    padding: 0 12px;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-sm);
+    background: var(--nx-surface);
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   STATUS FILTERS
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 22px;
+    padding: 7px;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-md);
+    background: var(--nx-surface);
+}
+
+.nx-admin-reviews .nx-review-filters__tabs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-review-filter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 39px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    font-weight: 650;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+        background var(--nx-duration-standard),
+        border-color var(--nx-duration-standard),
+        color var(--nx-duration-standard),
+        box-shadow var(--nx-duration-standard);
+}
+
+.nx-admin-reviews .nx-review-filter:hover:not(.is-active) {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-review-filter.is-active {
+    border-color: var(--nx-border);
+    background: var(--nx-card);
+    color: var(--nx-primary);
+    box-shadow: var(--nx-shadow-1);
+}
+
+.nx-admin-reviews .nx-review-filter:focus-visible {
+    outline: none;
+    box-shadow: var(--nx-focus-ring);
+}
+
+.nx-admin-reviews .nx-review-filter__dot,
+.nx-admin-reviews .nx-review-status > span {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.nx-admin-reviews .nx-review-filter__dot--pending {
+    background: var(--nx-warning-icon);
+}
+
+.nx-admin-reviews .nx-review-filter__dot--approved {
+    background: var(--nx-success-icon);
+}
+
+.nx-admin-reviews .nx-review-filter__count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+    border-radius: 6px;
+    background: var(--nx-surface);
+    color: var(--nx-text-secondary);
+    font-size: 10px;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-admin-reviews .nx-review-filter.is-active .nx-review-filter__count {
+    background: #edf2ee;
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-review-filter-note {
+    padding-inline: 8px;
+    color: var(--nx-text-muted);
+    font-size: 10px;
+    font-weight: 550;
+}
+
+/* =========================================================
+   REVIEWS LIST
+   ========================================================= */
+
+.nx-admin-reviews .nx-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 0;
+}
+
+/* =========================================================
+   REVIEW CARD
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-card {
+    min-width: 0;
+    padding: 21px 22px 0;
+    overflow: hidden;
+    border: 1px solid var(--nx-border);
+    border-radius: var(--nx-radius-md);
+    background: var(--nx-card);
+    transition:
+        border-color var(--nx-duration-standard),
+        box-shadow var(--nx-duration-surface),
+        transform var(--nx-duration-surface);
+    animation: nx-review-enter 0.35s ease both;
+}
+
+.nx-admin-reviews .nx-review-card:hover {
+    border-color: var(--nx-border-strong);
+    box-shadow: var(--nx-shadow-2);
+    transform: translateY(-2px);
+}
+
+.nx-admin-reviews .nx-review-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.nx-admin-reviews .nx-review-member {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-review-avatar {
+    display: grid;
+    place-items: center;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border: 1px solid #dce7df;
+    border-radius: 13px;
+    background: #edf3ee;
+    color: var(--nx-primary);
+    font-family: var(--nx-font-heading);
+    font-size: 17px;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.nx-admin-reviews .nx-review-member__info {
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-review-member__info h3 {
+    margin: 0 0 4px;
+    overflow: hidden;
+    color: var(--nx-text);
+    font-size: 13px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nx-admin-reviews .nx-review-member__info span {
+    display: block;
+    overflow: hidden;
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nx-admin-reviews .nx-review-card__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 13px;
+}
+
+.nx-admin-reviews .nx-review-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 27px;
+    padding: 0 10px;
+    border: 1px solid transparent;
+    border-radius: var(--nx-radius-pill);
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.nx-admin-reviews .nx-review-status.is-approved {
+    border-color: var(--nx-success-border);
+    background: var(--nx-success-bg);
+    color: var(--nx-success-text);
+}
+
+.nx-admin-reviews .nx-review-status.is-approved > span {
+    background: var(--nx-success-icon);
+}
+
+.nx-admin-reviews .nx-review-status.is-pending {
+    border-color: var(--nx-warning-border);
+    background: var(--nx-warning-bg);
+    color: var(--nx-warning-text);
+}
+
+.nx-admin-reviews .nx-review-status.is-pending > span {
+    background: var(--nx-warning-icon);
+}
+
+.nx-admin-reviews .nx-review-card__meta time {
+    color: var(--nx-text-muted);
+    font-size: 10px;
+    font-weight: 550;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   WORKSPACE INFO
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-workspace {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 10px 13px;
+    border: 1px solid var(--nx-divider);
+    border-radius: var(--nx-radius-sm);
+    background: var(--nx-surface);
+}
+
+.nx-admin-reviews .nx-review-workspace__icon {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #eaf0eb;
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-review-workspace__icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-admin-reviews .nx-review-workspace > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-review-workspace > div span {
+    color: var(--nx-text-muted);
+    font-size: 8px;
+    font-weight: 750;
+    letter-spacing: 1px;
+}
+
+.nx-admin-reviews .nx-review-workspace strong {
+    overflow: hidden;
+    color: var(--nx-text);
+    font-size: 11px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   RATING
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.nx-admin-reviews .nx-review-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    line-height: 1;
+}
+
+.nx-admin-reviews .nx-review-stars span {
+    color: #d7ded8;
+    font-size: 18px;
+}
+
+.nx-admin-reviews .nx-review-stars span.is-filled {
+    color: #d69b39;
+}
+
+.nx-admin-reviews .nx-review-rating__value {
+    color: var(--nx-text);
+    font-size: 12px;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-admin-reviews .nx-review-rating__value small {
+    color: var(--nx-text-muted);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* =========================================================
+   COMMENT
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-comment {
+    margin-top: 17px;
+}
+
+.nx-admin-reviews .nx-review-comment__label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--nx-text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 1.1px;
+}
+
+.nx-admin-reviews .nx-review-comment p {
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: 12px;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   CARD FOOTER & ACTIONS
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 19px;
+    padding: 14px 0;
+    border-top: 1px solid var(--nx-divider);
+}
+
+.nx-admin-reviews .nx-review-card__id {
+    color: var(--nx-text-muted);
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.8px;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-admin-reviews .nx-review-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.nx-admin-reviews .nx-review-actions form {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nx-admin-reviews .nx-review-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 94px;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: var(--nx-radius-sm);
+    background: var(--nx-surface);
+    font: 650 11px/1 var(--nx-font-body);
+    cursor: pointer;
+    transition:
+        background var(--nx-duration-standard),
+        color var(--nx-duration-standard),
+        border-color var(--nx-duration-standard),
+        transform var(--nx-duration-fast),
+        box-shadow var(--nx-duration-standard);
+}
+
+.nx-admin-reviews .nx-review-action svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.nx-admin-reviews .nx-review-action:hover {
+    transform: translateY(-1px);
+}
+
+.nx-admin-reviews .nx-review-action:active {
+    transform: translateY(0);
+}
+
+.nx-admin-reviews .nx-review-action:focus-visible {
+    outline: none;
+    box-shadow: var(--nx-focus-ring);
+}
+
+.nx-admin-reviews .nx-review-action--approve {
+    border-color: var(--nx-success-border);
+    background: var(--nx-success-bg);
+    color: var(--nx-success-text);
+}
+
+.nx-admin-reviews .nx-review-action--approve:hover {
+    border-color: var(--nx-success-icon);
+    background: #d9eee2;
+}
+
+.nx-admin-reviews .nx-review-action--hide {
+    border-color: var(--nx-warning-border);
+    background: var(--nx-warning-bg);
+    color: var(--nx-warning-text);
+}
+
+.nx-admin-reviews .nx-review-action--hide:hover {
+    border-color: var(--nx-warning-icon);
+    background: #fcedca;
+}
+
+.nx-admin-reviews .nx-review-action--delete {
+    border-color: var(--nx-danger-border);
+    background: var(--nx-danger-bg);
+    color: var(--nx-danger-text);
+}
+
+.nx-admin-reviews .nx-review-action--delete:hover {
+    border-color: var(--nx-danger-icon);
+    background: #f9dcda;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.nx-admin-reviews .nx-review-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    padding: 35px 20px;
+    text-align: center;
+}
+
+.nx-admin-reviews .nx-review-empty__icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin-bottom: 17px;
+    border: 1px solid var(--nx-border);
+    border-radius: 19px;
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-review-empty__icon svg {
+    width: 29px;
+    height: 29px;
+}
+
+.nx-admin-reviews .nx-review-empty h3 {
+    margin: 0 0 8px;
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.nx-admin-reviews .nx-review-empty p {
+    max-width: 370px;
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.nx-admin-reviews .nx-reviews-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--nx-divider);
+}
+
+.nx-admin-reviews .nx-reviews-pagination__info {
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__info strong {
+    color: var(--nx-text);
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links {
+    min-width: 0;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links nav > div:first-child {
+    display: none !important;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links nav > div:last-child {
+    display: flex;
+    align-items: center;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .pagination {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-item {
+    margin: 0;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-link {
+    display: grid;
+    place-items: center;
+    min-width: 35px;
+    height: 35px;
+    padding: 0 10px;
+    border: 1px solid var(--nx-border);
+    border-radius: 8px !important;
+    background: var(--nx-card);
+    color: var(--nx-text-secondary);
+    font-family: var(--nx-font-body);
+    font-size: 11px;
+    font-weight: 650;
+    text-decoration: none;
+    box-shadow: none;
+    transition:
+        background var(--nx-duration-standard),
+        color var(--nx-duration-standard),
+        border-color var(--nx-duration-standard);
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-link:hover {
+    z-index: auto;
+    border-color: var(--nx-border-strong);
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-item.active .page-link {
+    z-index: auto;
+    border-color: var(--nx-primary);
+    background: var(--nx-primary);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(49, 92, 77, 0.17);
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-item.disabled .page-link {
+    border-color: var(--nx-border);
+    background: var(--nx-surface);
+    color: var(--nx-text-muted);
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.nx-admin-reviews .nx-reviews-pagination__links .page-link:focus {
+    outline: none;
+    box-shadow: var(--nx-focus-ring);
+}
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes nx-review-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .nx-admin-reviews .nx-reviews-stats {
+        gap: 12px;
+    }
+
+    .nx-admin-reviews .nx-review-stat {
+        padding: 18px;
+    }
+
+    .nx-admin-reviews .nx-review-stat__caption {
+        font-size: 8px;
+    }
+
+    .nx-admin-reviews .nx-reviews-panel {
+        padding: 20px;
+    }
+
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .nx-admin-reviews .nx-reviews-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 22px;
+    }
+
+    .nx-admin-reviews .nx-reviews-header__badge {
+        min-height: 34px;
+    }
+
+    .nx-admin-reviews .nx-reviews-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+        margin-bottom: 20px;
+    }
+
+    .nx-admin-reviews .nx-review-stat:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .nx-admin-reviews .nx-review-stat {
+        padding: 16px;
+    }
+
+    .nx-admin-reviews .nx-review-stat__top {
+        margin-bottom: 17px;
+    }
+
+    .nx-admin-reviews .nx-review-stat__bottom h3 {
+        font-size: 25px;
+    }
+
+    .nx-admin-reviews .nx-review-stat__symbol {
+        font-size: 20px;
+    }
+
+    .nx-admin-reviews .nx-reviews-panel {
+        padding: 16px;
+    }
+
+    .nx-admin-reviews .nx-reviews-panel__header {
+        align-items: flex-start;
+    }
+
+    .nx-admin-reviews .nx-review-filters {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nx-admin-reviews .nx-review-filters__tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .nx-admin-reviews .nx-review-filter {
+        gap: 5px;
+        min-width: 0;
+        min-height: 37px;
+        padding-inline: 6px;
+        font-size: 10px;
+    }
+
+    .nx-admin-reviews .nx-review-filter-note {
+        padding: 5px 7px 2px;
+    }
+
+    .nx-admin-reviews .nx-review-card {
+        padding: 17px 16px 0;
+    }
+
+    .nx-admin-reviews .nx-review-card__top {
+        align-items: flex-start;
+    }
+
+    .nx-admin-reviews .nx-review-card__meta {
+        justify-content: flex-start;
+        width: 100%;
+        padding-inline-start: 57px;
+    }
+
+    .nx-admin-reviews .nx-review-card__footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nx-admin-reviews .nx-review-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .nx-admin-reviews .nx-reviews-pagination {
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .nx-admin-reviews .nx-reviews-pagination__links nav {
+        justify-content: center;
+    }
+
+}
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .nx-admin-reviews .nx-reviews-panel {
+        padding: 12px;
+    }
+
+    .nx-admin-reviews .nx-reviews-count {
+        min-height: 29px;
+        padding-inline: 8px;
+        font-size: 10px;
+    }
+
+    .nx-admin-reviews .nx-review-filter {
+        font-size: 9px;
+    }
+
+    .nx-admin-reviews .nx-review-card__meta {
+        padding-inline-start: 0;
+    }
+
+    .nx-admin-reviews .nx-review-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nx-admin-reviews .nx-review-actions form,
+    .nx-admin-reviews .nx-review-action {
+        width: 100%;
+    }
+
+    .nx-admin-reviews .nx-review-action {
+        min-width: 0;
+    }
+
+    .nx-admin-reviews .nx-reviews-pagination__links .page-link {
+        min-width: 32px;
+        height: 32px;
+        padding-inline: 7px;
+    }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .nx-admin-reviews .nx-review-card,
+    .nx-admin-reviews .nx-review-alert {
+        animation: none;
+    }
+
+    .nx-admin-reviews .nx-review-card,
+    .nx-admin-reviews .nx-review-stat,
+    .nx-admin-reviews .nx-review-action {
+        transition: none;
+    }
+
+}
