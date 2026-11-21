@@ -588,11 +588,12 @@
     }
 
     .nx-page-content .ws-add-save{
-        background: #C58A62;
+        background: #315C4D;
+        color: #fff;
     }
 
     .nx-page-content .ws-add-save:hover{
-        background: #E6C9B3;
+        background: #274B3F;
     }
 
     .nx-page-content .ws-add-cancel{
@@ -641,7 +642,7 @@
         min-height: 100vh;
         box-sizing: border-box;
         padding: clamp(16px, 4vw, 48px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
-        background: #f7f1e7;
+        background: #F5F7F3;
         color: var(--ink);
         font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
     }
@@ -765,12 +766,12 @@
     }
 
     .nx-page-content .ws-page .ws-btn-primary{
-        background: #C58A62;
-        color: #1D2924;
+        background: #315C4D;
+        color: #fff;
     }
 
     .nx-page-content .ws-page .ws-btn-primary:hover{
-        background: #E6C9B3;
+        background: #274B3F;
     }
 
     .nx-page-content .ws-page .ws-btn-edit{

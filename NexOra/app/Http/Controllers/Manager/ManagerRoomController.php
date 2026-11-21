@@ -13,7 +13,7 @@ class ManagerRoomController extends Controller
     // Display Workspace Details and its Rooms
    public function index($workspaceId)
 {
-    $workspace = Workspace::with([
+    $workspace = Workspace::where('manager_id', auth()->id())->with([
         'images' => fn($q) => $q->orderByDesc('is_primary')
                                ->orderBy('sort_order'),
 

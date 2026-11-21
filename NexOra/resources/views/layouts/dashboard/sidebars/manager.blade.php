@@ -5,7 +5,7 @@
         ],
         'MANAGEMENT' => [
             ['manager.ai.index', [], ['manager.ai.*'], 'AI Assistant', 'cpu'],
-            ['manager.workspaces.create', [], ['manager.workspaces.*', 'manager.rooms.*'], 'Workspaces', 'briefcase'],
+            ['manager.workspaces.create', ['view' => 'list'], ['manager.workspaces.*', 'manager.rooms.*'], 'Workspaces', 'briefcase'],
             ['manager.bookings.index', [], ['manager.bookings.*'], 'Bookings', 'calendar'],
             ['manager.membership-plans.index', [], ['manager.membership-plans.*'], 'Membership Plans', 'layers'],
             ['manager.reviews.index', [], ['manager.reviews.*'], 'Reviews', 'star'],
