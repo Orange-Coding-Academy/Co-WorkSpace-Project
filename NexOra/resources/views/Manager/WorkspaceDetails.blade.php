@@ -6,1592 +6,1746 @@
 @section('page-title') Workspace details @endsection
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
+<link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
 @endpush
 
 @section('content')
 <div class="nx-page-content nx-workspace-ui nx-workspace-details">
-{{-- Workspace Details Page --}}
+    {{-- Workspace Details Page --}}
 
-<style>
-    .nx-page-content .ws-page{
-        padding: 25px;
-        color: #1D2924;
-    }
-
-    .nx-page-content .ws-header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-bottom: 25px;
-    }
-
-    .nx-page-content .room-gallery{
-        width: 100%;
-        height: 230px;
-        position: relative;
-        overflow: hidden;
-        border-radius: 14px;
-        background: #F5F7F3;
-    }
-
-    .nx-page-content .room-gallery-track{
-        width: 100%;
-        height: 100%;
-    }
-
-    .nx-page-content .room-gallery-image{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: none;
-    }
-
-    .nx-page-content .room-gallery-image.active{
-        display: block;
-    }
-
-    .nx-page-content .gallery-arrow{
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 36px;
-        height: 36px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.55);
-        color: white;
-        cursor: pointer;
-        font-size: 17px;
-        z-index: 2;
-    }
-
-    .nx-page-content .gallery-arrow.prev{
-        left: 12px;
-    }
-
-    .nx-page-content .gallery-arrow.next{
-        right: 12px;
-    }
-
-    .nx-page-content .gallery-arrow:hover{
-        background: rgba(0, 0, 0, 0.8);
-    }
-
-    .nx-page-content .gallery-counter{
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
-        background: rgba(0, 0, 0, 0.6);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-    }
-
-    .nx-page-content .no-room-image{
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #7F8B84;
-    }
-
-    .nx-page-content .ws-title{
-        font-size: 27px;
-        font-weight: 700;
-    }
-
-    .nx-page-content .ws-subtitle{
-        color: #7F8B84;
-        margin-top: 6px;
-    }
-
-    .nx-page-content .ws-btn{
-        border: none;
-        padding: 11px 18px;
-        border-radius: 9px;
-        cursor: pointer;
-        font-weight: 600;
-    }
-
-    .nx-page-content .ws-btn-primary{
-        background: #315C4D;
-        color: white;
-    }
-
-    .nx-page-content .ws-btn-edit{
-        background: #F5F7F3;
-        color: #315C4D;
-    }
-
-    .nx-page-content .ws-btn-delete{
-        background: #F5F7F3;
-        color: #dc3545;
-    }
-
-    .nx-page-content .ws-overview{
-        background: white;
-        border-radius: 14px;
-        padding: 22px;
-        margin-bottom: 30px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .04);
-    }
-
-    .nx-page-content .ws-gallery{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-        gap: 12px;
-        margin-top: 18px;
-    }
-
-    .nx-page-content .ws-gallery img{
-        width: 100%;
-        height: 145px;
-        object-fit: cover;
-        border-radius: 10px;
-    }
-
-    .nx-page-content .ws-info{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 18px;
-    }
-
-    .nx-page-content .ws-info-item{
-        color: #53615A;
-    }
-
-    .nx-page-content .ws-info-item strong{
-        display: block;
-        color: #1D2924;
-        margin-top: 5px;
-    }
-
-    .nx-page-content .ws-section-header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 20px;
-    }
-
-    .nx-page-content .ws-room-grid{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 20px;
-    }
-
-    .nx-page-content .ws-room-card{
-        background: white;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .05);
-    }
-
-    .nx-page-content .ws-room-image{
-        width: 100%;
-        height: 190px;
-        object-fit: cover;
-    }
-
-    .nx-page-content .ws-no-image{
-        height: 190px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #F5F7F3;
-        color: #7F8B84;
-    }
-
-    .nx-page-content .ws-room-content{
-        padding: 18px;
-    }
-
-    .nx-page-content .ws-room-content h3{
-        font-size: 19px;
-        margin: 0 0 12px;
-    }
-
-    .nx-page-content .ws-room-meta{
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        margin: 9px 0;
-        color: #53615A;
-        font-size: 14px;
-    }
-
-    .nx-page-content .ws-room-actions{
-        display: flex;
-        gap: 10px;
-        margin-top: 18px;
-    }
-
-    .nx-page-content .ws-room-actions button{
-        flex: 1;
-    }
-
-    .nx-page-content .ws-modal{
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(21, 42, 35, .65);
-        z-index: 9999;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-    }
-
-    .nx-page-content .ws-modal.show{
-        display: flex;
-    }
-
-    .nx-page-content .ws-modal-content{
-        background: white;
-        width: 100%;
-        max-width: 620px;
-        max-height: 90vh;
-        overflow-y: auto;
-        border-radius: 15px;
-        padding: 25px;
-    }
-
-    .nx-page-content .ws-modal-header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 22px;
-    }
-
-    .nx-page-content .ws-modal-header h2{
-        margin: 0;
-        font-size: 22px;
-    }
-
-    .nx-page-content .ws-close{
-        border: none;
-        background: none;
-        font-size: 27px;
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-form-group{
-        margin-bottom: 17px;
-    }
-
-    .nx-page-content .ws-form-group label{
-        display: block;
-        margin-bottom: 7px;
-        font-weight: 600;
-    }
-
-    .nx-page-content .ws-form-group input,
-    .nx-page-content .ws-form-group select,
-    .nx-page-content .ws-form-group textarea{
-        width: 100%;
-        padding: 11px;
-        border: 1px solid #E2E8E2;
-        border-radius: 8px;
-        outline: none;
-        box-sizing: border-box;
-    }
-
-    .nx-page-content .ws-form-group input:focus,
-    .nx-page-content .ws-form-group select:focus,
-    .nx-page-content .ws-form-group textarea:focus{
-        border-color: #315C4D;
-    }
-
-    .nx-page-content .ws-modal-actions{
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 22px;
-    }
-
-    .nx-page-content .ws-existing-images{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 12px;
-    }
-
-    .nx-page-content .ws-existing-image{
-        border: 1px solid #E9EEE9;
-        border-radius: 9px;
-        padding: 8px;
-        font-size: 12px;
-    }
-
-    .nx-page-content .ws-existing-image img{
-        width: 100%;
-        height: 85px;
-        object-fit: cover;
-        border-radius: 6px;
-    }
-
-    .nx-page-content .ws-alert{
-        padding: 13px 17px;
-        border-radius: 9px;
-        margin-bottom: 18px;
-    }
-
-    .nx-page-content .ws-success{
-        background: #e8f8ef;
-        color: #167343;
-    }
-
-    .nx-page-content .ws-error{
-        background: #F5F7F3;
-        color: #b42318;
-    }
-
-    .nx-page-content .ws-badge{
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 20px;
-        background: #e8f8ef;
-        color: #167343;
-        font-size: 12px;
-    }
-
-    .nx-page-content .ws-empty{
-        background: white;
-        border-radius: 14px;
-        padding: 50px 20px;
-        text-align: center;
-        color: #7F8B84;
-    }
-
-    @media(max-width:600px) {
-        .nx-page-content .ws-page{
-            padding: 12px;
+    <style>
+        .nx-page-content .ws-page {
+            padding: 25px;
+            color: #1D2924;
         }
 
-        .nx-page-content .ws-title{
+        .nx-page-content .ws-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .nx-page-content .room-gallery {
+            width: 100%;
+            height: 230px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #F5F7F3;
+        }
+
+        .nx-page-content .room-gallery-track {
+            width: 100%;
+            height: 100%;
+        }
+
+        .nx-page-content .room-gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .nx-page-content .room-gallery-image.active {
+            display: block;
+        }
+
+        .nx-page-content .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.55);
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+            z-index: 2;
+        }
+
+        .nx-page-content .gallery-arrow.prev {
+            left: 12px;
+        }
+
+        .nx-page-content .gallery-arrow.next {
+            right: 12px;
+        }
+
+        .nx-page-content .gallery-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .nx-page-content .gallery-counter {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .nx-page-content .no-room-image {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7F8B84;
+        }
+
+        .nx-page-content .ws-title {
+            font-size: 27px;
+            font-weight: 700;
+        }
+
+        .nx-page-content .ws-subtitle {
+            color: #7F8B84;
+            margin-top: 6px;
+        }
+
+        .nx-page-content .ws-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nx-page-content .ws-btn-primary {
+            background: #315C4D;
+            color: white;
+        }
+
+        .nx-page-content .ws-btn-edit {
+            background: #F5F7F3;
+            color: #315C4D;
+        }
+
+        .nx-page-content .ws-btn-delete {
+            background: #F5F7F3;
+            color: #dc3545;
+        }
+
+        .nx-page-content .ws-overview {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, .04);
+        }
+
+        .nx-page-content .ws-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .nx-page-content .ws-gallery img {
+            width: 100%;
+            height: 145px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .nx-page-content .ws-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 18px;
+        }
+
+        .nx-page-content .ws-info-item {
+            color: #53615A;
+        }
+
+        .nx-page-content .ws-info-item strong {
+            display: block;
+            color: #1D2924;
+            margin-top: 5px;
+        }
+
+        .nx-page-content .ws-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .nx-page-content .ws-room-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .nx-page-content .ws-room-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, .05);
+        }
+
+        .nx-page-content .ws-room-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .nx-page-content .ws-no-image {
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F5F7F3;
+            color: #7F8B84;
+        }
+
+        .nx-page-content .ws-room-content {
+            padding: 18px;
+        }
+
+        .nx-page-content .ws-room-content h3 {
+            font-size: 19px;
+            margin: 0 0 12px;
+        }
+
+        .nx-page-content .ws-room-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 9px 0;
+            color: #53615A;
+            font-size: 14px;
+        }
+
+        .nx-page-content .ws-room-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .nx-page-content .ws-room-actions button {
+            flex: 1;
+        }
+
+        .nx-page-content .ws-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(21, 42, 35, .65);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .nx-page-content .ws-modal.show {
+            display: flex;
+        }
+
+        .nx-page-content .ws-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 620px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .nx-page-content .ws-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .nx-page-content .ws-modal-header h2 {
+            margin: 0;
             font-size: 22px;
         }
-    }
 
-    .nx-page-content .ws-add-room{
-        box-sizing: border-box;
-        width: min(680px, calc(100% - 24px));
-        max-width: none;
-        max-height: min(90dvh, 820px);
-        overflow: hidden;
-        padding: 0;
-        border: 1px solid #E2E8E2;
-        border-radius: 22px;
-        color: #152A23;
-        background: #F5F7F3;
-        box-shadow: 0 28px 80px #102c3a45;
-    }
-
-    .nx-page-content .ws-add-room::backdrop{
-        background: #152c2bb3;
-    }
-
-    .nx-page-content .ws-add-room h2,
-    .nx-page-content .ws-add-room p,
-    .nx-page-content .ws-add-previews{
-        margin: 0;
-    }
-
-    .nx-page-content .ws-add-header,
-    .nx-page-content .ws-add-actions{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 16px clamp(16px, 4vw, 28px);
-    }
-
-    .nx-page-content .ws-add-header{
-        background: #152A23;
-        color: #F5F7F3;
-    }
-
-    .nx-page-content .ws-add-header p{
-        margin-top: 2px;
-        color: #E2E8E2;
-        font-size: .9rem;
-    }
-
-    .nx-page-content .ws-add-room[open],
-    .nx-page-content .ws-add-room>form{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .nx-page-content .ws-add-room>form{
-        min-height: 0;
-    }
-
-    .nx-page-content .ws-add-header,
-    .nx-page-content .ws-add-actions{
-        flex: none;
-    }
-
-    .nx-page-content .ws-add-body{
-        flex: 1 1 auto;
-        min-height: 0;
-        padding: 20px clamp(16px, 4vw, 28px);
-        overflow-y: auto;
-        overscroll-behavior-y: contain;
-        scrollbar-width: thin;
-        scrollbar-color: #7F8B84 #E9EEE9;
-    }
-
-    .nx-page-content .ws-add-fields{
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-    }
-
-    .nx-page-content .ws-add-fields .ws-form-group{
-        margin-bottom: 0;
-    }
-
-    .nx-page-content .ws-add-fields textarea{
-        resize: vertical;
-    }
-
-    .nx-page-content .ws-add-wide{
-        grid-column: 1 / -1;
-    }
-
-    .nx-page-content .ws-add-muted,
-    .nx-page-content .ws-add-fields small{
-        color: #53615A;
-        font-size: .85rem;
-        font-weight: 400;
-    }
-
-    .nx-page-content .ws-add-photos{
-        margin-top: 20px;
-    }
-
-    .nx-page-content .ws-add-photos>label{
-        display: block;
-        margin-bottom: 7px;
-        font-weight: 650;
-    }
-
-    .nx-page-content .ws-add-dropzone{
-        display: grid;
-        gap: 8px;
-        padding: 16px;
-        border: 1px dashed #7F8B84;
-        border-radius: 12px;
-        background: #E9EEE9;
-    }
-
-    .nx-page-content .ws-add-dropzone.is-dragging{
-        border-color: #276a59;
-        background: #E2E8E2;
-    }
-
-    .nx-page-content .ws-add-dropzone p{
-        color: #53615A;
-        font-size: .84rem;
-    }
-
-    .nx-page-content .ws-add-dropzone input{
-        width: 100%;
-        font: inherit;
-        font-size: .88rem;
-    }
-
-    .nx-page-content .ws-add-dropzone input::file-selector-button{
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-add-previews{
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 10px;
-        padding: 0;
-        list-style: none;
-    }
-
-    .nx-page-content .ws-add-previews:not(:empty),
-    .nx-page-content #C9D4CC-room-image-status:not(:empty){
-        margin-top: 10px;
-    }
-
-    .nx-page-content .ws-add-preview{
-        position: relative;
-        min-width: 0;
-    }
-
-    .nx-page-content .ws-add-preview img{
-        display: block;
-        width: 100%;
-        aspect-ratio: 4 / 3;
-        border-radius: 9px;
-        object-fit: cover;
-    }
-
-    .nx-page-content .ws-add-cover-label{
-        display: inline-block;
-        margin-top: 3px;
-        color: #152A23;
-        font-size: .8rem;
-        font-weight: 700;
-    }
-
-    .nx-page-content .ws-add-close,
-    .nx-page-content .ws-add-remove,
-    .nx-page-content .ws-add-save,
-    .nx-page-content .ws-add-cancel{
-        border: 1px solid transparent;
-        border-radius: 9px;
-        font: inherit;
-        font-weight: 650;
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-add-close,
-    .nx-page-content .ws-add-remove{
-        width: 34px;
-        height: 34px;
-        background: #152A23;
-        color: #fff;
-    }
-
-    .nx-page-content .ws-add-close{
-        border-color: #ffffff55;
-        font-size: 1.2rem;
-    }
-
-    .nx-page-content .ws-add-remove{
-        position: absolute;
-        top: 5px;
-        right: 5px;
-    }
-
-    .nx-page-content .ws-add-close:hover,
-    .nx-page-content .ws-add-remove:hover{
-        background: #203D34;
-    }
-
-    .nx-page-content .ws-add-actions{
-        justify-content: flex-end;
-        border-top: 1px solid #E2E8E2;
-    }
-
-    .nx-page-content .ws-add-save,
-    .nx-page-content .ws-add-cancel{
-        min-height: 44px;
-        padding: 8px 14px;
-        color: #152A23;
-    }
-
-    .nx-page-content .ws-add-save{
-        background: #315C4D;
-        color: #fff;
-    }
-
-    .nx-page-content .ws-add-save:hover{
-        background: #274B3F;
-    }
-
-    .nx-page-content .ws-add-cancel{
-        border-color: #E2E8E2;
-        background: #F5F7F3;
-    }
-
-    .nx-page-content .ws-add-cancel:hover{
-        background: #E9EEE9;
-    }
-
-    .nx-page-content .ws-add-room :focus-visible{
-        outline: 2px solid #29745e;
-        outline-offset: 2px;
-    }
-
-    .nx-page-content .ws-add-header :focus-visible{
-        outline-color: #E6C9B3;
-    }
-
-    .nx-page-content .ws-add-errors{
-        margin-top: 12px;
-        padding: 10px 14px;
-        border-radius: 8px;
-        background: #fff0ec;
-        color: #922f21;
-    }
-
-    .nx-page-content .ws-add-errors ul{
-        margin: 0 0 6px;
-        padding-left: 18px;
-    }
-
-    @media (max-width: 480px) {
-        .nx-page-content .ws-add-fields{
-            grid-template-columns: 1fr;
+        .nx-page-content .ws-close {
+            border: none;
+            background: none;
+            font-size: 27px;
+            cursor: pointer;
         }
-    }
 
-    .nx-page-content .ws-page{
-        --forest: #152A23;
-        --ink: #1D2924;
-        --muted: #53615A;
-        --paper: #F5F7F3;
-        --line: #E2E8E2;
-        min-height: 100vh;
-        box-sizing: border-box;
-        padding: clamp(20px, 2.5vw, 30px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
-        background: #F5F7F3;
-        color: var(--ink);
-        font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-    }
+        .nx-page-content .ws-form-group {
+            margin-bottom: 17px;
+        }
 
-    .nx-page-content .ws-page *,
-    .nx-page-content .ws-page *::before,
-    .nx-page-content .ws-page *::after{
-        box-sizing: border-box;
-    }
+        .nx-page-content .ws-form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
 
-    .nx-page-content .ws-page :focus-visible{
-        outline: 3px solid #29745e;
-        outline-offset: 3px;
-    }
+        .nx-page-content .ws-form-group input,
+        .nx-page-content .ws-form-group select,
+        .nx-page-content .ws-form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #E2E8E2;
+            border-radius: 8px;
+            outline: none;
+            box-sizing: border-box;
+        }
 
-    .nx-page-content .ws-page .ws-overview{
-        position: relative;
-        overflow: hidden;
-        display: grid;
-        gap: clamp(20px, 3vw, 30px);
-        align-items: center;
-        padding: clamp(22px, 3vw, 30px);
-        margin-bottom: 24px;
-        border: 1px solid #315C4D;
-        border-radius: 22px;
-        background: #315C4D;
-        color: #fff;
-        box-shadow: 0 14px 32px rgba(40, 91, 75, .18);
-        transition: transform .28s ease, background-color .28s ease, box-shadow .28s ease;
-    }
+        .nx-page-content .ws-form-group input:focus,
+        .nx-page-content .ws-form-group select:focus,
+        .nx-page-content .ws-form-group textarea:focus {
+            border-color: #315C4D;
+        }
 
-    .nx-page-content .ws-page .ws-overview::before,
-    .nx-page-content .ws-page .ws-overview::after{
-        position: absolute;
-        content: "";
-        pointer-events: none;
-        z-index: 0;
-        border-radius: 50%;
-        transition: transform .4s ease, opacity .28s ease;
-    }
+        .nx-page-content .ws-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
 
-    .nx-page-content .ws-page .ws-overview::before{
-        top: -150px;
-        right: 7%;
-        width: 245px;
-        height: 245px;
-        background: rgba(255, 255, 255, .10);
-    }
+        .nx-page-content .ws-existing-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+        }
 
-    .nx-page-content .ws-page .ws-overview::after{
-        right: 25%;
-        bottom: -122px;
-        width: 165px;
-        height: 165px;
-        background: rgba(197, 138, 98, .24);
-    }
+        .nx-page-content .ws-existing-image {
+            border: 1px solid #E9EEE9;
+            border-radius: 9px;
+            padding: 8px;
+            font-size: 12px;
+        }
 
-    .nx-page-content .ws-page .ws-overview > *{
-        position: relative;
-        z-index: 1;
-    }
+        .nx-page-content .ws-existing-image img {
+            width: 100%;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
 
-    @media (hover: hover) {
-        .nx-page-content .ws-page .ws-overview:hover{
+        .nx-page-content .ws-alert {
+            padding: 13px 17px;
+            border-radius: 9px;
+            margin-bottom: 18px;
+        }
+
+        .nx-page-content .ws-success {
+            background: #e8f8ef;
+            color: #167343;
+        }
+
+        .nx-page-content .ws-error {
+            background: #F5F7F3;
+            color: #b42318;
+        }
+
+        .nx-page-content .ws-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #e8f8ef;
+            color: #167343;
+            font-size: 12px;
+        }
+
+        .nx-page-content .ws-empty {
+            background: white;
+            border-radius: 14px;
+            padding: 50px 20px;
+            text-align: center;
+            color: #7F8B84;
+        }
+
+        @media(max-width:600px) {
+            .nx-page-content .ws-page {
+                padding: 12px;
+            }
+
+            .nx-page-content .ws-title {
+                font-size: 22px;
+            }
+        }
+
+        .nx-page-content .ws-add-room {
+            box-sizing: border-box;
+            width: min(680px, calc(100% - 24px));
+            max-width: none;
+            max-height: min(90dvh, 820px);
+            overflow: hidden;
+            padding: 0;
+            border: 1px solid #E2E8E2;
+            border-radius: 22px;
+            color: #152A23;
+            background: #F5F7F3;
+            box-shadow: 0 28px 80px #102c3a45;
+        }
+
+        .nx-page-content .ws-add-room::backdrop {
+            background: #152c2bb3;
+        }
+
+        .nx-page-content .ws-add-room h2,
+        .nx-page-content .ws-add-room p,
+        .nx-page-content .ws-add-previews {
+            margin: 0;
+        }
+
+        .nx-page-content .ws-add-header,
+        .nx-page-content .ws-add-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px clamp(16px, 4vw, 28px);
+        }
+
+        .nx-page-content .ws-add-header {
+            background: #152A23;
+            color: #F5F7F3;
+        }
+
+        .nx-page-content .ws-add-header p {
+            margin-top: 2px;
+            color: #E2E8E2;
+            font-size: .9rem;
+        }
+
+        .nx-page-content .ws-add-room[open],
+        .nx-page-content .ws-add-room>form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nx-page-content .ws-add-room>form {
+            min-height: 0;
+        }
+
+        .nx-page-content .ws-add-header,
+        .nx-page-content .ws-add-actions {
+            flex: none;
+        }
+
+        .nx-page-content .ws-add-body {
+            flex: 1 1 auto;
+            min-height: 0;
+            padding: 20px clamp(16px, 4vw, 28px);
+            overflow-y: auto;
+            overscroll-behavior-y: contain;
+            scrollbar-width: thin;
+            scrollbar-color: #7F8B84 #E9EEE9;
+        }
+
+        .nx-page-content .ws-add-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .nx-page-content .ws-add-fields .ws-form-group {
+            margin-bottom: 0;
+        }
+
+        .nx-page-content .ws-add-fields textarea {
+            resize: vertical;
+        }
+
+        .nx-page-content .ws-add-wide {
+            grid-column: 1 / -1;
+        }
+
+        .nx-page-content .ws-add-muted,
+        .nx-page-content .ws-add-fields small {
+            color: #53615A;
+            font-size: .85rem;
+            font-weight: 400;
+        }
+
+        .nx-page-content .ws-add-photos {
+            margin-top: 20px;
+        }
+
+        .nx-page-content .ws-add-photos>label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 650;
+        }
+
+        .nx-page-content .ws-add-dropzone {
+            display: grid;
+            gap: 8px;
+            padding: 16px;
+            border: 1px dashed #7F8B84;
+            border-radius: 12px;
+            background: #E9EEE9;
+        }
+
+        .nx-page-content .ws-add-dropzone.is-dragging {
+            border-color: #276a59;
+            background: #E2E8E2;
+        }
+
+        .nx-page-content .ws-add-dropzone p {
+            color: #53615A;
+            font-size: .84rem;
+        }
+
+        .nx-page-content .ws-add-dropzone input {
+            width: 100%;
+            font: inherit;
+            font-size: .88rem;
+        }
+
+        .nx-page-content .ws-add-dropzone input::file-selector-button {
+            cursor: pointer;
+        }
+
+        .nx-page-content .ws-add-previews {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nx-page-content .ws-add-previews:not(:empty),
+        .nx-page-content #C9D4CC-room-image-status:not(:empty) {
+            margin-top: 10px;
+        }
+
+        .nx-page-content .ws-add-preview {
+            position: relative;
+            min-width: 0;
+        }
+
+        .nx-page-content .ws-add-preview img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border-radius: 9px;
+            object-fit: cover;
+        }
+
+        .nx-page-content .ws-add-cover-label {
+            display: inline-block;
+            margin-top: 3px;
+            color: #152A23;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .nx-page-content .ws-add-close,
+        .nx-page-content .ws-add-remove,
+        .nx-page-content .ws-add-save,
+        .nx-page-content .ws-add-cancel {
+            border: 1px solid transparent;
+            border-radius: 9px;
+            font: inherit;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .nx-page-content .ws-add-close,
+        .nx-page-content .ws-add-remove {
+            width: 34px;
+            height: 34px;
+            background: #152A23;
+            color: #fff;
+        }
+
+        .nx-page-content .ws-add-close {
+            border-color: #ffffff55;
+            font-size: 1.2rem;
+        }
+
+        .nx-page-content .ws-add-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+
+        .nx-page-content .ws-add-close:hover,
+        .nx-page-content .ws-add-remove:hover {
+            background: #203D34;
+        }
+
+        .nx-page-content .ws-add-actions {
+            justify-content: flex-end;
+            border-top: 1px solid #E2E8E2;
+        }
+
+        .nx-page-content .ws-add-save,
+        .nx-page-content .ws-add-cancel {
+            min-height: 44px;
+            padding: 8px 14px;
+            color: #152A23;
+        }
+
+        .nx-page-content .ws-add-save {
+            background: #315C4D;
+            color: #fff;
+        }
+
+        .nx-page-content .ws-add-save:hover {
             background: #274B3F;
-            box-shadow: 0 20px 42px rgba(39, 75, 63, .24);
-            transform: translateY(-3px);
         }
 
-        .nx-page-content .ws-page .ws-overview:hover::before{
-            transform: translate(-10px, 10px) scale(1.05);
+        .nx-page-content .ws-add-cancel {
+            border-color: #E2E8E2;
+            background: #F5F7F3;
         }
 
-        .nx-page-content .ws-page .ws-overview:hover::after{
-            transform: translate(8px, -8px) scale(1.08);
+        .nx-page-content .ws-add-cancel:hover {
+            background: #E9EEE9;
         }
 
-        .nx-page-content .ws-page .ws-overview .ws-gallery img{
-            transition: transform .35s ease;
+        .nx-page-content .ws-add-room :focus-visible {
+            outline: 2px solid #29745e;
+            outline-offset: 2px;
         }
 
-        .nx-page-content .ws-page .ws-overview:hover .ws-gallery img{
-            transform: scale(1.025);
-        }
-    }
-
-    .nx-page-content .ws-overview:has(.ws-gallery){
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-
-    .nx-page-content .ws-overview h1{
-        margin: 0;
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 1.1;
-        letter-spacing: -.055em;
-        overflow-wrap: anywhere;
-        color: #fff;
-    }
-
-    .nx-page-content .ws-overview-copy>p{
-        color: #E3EFE8;
-        margin: 8px 0 0;
-    }
-
-    .nx-page-content .ws-page .ws-info{
-        gap: 10px 20px;
-    }
-
-    .nx-page-content .ws-overview .ws-info-item{
-        color: #CFE1D8;
-        font-size: .8rem;
-    }
-
-    .nx-page-content .ws-overview .ws-info-item strong{
-        color: #fff;
-        font-size: .94rem;
-    }
-
-    .nx-page-content .ws-facilities{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
-        padding: 0;
-        margin: 16px 0 0;
-        list-style: none;
-    }
-
-    .nx-page-content .ws-facilities li{
-        padding: 4px 9px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, .18);
-        background: rgba(255, 255, 255, .14);
-        color: #fff;
-        font-size: .82rem;
-    }
-
-    .nx-page-content .ws-page .ws-gallery{
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        margin: 0;
-    }
-
-    .nx-page-content .ws-page .ws-gallery img{
-        display: block;
-        height: auto;
-        aspect-ratio: 4 / 3;
-    }
-
-    .nx-page-content .ws-page .ws-gallery img:first-child{
-        grid-column: 1 / -1;
-        aspect-ratio: 4 / 3;
-        border-radius: 16px;
-        object-fit: cover;
-    }
-
-    .nx-page-content .ws-page .ws-section-header{
-        margin-bottom: 16px;
-    }
-
-    .nx-page-content .ws-rooms-title{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0;
-        font-size: 1.65rem;
-        letter-spacing: -.04em;
-    }
-
-    .nx-page-content .ws-room-count{
-        background: #E2E8E2;
-        color: #1D2924;
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: .82rem;
-        letter-spacing: 0;
-    }
-
-    .nx-page-content .ws-page .ws-btn{
-        min-height: 44px;
-        border-radius: 12px;
-        font: inherit;
-        font-size: .9rem;
-        font-weight: 700;
-    }
-
-    .nx-page-content .ws-page .ws-btn-primary{
-        background: #315C4D;
-        color: #fff;
-    }
-
-    .nx-page-content .ws-page .ws-btn-primary:hover{
-        background: #274B3F;
-    }
-
-    .nx-page-content .ws-page .ws-btn-edit{
-        border: 1px solid #C9D4CC;
-        background: #F8FAF7;
-        color: #1D2924;
-    }
-
-    .nx-page-content .ws-page .ws-btn-edit:hover{
-        background: #E9EEE9;
-    }
-
-    .nx-page-content .ws-page .ws-btn-delete{
-        background: #fff0ec;
-        color: #963529;
-    }
-
-    .nx-page-content .ws-page .ws-btn-delete:hover{
-        background: #ffe2d9;
-    }
-
-    .nx-page-content .ws-page .ws-room-grid{
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
-        gap: 16px;
-    }
-
-    .nx-page-content .ws-page .ws-room-grid:has(.ws-room-card:only-child){
-        grid-template-columns: 1fr;
-    }
-
-    .nx-page-content .ws-page .ws-room-card:only-child{
-        display: grid;
-        grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
-        min-height: 300px;
-    }
-
-    .nx-page-content .ws-page .ws-room-card:only-child .room-gallery,
-    .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image{
-        height: 100%;
-        min-height: 300px;
-        aspect-ratio: auto;
-    }
-
-    .nx-page-content .ws-page .ws-room-card:only-child .ws-room-content{
-        padding: 24px;
-    }
-
-    .nx-page-content .ws-page .ws-room-card:only-child .ws-room-meta{
-        max-width: 540px;
-    }
-
-    .nx-page-content .ws-page .ws-room-card{
-        display: flex;
-        flex-direction: column;
-        background: #fff;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        box-shadow: none;
-    }
-
-    .nx-page-content .ws-page .ws-room-card:hover{
-        border-color: #C9D4CC;
-        box-shadow: 0 8px 22px #103b3410;
-    }
-
-    .nx-page-content .ws-page .room-gallery,
-    .nx-page-content .ws-page .ws-no-image{
-        height: auto;
-        aspect-ratio: 16 / 9;
-        border-radius: 0;
-        background: #E9EEE9;
-    }
-
-    .nx-page-content .ws-page .ws-no-image{
-        color: var(--muted);
-    }
-
-    .nx-page-content .ws-page .gallery-arrow{
-        width: 44px;
-        height: 44px;
-        background: #103b34d9;
-    }
-
-    .nx-page-content .ws-page .gallery-arrow:hover{
-        background: #152A23;
-    }
-
-    .nx-page-content .ws-page .gallery-arrow:focus-visible{
-        outline-color: #fff;
-    }
-
-    .nx-page-content .ws-page .ws-room-content{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        padding: 16px;
-    }
-
-    .nx-page-content .ws-page .ws-room-content h3{
-        margin-bottom: 8px;
-        overflow-wrap: anywhere;
-    }
-
-    .nx-page-content .ws-page .ws-room-meta{
-        margin: 0;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--line);
-        color: var(--muted);
-    }
-
-    .nx-page-content .ws-room-meta strong{
-        color: var(--ink);
-        text-align: right;
-    }
-
-    .nx-page-content .ws-page .ws-room-actions{
-        margin-top: auto;
-        padding-top: 14px;
-        flex-wrap: wrap;
-    }
-
-    .nx-page-content .ws-page .ws-badge{
-        align-self: start;
-        background: #E2E8E2;
-        color: #185940;
-    }
-
-    .nx-page-content .ws-page .ws-badge.is-inactive{
-        background: #E9EEE9;
-        color: #53615A;
-    }
-
-    @media (max-width: 700px) {
-        .nx-page-content .ws-overview:has(.ws-gallery){
-            grid-template-columns: minmax(0, 1fr);
+        .nx-page-content .ws-add-header :focus-visible {
+            outline-color: #E6C9B3;
         }
 
-        .nx-page-content .ws-page .ws-room-card:only-child{
+        .nx-page-content .ws-add-errors {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #fff0ec;
+            color: #922f21;
+        }
+
+        .nx-page-content .ws-add-errors ul {
+            margin: 0 0 6px;
+            padding-left: 18px;
+        }
+
+        @media (max-width: 480px) {
+            .nx-page-content .ws-add-fields {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .nx-page-content .ws-page {
+            --forest: #152A23;
+            --ink: #1D2924;
+            --muted: #53615A;
+            --paper: #F5F7F3;
+            --line: #E2E8E2;
+            min-height: 100vh;
+            box-sizing: border-box;
+            padding: clamp(20px, 2.5vw, 30px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
+            background: #F5F7F3;
+            color: var(--ink);
+            font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+        }
+
+        .nx-page-content .ws-page *,
+        .nx-page-content .ws-page *::before,
+        .nx-page-content .ws-page *::after {
+            box-sizing: border-box;
+        }
+
+        .nx-page-content .ws-page :focus-visible {
+            outline: 3px solid #29745e;
+            outline-offset: 3px;
+        }
+
+        .nx-page-content .ws-page .ws-overview {
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            gap: clamp(20px, 3vw, 30px);
+            align-items: center;
+            padding: clamp(22px, 3vw, 30px);
+            margin-bottom: 24px;
+            border: 1px solid #315C4D;
+            border-radius: 22px;
+            background: #315C4D;
+            color: #fff;
+            box-shadow: 0 14px 32px rgba(40, 91, 75, .18);
+            transition: transform .28s ease, background-color .28s ease, box-shadow .28s ease;
+        }
+
+        .nx-page-content .ws-page .ws-overview::before,
+        .nx-page-content .ws-page .ws-overview::after {
+            position: absolute;
+            content: "";
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            transition: transform .4s ease, opacity .28s ease;
+        }
+
+        .nx-page-content .ws-page .ws-overview::before {
+            top: -150px;
+            right: 7%;
+            width: 245px;
+            height: 245px;
+            background: rgba(255, 255, 255, .10);
+        }
+
+        .nx-page-content .ws-page .ws-overview::after {
+            right: 25%;
+            bottom: -122px;
+            width: 165px;
+            height: 165px;
+            background: rgba(197, 138, 98, .24);
+        }
+
+        .nx-page-content .ws-page .ws-overview>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (hover: hover) {
+            .nx-page-content .ws-page .ws-overview:hover {
+                background: #274B3F;
+                box-shadow: 0 20px 42px rgba(39, 75, 63, .24);
+                transform: translateY(-3px);
+            }
+
+            .nx-page-content .ws-page .ws-overview:hover::before {
+                transform: translate(-10px, 10px) scale(1.05);
+            }
+
+            .nx-page-content .ws-page .ws-overview:hover::after {
+                transform: translate(8px, -8px) scale(1.08);
+            }
+
+            .nx-page-content .ws-page .ws-overview .ws-gallery img {
+                transition: transform .35s ease;
+            }
+
+            .nx-page-content .ws-page .ws-overview:hover .ws-gallery img {
+                transform: scale(1.025);
+            }
+        }
+
+        .nx-page-content .ws-overview:has(.ws-gallery) {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .nx-page-content .ws-overview h1 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.1;
+            letter-spacing: -.055em;
+            overflow-wrap: anywhere;
+            color: #fff;
+        }
+
+        .nx-page-content .ws-overview-copy>p {
+            color: #E3EFE8;
+            margin: 8px 0 0;
+        }
+
+        .nx-page-content .ws-page .ws-info {
+            gap: 10px 20px;
+        }
+
+        .nx-page-content .ws-overview .ws-info-item {
+            color: #CFE1D8;
+            font-size: .8rem;
+        }
+
+        .nx-page-content .ws-overview .ws-info-item strong {
+            color: #fff;
+            font-size: .94rem;
+        }
+
+        .nx-page-content .ws-facilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            padding: 0;
+            margin: 16px 0 0;
+            list-style: none;
+        }
+
+        .nx-page-content .ws-facilities li {
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
+            font-size: .82rem;
+        }
+
+        .nx-page-content .ws-page .ws-gallery {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin: 0;
+        }
+
+        .nx-page-content .ws-page .ws-gallery img {
+            display: block;
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+
+        .nx-page-content .ws-page .ws-gallery img:first-child {
+            grid-column: 1 / -1;
+            aspect-ratio: 4 / 3;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        .nx-page-content .ws-page .ws-section-header {
+            margin-bottom: 16px;
+        }
+
+        .nx-page-content .ws-rooms-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 1.65rem;
+            letter-spacing: -.04em;
+        }
+
+        .nx-page-content .ws-room-count {
+            background: #E2E8E2;
+            color: #1D2924;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: .82rem;
+            letter-spacing: 0;
+        }
+
+        .nx-page-content .ws-page .ws-btn {
+            min-height: 44px;
+            border-radius: 12px;
+            font: inherit;
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+        .nx-page-content .ws-page .ws-btn-primary {
+            background: #315C4D;
+            color: #fff;
+        }
+
+        .nx-page-content .ws-page .ws-btn-primary:hover {
+            background: #274B3F;
+        }
+
+        .nx-page-content .ws-page .ws-btn-edit {
+            border: 1px solid #C9D4CC;
+            background: #F8FAF7;
+            color: #1D2924;
+        }
+
+        .nx-page-content .ws-page .ws-btn-edit:hover {
+            background: #E9EEE9;
+        }
+
+        .nx-page-content .ws-page .ws-btn-delete {
+            background: #fff0ec;
+            color: #963529;
+        }
+
+        .nx-page-content .ws-page .ws-btn-delete:hover {
+            background: #ffe2d9;
+        }
+
+        .nx-page-content .ws-page .ws-room-grid {
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
+            gap: 16px;
+        }
+
+        .nx-page-content .ws-page .ws-room-grid:has(.ws-room-card:only-child) {
             grid-template-columns: 1fr;
+        }
+
+        .nx-page-content .ws-page .ws-room-card:only-child {
+            display: grid;
+            grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
+            min-height: 300px;
         }
 
         .nx-page-content .ws-page .ws-room-card:only-child .room-gallery,
-        .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image{
-            min-height: 0;
+        .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image {
+            height: 100%;
+            min-height: 300px;
+            aspect-ratio: auto;
+        }
+
+        .nx-page-content .ws-page .ws-room-card:only-child .ws-room-content {
+            padding: 24px;
+        }
+
+        .nx-page-content .ws-page .ws-room-card:only-child .ws-room-meta {
+            max-width: 540px;
+        }
+
+        .nx-page-content .ws-page .ws-room-card {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: none;
+        }
+
+        .nx-page-content .ws-page .ws-room-card:hover {
+            border-color: #C9D4CC;
+            box-shadow: 0 8px 22px #103b3410;
+        }
+
+        .nx-page-content .ws-page .room-gallery,
+        .nx-page-content .ws-page .ws-no-image {
+            height: auto;
             aspect-ratio: 16 / 9;
-        }
-    }
-
-    .nx-page-content .ws-facility-picker{
-        min-width: 0;
-        margin: 0;
-        padding: 0;
-        border: 0;
-    }
-
-    .nx-page-content .ws-facility-picker legend{
-        margin-bottom: 8px;
-        padding: 0;
-        font-weight: 650;
-    }
-
-    .nx-page-content .ws-facility-options{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-
-    .nx-page-content .ws-facility-option{
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 40px;
-        padding: 6px 12px;
-        border: 1px solid #E2E8E2;
-        border-radius: 9px;
-        background: #F5F7F3;
-        font-size: .88rem;
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-facility-option:hover{
-        border-color: #7F8B84;
-    }
-
-    .nx-page-content .ws-facility-option:has(:checked){
-        border-color: #53615A;
-        background: #E9EEE9;
-    }
-
-    .nx-page-content .ws-facility-option input{
-        width: 16px;
-        height: 16px;
-        margin: 0;
-        accent-color: #276a59;
-    }
-
-    .nx-page-content .ws-add-photos .ws-photo-label{
-        margin-bottom: 8px;
-        font-weight: 650;
-    }
-
-    .nx-page-content .ws-add-dropzone{
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .nx-page-content .ws-upload-icon{
-        display: grid;
-        width: 42px;
-        height: 42px;
-        place-items: center;
-        border-radius: 11px;
-        background: #E2E8E2;
-        color: #152A23;
-        font-size: 1.25rem;
-        font-weight: 750;
-    }
-
-    .nx-page-content .ws-upload-copy p{
-        margin-top: 3px;
-    }
-
-    .nx-page-content .ws-file-picker{
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 44px;
-        padding: 8px 13px;
-        border: 1px solid #203D34;
-        border-radius: 9px;
-        background: #152A23;
-        color: #F5F7F3;
-        font-size: .86rem;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-file-picker:hover{
-        background: #203D34;
-    }
-
-    .nx-page-content .ws-file-picker:focus-within{
-        outline: 2px solid #29745e;
-        outline-offset: 3px;
-    }
-
-    .nx-page-content .ws-add-dropzone .ws-file-picker input{
-        position: absolute;
-        inset: 0;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-    }
-
-    .nx-page-content .ws-add-preview img{
-        border: 1px solid #E2E8E2;
-    }
-
-    .nx-page-content .ws-add-previews .ws-add-remove{
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-    }
-
-    .nx-page-content .ws-add-cover-label{
-        padding: 2px 8px;
-        border-radius: 999px;
-        background: #E9EEE9;
-    }
-
-    @media (max-width: 480px) {
-        .nx-page-content .ws-add-dropzone{
-            grid-template-columns: auto minmax(0, 1fr);
+            border-radius: 0;
+            background: #E9EEE9;
         }
 
-        .nx-page-content .ws-file-picker{
-            grid-column: 1 / -1;
-            justify-self: start;
+        .nx-page-content .ws-page .ws-no-image {
+            color: var(--muted);
         }
-    }
-    .nx-page-content .ws-back-link{
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        margin-bottom: 16px;
-        padding: 8px 12px;
-        border: 1px solid #C9D4CC;
-        border-radius: 9px;
-        background: #F8FAF7;
-        color: #1D2924;
-        font-weight: 700;
-        text-decoration: none;
-    }
 
-    .nx-page-content .ws-back-link:hover{ background: #E2E8E2; }
+        .nx-page-content .ws-page .gallery-arrow {
+            width: 44px;
+            height: 44px;
+            background: #103b34d9;
+        }
 
-    .nx-page-content .ws-breadcrumb{
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 7px;
-        margin-bottom: 10px;
-        color: #718078;
-        font-size: .86rem;
-    }
+        .nx-page-content .ws-page .gallery-arrow:hover {
+            background: #152A23;
+        }
 
-    .nx-page-content .ws-breadcrumb a{
-        color: #285B4B;
-        font-weight: 700;
-        text-decoration: none;
-    }
+        .nx-page-content .ws-page .gallery-arrow:focus-visible {
+            outline-color: #fff;
+        }
 
-    .nx-page-content .ws-breadcrumb strong{ color: #1D2925; }
-</style>
+        .nx-page-content .ws-page .ws-room-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 16px;
+        }
 
-<div class="ws-page">
+        .nx-page-content .ws-page .ws-room-content h3 {
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
 
-    {{-- Alerts --}}
+        .nx-page-content .ws-page .ws-room-meta {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+            color: var(--muted);
+        }
 
-    @if(session('success'))
-    <div class="ws-alert ws-success">
-        {{ session('success') }}
-    </div>
-    @endif
+        .nx-page-content .ws-room-meta strong {
+            color: var(--ink);
+            text-align: right;
+        }
 
-    @if(session('error'))
-    <div class="ws-alert ws-error">
-        {{ session('error') }}
-    </div>
-    @endif
+        .nx-page-content .ws-page .ws-room-actions {
+            margin-top: auto;
+            padding-top: 14px;
+            flex-wrap: wrap;
+        }
 
-    @if($errors->any())
-    <div class="ws-alert ws-error">
-        <strong>Please check the following errors:</strong>
+        .nx-page-content .ws-page .ws-badge {
+            align-self: start;
+            background: #E2E8E2;
+            color: #185940;
+        }
 
-        <ul>
-            @foreach($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+        .nx-page-content .ws-page .ws-badge.is-inactive {
+            background: #E9EEE9;
+            color: #53615A;
+        }
 
-    <nav class="ws-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ route('manager.dashboard') }}">Manager</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">My workspaces</a>
-        <span aria-hidden="true">/</span>
-        <strong>{{ $workspace->name }}</strong>
-    </nav>
+        @media (max-width: 700px) {
+            .nx-page-content .ws-overview:has(.ws-gallery) {
+                grid-template-columns: minmax(0, 1fr);
+            }
 
-    <a class="ws-back-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
-        <span aria-hidden="true">&larr;</span> My workspaces
-    </a>
+            .nx-page-content .ws-page .ws-room-card:only-child {
+                grid-template-columns: 1fr;
+            }
 
-    {{-- Workspace Overview --}}
-    <section class="ws-overview" aria-labelledby="workspace-title">
-        <div class="ws-overview-copy">
-            <h1 id="workspace-title">{{ $workspace->name }}</h1>
-            @if (filled($workspace->description))
-            <p>{{ $workspace->description }}</p>
-            @endif
+            .nx-page-content .ws-page .ws-room-card:only-child .room-gallery,
+            .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image {
+                min-height: 0;
+                aspect-ratio: 16 / 9;
+            }
+        }
 
-            <div class="ws-info">
-                <div class="ws-info-item">Location <strong>{{ $workspace->location }}</strong></div>
-                <div class="ws-info-item">Approval <strong>{{ ucfirst($workspace->approval_status) }}</strong></div>
-                <div class="ws-info-item">Commission <strong>{{ $workspace->commission_rate }}%</strong></div>
-                <div class="ws-info-item">Availability <strong>{{ $workspace->is_active ? 'Active' : 'Inactive' }}</strong></div>
-            </div>
+        .nx-page-content .ws-facility-picker {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
 
-            @if ($workspace->facilities)
-            <ul class="ws-facilities" role="list" aria-label="Workspace facilities">
-                @foreach ($workspace->facilities as $facility)
-                <li>{{ $facility }}</li>
-                @endforeach
-            </ul>
-            @endif
-        </div>
+        .nx-page-content .ws-facility-picker legend {
+            margin-bottom: 8px;
+            padding: 0;
+            font-weight: 650;
+        }
 
-        @if ($workspace->images->isNotEmpty())
-        <div class="ws-gallery">
-            @foreach ($workspace->images as $image)
-            <img src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
-                alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}">
-            @endforeach
+        .nx-page-content .ws-facility-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .nx-page-content .ws-facility-option {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 6px 12px;
+            border: 1px solid #E2E8E2;
+            border-radius: 9px;
+            background: #F5F7F3;
+            font-size: .88rem;
+            cursor: pointer;
+        }
+
+        .nx-page-content .ws-facility-option:hover {
+            border-color: #7F8B84;
+        }
+
+        .nx-page-content .ws-facility-option:has(:checked) {
+            border-color: #53615A;
+            background: #E9EEE9;
+        }
+
+        .nx-page-content .ws-facility-option input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: #276a59;
+        }
+
+        .nx-page-content .ws-add-photos .ws-photo-label {
+            margin-bottom: 8px;
+            font-weight: 650;
+        }
+
+        .nx-page-content .ws-add-dropzone {
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nx-page-content .ws-upload-icon {
+            display: grid;
+            width: 42px;
+            height: 42px;
+            place-items: center;
+            border-radius: 11px;
+            background: #E2E8E2;
+            color: #152A23;
+            font-size: 1.25rem;
+            font-weight: 750;
+        }
+
+        .nx-page-content .ws-upload-copy p {
+            margin-top: 3px;
+        }
+
+        .nx-page-content .ws-file-picker {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 8px 13px;
+            border: 1px solid #203D34;
+            border-radius: 9px;
+            background: #152A23;
+            color: #F5F7F3;
+            font-size: .86rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .nx-page-content .ws-file-picker:hover {
+            background: #203D34;
+        }
+
+        .nx-page-content .ws-file-picker:focus-within {
+            outline: 2px solid #29745e;
+            outline-offset: 3px;
+        }
+
+        .nx-page-content .ws-add-dropzone .ws-file-picker input {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .nx-page-content .ws-add-preview img {
+            border: 1px solid #E2E8E2;
+        }
+
+        .nx-page-content .ws-add-previews .ws-add-remove {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .nx-page-content .ws-add-cover-label {
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #E9EEE9;
+        }
+
+        @media (max-width: 480px) {
+            .nx-page-content .ws-add-dropzone {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            .nx-page-content .ws-file-picker {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+        }
+
+        .nx-page-content .ws-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 16px;
+            padding: 8px 12px;
+            border: 1px solid #C9D4CC;
+            border-radius: 9px;
+            background: #F8FAF7;
+            color: #1D2924;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nx-page-content .ws-back-link:hover {
+            background: #E2E8E2;
+        }
+
+        .nx-page-content .ws-breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+            color: #718078;
+            font-size: .86rem;
+        }
+
+        .nx-page-content .ws-breadcrumb a {
+            color: #285B4B;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nx-page-content .ws-breadcrumb strong {
+            color: #1D2925;
+        }
+
+        .custom-delete-modal {
+            width: 420px;
+            max-width: calc(100% - 30px);
+            padding: 28px;
+            border: 1px solid #DCE5DE;
+            border-radius: 20px;
+            background: #fff;
+            color: #24332D;
+            box-shadow: 0 20px 60px rgba(31, 64, 54, .15);
+        }
+
+        .custom-delete-modal::backdrop {
+            background: rgba(25, 45, 37, .50);
+            backdrop-filter: blur(4px);
+        }
+
+        .delete-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .delete-modal-icon {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: #EDF2ED;
+            color: #315F50;
+            font-size: 21px;
+        }
+
+        .delete-modal-header button {
+            border: none;
+            background: none;
+            color: #68766E;
+            font-size: 27px;
+            cursor: pointer;
+        }
+
+        .custom-delete-modal h3 {
+            color: #203F35;
+            font-size: 22px;
+            margin-top: 22px;
+        }
+
+        .custom-delete-modal p {
+            color: #68766E;
+            line-height: 1.7;
+        }
+
+        .delete-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .delete-modal-actions button {
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-cancel {
+            background: #EDF2ED;
+            color: #29483D;
+        }
+
+        .modal-delete {
+            background: #315F50;
+            color: white;
+        }
+
+        .modal-delete:hover {
+            background: #254C3F;
+        }
+
+        .custom-delete-modal .delete-modal-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
+            background: #edf2ec;
+            color: #315c4d;
+        }
+
+        .custom-delete-modal .delete-modal-icon svg {
+            display: block;
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+    </style>
+
+    <div class="ws-page">
+
+        {{-- Alerts --}}
+
+        @if(session('success'))
+        <div class="ws-alert ws-success">
+            {{ session('success') }}
         </div>
         @endif
-    </section>
 
-    <div class="ws-section-header">
-        <h2 class="ws-rooms-title">Rooms <span class="ws-room-count">{{ $rooms->count() }}</span></h2>
-        <button type="button" class="ws-btn ws-btn-primary" onclick="openAddModal()">
-            <span aria-hidden="true">+</span> Add room
-        </button>
-    </div>
+        @if(session('error'))
+        <div class="ws-alert ws-error">
+            {{ session('error') }}
+        </div>
+        @endif
 
-    {{-- Room Cards --}}
+        @if($errors->any())
+        <div class="ws-alert ws-error">
+            <strong>Please check the following errors:</strong>
 
-    <div class="ws-room-grid">
+            <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
-        @forelse($rooms as $room)
+        <nav class="ws-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ route('manager.dashboard') }}">Manager</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">My workspaces</a>
+            <span aria-hidden="true">/</span>
+            <strong>{{ $workspace->name }}</strong>
+        </nav>
 
-        <div class="ws-room-card"
-             data-name="{{ $room->name }}"
-             data-type="{{ $room->room_type }}"
-             data-capacity="{{ $room->capacity }}"
-             data-price="{{ $room->hourly_price }}"
-             data-facilities="{{ implode(', ', $room->facilities ?? []) }}">
+        <a class="ws-back-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
+            <span aria-hidden="true">&larr;</span> My workspaces
+        </a>
 
-            @if ($room->images->isNotEmpty())
+        {{-- Workspace Overview --}}
+        <section class="ws-overview" aria-labelledby="workspace-title">
+            <div class="ws-overview-copy">
+                <h1 id="workspace-title">{{ $workspace->name }}</h1>
+                @if (filled($workspace->description))
+                <p>{{ $workspace->description }}</p>
+                @endif
+
+                <div class="ws-info">
+                    <div class="ws-info-item">Location <strong>{{ $workspace->location }}</strong></div>
+                    <div class="ws-info-item">Approval <strong>{{ ucfirst($workspace->approval_status) }}</strong></div>
+                    <div class="ws-info-item">Commission <strong>{{ $workspace->commission_rate }}%</strong></div>
+                    <div class="ws-info-item">Availability <strong>{{ $workspace->is_active ? 'Active' : 'Inactive' }}</strong></div>
+                </div>
+
+                @if ($workspace->facilities)
+                <ul class="ws-facilities" role="list" aria-label="Workspace facilities">
+                    @foreach ($workspace->facilities as $facility)
+                    <li>{{ $facility }}</li>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+
+            @if ($workspace->images->isNotEmpty())
+            <div class="ws-gallery">
+                @foreach ($workspace->images as $image)
+                <img src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
+                    alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}">
+                @endforeach
+            </div>
+            @endif
+        </section>
+
+        <div class="ws-section-header">
+            <h2 class="ws-rooms-title">Rooms <span class="ws-room-count">{{ $rooms->count() }}</span></h2>
+            <button type="button" class="ws-btn ws-btn-primary" onclick="openAddModal()">
+                <span aria-hidden="true">+</span> Add room
+            </button>
+        </div>
+
+        {{-- Room Cards --}}
+
+        <div class="ws-room-grid">
+
+            @forelse($rooms as $room)
+
+            <div class="ws-room-card"
+                data-name="{{ $room->name }}"
+                data-type="{{ $room->room_type }}"
+                data-capacity="{{ $room->capacity }}"
+                data-price="{{ $room->hourly_price }}"
+                data-facilities="{{ implode(', ', $room->facilities ?? []) }}">
+
+                @if ($room->images->isNotEmpty())
                 <div class="room-gallery">
                     <div class="room-gallery-track">
                         @foreach ($room->images->sortBy([['is_primary', 'desc'], ['sort_order', 'asc']]) as $image)
-                            <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
-                                 src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
-                                 alt="{{ $image->alt_text ?: $room->name }}"
-                                 data-image-id="{{ $image->id }}"
-                                 data-primary="{{ $image->is_primary ? '1' : '0' }}"
-                                 loading="lazy">
+                        <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
+                            src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
+                            alt="{{ $image->alt_text ?: $room->name }}"
+                            data-image-id="{{ $image->id }}"
+                            data-primary="{{ $image->is_primary ? '1' : '0' }}"
+                            loading="lazy">
                         @endforeach
                     </div>
 
                     @if ($room->images->count() > 1)
-                        <button type="button" class="gallery-arrow prev" aria-label="Previous room photo"
-                                onclick="changeRoomImage(this, -1)">&lsaquo;</button>
-                        <button type="button" class="gallery-arrow next" aria-label="Next room photo"
-                                onclick="changeRoomImage(this, 1)">&rsaquo;</button>
-                        <div class="gallery-counter">
-                            <span class="current-image">1</span> / {{ $room->images->count() }}
-                        </div>
+                    <button type="button" class="gallery-arrow prev" aria-label="Previous room photo"
+                        onclick="changeRoomImage(this, -1)">&lsaquo;</button>
+                    <button type="button" class="gallery-arrow next" aria-label="Next room photo"
+                        onclick="changeRoomImage(this, 1)">&rsaquo;</button>
+                    <div class="gallery-counter">
+                        <span class="current-image">1</span> / {{ $room->images->count() }}
+                    </div>
                     @endif
                 </div>
-            @else
+                @else
                 <div class="ws-no-image">No room photos</div>
-            @endif
-
-            <div class="ws-room-content">
-
-                <span @class(['ws-badge', 'is-inactive'=> ! $room->is_active])>{{ $room->is_active ? 'Active' : 'Inactive' }}</span>
-
-                <h3 style="margin-top:12px;">
-                    {{ $room->name }}
-                </h3>
-
-                <div class="ws-room-meta">
-                    <span>Room Type</span>
-                    <strong>{{ $room->room_type }}</strong>
-                </div>
-
-                <div class="ws-room-meta">
-                    <span>Capacity</span>
-                    <strong>{{ $room->capacity }} People</strong>
-                </div>
-
-                <div class="ws-room-meta">
-                    <span>Hourly Price</span>
-                    <strong>${{ number_format((float)$room->hourly_price, 2) }}</strong>
-                </div>
-
-                @if($room->facilities)
-                <div style="margin-top:12px;">
-                    <small>
-                        <strong>Facilities:</strong>
-                        {{ implode(', ', $room->facilities) }}
-                    </small>
-                </div>
                 @endif
 
-                <div class="ws-room-actions">
+                <div class="ws-room-content">
 
-                    <button
-                        class="ws-btn ws-btn-edit"
-                        type="button" data-update-url="{{ route('manager.rooms.update', $room->id) }}" onclick="openEditModal(this)">
-                        Edit
-                    </button>
+                    <span @class(['ws-badge', 'is-inactive'=> ! $room->is_active])>{{ $room->is_active ? 'Active' : 'Inactive' }}</span>
 
-                    <form
-                        method="POST"
-                        action="{{ route('manager.rooms.destroy', $room->id) }}"
-                        onsubmit="return confirm('Are you sure you want to deactivate this room?')">
-                        @csrf
-                        @method('DELETE')
+                    <h3 style="margin-top:12px;">
+                        {{ $room->name }}
+                    </h3>
+
+                    <div class="ws-room-meta">
+                        <span>Room Type</span>
+                        <strong>{{ $room->room_type }}</strong>
+                    </div>
+
+                    <div class="ws-room-meta">
+                        <span>Capacity</span>
+                        <strong>{{ $room->capacity }} People</strong>
+                    </div>
+
+                    <div class="ws-room-meta">
+                        <span>Hourly Price</span>
+                        <strong>${{ number_format((float)$room->hourly_price, 2) }}</strong>
+                    </div>
+
+                    @if($room->facilities)
+                    <div style="margin-top:12px;">
+                        <small>
+                            <strong>Facilities:</strong>
+                            {{ implode(', ', $room->facilities) }}
+                        </small>
+                    </div>
+                    @endif
+
+                    <div class="ws-room-actions">
 
                         <button
-                            type="submit"
-                            class="ws-btn ws-btn-delete">
-                            Delete
+                            class="ws-btn ws-btn-edit"
+                            type="button" data-update-url="{{ route('manager.rooms.update', $room->id) }}" onclick="openEditModal(this)">
+                            Edit
                         </button>
-                    </form>
+
+
+                        <form
+                            method="POST"
+                            action="{{ route('manager.rooms.destroy', $room->id) }}"
+                            onsubmit="return openDeleteModal(event, this)">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="ws-btn ws-btn-delete">
+                                Delete
+                            </button>
+                        </form>
+
+
+                    </div>
 
                 </div>
 
             </div>
 
+            @empty
+
+            <div class="ws-empty" style="grid-column:1/-1;">
+                <h3>No Rooms Yet</h3>
+
+                <p>
+                    Start by adding the first room to this workspace.
+                </p>
+
+                <button
+                    class="ws-btn ws-btn-primary"
+                    onclick="openAddModal()">
+                    Add Your First Room
+                </button>
+            </div>
+
+            @endforelse
+
         </div>
-
-        @empty
-
-        <div class="ws-empty" style="grid-column:1/-1;">
-            <h3>No Rooms Yet</h3>
-
-            <p>
-                Start by adding the first room to this workspace.
-            </p>
-
-            <button
-                class="ws-btn ws-btn-primary"
-                onclick="openAddModal()">
-                Add Your First Room
-            </button>
-        </div>
-
-        @endforelse
 
     </div>
 
-</div>
 
+    {{-- ADD ROOM MODAL --}}
+    <dialog class="ws-modal-content ws-add-room" id="addRoomModal" aria-labelledby="add-room-title">
+        <header class="ws-add-header">
+            <div>
+                <h2 id="add-room-title">Add room</h2>
+                <p>{{ $workspace->name }}</p>
+            </div>
+            <button type="button" class="ws-add-close" aria-label="Close add room" onclick="closeModal('addRoomModal')">&times;</button>
+        </header>
 
-{{-- ADD ROOM MODAL --}}
-<dialog class="ws-modal-content ws-add-room" id="addRoomModal" aria-labelledby="add-room-title">
-    <header class="ws-add-header">
-        <div>
-            <h2 id="add-room-title">Add room</h2>
-            <p>{{ $workspace->name }}</p>
-        </div>
-        <button type="button" class="ws-add-close" aria-label="Close add room" onclick="closeModal('addRoomModal')">&times;</button>
-    </header>
+        <form method="POST" action="{{ route('manager.rooms.store', $workspace->id) }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="_room_form" value="add">
 
-    <form method="POST" action="{{ route('manager.rooms.store', $workspace->id) }}" enctype="multipart/form-data">
-        @csrf
-        <input type="hidden" name="_room_form" value="add">
+            <div class="ws-add-body">
+                <div class="ws-add-fields">
+                    <div class="ws-form-group">
+                        <label for="add-room-name">Room name</label>
+                        <input id="add-room-name" name="name" type="text" maxlength="255" placeholder="e.g. The Boardroom"
+                            value="{{ old('_room_form') === 'add' ? old('name') : '' }}" required autofocus>
+                    </div>
 
-        <div class="ws-add-body">
-            <div class="ws-add-fields">
-                <div class="ws-form-group">
-                    <label for="add-room-name">Room name</label>
-                    <input id="add-room-name" name="name" type="text" maxlength="255" placeholder="e.g. The Boardroom"
-                        value="{{ old('_room_form') === 'add' ? old('name') : '' }}" required autofocus>
+                    <div class="ws-form-group">
+                        <label for="add-room-type">Room type</label>
+                        <input id="add-room-type" name="room_type" type="text" maxlength="100" placeholder="e.g. Meeting room"
+                            value="{{ old('_room_form') === 'add' ? old('room_type') : '' }}" required>
+                    </div>
+
+                    <div class="ws-form-group">
+                        <label for="add-room-capacity">Capacity</label>
+                        <input id="add-room-capacity" name="capacity" type="number" min="1" step="1" placeholder="e.g. 8"
+                            value="{{ old('_room_form') === 'add' ? old('capacity') : '' }}" required>
+                    </div>
+
+                    <div class="ws-form-group">
+                        <label for="add-room-price">Hourly price</label>
+                        <input id="add-room-price" name="hourly_price" type="number" min="0" step="0.01" placeholder="0.00"
+                            value="{{ old('_room_form') === 'add' ? old('hourly_price') : '' }}" required>
+                    </div>
+
+                    <fieldset class="ws-add-wide ws-facility-picker" id="add-room-facility-picker" hidden>
+                        <legend>Facilities <span class="ws-add-muted">(optional)</span></legend>
+                        <div class="ws-facility-options">
+                            @foreach (['Wi-Fi', 'Projector', 'Whiteboard', 'Display screen', 'Air conditioning', 'Video conferencing', 'Power outlets', 'Wheelchair access'] as $facility)
+                            <label class="ws-facility-option">
+                                <input type="checkbox" value="{{ $facility }}">
+                                <span>{{ $facility }}</span>
+                            </label>
+                            @endforeach
+                        </div>
+                    </fieldset>
+
+                    <div class="ws-form-group ws-add-wide" id="add-room-facility-fallback">
+                        <label for="add-room-facilities">Facilities <span class="ws-add-muted">(optional)</span></label>
+                        <textarea id="add-room-facilities" name="facilities" rows="2" placeholder="Projector, Wi-Fi, whiteboard"
+                            aria-describedby="add-room-facilities-hint">{{ old('_room_form') === 'add' ? old('facilities') : '' }}</textarea>
+                        <small id="add-room-facilities-hint">Separate each facility with a comma.</small>
+                    </div>
                 </div>
 
-                <div class="ws-form-group">
-                    <label for="add-room-type">Room type</label>
-                    <input id="add-room-type" name="room_type" type="text" maxlength="100" placeholder="e.g. Meeting room"
-                        value="{{ old('_room_form') === 'add' ? old('room_type') : '' }}" required>
-                </div>
-
-                <div class="ws-form-group">
-                    <label for="add-room-capacity">Capacity</label>
-                    <input id="add-room-capacity" name="capacity" type="number" min="1" step="1" placeholder="e.g. 8"
-                        value="{{ old('_room_form') === 'add' ? old('capacity') : '' }}" required>
-                </div>
-
-                <div class="ws-form-group">
-                    <label for="add-room-price">Hourly price</label>
-                    <input id="add-room-price" name="hourly_price" type="number" min="0" step="0.01" placeholder="0.00"
-                        value="{{ old('_room_form') === 'add' ? old('hourly_price') : '' }}" required>
-                </div>
-
-                <fieldset class="ws-add-wide ws-facility-picker" id="add-room-facility-picker" hidden>
-                    <legend>Facilities <span class="ws-add-muted">(optional)</span></legend>
-                    <div class="ws-facility-options">
-                        @foreach (['Wi-Fi', 'Projector', 'Whiteboard', 'Display screen', 'Air conditioning', 'Video conferencing', 'Power outlets', 'Wheelchair access'] as $facility)
-                        <label class="ws-facility-option">
-                            <input type="checkbox" value="{{ $facility }}">
-                            <span>{{ $facility }}</span>
+                <div class="ws-add-photos">
+                    <p class="ws-photo-label" id="add-room-photo-label">Room photos <span class="ws-add-muted">(optional)</span></p>
+                    <div class="ws-add-dropzone" id="add-room-dropzone">
+                        <span class="ws-upload-icon" aria-hidden="true">&uarr;</span>
+                        <div class="ws-upload-copy">
+                            <strong>Drag and drop room photos</strong>
+                            <p id="add-room-image-hint">JPG, PNG, or WebP up to 5 MB each. The first photo is the cover.</p>
+                        </div>
+                        <label class="ws-file-picker">
+                            <span>Choose photos</span>
+                            <input id="add-room-images" type="file" name="images[]" multiple
+                                accept="image/jpeg,image/png,image/webp"
+                                aria-describedby="add-room-photo-label add-room-image-hint">
                         </label>
+                    </div>
+                    <p id="add-room-image-status" class="ws-add-muted" aria-live="polite"></p>
+                    <ul id="add-room-previews" class="ws-add-previews" role="list" aria-label="Selected room photos"></ul>
+                </div>
+
+                @if (old('_room_form') === 'add' && $errors->any())
+                <div class="ws-add-errors" role="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
                         @endforeach
-                    </div>
-                </fieldset>
-
-                <div class="ws-form-group ws-add-wide" id="add-room-facility-fallback">
-                    <label for="add-room-facilities">Facilities <span class="ws-add-muted">(optional)</span></label>
-                    <textarea id="add-room-facilities" name="facilities" rows="2" placeholder="Projector, Wi-Fi, whiteboard"
-                        aria-describedby="add-room-facilities-hint">{{ old('_room_form') === 'add' ? old('facilities') : '' }}</textarea>
-                    <small id="add-room-facilities-hint">Separate each facility with a comma.</small>
+                    </ul>
+                    <p>Please reselect your photos before saving.</p>
                 </div>
+                @endif
             </div>
 
-            <div class="ws-add-photos">
-                <p class="ws-photo-label" id="add-room-photo-label">Room photos <span class="ws-add-muted">(optional)</span></p>
-                <div class="ws-add-dropzone" id="add-room-dropzone">
-                    <span class="ws-upload-icon" aria-hidden="true">&uarr;</span>
-                    <div class="ws-upload-copy">
-                        <strong>Drag and drop room photos</strong>
-                        <p id="add-room-image-hint">JPG, PNG, or WebP up to 5 MB each. The first photo is the cover.</p>
-                    </div>
-                    <label class="ws-file-picker">
-                        <span>Choose photos</span>
-                        <input id="add-room-images" type="file" name="images[]" multiple
-                            accept="image/jpeg,image/png,image/webp"
-                            aria-describedby="add-room-photo-label add-room-image-hint">
-                    </label>
-                </div>
-                <p id="add-room-image-status" class="ws-add-muted" aria-live="polite"></p>
-                <ul id="add-room-previews" class="ws-add-previews" role="list" aria-label="Selected room photos"></ul>
-            </div>
+            <footer class="ws-add-actions">
+                <button type="button" class="ws-add-cancel" onclick="closeModal('addRoomModal')">Cancel</button>
+                <button type="submit" class="ws-add-save">Save room</button>
+            </footer>
+        </form>
+    </dialog>
 
-            @if (old('_room_form') === 'add' && $errors->any())
-            <div class="ws-add-errors" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <p>Please reselect your photos before saving.</p>
+
+    <dialog id="deleteModal" class="custom-delete-modal">
+        <div class="delete-modal-header">
+            <div class="delete-modal-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M3 6h18" />
+                    <path d="M9 6V4h6v2" />
+                    <path d="M5 6l1 14h12l1-14" />
+                    <path d="M10 10v6M14 10v6" />
+                </svg>
             </div>
-            @endif
+            <button type="button" onclick="closeDeleteModal()">×</button>
         </div>
 
-        <footer class="ws-add-actions">
-            <button type="button" class="ws-add-cancel" onclick="closeModal('addRoomModal')">Cancel</button>
-            <button type="submit" class="ws-add-save">Save room</button>
-        </footer>
-    </form>
-</dialog>
+        <h3>Delete Room?</h3>
 
-{{-- EDIT ROOM MODAL --}}
+        <p>
+            Are you sure you want to delete this room?
+            This action cannot be undone.
+        </p>
 
-<div class="ws-modal" id="editRoomModal" role="dialog" aria-modal="true" aria-labelledby="edit-room-title">
-
-    <div class="ws-modal-content">
-
-        <div class="ws-modal-header">
-
-            <h2 id="edit-room-title">Edit Room</h2>
-
-            <button
-                type="button"
-                class="ws-close"
-                aria-label="Close edit room"
-                onclick="closeModal('editRoomModal')">
-                &times;
+        <div class="delete-modal-actions">
+            <button type="button"
+                class="modal-cancel"
+                onclick="closeDeleteModal()">
+                Cancel
             </button>
 
+            <button type="button"
+                class="modal-delete"
+                onclick="confirmDelete()">
+                Yes, Delete
+            </button>
         </div>
+    </dialog>
 
-        <form
-            method="POST"
-            id="editRoomForm"
-            enctype="multipart/form-data">
 
-            @csrf
-            @method('PUT')
+    {{-- EDIT ROOM MODAL --}}
 
-            <div class="ws-form-group">
-                <label for="edit_name">Room Name</label>
+    <div class="ws-modal" id="editRoomModal" role="dialog" aria-modal="true" aria-labelledby="edit-room-title">
 
-                <input
-                    type="text"
-                    name="name"
-                    id="edit_name"
-                    required>
-            </div>
+        <div class="ws-modal-content">
 
-            <div class="ws-form-group">
-                <label for="edit_room_type">Room Type</label>
+            <div class="ws-modal-header">
 
-                <input
-                    type="text"
-                    name="room_type"
-                    id="edit_room_type"
-                    required>
-            </div>
-
-            <div class="ws-form-group">
-                <label for="edit_capacity">Capacity</label>
-
-                <input
-                    type="number"
-                    name="capacity"
-                    id="edit_capacity"
-                    min="1"
-                    required>
-            </div>
-
-            <div class="ws-form-group">
-                <label for="edit_hourly_price">Hourly Price</label>
-
-                <input
-                    type="number"
-                    name="hourly_price"
-                    id="edit_hourly_price"
-                    step="0.01"
-                    min="0"
-                    required>
-            </div>
-
-            <div class="ws-form-group">
-                <label for="edit_facilities">Facilities</label>
-
-                <textarea
-                    name="facilities"
-                    id="edit_facilities"
-                    rows="3"></textarea>
-            </div>
-
-            <div class="ws-form-group">
-
-                <label>Current Images</label>
-
-                <div
-                    class="ws-existing-images"
-                    id="existingRoomImages"></div>
-
-                <small>
-                    Mark photos for removal, then click Update Room to save.
-                    You can undo removal before saving. If you remove the primary photo,
-                    another remaining photo becomes primary automatically.
-                </small>
-                <p id="edit-room-image-status" role="status" aria-live="polite"></p>
-
-            </div>
-
-            <div class="ws-form-group">
-
-                <label>Add More Images</label>
-
-                <input
-                    type="file"
-                    name="images[]"
-                    accept="image/*"
-                    multiple>
-
-            </div>
-
-            <div class="ws-modal-actions">
+                <h2 id="edit-room-title">Edit Room</h2>
 
                 <button
                     type="button"
-                    class="ws-btn"
+                    class="ws-close"
+                    aria-label="Close edit room"
                     onclick="closeModal('editRoomModal')">
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="ws-btn ws-btn-primary">
-                    Update Room
+                    &times;
                 </button>
 
             </div>
 
-        </form>
+            <form
+                method="POST"
+                id="editRoomForm"
+                enctype="multipart/form-data">
+
+                @csrf
+                @method('PUT')
+
+                <div class="ws-form-group">
+                    <label for="edit_name">Room Name</label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        id="edit_name"
+                        required>
+                </div>
+
+                <div class="ws-form-group">
+                    <label for="edit_room_type">Room Type</label>
+
+                    <input
+                        type="text"
+                        name="room_type"
+                        id="edit_room_type"
+                        required>
+                </div>
+
+                <div class="ws-form-group">
+                    <label for="edit_capacity">Capacity</label>
+
+                    <input
+                        type="number"
+                        name="capacity"
+                        id="edit_capacity"
+                        min="1"
+                        required>
+                </div>
+
+                <div class="ws-form-group">
+                    <label for="edit_hourly_price">Hourly Price</label>
+
+                    <input
+                        type="number"
+                        name="hourly_price"
+                        id="edit_hourly_price"
+                        step="0.01"
+                        min="0"
+                        required>
+                </div>
+
+                <div class="ws-form-group">
+                    <label for="edit_facilities">Facilities</label>
+
+                    <textarea
+                        name="facilities"
+                        id="edit_facilities"
+                        rows="3"></textarea>
+                </div>
+
+                <div class="ws-form-group">
+
+                    <label>Current Images</label>
+
+                    <div
+                        class="ws-existing-images"
+                        id="existingRoomImages"></div>
+
+                    <small>
+                        Mark photos for removal, then click Update Room to save.
+                        You can undo removal before saving. If you remove the primary photo,
+                        another remaining photo becomes primary automatically.
+                    </small>
+                    <p id="edit-room-image-status" role="status" aria-live="polite"></p>
+
+                </div>
+
+                <div class="ws-form-group">
+
+                    <label>Add More Images</label>
+
+                    <input
+                        type="file"
+                        name="images[]"
+                        accept="image/*"
+                        multiple>
+
+                </div>
+
+                <div class="ws-modal-actions">
+
+                    <button
+                        type="button"
+                        class="ws-btn"
+                        onclick="closeModal('editRoomModal')">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="ws-btn ws-btn-primary">
+                        Update Room
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 
-</div>
-
 
 </div>
+@if(old('_room_form') === 'add' && $errors->any())
+openAddModal();
+@endif
+
 @endsection
 
 @push('scripts')
@@ -1600,9 +1754,6 @@
         document.getElementById('addRoomModal').showModal();
     }
 
-    @if(old('_room_form') === 'add' && $errors->any())
-        openAddModal();
-    @endif
 
     function syncRoomImageRemoval(container) {
         const radios = Array.from(container.querySelectorAll('input[name="primary_image_id"]'));
@@ -1618,17 +1769,17 @@
                 primary.checked = false;
                 removedCount++;
             }
-            item.querySelector('[data-removal-label]').textContent = pending
-                ? ' Undo removal' : ' Remove photo';
+            item.querySelector('[data-removal-label]').textContent = pending ?
+                ' Undo removal' : ' Remove photo';
         });
 
         const available = radios.filter(radio => !radio.disabled);
         if (available.length && !available.some(radio => radio.checked)) {
             available[0].checked = true;
         }
-        document.getElementById('edit-room-image-status').textContent = removedCount
-            ? `${removedCount} photo${removedCount === 1 ? '' : 's'} marked for removal. Changes apply when you click Update Room.`
-            : 'No photos marked for removal.';
+        document.getElementById('edit-room-image-status').textContent = removedCount ?
+            `${removedCount} photo${removedCount === 1 ? '' : 's'} marked for removal. Changes apply when you click Update Room.` :
+            'No photos marked for removal.';
     }
 
     function openEditModal(button) {
@@ -1750,6 +1901,31 @@
 
     let roomPhotos = [];
     let roomPhotoUrls = [];
+
+
+    let deleteForm = null;
+
+    function openDeleteModal(event, form) {
+        event.preventDefault();
+
+        deleteForm = form;
+
+        document.getElementById('deleteModal').showModal();
+
+        return false;
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').close();
+        deleteForm = null;
+    }
+
+    function confirmDelete() {
+        if (deleteForm) {
+            deleteForm.submit();
+        }
+    }
+
 
     function renderRoomPhotos(message = '') {
         roomPhotoUrls.forEach(url => URL.revokeObjectURL(url));
