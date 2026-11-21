@@ -22,8 +22,7 @@
 .nx-page-content .container {
     width: 100%;
     max-width: 1100px;
-    margin: 24px auto 48px;
-    padding: 0 16px;
+margin: 0 auto 48px;    padding: 0 16px;
 }
 .nx-page-content .page-title,
 .nx-page-content .card > h2,

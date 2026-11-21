@@ -1,0 +1,299 @@
+
+/* =====================================================
+   NEXORA — ADMIN BOOKINGS
+===================================================== */
+
+.nx-admin-bookings {
+    padding: 10px 24px 35px !important;
+    margin-top: 0 !important;
+    color: #1D2924;
+}
+
+.nx-bookings-container {
+    padding: 0 10px !important;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Header */
+.nx-admin-bookings h2 {
+    color: #203D34;
+    font-size: 27px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.nx-admin-bookings .text-muted {
+    color: #7F8B84 !important;
+    font-size: 13px;
+}
+
+/* Statistics Cards */
+.nx-admin-bookings .card {
+    border: 1px solid #E8EDE8 !important;
+    border-radius: 17px !important;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(32, 61, 52, .045) !important;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.nx-admin-bookings .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(32, 61, 52, .09) !important;
+}
+
+.nx-admin-bookings .card h3 {
+    color: #203D34;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 0;
+}
+
+/* Table Card */
+.nx-admin-bookings > .nx-bookings-container > .card {
+    overflow: hidden;
+}
+
+.nx-admin-bookings .card-body {
+    padding: 22px;
+}
+
+/* Table Wrapper - No Horizontal Scroll */
+.bookings-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+    overflow-y: visible;
+}
+
+/* Table Layout */
+.bookings-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: auto !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 0;
+}
+
+/* Table Header */
+.bookings-table thead th {
+    background: #F3F6F2;
+    color: #53615A;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .2px;
+    padding: 15px 10px !important;
+    border-bottom: 1px solid #E6ECE6;
+    white-space: normal !important;
+    line-height: 1.6;
+    vertical-align: middle;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+/* Table Cells */
+.bookings-table tbody td {
+    padding: 15px 10px !important;
+    font-size: 12px;
+    color: #53615A;
+    border-bottom: 1px solid #EEF1ED;
+    vertical-align: middle;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    word-break: normal;
+    line-height: 1.7;
+}
+
+.bookings-table tbody tr {
+    transition: background .2s ease;
+}
+
+.bookings-table tbody tr:hover {
+    background: #F7FAF7;
+}
+
+.bookings-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Member Name */
+.bookings-table .fw-semibold {
+    color: #203D34;
+    font-weight: 750 !important;
+}
+
+/* Booking Date */
+.bookings-table td:nth-child(4) {
+    min-width: 145px;
+    line-height: 1.8;
+}
+
+.bookings-table td:nth-child(4) small {
+    display: inline-block;
+    margin-top: 3px;
+}
+
+/* Prices */
+.bookings-table td:nth-child(5),
+.bookings-table td:nth-child(6) {
+    min-width: 100px;
+    white-space: nowrap !important;
+    font-weight: 700;
+}
+
+/* Status Columns */
+.bookings-table td:nth-child(7),
+.bookings-table td:nth-child(8) {
+    min-width: 105px;
+}
+
+/* Status Badges */
+.bookings-table .badge {
+    display: inline-block;
+    max-width: 100%;
+    padding: 7px 9px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 750;
+    white-space: normal !important;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.bookings-table .bg-success {
+    background: #E5F2E9 !important;
+    color: #28734A !important;
+}
+
+.bookings-table .bg-warning {
+    background: #FFF3D9 !important;
+    color: #986B18 !important;
+}
+
+.bookings-table .bg-danger {
+    background: #FCE9E6 !important;
+    color: #B94C40 !important;
+}
+
+.bookings-table .bg-secondary {
+    background: #EDF0ED !important;
+    color: #66736B !important;
+}
+
+/* Paid Amount */
+.bookings-table .text-success {
+    color: #31805A !important;
+}
+
+/* Pagination */
+.bookings-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px 4px 2px;
+    margin-top: 15px;
+    border-top: 1px solid #EDF0ED;
+}
+
+.pagination-info {
+    color: #7F8B84;
+    font-size: 12px;
+}
+
+.pagination-info strong {
+    color: #315C4D;
+    font-weight: 800;
+}
+
+.bookings-pagination .pagination {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+.bookings-pagination .page-link {
+    min-width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 1px solid #E5EBE5;
+    border-radius: 9px !important;
+    background: #fff;
+    color: #53615A;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: none;
+    transition: all .2s ease;
+}
+
+.bookings-pagination .page-link:hover {
+    background: #EAF1ED;
+    border-color: #315C4D;
+    color: #315C4D;
+}
+
+.bookings-pagination .page-item.active .page-link {
+    background: #315C4D;
+    border-color: #315C4D;
+    color: #fff;
+}
+
+.bookings-pagination .page-item.disabled .page-link {
+    background: #F5F7F3;
+    color: #B5BDB7;
+    border-color: #EDF0ED;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .nx-admin-bookings .card-body {
+        padding: 14px;
+    }
+
+    .bookings-table thead th,
+    .bookings-table tbody td {
+        padding: 11px 6px !important;
+        font-size: 10px;
+    }
+
+    .bookings-table td:nth-child(4) {
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nx-admin-bookings {
+        padding: 8px 10px 25px !important;
+    }
+
+    .nx-admin-bookings .card-body {
+        padding: 10px;
+    }
+
+    .bookings-table thead th,
+    .bookings-table tbody td {
+        padding: 8px 5px !important;
+        font-size: 9px;
+    }
+
+    .bookings-table td:nth-child(5),
+    .bookings-table td:nth-child(6) {
+        min-width: 85px;
+    }
+
+    .bookings-pagination {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .pagination-info {
+        width: 100%;
+    }
+}
