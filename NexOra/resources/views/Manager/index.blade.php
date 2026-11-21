@@ -306,7 +306,7 @@
                                         class="view-btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#reviewModal"
-                                        data-url="{{ route('reviews.show', $review->id) }}">
+                                        data-url="{{ route('manager.reviews.show', $review->id) }}">
 
                                         View
 

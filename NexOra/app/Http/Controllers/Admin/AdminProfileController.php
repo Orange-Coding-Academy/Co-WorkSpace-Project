@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminProfileController extends Controller
 {
@@ -26,11 +27,19 @@ class AdminProfileController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|max:255|unique:users,email,' . $admin->id,
+            'phone' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $admin->name = $validated['name'];
         $admin->email = $validated['email'];
+        $admin->phone = $validated['phone'] ?? null;
+
+        if ($request->hasFile('avatar')) {
+            $admin->avatar = $request->file('avatar')
+                ->store('avatars', 'public');
+        }
 
         $admin->save();
 
@@ -50,9 +59,7 @@ class AdminProfileController extends Controller
             ->where('role', 'admin')
             ->firstOrFail();
 
-        // User model automatically hashes the password
-        $admin->password = $request->password;
-
+        $admin->password = Hash::make($request->password);
         $admin->save();
 
         return back()->with('success', 'Password updated successfully!');
