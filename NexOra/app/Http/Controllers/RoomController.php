@@ -34,7 +34,7 @@ class RoomController extends Controller
     }
 
 
-   public function store(Request $request, $workspaceId)
+public function store(Request $request, $workspaceId)
 {
     $user = $request->user();
     abort_unless($user, 403);
@@ -43,28 +43,38 @@ class RoomController extends Controller
         ->findOrFail($workspaceId);
 
     $data = $request->validate([
-        'name'         => 'required|string|max:255',
-        'room_type'    => 'required|string|max:100',
-        'capacity'     => 'required|integer|min:1',
+        'name'        => 'required|string|max:255',
+        'room_type'   => 'required|string|max:100',
+        'capacity'    => 'required|integer|min:1',
         'hourly_price' => 'required|numeric|min:0',
-        'facilities'   => 'nullable|string',
-        'images'       => 'nullable|array',
-        'images.*'     => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+        'facilities'  => 'nullable|string',
+        'images'      => 'nullable|array',
+        'images.*'    => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
     ]);
 
-    $images = array_values($data['images'] ?? []);
-    unset($data['images']);
-
-    $data['facilities'] = $this->formatFacilities($data['facilities'] ?? '');
-    $data['is_active'] = true;
     $savedPaths = [];
 
     try {
-        DB::transaction(function () use ($workspace, $data, $images, &$savedPaths) {
-            $room = $workspace->rooms()->create($data);
+        DB::transaction(function () use ($workspace, $data, &$savedPaths) {
+            $facilities = array_map('trim', explode(',', $data['facilities'] ?? ''));
 
-            foreach ($images as $index => $image) {
+            $room = $workspace->rooms()->create([
+                'name' => $data['name'],
+                'room_type' => $data['room_type'],
+                'capacity' => $data['capacity'],
+                'hourly_price' => $data['hourly_price'],
+                'facilities' => array_values(array_filter($facilities, fn (string $facility) => $facility !== '')),
+                'is_active' => true,
+            ]);
+
+            $position = 0;
+
+            foreach ($data['images'] ?? [] as $image) {
+
+
                 $filename = Str::uuid() . '.' . $image->extension();
+
+                
                 $path = $image->storeAs('rooms', $filename, 'public');
 
                 if ($path === false) {
@@ -76,9 +86,11 @@ class RoomController extends Controller
                 $room->images()->create([
                     'image_path' => $path,
                     'alt_text' => $room->name,
-                    'is_primary' => $index === 0,
-                    'sort_order' => $index,
+                    'is_primary' => $position === 0,
+                    'sort_order' => $position,
                 ]);
+
+                $position++;
             }
         });
     } catch (\Throwable $error) {
