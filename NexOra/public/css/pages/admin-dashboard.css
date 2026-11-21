@@ -1,762 +1,415 @@
 /* =========================================================
-   NEXORA - ADMIN DASHBOARD
+   NEXORA - ADMIN DASHBOARD (admin-only layer)
+   Builds on css/nexora/dashboard.css. Everything is scoped to
+   .nx-admin-dashboard (or to the <main> that contains it), so the
+   manager dashboard is unaffected. Tokens only, no new colours.
    ========================================================= */
 
+/* ---------- Density: use the screen instead of padding it ---------- */
+.nx-dashboard__main:has(> .nx-admin-dashboard) {
+    max-width: 1680px;
+    padding: var(--nx-space-6);
+}
+@media (max-width: 1023px) {
+    .nx-dashboard__main:has(> .nx-admin-dashboard) {
+        padding: var(--nx-space-5);
+    }
+}
+@media (max-width: 767px) {
+    .nx-dashboard__main:has(> .nx-admin-dashboard) {
+        padding: var(--nx-space-4);
+    }
+}
 .nx-admin-dashboard {
-    display: flex;
-    flex-direction: column;
-    gap: var(--nx-space-6);
-    min-width: 0;
-    color: var(--nx-text);
+    gap: var(--nx-space-4);
+}
+.nx-admin-dashboard .nx-dashboard-grid {
+    gap: var(--nx-space-4);
 }
 
-/* =========================================================
-   PAGE HEADER
-   ========================================================= */
-
+/* ---------- Page header ---------- */
 .nx-admin-dashboard .nx-page-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: var(--nx-space-5);
-    margin-bottom: 0;
+    align-items: flex-end;
+    gap: var(--nx-space-4);
 }
-
-.nx-admin-dashboard .nx-page-header__copy {
-    min-width: 0;
-}
-
-.nx-admin-dashboard .nx-eyebrow {
-    display: inline-block;
-    margin-bottom: var(--nx-space-2);
-    color: var(--nx-primary);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-}
-
 .nx-admin-dashboard .nx-page-header h1 {
-    margin: 0 0 var(--nx-space-2);
-    color: var(--nx-text);
-    font-family: var(--nx-font-heading, inherit);
-    font-size: clamp(24px, 2.5vw, 32px);
-    font-weight: 700;
-    letter-spacing: -0.8px;
-    line-height: 1.2;
+    margin: 2px 0 var(--nx-space-1);
+    font-size: clamp(1.375rem, 2vw, 1.75rem);
 }
-
-.nx-admin-dashboard .nx-page-header p {
-    margin: 0;
-    color: var(--nx-text-secondary);
-    font-size: 14px;
-    line-height: 1.6;
+.nx-admin-dashboard .nx-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nx-space-2);
 }
-
+.nx-admin-dashboard .nx-eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--nx-accent);
+}
+/* 40px controls in the header (44px is for forms, too tall for a toolbar) */
 .nx-admin-dashboard .nx-page-header__actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--nx-space-3);
+    gap: var(--nx-space-2);
 }
-
-/* =========================================================
-   DATE FILTER
-   ========================================================= */
-
-.nx-date-filter {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 42px;
-    padding-inline: 13px;
+.nx-admin-dashboard .nx-page-header__actions .nx-btn,
+.nx-admin-dashboard .nx-date-filter {
+    min-height: 40px;
+}
+.nx-admin-dashboard .nx-page-header__actions .nx-btn {
+    padding-inline: var(--nx-space-4);
+    font-size: var(--nx-text-body-sm);
+}
+.nx-admin-dashboard .nx-page-header__actions .nx-btn:disabled {
     background: var(--nx-card);
-    border: 1px solid var(--nx-border);
-    border-radius: var(--nx-radius-md, 8px);
+    border-color: var(--nx-border-strong);
+    border-style: dashed;
     color: var(--nx-text-secondary);
 }
-
-.nx-date-filter > i {
-    width: 17px;
-    height: 17px;
-    flex-shrink: 0;
-}
-
-.nx-date-filter select {
-    min-width: 115px;
-    padding: 8px 20px 8px 0;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: var(--nx-text);
-    font: inherit;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.nx-date-filter:focus-within {
-    border-color: var(--nx-primary);
-    box-shadow: 0 0 0 3px rgb(82 96 68 / 10%);
-}
-
-/* =========================================================
-   DASHBOARD BUTTON
-   ========================================================= */
-
-.nx-admin-dashboard .nx-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    min-height: 42px;
-    padding: 10px 16px;
-    border: 1px solid transparent;
-    border-radius: var(--nx-radius-md, 8px);
-    font: inherit;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.nx-admin-dashboard .nx-btn i {
+.nx-admin-dashboard .nx-page-header__actions .nx-btn :is(i, svg) {
     width: 16px;
     height: 16px;
 }
 
-.nx-admin-dashboard .nx-btn--primary {
-    background: var(--nx-primary);
-    border-color: var(--nx-primary);
-    color: #fff;
-}
-
-.nx-admin-dashboard .nx-btn--primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* =========================================================
-   KPI GRID
-   ========================================================= */
-
-.nx-kpi-grid {
+/* ---------- Alert strip: actions first, one compact row ---------- */
+.nx-admin-dashboard .nx-alert-strip .nx-alert-list {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--nx-space-4);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--nx-space-3);
 }
-
-.nx-kpi-card {
-    min-width: 0;
-    padding: 20px;
-    border: 1px solid var(--nx-border);
-    border-radius: var(--nx-radius-lg);
-    background: var(--nx-card);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+.nx-admin-dashboard .nx-alert {
+    gap: var(--nx-space-3);
+    padding: var(--nx-space-3) var(--nx-space-4);
+    border-inline-start-width: 4px;
 }
-
-.nx-kpi-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--nx-border-strong, var(--nx-border));
-    box-shadow: var(--nx-shadow-2, 0 8px 24px rgb(0 0 0 / 5%));
+.nx-admin-dashboard .nx-alert__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--nx-radius-sm);
 }
-
-.nx-kpi-card__top {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin-bottom: 20px;
+.nx-admin-dashboard .nx-alert__icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
 }
-
-.nx-kpi-card__icon {
-    display: grid;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    flex-shrink: 0;
-    border-radius: var(--nx-radius-md, 9px);
-    background: var(--nx-surface, #f1f3ef);
-    color: var(--nx-primary);
-}
-
-.nx-kpi-card__icon i {
-    width: 19px;
-    height: 19px;
-}
-
-.nx-kpi-card__label {
-    color: var(--nx-text-secondary);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    line-height: 1.5;
-}
-
-.nx-kpi-card__value {
-    margin: 0 0 8px;
-    color: var(--nx-text);
-    font-size: clamp(20px, 2vw, 27px);
-    font-weight: 750;
-    letter-spacing: -0.8px;
-    line-height: 1.3;
-    overflow-wrap: anywhere;
-}
-
-.nx-kpi-card__value small {
-    color: var(--nx-text-secondary);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0;
-}
-
-.nx-kpi-card__description {
+.nx-admin-dashboard .nx-alert__title {
     margin: 0;
-    color: var(--nx-text-secondary);
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: var(--nx-text-body-sm);
 }
-
-/* =========================================================
-   DASHBOARD GRIDS
-   ========================================================= */
-
-.nx-dashboard-grid {
-    display: grid;
-    gap: var(--nx-space-5);
-    min-width: 0;
+.nx-admin-dashboard .nx-alert__text {
+    font-size: var(--nx-text-label);
 }
-
-.nx-dashboard-grid--charts {
-    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+.nx-admin-dashboard .nx-alert__count {
+    min-width: 28px;
+    height: 28px;
 }
-
-.nx-dashboard-grid--bottom {
-    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
+.nx-admin-dashboard .nx-alert--success {
+    border-inline-start-color: var(--nx-success-icon);
 }
-
-/* =========================================================
-   PANELS
-   ========================================================= */
-
-.nx-dashboard-panel {
-    min-width: 0;
-    padding: 22px;
-    overflow: hidden;
+.nx-admin-dashboard .nx-alert--warning {
+    border-inline-start-color: var(--nx-warning-icon);
 }
-
-.nx-panel-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 14px;
-    margin-bottom: 22px;
+.nx-admin-dashboard .nx-alert--danger {
+    border-inline-start-color: var(--nx-danger-icon);
 }
-
-.nx-panel-header h3 {
-    margin: 0 0 6px;
-    color: var(--nx-text);
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.4;
+.nx-admin-dashboard .nx-alert--info {
+    border-inline-start-color: var(--nx-info-icon);
 }
-
-.nx-panel-header p {
-    margin: 0;
-    color: var(--nx-text-secondary);
-    font-size: 11px;
-    line-height: 1.5;
+/* "All clear" becomes a slim status bar, not a panel */
+.nx-admin-dashboard .nx-alert-empty {
+    grid-column: 1 / -1;
+    padding: var(--nx-space-2) var(--nx-space-4);
 }
-
-.nx-panel-tag {
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-    padding: 7px 10px;
-    border: 1px solid var(--nx-border);
-    border-radius: var(--nx-radius-sm, 6px);
-    background: var(--nx-surface, #f5f6f3);
-    color: var(--nx-primary);
-    font-size: 9px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-/* =========================================================
-   CHARTS
-   ========================================================= */
-
-.nx-chart-container {
-    position: relative;
-    width: 100%;
-    height: 280px;
-}
-
-.nx-chart-container canvas {
-    position: relative;
-    z-index: 2;
-    max-width: 100%;
-}
-
-.nx-donut-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 270px;
-    height: 230px;
-    margin-inline: auto;
-}
-
-.nx-donut-wrapper canvas {
-    position: relative;
-    z-index: 2;
-}
-
-.nx-chart-empty {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: var(--nx-card);
-    color: var(--nx-text-secondary);
-    text-align: center;
-}
-
-.nx-chart-empty > i {
-    width: 30px;
-    height: 30px;
-    margin-bottom: 12px;
-    color: var(--nx-primary);
-}
-
-.nx-chart-empty strong {
-    margin-bottom: 5px;
-    color: var(--nx-text);
-    font-size: 12px;
-    font-weight: 650;
-}
-
-.nx-chart-empty p {
-    max-width: 240px;
-    margin: 0;
-    font-size: 10px;
-    line-height: 1.6;
-}
-
-/* Hidden when chart data exists */
-.nx-chart-empty.is-hidden {
-    display: none;
-}
-
-.nx-chart-legend {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 12px;
-    color: var(--nx-text-secondary);
-    font-size: 10px;
-}
-
-/* =========================================================
-   TABLE
-   ========================================================= */
-
-.nx-table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.nx-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.nx-table th {
-    padding: 13px 10px;
-    border-bottom: 1px solid var(--nx-border);
-    color: var(--nx-text-secondary);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
-.nx-table td {
-    padding: 14px 10px;
-    border-bottom: 1px solid var(--nx-divider, var(--nx-border));
-    color: var(--nx-text-secondary);
-    font-size: 11px;
-    white-space: nowrap;
-}
-
-.nx-table tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.nx-table-primary {
-    color: var(--nx-text);
-    font-size: 12px;
-    font-weight: 650;
-}
-
-.nx-table td small {
-    color: var(--nx-text-secondary);
-    font-size: 10px;
-}
-
-/* =========================================================
-   PERFORMANCE BAR
-   ========================================================= */
-
-.nx-performance {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    min-width: 100px;
-}
-
-.nx-progress {
-    flex: 1;
-    height: 6px;
-    overflow: hidden;
-    border-radius: 20px;
-    background: var(--nx-surface, #edf0ea);
-}
-
-.nx-progress__bar {
-    height: 100%;
-    border-radius: inherit;
-    background: var(--nx-primary);
-    transition: width 0.3s ease;
-}
-
-.nx-performance > span {
-    min-width: 30px;
-    color: var(--nx-primary);
-    font-size: 10px;
-    font-weight: 700;
-}
-
-/* =========================================================
-   LINKS
-   ========================================================= */
-
-.nx-text-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--nx-primary);
-    font-size: 11px;
-    font-weight: 650;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.nx-text-link i {
-    width: 14px;
-    height: 14px;
-}
-
-.nx-text-link:hover {
-    text-decoration: underline;
-}
-
-/* =========================================================
-   EMPTY STATES
-   ========================================================= */
-
-.nx-empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-    padding: 20px;
-    color: var(--nx-text-secondary);
-    text-align: center;
-}
-
-.nx-empty-state > i {
-    width: 27px;
-    height: 27px;
-    margin-bottom: 12px;
-    color: var(--nx-primary);
-}
-
-.nx-empty-state strong {
-    margin-bottom: 5px;
-    color: var(--nx-text);
-    font-size: 12px;
-    font-weight: 650;
-}
-
-.nx-empty-state p {
-    margin: 0;
-    font-size: 10px;
-    line-height: 1.6;
-}
-
-/* =========================================================
-   RECENT ACTIVITIES
-   ========================================================= */
-
-.nx-activity-list {
-    display: flex;
-    flex-direction: column;
-    min-height: 180px;
-}
-
-.nx-activity-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 0;
-    border-bottom: 1px solid var(--nx-divider, var(--nx-border));
-}
-
-.nx-activity-item:last-child {
-    border-bottom: 0;
-}
-
-.nx-activity-icon {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: var(--nx-radius-md, 9px);
-    background: var(--nx-surface, #f1f3ef);
-    color: var(--nx-primary);
-}
-
-.nx-activity-icon i {
-    width: 17px;
-    height: 17px;
-}
-
-.nx-activity-icon--payment {
-    background: #eaf3ef;
-    color: #43816a;
-}
-
-.nx-activity-icon--user {
-    background: #f1eef8;
-    color: #77649b;
-}
-
-.nx-activity-icon--workspace {
-    background: #f5f0e8;
-    color: #927044;
-}
-
-.nx-activity-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.nx-activity-content strong {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--nx-text);
-    font-size: 11px;
-    font-weight: 650;
-}
-
-.nx-activity-content p {
-    margin: 0;
-    overflow: hidden;
-    color: var(--nx-text-secondary);
-    font-size: 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.nx-activity-item time {
-    flex-shrink: 0;
-    color: var(--nx-text-secondary);
-    font-size: 9px;
-    white-space: nowrap;
-}
-
-/* =========================================================
-   ALERTS
-   ========================================================= */
-
-.nx-alerts-panel {
-    margin-bottom: 0;
-}
-
-.nx-alert-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.nx-alert {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 15px;
-    border: 1px solid var(--nx-border);
-    border-radius: var(--nx-radius-md, 9px);
-    background: var(--nx-surface, #f8f9f7);
-}
-
-.nx-alert__icon {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: 9px;
-    background: #f8f1e5;
-    color: #a17d49;
-}
-
-.nx-alert__icon i {
+.nx-admin-dashboard .nx-alert-empty :is(i, svg) {
     width: 18px;
     height: 18px;
 }
-
-.nx-alert--warning {
-    border-color: #eee2cd;
-    background: #fcfaf5;
-}
-
-.nx-alert__content {
-    flex: 1;
-    min-width: 0;
-}
-
-.nx-alert__content strong {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--nx-text);
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.nx-alert__content p {
-    margin: 0;
-    color: var(--nx-text-secondary);
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.nx-alert__count {
-    display: grid;
-    place-items: center;
-    min-width: 30px;
-    height: 30px;
-    padding-inline: 8px;
-    border-radius: 20px;
-    background: #f3ead9;
-    color: #8d6a36;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.nx-alert-empty {
+.nx-admin-dashboard .nx-alert-empty > div {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px;
-    border: 1px solid var(--nx-border);
-    border-radius: var(--nx-radius-md, 9px);
-    background: var(--nx-surface, #f8f9f7);
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--nx-space-1) var(--nx-space-3);
+}
+.nx-admin-dashboard .nx-alert-empty span {
+    font-size: var(--nx-text-label);
 }
 
-.nx-alert-empty > i {
-    width: 25px;
-    height: 25px;
-    flex-shrink: 0;
-    color: var(--nx-primary);
+/* ---------- KPIs: always one row on desktop, compact cards ----------
+   >=1100px: 5 across. 640-1099px: 3 + 2. <640px: 2 + 2 + 1. */
+.nx-admin-dashboard .nx-kpi-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--nx-space-3);
 }
-
-.nx-alert-empty strong {
-    display: block;
-    margin-bottom: 4px;
-    color: var(--nx-text);
-    font-size: 12px;
+.nx-admin-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n) {
+    grid-column: span 2;
 }
-
-.nx-alert-empty p {
-    margin: 0;
-    color: var(--nx-text-secondary);
-    font-size: 10px;
+.nx-admin-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n + 4) {
+    grid-column: span 3;
 }
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 1350px) {
-    .nx-kpi-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (min-width: 1100px) {
+    .nx-admin-dashboard .nx-kpi-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+    .nx-admin-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n) {
+        grid-column: auto;
     }
 }
-
-@media (max-width: 1050px) {
-    .nx-dashboard-grid--charts,
-    .nx-dashboard-grid--bottom {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .nx-kpi-grid {
+@media (max-width: 639px) {
+    .nx-admin-dashboard .nx-kpi-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .nx-admin-dashboard .nx-page-header {
-        flex-direction: column;
+    .nx-admin-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n) {
+        grid-column: auto;
     }
-
-    .nx-admin-dashboard .nx-page-header__actions {
-        width: 100%;
-    }
-
-    .nx-date-filter,
-    .nx-admin-dashboard .nx-btn {
-        flex: 1;
+    .nx-admin-dashboard .nx-kpi-grid > .nx-kpi-card:last-child {
+        grid-column: 1 / -1;
     }
 }
 
-@media (max-width: 480px) {
-    .nx-kpi-grid {
-        grid-template-columns: minmax(0, 1fr);
-    }
+.nx-admin-dashboard .nx-kpi-card {
+    justify-content: flex-start;
+    padding: var(--nx-space-3) var(--nx-space-4);
+    background: var(--nx-card);
+    border-color: var(--nx-border);
+    box-shadow: var(--nx-shadow-1);
+    transition: border-color var(--nx-duration-standard);
+}
+.nx-admin-dashboard .nx-kpi-card:hover {
+    border-color: var(--nx-border-strong);
+}
+.nx-admin-dashboard .nx-kpi-card__top {
+    gap: var(--nx-space-2);
+    margin-block-end: var(--nx-space-3);
+}
+.nx-admin-dashboard .nx-kpi-card__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--nx-radius-sm);
+}
+.nx-admin-dashboard .nx-kpi-card__icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+.nx-admin-dashboard .nx-kpi-card__label {
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-label);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none; /* sentence case: one line, easier to scan */
+}
+.nx-admin-dashboard .nx-kpi-card__value {
+    margin: 0;
+    color: var(--nx-text);
+    font-size: clamp(1.125rem, 1.55vw, 1.5rem);
+    line-height: 1.2;
+}
+.nx-admin-dashboard .nx-kpi-card__value small {
+    margin-inline-start: 2px;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+}
+.nx-admin-dashboard .nx-kpi-card__description {
+    margin-block-start: 2px;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    line-height: 1.4;
+}
+/* Money cards: same card, emphasised by a filled icon tile + primary value */
+.nx-admin-dashboard .nx-kpi-card--lead {
+    background: var(--nx-card);
+    border-color: var(--nx-border);
+    box-shadow: var(--nx-shadow-1);
+}
+.nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__icon {
+    background: var(--nx-primary);
+    color: #fff;
+}
+.nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__label,
+.nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__description,
+.nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__value small {
+    color: var(--nx-text-secondary);
+}
+.nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__value {
+    color: var(--nx-primary);
+}
+.nx-admin-dashboard .nx-kpi-card:nth-child(3) .nx-kpi-card__icon {
+    background: var(--nx-info-bg);
+    color: var(--nx-info-icon);
+}
+.nx-admin-dashboard .nx-kpi-card:nth-child(4) .nx-kpi-card__icon {
+    background: var(--nx-sand);
+    color: var(--nx-accent-strong);
+}
+.nx-admin-dashboard .nx-kpi-card:nth-child(5) .nx-kpi-card__icon {
+    background: var(--nx-success-bg);
+    color: var(--nx-success-icon);
+}
 
-    .nx-kpi-card {
-        padding: 17px;
-    }
+/* ---------- Panels: compact header with icon tile ---------- */
+.nx-admin-dashboard .nx-dashboard-panel {
+    padding: 0;
+}
+.nx-admin-dashboard .nx-panel-header {
+    align-items: center;
+    margin: 0;
+    padding: var(--nx-space-3) var(--nx-space-5);
+    border-block-end: 1px solid var(--nx-divider);
+}
+.nx-admin-dashboard .nx-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--nx-space-3);
+    min-width: 0;
+}
+.nx-admin-dashboard .nx-panel-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--nx-radius-sm);
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+}
+.nx-admin-dashboard .nx-panel-icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+.nx-admin-dashboard .nx-panel-title {
+    margin: 0;
+    font-size: var(--nx-text-body);
+}
+.nx-admin-dashboard .nx-panel-subtitle {
+    font-size: var(--nx-text-caption);
+}
 
-    .nx-dashboard-panel {
-        padding: 16px;
-    }
+/* ---------- Charts ---------- */
+.nx-admin-dashboard .nx-chart-container {
+    width: auto;
+    height: 250px;
+    margin: var(--nx-space-4) var(--nx-space-5) var(--nx-space-5);
+}
+.nx-admin-dashboard .nx-donut-wrapper {
+    height: 190px;
+    margin-block: var(--nx-space-4) 0;
+}
+.nx-admin-dashboard .nx-chart-legend {
+    margin: var(--nx-space-3) var(--nx-space-5) var(--nx-space-4);
+}
+.nx-admin-dashboard .nx-chart-legend:empty {
+    display: none;
+}
+/* Shown by the JS only when there is no data (prevents a false "No data"
+   flash while Chart.js is still loading) */
+.nx-admin-dashboard .nx-chart-empty {
+    display: none;
+}
 
-    .nx-panel-header {
-        flex-wrap: wrap;
-    }
+/* ---------- Table + workspace avatars ---------- */
+.nx-admin-dashboard .nx-table-wrapper {
+    padding-block-end: var(--nx-space-1);
+}
+.nx-admin-dashboard .nx-table--compact th:first-child,
+.nx-admin-dashboard .nx-table--compact td:first-child {
+    padding-inline-start: var(--nx-space-5);
+}
+.nx-admin-dashboard .nx-table--compact th:last-child,
+.nx-admin-dashboard .nx-table--compact td:last-child {
+    padding-inline-end: var(--nx-space-5);
+}
+.nx-admin-dashboard .nx-table--compact td {
+    height: 52px;
+}
+.nx-entity {
+    display: flex;
+    align-items: center;
+    gap: var(--nx-space-3);
+    min-width: 0;
+}
+.nx-avatar--sm {
+    width: 32px;
+    height: 32px;
+    font: 700 var(--nx-text-label) / 1 var(--nx-font-heading);
+}
+/* Cycle through four existing semantic tints so rows are distinguishable */
+.nx-admin-dashboard tbody tr:nth-child(4n + 1) .nx-avatar--sm {
+    background: var(--nx-primary);
+    color: #fff;
+}
+.nx-admin-dashboard tbody tr:nth-child(4n + 2) .nx-avatar--sm {
+    background: var(--nx-info-bg);
+    color: var(--nx-info-icon);
+}
+.nx-admin-dashboard tbody tr:nth-child(4n + 3) .nx-avatar--sm {
+    background: var(--nx-sand);
+    color: var(--nx-accent-strong);
+}
+.nx-admin-dashboard tbody tr:nth-child(4n) .nx-avatar--sm {
+    background: var(--nx-success-bg);
+    color: var(--nx-success-icon);
+}
 
-    .nx-activity-item {
-        flex-wrap: wrap;
-    }
+/* ---------- Recent activity: timeline rail, 2-line descriptions ---------- */
+.nx-admin-dashboard .nx-activity-list {
+    min-height: 0;
+    padding: var(--nx-space-1) var(--nx-space-5) var(--nx-space-3);
+}
+.nx-admin-dashboard .nx-activity-item {
+    position: relative;
+    align-items: flex-start;
+    padding: var(--nx-space-3) 0;
+    border-bottom: 0;
+}
+.nx-admin-dashboard .nx-activity-icon {
+    width: 32px;
+    height: 32px;
+}
+.nx-admin-dashboard .nx-activity-icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+.nx-admin-dashboard .nx-activity-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    inset-block: calc(var(--nx-space-3) + 32px)
+        calc(-1 * var(--nx-space-3) + 2px);
+    inset-inline-start: 15px;
+    width: 2px;
+    background: var(--nx-divider);
+}
+.nx-admin-dashboard .nx-activity-list {
+    max-height: 360px; /* long feeds scroll inside the card instead of stretching the row */
+    overflow-y: auto;
+}
+.nx-admin-dashboard .nx-activity-list:focus-visible {
+    outline: none;
+    box-shadow: inset var(--nx-focus-ring);
+}
+.nx-admin-dashboard .nx-activity-item time {
+    padding-block-start: 2px;
+}
 
-    .nx-activity-item time {
-        margin-inline-start: 48px;
-    }
+/* Bottom row: each card hugs its content (no stretched empty space) */
+.nx-admin-dashboard .nx-dashboard-grid--bottom {
+    align-items: start;
+}
 
-    .nx-chart-container {
-        height: 230px;
+/* ---------- Empty states inside panels stay compact ---------- */
+.nx-admin-dashboard .nx-empty-state--compact {
+    min-height: 120px;
+    padding: var(--nx-space-4);
+}
+
+@media (max-width: 639px) {
+    .nx-admin-dashboard .nx-panel-header,
+    .nx-admin-dashboard .nx-activity-list {
+        padding-inline: var(--nx-space-4);
+    }
+    .nx-admin-dashboard .nx-chart-container,
+    .nx-admin-dashboard .nx-chart-legend {
+        margin-inline: var(--nx-space-4);
+    }
+    .nx-admin-dashboard .nx-chart-container {
+        height: 220px;
     }
 }

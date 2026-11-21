@@ -17,7 +17,7 @@
     <style>
         .nx-page-content{
             --forest: #152A23;
-            --cream: #f7f1e7;
+            --cream: #F5F7F3;
             --paper: #F5F7F3;
             --orange: #C58A62;
             --orange-hover: #E6C9B3;
@@ -31,15 +31,12 @@
 
         .nx-page-content{
             margin: 0;
-            background: var(--cream);
+            background: #F5F7F3;
             color: var(--ink);
             font: 1rem/1.5 system-ui, sans-serif;
         }
 
-        .nx-page-content .topbar{
-            background: var(--forest);
-            color: var(--paper);
-        }
+        .nx-page-content .topbar{ display: none; }
 
         .nx-page-content .topbar-inner, .nx-page-content [data-nx-page-main]{
             width: min(1060px, calc(100% - 32px));
@@ -418,6 +415,43 @@
             .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
+            /* Main area polish */
+        .nx-page-content [data-nx-page-main]{width:min(1120px,calc(100% - 48px));padding-block:12px 48px}
+        .nx-page-content .page-heading{max-width:920px;margin-bottom:14px}
+        .nx-page-content .page-heading h1{color:var(--nx-deep,#152A23);font-size:clamp(2.15rem,4vw,3.15rem);letter-spacing:-.06em}
+        .nx-page-content .page-heading p{max-width:900px;margin-top:8px;color:var(--nx-text-secondary,#53615A);font-size:1.02rem;line-height:1.55}
+        .nx-page-content .workspace-directory-link{min-height:40px;margin-top:10px;padding-inline:14px;border-color:#315c4d;border-radius:999px;background:#315c4d;color:#fff;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+        .nx-page-content .workspace-directory-link:hover{border-color:#274b3f;background:#274b3f;color:#fff;transform:translateY(-1px)}
+        .nx-page-content .workspace-form{border-color:#dce4dc;border-radius:24px;background:#fff;box-shadow:0 18px 48px rgba(21,42,35,.08)}
+        .nx-page-content .form-grid{grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr)}
+        .nx-page-content .panel{padding:clamp(22px,3vw,28px)}
+        .nx-page-content .cover-panel{border-left-color:#e1e8e1;background:#F8FAF7}
+        .nx-page-content h2{margin-bottom:16px;font-size:1.2rem;font-weight:800}
+        .nx-page-content .field+.field{margin-top:16px}
+        .nx-page-content label,.nx-page-content .facilities legend{margin-bottom:8px;color:#243b32;font-size:.93rem;font-weight:700}
+        .nx-page-content input[type="text"],.nx-page-content textarea{min-height:50px;padding:12px 14px;border-color:#d5dfd7;border-radius:12px;background:#fff;transition:border-color .18s ease,box-shadow .18s ease}
+        .nx-page-content textarea{min-height:100px}
+        .nx-page-content input[type="text"]:hover,.nx-page-content textarea:hover{border-color:#a8b9ac}
+        .nx-page-content input[type="text"]:focus,.nx-page-content textarea:focus{border-color:#315c4d;box-shadow:0 0 0 4px rgba(49,92,77,.12);outline:0}
+        .nx-page-content .facilities{margin-top:18px}
+        .nx-page-content .facility-options{gap:9px}
+        .nx-page-content .facility-options label{min-height:40px;padding:8px 11px;border-color:#d8e1d9;border-radius:999px;background:#fff;color:#40534a;transition:background .18s ease,border-color .18s ease,color .18s ease}
+        .nx-page-content .facility-options label:hover{border-color:#9eb3a5;background:#f2f6f2}
+        .nx-page-content .facility-options label:has(input:checked){border-color:#84a291;background:#e6efe8;color:#214a3c}
+        .nx-page-content .facility-options input{width:16px;height:16px}
+        .nx-page-content .preview{min-height:190px;aspect-ratio:4/3;margin-bottom:14px;border:1px dashed #9fb5a6;border-radius:18px;background:rgba(255,255,255,.68)}
+        .nx-page-content .preview-placeholder{gap:10px;padding:24px}
+        .nx-page-content input[type="file"]{padding:12px;border:1px solid #d5dfd7;border-radius:12px;background:rgba(255,255,255,.78)}
+        .nx-page-content input::file-selector-button{margin-right:12px;padding:9px 13px;border-color:#315c4d;border-radius:9px;background:#315c4d;color:#fff;transition:background .18s ease}
+        .nx-page-content input::file-selector-button:hover{background:#274b3f}
+        .nx-page-content .hint{margin-top:10px;line-height:1.6}
+        .nx-page-content .form-footer{min-height:72px;gap:12px;padding-block:12px;background:#fbfcfa}
+        .nx-page-content .cancel{padding:10px 16px;border:1px solid #d6dfd7;border-radius:10px;text-decoration:none;font-weight:700;transition:background .18s ease}
+        .nx-page-content .cancel:hover{background:#eef3ee}
+        .nx-page-content .submit{min-height:48px;padding-inline:20px;border-color:#315c4d;border-radius:11px;background:#315c4d;color:#fff;transition:background .18s ease,transform .18s ease,box-shadow .18s ease}
+        .nx-page-content .submit:hover{background:#274b3f;box-shadow:0 6px 16px rgba(49,92,77,.18);transform:translateY(-1px)}
+        @media(max-width:760px){.nx-page-content [data-nx-page-main]{width:min(calc(100% - 28px),620px);padding-block:12px 36px}.nx-page-content .form-grid{grid-template-columns:1fr}.nx-page-content .cover-panel{border-top:1px solid #e1e8e1;border-left:0}.nx-page-content .preview{min-height:180px}}
+        @media(max-width:480px){.nx-page-content .form-footer{align-items:stretch}.nx-page-content .cancel,.nx-page-content .submit{flex:1;justify-content:center;text-align:center}}
     </style>
 @endpush
 

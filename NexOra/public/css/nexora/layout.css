@@ -1,19 +1,3 @@
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-body {
-    margin: 0;
-    background: var(--nx-bg);
-}
-img,
-svg,
-canvas {
-    max-width: 100%;
-}
-
-/* ===== Public pages ===== */
 .nx-page {
     min-height: 100vh;
     background: var(--nx-bg);
@@ -23,211 +7,27 @@ canvas {
     width: min(calc(100% - 64px), var(--nx-public-container));
     margin-inline: auto;
 }
-
-/* ===== Dashboard shell ===== */
 .nx-dashboard {
-    display: flex;
     min-height: 100vh;
     background: var(--nx-bg);
 }
-.nx-dashboard__content {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
+.nx-dashboard__sidebar {
+    background: var(--nx-sidebar);
+    color: #f8faf7;
+    width: var(--nx-sidebar-width);
 }
 .nx-dashboard__main {
-    flex: 1;
     min-width: 0;
     width: 100%;
     max-width: var(--nx-dashboard-container);
     margin-inline: auto;
     padding: var(--nx-space-8);
 }
-.nx-dashboard__overlay {
-    display: none;
-}
-
-/* ===== Sidebar ===== */
-.nx-dashboard__sidebar {
-    position: sticky;
-    top: 0;
-    align-self: flex-start;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    width: var(--nx-sidebar-width);
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background: var(--nx-sidebar);
-    color: #f8faf7;
-    transition: width var(--nx-duration-surface) var(--nx-ease);
-    z-index: 40;
-}
-.nx-sidebar__brand {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: var(--nx-space-6);
-    min-height: var(--nx-topbar-height);
-}
-.nx-sidebar__logo {
-    color: #fff;
-    font: 800 22px/1 var(--nx-font-heading);
-    letter-spacing: -0.03em;
-    text-decoration: none;
-}
-.nx-sidebar__subtitle {
-    font-size: var(--nx-text-caption);
-    color: rgba(248, 250, 247, 0.6);
-}
-.nx-sidebar__nav {
-    display: flex;
-    flex-direction: column;
-    gap: var(--nx-space-1);
-    padding: 0 var(--nx-space-3);
-    flex: 1;
-}
-.nx-sidebar__section {
-    padding: var(--nx-space-3) var(--nx-space-3) var(--nx-space-2);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: rgba(248, 250, 247, 0.5);
-}
-.nx-sidebar__link {
-    display: flex;
-    align-items: center;
-    gap: var(--nx-space-3);
-    min-height: 42px;
-    padding: 0 var(--nx-space-3);
-    border-radius: var(--nx-radius-sm);
-    color: rgba(248, 250, 247, 0.78);
-    font-size: var(--nx-text-body-sm);
-    font-weight: 500;
-    text-decoration: none;
-    transition:
-        background-color var(--nx-duration-standard),
-        color var(--nx-duration-standard);
-}
-.nx-sidebar__link svg,
-.nx-sidebar__link i {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
-.nx-sidebar__link:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-}
-.nx-sidebar__link:focus-visible {
-    outline: 2px solid var(--nx-accent);
-    outline-offset: 2px;
-}
-.nx-sidebar__link.is-active {
-    background: rgba(255, 255, 255, 0.14);
-    color: #fff;
-    font-weight: 600;
-    box-shadow: inset 3px 0 0 var(--nx-accent);
-}
-.nx-sidebar__badge {
-    margin-inline-start: auto;
-    min-width: 20px;
-    padding: 2px 6px;
-    border-radius: var(--nx-radius-pill);
-    background: var(--nx-accent);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
-}
-.nx-sidebar__footer {
-    padding: var(--nx-space-4) var(--nx-space-6);
-    font-size: var(--nx-text-caption);
-    color: rgba(248, 250, 247, 0.5);
-}
-.nx-sidebar__logout {
-    width: 100%;
-    background: none;
-    border: 0;
-    cursor: pointer;
-    font-family: inherit;
-    text-align: start;
-}
-
-/* Collapsed (desktop) */
-.nx-dashboard.is-collapsed .nx-dashboard__sidebar {
-    width: var(--nx-sidebar-collapsed);
-}
-.nx-dashboard.is-collapsed .nx-sidebar__link span,
-.nx-dashboard.is-collapsed .nx-sidebar__section,
-.nx-dashboard.is-collapsed .nx-sidebar__subtitle,
-.nx-dashboard.is-collapsed .nx-sidebar__badge,
-.nx-dashboard.is-collapsed .nx-sidebar__footer span {
-    display: none;
-}
-.nx-dashboard.is-collapsed .nx-sidebar__link {
-    justify-content: center;
-    padding: 0;
-}
-.nx-dashboard.is-collapsed .nx-sidebar__brand {
-    padding-inline: var(--nx-space-3);
-    align-items: center;
-}
-
-/* ===== Topbar ===== */
 .nx-topbar {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--nx-space-4);
     min-height: var(--nx-topbar-height);
-    padding-inline: var(--nx-space-8);
     background: var(--nx-card);
     border-bottom: 1px solid var(--nx-border);
 }
-.nx-topbar__left,
-.nx-topbar__right {
-    display: flex;
-    align-items: center;
-    gap: var(--nx-space-4);
-    min-width: 0;
-}
-.nx-topbar__breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: var(--nx-space-2);
-    color: var(--nx-text-secondary);
-    font-size: var(--nx-text-body-sm);
-}
-.nx-topbar__breadcrumb svg {
-    width: 16px;
-    height: 16px;
-}
-.nx-topbar__breadcrumb strong {
-    color: var(--nx-text);
-}
-.nx-topbar__user {
-    display: flex;
-    align-items: center;
-    gap: var(--nx-space-3);
-}
-.nx-topbar__user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.25;
-    font-size: var(--nx-text-body-sm);
-}
-.nx-topbar__user-info span {
-    color: var(--nx-text-muted);
-    font-size: var(--nx-text-caption);
-}
-
-/* ===== Page primitives ===== */
 .nx-page-header {
     display: flex;
     align-items: flex-start;
@@ -272,16 +72,343 @@ canvas {
     border: 1px solid var(--nx-border);
     border-radius: var(--nx-radius-lg);
 }
+
+/* =========================================================
+   Dashboard shell — sidebar + topbar (landing identity)
+   ========================================================= */
+body {
+    margin: 0;
+    background: var(--nx-bg);
+}
+.nx-dashboard {
+    display: flex;
+    align-items: stretch;
+    min-width: 0;
+}
+.nx-dashboard__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+.nx-dashboard__sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    padding: var(--nx-space-6) var(--nx-space-4);
+    overflow-y: auto;
+}
+.nx-sidebar__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 var(--nx-space-3) var(--nx-space-6);
+    border-bottom: 1px solid var(--nx-sidebar-line);
+}
+.nx-sidebar__logo {
+    color: #fff;
+    font: 800 21px/1.2 var(--nx-font-heading);
+    letter-spacing: -0.03em;
+    text-decoration: none;
+}
+.nx-sidebar__logo::after {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-inline-start: 4px;
+    border-radius: 2px;
+    background: var(--nx-accent);
+}
+.nx-sidebar__subtitle {
+    color: var(--nx-accent-soft);
+    font: 700 11px/1.4 var(--nx-font-heading);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+.nx-sidebar__nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: var(--nx-space-6);
+}
+.nx-sidebar__section {
+    padding: var(--nx-space-4) var(--nx-space-3) var(--nx-space-2);
+    color: var(--nx-sidebar-text-muted);
+    font: 700 12px/1.4 var(--nx-font-heading);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.nx-sidebar__section:first-child {
+    padding-top: 0;
+}
+.nx-sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: var(--nx-radius-pill);
+    color: var(--nx-sidebar-text);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        background-color var(--nx-duration-surface) var(--nx-ease),
+        color var(--nx-duration-surface) var(--nx-ease);
+}
+.nx-sidebar__link svg,
+.nx-sidebar__link i {
+    flex: none;
+    width: 18px;
+    height: 18px;
+}
+.nx-sidebar__link:hover {
+    background: var(--nx-sidebar-hover);
+    color: #fff;
+}
+/* An inset bar on a pill shape renders as a clipped crescent, so the active
+   state uses fill + a tinted icon instead (no RTL override needed). */
+.nx-sidebar__link.is-active {
+    background: var(--nx-sidebar-active);
+    color: #fff;
+}
+.nx-sidebar__link.is-active :is(svg, i) {
+    color: var(--nx-accent-soft);
+}
+.nx-sidebar__link:focus-visible {
+    outline: 2px solid var(--nx-accent);
+    outline-offset: 2px;
+}
+.nx-sidebar__footer {
+    padding: var(--nx-space-4) var(--nx-space-3) 0;
+    border-top: 1px solid var(--nx-sidebar-line);
+    color: var(--nx-sidebar-text-muted);
+    font-size: 12px;
+}
+
+/* Logout lives inside the sidebar <nav>, so it is pushed to the bottom of it */
+.nx-sidebar__logout {
+    margin: auto 0 0;
+    padding-top: var(--nx-space-4);
+}
+.nx-sidebar__logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--nx-radius-pill);
+    background: transparent;
+    color: var(--nx-sidebar-text);
+    font: 500 14px/1 var(--nx-font-body);
+    text-align: start;
+    cursor: pointer;
+    transition:
+        background-color var(--nx-duration-surface) var(--nx-ease),
+        color var(--nx-duration-surface) var(--nx-ease);
+}
+.nx-sidebar__logout-btn svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+}
+.nx-sidebar__logout-btn:hover {
+    background: var(--nx-sidebar-hover);
+    color: #fff;
+}
+.nx-sidebar__logout-btn:focus-visible {
+    outline: 2px solid var(--nx-accent);
+    outline-offset: 2px;
+}
+
+/* Skip link (first focusable element in the dashboard layout) */
 .nx-skip-link {
-    position: absolute;
-    inset-inline-start: 8px;
-    top: -48px;
-    z-index: 100;
-    padding: 8px 14px;
+    position: fixed;
+    z-index: 1100;
+    inset-block-start: var(--nx-space-2);
+    inset-inline-start: var(--nx-space-2);
+    padding: var(--nx-space-3) var(--nx-space-4);
+    border-radius: var(--nx-radius-pill);
     background: var(--nx-primary);
     color: #fff;
-    border-radius: var(--nx-radius-sm);
+    font: 700 14px/1 var(--nx-font-heading);
+    text-decoration: none;
+    transform: translateY(-200%);
 }
 .nx-skip-link:focus {
-    top: 8px;
+    transform: none;
+    outline: none;
+    box-shadow: var(--nx-focus-ring);
+}
+.nx-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nx-space-4);
+    padding: 0 var(--nx-space-8);
+    background: rgba(245, 247, 243, 0.92);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+.nx-topbar__left,
+.nx-topbar__right,
+.nx-topbar__user {
+    display: flex;
+    align-items: center;
+    gap: var(--nx-space-3);
+    min-width: 0;
+}
+.nx-icon-button {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--nx-border-strong);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--nx-text);
+    cursor: pointer;
+    transition:
+        background-color var(--nx-duration-surface) var(--nx-ease),
+        color var(--nx-duration-surface) var(--nx-ease),
+        border-color var(--nx-duration-surface) var(--nx-ease);
+}
+.nx-icon-button:hover {
+    border-color: var(--nx-primary);
+    background: var(--nx-primary);
+    color: var(--nx-bg);
+}
+.nx-icon-button:focus-visible {
+    outline: 2px solid var(--nx-primary); /* accent on light = 2.7:1, fails 3:1 */
+    outline-offset: 2px;
+}
+.nx-icon-button svg {
+    width: 18px;
+    height: 18px;
+}
+.nx-topbar__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    color: var(--nx-text-muted);
+    font-size: 13px;
+}
+.nx-topbar__breadcrumb svg {
+    width: 14px;
+    height: 14px;
+}
+.nx-topbar__breadcrumb strong {
+    overflow: hidden;
+    color: var(--nx-text);
+    font-family: var(--nx-font-heading);
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.nx-topbar .nx-avatar {
+    background: var(--nx-primary);
+    color: var(--nx-bg);
+    font-family: var(--nx-font-heading);
+    font-weight: 700;
+}
+.nx-topbar__user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.nx-topbar__user-info strong {
+    color: var(--nx-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+.nx-topbar__user-info span {
+    color: var(--nx-text-muted);
+    font-size: 12px;
+}
+.nx-btn {
+    border-radius: var(--nx-radius-pill);
+    font-family: var(--nx-font-heading);
+    font-weight: 700;
+}
+.nx-card {
+    border-radius: var(--nx-radius-lg);
+}
+.nx-eyebrow {
+    display: inline-block;
+    color: var(--nx-accent-strong);
+    font: 700 12px/1.4 var(--nx-font-heading);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+@media (max-width: 1023px) {
+    .nx-dashboard__sidebar {
+        width: 196px;
+        padding-inline: var(--nx-space-2);
+    }
+    .nx-sidebar__brand {
+        padding-inline: var(--nx-space-3);
+    }
+    .nx-sidebar__link {
+        gap: 8px;
+        padding: 10px 12px;
+    }
+    .nx-sidebar__link span {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+    .nx-topbar {
+        padding: 0 var(--nx-space-6);
+    }
+}
+@media (max-width: 767px) {
+    .nx-dashboard {
+        flex-direction: column;
+    }
+    .nx-dashboard__sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 16px;
+    }
+    .nx-sidebar__brand {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        padding: 0 0 12px;
+    }
+    .nx-sidebar__nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-top: 12px;
+    }
+    .nx-sidebar__section {
+        width: 100%;
+        padding-inline: 0;
+    }
+    .nx-sidebar__link {
+        flex: 1 1 120px;
+    }
+    .nx-sidebar__footer {
+        padding: 12px 0 0;
+    }
+    .nx-topbar {
+        padding: 0 var(--nx-space-4);
+    }
+    .nx-topbar__user-info {
+        display: none;
+    }
 }

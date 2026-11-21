@@ -58,12 +58,11 @@ class LoginController extends Controller
                     );
                 }
 
-                // Application is pending
+                // Keep the manager signed in so they can finish setting up the workspace.
                 if ($workspace->approval_status === 'pending') {
-                    return $this->logoutWithError(
-                        $request,
-                        'Your workspace application is still pending admin approval.'
-                    );
+                    return redirect()->route('manager.workspaces.details', [
+                        'workspaceId' => $workspace->id,
+                    ])->with('warning', 'Your workspace is waiting for admin approval.');
                 }
 
                 // Application is rejected

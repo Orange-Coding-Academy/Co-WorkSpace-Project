@@ -1,683 +1,321 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f7f3">
+
     <title>Explore Workspaces | NexOra</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-            background: #F5F7F3;
-            color: #1D2924;
-        }
-
-        .page {
-            max-width: 1250px;
-            margin: auto;
-            padding: 45px 24px;
-        }
-
-        .hero {
-            margin-bottom: 35px;
-        }
-
-        .hero h1 {
-            font-size: 36px;
-            margin-bottom: 12px;
-        }
-
-        .hero p {
-            color: #7F8B84;
-            line-height: 1.6;
-        }
-
-        .filters {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.04);
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .field label {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .field input,
-        .field select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #E2E8E2;
-            border-radius: 8px;
-            outline: none;
-            background: white;
-        }
-
-        .filter-actions {
-            display: flex;
-            align-items: end;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 12px 18px;
-            border: 0;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: #203D34;
-            color: white;
-        }
-
-        .btn-light {
-            background: #F5F7F3;
-            color: #203D34;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .room-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,.05);
-        }
-
-        .gallery {
-            height: 225px;
-            position: relative;
-            background: #E9EEE9;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-
-        .gallery img.active {
-            display: block;
-        }
-
-        .gallery button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 34px;
-            height: 34px;
-            border: 0;
-            border-radius: 50%;
-            background: rgba(0,0,0,.6);
-            color: white;
-            cursor: pointer;
-        }
-
-        .gallery .prev {
-            left: 12px;
-        }
-
-        .gallery .next {
-            right: 12px;
-        }
-
-        .gallery .counter {
-            position: absolute;
-            bottom: 12px;
-            right: 12px;
-            color: white;
-            background: rgba(0,0,0,.6);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .no-image {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #7F8B84;
-        }
-
-        .room-content {
-            padding: 20px;
-        }
-
-        .workspace-name {
-            color: #7F8B84;
-            font-size: 13px;
-            margin-bottom: 9px;
-        }
-
-        .room-content h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-
-        .room-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            color: #7F8B84;
-            font-size: 13px;
-            margin: 15px 0;
-        }
-
-        .facilities {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin: 15px 0;
-        }
-
-        .facility {
-            background: #F5F7F3;
-            color: #53615A;
-            padding: 6px 9px;
-            border-radius: 20px;
-            font-size: 11px;
-        }
-
-        .room-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #F5F7F3;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-
-        .price strong {
-            font-size: 21px;
-            color: #203D34;
-        }
-
-        .price span {
-            font-size: 12px;
-            color: #7F8B84;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 18px;
-        }
-
-        .card-actions a {
-            flex: 1;
-            font-size: 13px;
-        }
-
-        .empty {
-            grid-column: 1 / -1;
-            background: white;
-            padding: 55px 20px;
-            border-radius: 14px;
-            text-align: center;
-            color: #7F8B84;
-        }
-
-        .pagination {
-            margin-top: 35px;
-        }
-
-        @media(max-width: 950px) {
-            .rooms-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .filters {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media(max-width: 600px) {
-            .rooms-grid,
-            .filters {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 28px;
-            }
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* ===== NexOra visual skin (tokens mirror welcome.blade.php) ===== */
-        :root {
-            --nx-primary: #315C4D; --nx-primary-hover: #274B3F; --nx-primary-active: #203D34;
-            --nx-secondary: #6F806E; --nx-accent: #C58A62; --nx-accent-soft: #E6C9B3; --nx-deep: #152A23; --nx-sand: #EEE7DE;
-            --nx-bg: #F5F7F3; --nx-surface: #F8FAF7; --nx-card: #FFFFFF; --nx-sidebar: #203D34;
-            --nx-text: #1D2924; --nx-text-secondary: #53615A; --nx-text-muted: #7F8B84;
-            --nx-border: #E2E8E2; --nx-divider: #E9EEE9; --nx-border-strong: #C9D4CC;
-            --nx-font-heading: 'Manrope', 'Noto Sans Arabic', system-ui, sans-serif;
-            --nx-font-body: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-            --nx-ease: cubic-bezier(.2, .7, .2, 1);
-            --bs-body-font-family: var(--nx-font-body);
-            --bs-body-color: #1D2924; --bs-body-color-rgb: 29, 41, 36; --bs-body-bg: #F5F7F3; --bs-body-bg-rgb: 245, 247, 243;
-            --bs-primary: #315C4D; --bs-primary-rgb: 49, 92, 77; --bs-secondary: #6F806E; --bs-secondary-rgb: 111, 128, 110;
-            --bs-info: #315C4D; --bs-info-rgb: 49, 92, 77; --bs-light: #F8FAF7; --bs-light-rgb: 248, 250, 247; --bs-dark: #1D2924; --bs-dark-rgb: 29, 41, 36;
-            --bs-secondary-color: #53615A; --bs-secondary-bg: #EEF2ED; --bs-tertiary-bg: #F8FAF7;
-            --bs-link-color: #315C4D; --bs-link-color-rgb: 49, 92, 77; --bs-link-hover-color: #203D34; --bs-link-hover-color-rgb: 32, 61, 52;
-            --bs-border-color: #E2E8E2; --bs-border-radius: 12px; --bs-border-radius-sm: 8px; --bs-border-radius-lg: 16px; --bs-border-radius-xl: 24px;
-            --bs-focus-ring-color: rgba(49, 92, 77, .22);
-        }
-        :where(body) { background-color: var(--nx-bg); color: var(--nx-text); }
-        body { font-family: var(--nx-font-body); -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
-        :where(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .navbar-brand, .card-title, .modal-title) { font-family: var(--nx-font-heading); letter-spacing: -0.02em; color: inherit; }
-        :where(a) { color: var(--nx-primary); }
-        :where(a:hover) { color: var(--nx-primary-active); }
-        :focus-visible { outline: 2px solid var(--nx-accent); outline-offset: 2px; }
-        .text-muted, .text-secondary { color: var(--nx-text-secondary) !important; }
-        .bg-light { background-color: var(--nx-surface) !important; }
-        .bg-white { background-color: var(--nx-card) !important; }
-        .bg-dark { background-color: var(--nx-sidebar) !important; }
-        .shadow-sm { box-shadow: 0 1px 2px rgba(29, 41, 36, .05) !important; }
-        .shadow { box-shadow: 0 4px 12px rgba(29, 41, 36, .07) !important; }
-        .shadow-lg { box-shadow: 0 12px 32px rgba(29, 41, 36, .12) !important; }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        /* Navbar */
-        .navbar { min-height: 72px; border-bottom: 1px solid var(--nx-border); }
-        .navbar .navbar-brand { font-weight: 800; font-size: 21px; letter-spacing: -.03em; color: var(--nx-text); }
-        .navbar .nav-link { font-size: 14px; font-weight: 500; color: var(--nx-text-secondary); min-height: 44px; display: flex; align-items: center; }
-        .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--nx-text); }
-        .navbar-toggler { border-color: var(--nx-border-strong); border-radius: 999px; min-height: 44px; }
-        .navbar-toggler:focus { box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); }
-        .dropdown-menu { border: 1px solid var(--nx-border); border-radius: 12px; padding: 6px; box-shadow: 0 4px 12px rgba(29, 41, 36, .07); font-size: 14px; }
-        .dropdown-item { border-radius: 8px; min-height: 40px; display: flex; align-items: center; color: var(--nx-text); }
-        .dropdown-item:hover, .dropdown-item:focus { background: var(--nx-surface); color: var(--nx-text); }
-        .dropdown-item.active, .dropdown-item:active { background: var(--nx-primary); color: #fff; }
-
-        /* Buttons — landing pill language, 44px professional controls */
-        .btn {
-            --bs-btn-padding-x: 20px; --bs-btn-padding-y: 9px; --bs-btn-font-size: 14px; --bs-btn-font-weight: 700;
-            --bs-btn-border-radius: 999px; --bs-btn-focus-box-shadow: 0 0 0 3px rgba(49, 92, 77, .22);
-            min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            font-family: var(--nx-font-heading); letter-spacing: -.005em;
-            transition: background-color .3s var(--nx-ease), color .3s var(--nx-ease), border-color .3s var(--nx-ease), transform .3s var(--nx-ease);
-        }
-        .btn:active { transform: scale(.98); }
-        .btn-sm { --bs-btn-padding-x: 14px; --bs-btn-padding-y: 6px; --bs-btn-font-size: 13px; min-height: 36px; }
-        .btn-lg { --bs-btn-padding-x: 24px; --bs-btn-font-size: 15px; min-height: 52px; }
-        .btn-close { min-height: 0; border-radius: 8px; }
-        .btn-link { min-height: auto; }
-        .btn-primary, .btn-info, .btn-dark { --bs-btn-color: #F5F7F3; --bs-btn-bg: #315C4D; --bs-btn-border-color: #315C4D; --bs-btn-hover-color: #F5F7F3; --bs-btn-hover-bg: #274B3F; --bs-btn-hover-border-color: #274B3F; --bs-btn-active-color: #F5F7F3; --bs-btn-active-bg: #203D34; --bs-btn-active-border-color: #203D34; --bs-btn-disabled-bg: #315C4D; --bs-btn-disabled-border-color: #315C4D; --bs-btn-disabled-color: #F5F7F3; }
-        .btn-secondary, .btn-light { --bs-btn-color: #203D34; --bs-btn-bg: #EDF2EC; --bs-btn-border-color: #DCE6DC; --bs-btn-hover-color: #203D34; --bs-btn-hover-bg: #E3EBE2; --bs-btn-hover-border-color: #C9D4CC; --bs-btn-active-color: #203D34; --bs-btn-active-bg: #DCE6DC; --bs-btn-active-border-color: #C9D4CC; }
-        .btn-warning { --bs-btn-color: #152A23; --bs-btn-bg: #C58A62; --bs-btn-border-color: #C58A62; --bs-btn-hover-color: #152A23; --bs-btn-hover-bg: #D49A72; --bs-btn-hover-border-color: #D49A72; --bs-btn-active-bg: #B97C55; --bs-btn-active-border-color: #B97C55; }
-        .btn-success { --bs-btn-bg: #16794C; --bs-btn-border-color: #16794C; --bs-btn-hover-bg: #145C3A; --bs-btn-hover-border-color: #145C3A; --bs-btn-active-bg: #145C3A; }
-        .btn-danger { --bs-btn-bg: #B42318; --bs-btn-border-color: #B42318; --bs-btn-hover-bg: #912018; --bs-btn-hover-border-color: #912018; --bs-btn-active-bg: #912018; }
-        .btn-outline-primary, .btn-outline-secondary, .btn-outline-dark, .btn-outline-info, .btn-outline-light { --bs-btn-color: #1D2924; --bs-btn-bg: transparent; --bs-btn-border-color: #C9D4CC; --bs-btn-hover-color: #F5F7F3; --bs-btn-hover-bg: #315C4D; --bs-btn-hover-border-color: #315C4D; --bs-btn-active-color: #F5F7F3; --bs-btn-active-bg: #203D34; --bs-btn-active-border-color: #203D34; }
-        .btn-outline-warning { --bs-btn-color: #754C05; --bs-btn-border-color: #F0D79E; --bs-btn-hover-color: #152A23; --bs-btn-hover-bg: #C58A62; --bs-btn-hover-border-color: #C58A62; }
-        .btn-outline-success { --bs-btn-color: #145C3A; --bs-btn-border-color: #BCE2C9; --bs-btn-hover-bg: #16794C; --bs-btn-hover-border-color: #16794C; }
-        .btn-outline-danger { --bs-btn-color: #912018; --bs-btn-border-color: #F5C2BE; --bs-btn-hover-bg: #B42318; --bs-btn-hover-border-color: #B42318; }
-
-        /* Forms */
-        .form-control, .form-select { min-height: 44px; border: 1px solid var(--nx-border-strong); border-radius: 12px; background-color: var(--nx-card); color: var(--nx-text); font-size: 14px; transition: border-color .2s var(--nx-ease), box-shadow .2s var(--nx-ease); }
-        .form-control-sm, .form-select-sm { min-height: 36px; border-radius: 8px; }
-        textarea.form-control { min-height: 104px; }
-        .form-control::placeholder { color: var(--nx-text-muted); }
-        .form-control:hover:not(:disabled):not(.is-invalid), .form-select:hover:not(:disabled):not(.is-invalid) { border-color: var(--nx-secondary); }
-        .form-control:focus, .form-select:focus, .form-check-input:focus { border-color: var(--nx-primary); box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); }
-        .form-control:disabled, .form-select:disabled, .form-control[readonly] { background-color: #F0F2EF; color: #657169; }
-        .form-control.is-invalid, .form-select.is-invalid { border-color: #B42318; }
-        .invalid-feedback, .text-danger { color: #912018 !important; }
-        .form-label, .col-form-label { font-size: 13px; font-weight: 600; color: var(--nx-text); }
-        .form-text { color: var(--nx-text-muted); font-size: 12px; }
-        .form-check-input:checked { background-color: var(--nx-primary); border-color: var(--nx-primary); }
-        .input-group-text { border-color: var(--nx-border-strong); background: var(--nx-surface); color: var(--nx-text-secondary); border-radius: 12px; }
-
-        /* Cards */
-        .card { --bs-card-border-color: var(--nx-border); --bs-card-border-radius: 16px; --bs-card-inner-border-radius: 15px; --bs-card-cap-bg: var(--nx-surface); background-color: var(--nx-card); box-shadow: 0 1px 2px rgba(29, 41, 36, .05); color: var(--nx-text); }
-        .card-header { font-family: var(--nx-font-heading); font-weight: 700; border-bottom-color: var(--nx-divider); padding: 16px 24px; }
-        .card-body { padding: 24px; }
-        .card-footer { border-top-color: var(--nx-divider); padding: 16px 24px; }
-        .list-group { --bs-list-group-border-color: var(--nx-border); --bs-list-group-border-radius: 12px; --bs-list-group-active-bg: var(--nx-primary); --bs-list-group-active-border-color: var(--nx-primary); }
-
-        /* Tables — safe horizontal containment */
-        .table-responsive { border-radius: 16px; -webkit-overflow-scrolling: touch; }
-        .table { --bs-table-color: var(--nx-text); --bs-table-bg: transparent; --bs-table-border-color: var(--nx-divider); --bs-table-striped-bg: rgba(49, 92, 77, .03); --bs-table-hover-bg: var(--nx-surface); font-size: 14px; vertical-align: middle; }
-        .table > :not(caption) > * > * { padding: 14px 16px; }
-        .table thead th, .table > thead > tr > th { background: var(--nx-surface); color: var(--nx-text-secondary); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; border-bottom-color: var(--nx-border); }
-        .table-light { --bs-table-bg: var(--nx-surface); --bs-table-color: var(--nx-text-secondary); --bs-table-border-color: var(--nx-border); }
-        .table-dark { --bs-table-bg: var(--nx-sidebar); --bs-table-color: #F5F7F3; --bs-table-border-color: rgba(255, 255, 255, .12); }
-        .table-dark th, .table thead.table-dark th { background: var(--nx-sidebar); color: #F5F7F3; }
-
-        /* Badges & alerts — semantic distinctions preserved */
-        .badge { border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; letter-spacing: 0; font-family: var(--nx-font-body); }
-        .badge.bg-success { background-color: #EAF6EF !important; color: #145C3A !important; box-shadow: inset 0 0 0 1px #BCE2C9; }
-        .badge.bg-warning { background-color: #FFF6E5 !important; color: #754C05 !important; box-shadow: inset 0 0 0 1px #F0D79E; }
-        .badge.bg-danger { background-color: #FDEDEC !important; color: #912018 !important; box-shadow: inset 0 0 0 1px #F5C2BE; }
-        .badge.bg-info, .badge.bg-primary { background-color: #E7EEE7 !important; color: #203D34 !important; box-shadow: inset 0 0 0 1px #C9D4CC; }
-        .badge.bg-secondary, .badge.bg-light, .badge.bg-dark { background-color: #F0F2EF !important; color: #53615A !important; box-shadow: inset 0 0 0 1px #D9DEDA; }
-        .alert { border-radius: 12px; font-size: 14px; padding: 14px 16px; }
-        .alert-success { --bs-alert-color: #145C3A; --bs-alert-bg: #EAF6EF; --bs-alert-border-color: #BCE2C9; }
-        .alert-warning { --bs-alert-color: #754C05; --bs-alert-bg: #FFF6E5; --bs-alert-border-color: #F0D79E; }
-        .alert-danger { --bs-alert-color: #912018; --bs-alert-bg: #FDEDEC; --bs-alert-border-color: #F5C2BE; }
-        .alert-info, .alert-primary { --bs-alert-color: #203D34; --bs-alert-bg: #EDF2EC; --bs-alert-border-color: #C9D4CC; }
-
-        /* Modals, pagination, nav tabs */
-        .modal-content { border: 1px solid var(--nx-border); border-radius: 16px; box-shadow: 0 12px 32px rgba(29, 41, 36, .12); }
-        .modal-header { border-bottom-color: var(--nx-divider); padding: 20px 24px; }
-        .modal-footer { border-top-color: var(--nx-divider); padding: 16px 24px; }
-        .modal-backdrop { --bs-backdrop-bg: #101B16; }
-        .pagination { --bs-pagination-color: var(--nx-text-secondary); --bs-pagination-border-color: var(--nx-border); --bs-pagination-hover-color: var(--nx-text); --bs-pagination-hover-bg: var(--nx-surface); --bs-pagination-active-bg: var(--nx-primary); --bs-pagination-active-border-color: var(--nx-primary); --bs-pagination-focus-box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); flex-wrap: wrap; gap: 6px; }
-        .pagination .page-link { border-radius: 8px !important; min-width: 36px; text-align: center; }
-        .nav-tabs { --bs-nav-tabs-border-color: var(--nx-border); --bs-nav-tabs-link-active-color: var(--nx-primary); }
-        .nav-pills { --bs-nav-pills-border-radius: 999px; --bs-nav-pills-link-active-bg: var(--nx-primary); }
-        .nav-link { color: var(--nx-text-secondary); }
-        .nav-link:hover { color: var(--nx-text); }
-        .progress { background-color: #E8EDE8; border-radius: 999px; }
-        .progress-bar { background-color: var(--nx-primary); }
-
-        /* Responsive containment */
-        img, video { max-width: 100%; }
-        @media (max-width: 767px) {
-            .card-body { padding: 18px; }
-            .table-responsive > .table, .table-responsive table { min-width: 640px; }
-            .container, .container-fluid { padding-inline: 16px; }
-            .d-flex.justify-content-between { flex-wrap: wrap; gap: 12px; }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/pages/explore.css') }}">
+    <script src="{{ asset('js/pages/explore.js') }}" defer></script>
 </head>
 
 <body>
+<main class="page nx-explore">
 
-<div class="page">
+    <section class="nx-explore__hero" aria-labelledby="explore-title">
+        <div class="nx-explore__hero-copy">
+            <span class="nx-explore__eyebrow">
+                <span class="nx-explore__eyebrow-dot"></span>
+                FIND YOUR SPACE
+            </span>
 
-    <div class="hero">
-        <h1>Explore Workspaces</h1>
-        <p>
-            Discover the perfect space for your next meeting,
-            collaboration or productive day.
-        </p>
-    </div>
+            <h1 id="explore-title">
+                Find a space where<br>
+                <span>great work happens.</span>
+            </h1>
 
-    <form action="{{ route('explore') }}" method="GET" class="filters">
+            <p>
+                Discover thoughtfully designed workspaces and meeting rooms
+                made for focus, collaboration, and your next big idea.
+            </p>
 
-        <div class="field">
-            <label>Search</label>
-            <input
-                type="text"
-                name="search"
-                placeholder="Search rooms or workspaces..."
-                value="{{ request('search') }}"
-            >
+            <div class="nx-explore__hero-note">
+                <span class="nx-explore__note-mark" aria-hidden="true">✦</span>
+                <span>Spaces that work the way you do.</span>
+            </div>
         </div>
 
-        <div class="field">
-            <label>Workspace</label>
-            <select name="workspace">
-                <option value="">All Workspaces</option>
+        <div class="nx-explore__hero-art" aria-hidden="true">
+            <div class="nx-explore__art-orbit nx-explore__art-orbit--one"></div>
+            <div class="nx-explore__art-orbit nx-explore__art-orbit--two"></div>
+            <div class="nx-explore__art-card">
+                <span class="nx-explore__art-kicker">YOUR NEXT</span>
+                <strong>Good<br>workspace.</strong>
+                <span class="nx-explore__art-line"></span>
+                <span class="nx-explore__art-caption">A better place to do your best work.</span>
+            </div>
+            <span class="nx-explore__art-spark nx-explore__art-spark--one">✳</span>
+            <span class="nx-explore__art-spark nx-explore__art-spark--two">✦</span>
+        </div>
+    </section>
 
-                @foreach($workspaces as $workspace)
-                    <option
-                        value="{{ $workspace->id }}"
-                        @selected(request('workspace') == $workspace->id)
+    <section class="nx-explore__search-section" aria-label="Find a workspace">
+        <div class="nx-explore__section-kicker">DISCOVER YOUR SPACE</div>
+        <div class="nx-explore__filter-heading">
+            <div>
+                <h2>Find the right fit</h2>
+                <p>Fine-tune your search to find a space that suits your needs.</p>
+            </div>
+            <span class="nx-explore__filter-icon" aria-hidden="true">⌕</span>
+        </div>
+
+        <form id="explore-filters" action="{{ route('explore') }}" method="GET" class="filters nx-explore__filters">
+
+            <div class="field field--search">
+                <label for="explore-search">Search</label>
+                <div class="nx-explore__input-wrap nx-explore__input-wrap--search">
+                    <span class="nx-explore__input-icon" aria-hidden="true">⌕</span>
+                    <input
+                        id="explore-search"
+                        type="text"
+                        name="search"
+                        placeholder="Search rooms or workspaces..."
+                        value="{{ request('search') }}"
                     >
-                        {{ $workspace->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="field">
-            <label>Room Type</label>
-            <select name="room_type">
-                <option value="">All Types</option>
-
-                @foreach($roomTypes as $type)
-                    <option
-                        value="{{ $type }}"
-                        @selected(request('room_type') == $type)
-                    >
-                        {{ $type }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="field">
-            <label>Equipment</label>
-            <select name="equipment">
-                <option value="">All Equipment</option>
-
-                @foreach($equipmentOptions as $equipment)
-                    <option
-                        value="{{ $equipment }}"
-                        @selected(request('equipment') == $equipment)
-                    >
-                        {{ $equipment }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="field">
-            <label>Minimum Capacity</label>
-            <input
-                type="number"
-                name="capacity"
-                min="1"
-                value="{{ request('capacity') }}"
-                placeholder="People"
-            >
-        </div>
-
-        <div class="field">
-            <label>Minimum Price / Hour</label>
-            <input
-                type="number"
-                name="min_price"
-                min="0"
-                step="0.01"
-                value="{{ request('min_price') }}"
-                placeholder="Min price"
-            >
-        </div>
-
-        <div class="field">
-            <label>Maximum Price / Hour</label>
-            <input
-                type="number"
-                name="max_price"
-                min="0"
-                step="0.01"
-                value="{{ request('max_price') }}"
-                placeholder="Max price"
-            >
-        </div>
-
-        <div class="filter-actions">
-            <button type="submit" class="btn btn-primary">
-                Apply Filters
-            </button>
-
-            <a href="{{ route('explore') }}" class="btn btn-light">
-                Reset
-            </a>
-        </div>
-
-    </form>
-
-    <div class="results-header">
-        <h2>Available Rooms</h2>
-        <span>{{ $rooms->total() }} rooms found</span>
-    </div>
-
-    <div class="rooms-grid">
-
-        @forelse($rooms as $room)
-
-            <div class="room-card">
-
-                <div class="gallery">
-
-                    @forelse($room->images as $index => $image)
-
-                        <img
-                            src="{{ asset('storage/' . $image->image_path) }}"
-                            class="{{ $index === 0 ? 'active' : '' }}"
-                            alt="{{ $image->alt_text ?? $room->name }}"
-                        >
-
-                    @empty
-
-                        <div class="no-image">
-                            No Image Available
-                        </div>
-
-                    @endforelse
-
-                    @if($room->images->count() > 1)
-                        <button type="button" class="prev"
-                            onclick="changeImage(this, -1)">&#10094;</button>
-
-                        <button type="button" class="next"
-                            onclick="changeImage(this, 1)">&#10095;</button>
-
-                        <span class="counter">
-                            <span class="current">1</span>/{{ $room->images->count() }}
-                        </span>
-                    @endif
-
                 </div>
+            </div>
 
-                <div class="room-content">
+            <div class="field">
+                <label for="explore-workspace">Workspace</label>
+                <select id="explore-workspace" name="workspace">
+                    <option value="">All Workspaces</option>
 
-                    <div class="workspace-name">
-                        {{ $room->workspace->name }}
-                    </div>
+                    @foreach($workspaces as $workspace)
+                        <option
+                            value="{{ $workspace->id }}"
+                            @selected(request('workspace') == $workspace->id)
+                        >
+                            {{ $workspace->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-                    <h3>{{ $room->name }}</h3>
+            <div class="field">
+                <label for="explore-room-type">Room Type</label>
+                <select id="explore-room-type" name="room_type">
+                    <option value="">All Types</option>
 
-                    <div class="room-meta">
-                        <span>{{ $room->room_type }}</span>
-                        <span>Up to {{ $room->capacity }} people</span>
-                    </div>
+                    @foreach($roomTypes as $type)
+                        <option
+                            value="{{ $type }}"
+                            @selected(request('room_type') == $type)
+                        >
+                            {{ $type }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-                    <div class="facilities">
-                        @foreach(($room->facilities ?? []) as $facility)
-                            <span class="facility">
-                                {{ $facility }}
+            <div class="field">
+                <label for="explore-equipment">Equipment</label>
+                <select id="explore-equipment" name="equipment">
+                    <option value="">All Equipment</option>
+
+                    @foreach($equipmentOptions as $equipment)
+                        <option
+                            value="{{ $equipment }}"
+                            @selected(request('equipment') == $equipment)
+                        >
+                            {{ $equipment }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="explore-capacity">Minimum Capacity</label>
+                <input
+                    id="explore-capacity"
+                    type="number"
+                    name="capacity"
+                    min="1"
+                    value="{{ request('capacity') }}"
+                    placeholder="Number of people"
+                >
+            </div>
+
+            <div class="field">
+                <label for="explore-min-price">Minimum Price / Hour</label>
+                <input
+                    id="explore-min-price"
+                    type="number"
+                    name="min_price"
+                    min="0"
+                    step="0.01"
+                    value="{{ request('min_price') }}"
+                    placeholder="Min price"
+                >
+            </div>
+
+            <div class="field">
+                <label for="explore-max-price">Maximum Price / Hour</label>
+                <input
+                    id="explore-max-price"
+                    type="number"
+                    name="max_price"
+                    min="0"
+                    step="0.01"
+                    value="{{ request('max_price') }}"
+                    placeholder="Max price"
+                >
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-primary">
+                    <span aria-hidden="true">⌕</span>
+                    Apply Filters
+                </button>
+
+                <a href="{{ route('explore') }}" class="btn btn-light">
+                    Reset
+                </a>
+            </div>
+
+        </form>
+    </section>
+
+    <section id="explore-results" class="nx-explore__results" aria-labelledby="available-rooms-title">
+        <div class="results-header nx-explore__results-header">
+            <div>
+                <span class="nx-explore__section-kicker">CURATED FOR YOUR DAY</span>
+                <h2 id="available-rooms-title">Explore available rooms</h2>
+                <p>Find a place to focus, meet, and make things happen.</p>
+            </div>
+            <div class="nx-explore__result-summary" aria-live="polite">
+                @if($rooms->total() > 0)
+                    <span>Showing</span>
+                    <strong>{{ $rooms->firstItem() }}–{{ $rooms->lastItem() }}</strong>
+                    <span>of</span>
+                    <strong>{{ $rooms->total() }}</strong>
+                    <span>rooms</span>
+                @else
+                    <strong>0</strong>
+                    <span>rooms found</span>
+                @endif
+            </div>
+        </div>
+
+        <div class="rooms-grid nx-explore__rooms-grid">
+
+            @forelse($rooms as $room)
+
+                <article class="room-card">
+
+                    <div class="gallery">
+
+                        @forelse($room->images as $index => $image)
+
+                            <img
+                                src="{{ asset('storage/' . $image->image_path) }}"
+                                class="{{ $index === 0 ? 'active' : '' }}"
+                                alt="{{ $image->alt_text ?? $room->name }}"
+                                loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+                            >
+
+                        @empty
+
+                            <div class="no-image">
+                                <span class="nx-explore__no-image-icon" aria-hidden="true">⌂</span>
+                                <span>Image coming soon</span>
+                            </div>
+
+                        @endforelse
+
+                        @if($room->images->count() > 1)
+                            <button type="button" class="prev" aria-label="Previous room image"
+                                onclick="changeImage(this, -1)">&#10094;</button>
+
+                            <button type="button" class="next" aria-label="Next room image"
+                                onclick="changeImage(this, 1)">&#10095;</button>
+
+                            <span class="counter" aria-live="polite">
+                                <span class="current">1</span>/{{ $room->images->count() }}
                             </span>
-                        @endforeach
+                        @endif
+
+                        <span class="nx-explore__image-label">NEXORA SPACE</span>
                     </div>
 
-                    <div class="room-bottom">
+                    <div class="room-content">
 
-                        <div class="price">
-                            <strong>
-                                {{ number_format((float)$room->hourly_price, 2) }}
-                            </strong>
-                            <span>/ hour</span>
+                        <div class="nx-explore__card-topline">
+                            <div class="workspace-name">
+                                <span class="nx-explore__workspace-dot"></span>
+                                {{ $room->workspace->name }}
+                            </div>
+                            <span class="nx-explore__card-mark" aria-hidden="true">↗</span>
+                        </div>
+
+                        <h3>{{ $room->name }}</h3>
+
+                        <div class="room-meta">
+                            <span><i aria-hidden="true">▦</i>{{ $room->room_type }}</span>
+                            <span><i aria-hidden="true">♧</i>Up to {{ $room->capacity }} people</span>
+                        </div>
+
+                        <div class="facilities">
+                            @foreach(($room->facilities ?? []) as $facility)
+                                <span class="facility">
+                                    {{ $facility }}
+                                </span>
+                            @endforeach
+                        </div>
+
+                        <div class="room-bottom">
+                            <div class="price">
+                                <strong>{{ number_format((float)$room->hourly_price, 2) }}</strong>
+                                <span>/ hour</span>
+                            </div>
+                            <span class="nx-explore__price-caption">Flexible booking</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a
+                                href="{{ route('rooms.details', $room->id) }}"
+                                class="btn btn-light"
+                            >
+                                View Details
+                            </a>
+                            <a
+                                href="{{ route('rooms.details', $room->id) }}"
+                                class="btn btn-primary"
+                            >
+                                Book Now <span aria-hidden="true">→</span>
+                            </a>
                         </div>
 
                     </div>
 
-                    <div class="card-actions">
+                </article>
 
-                        <a
-                            href="{{ route('rooms.details', $room->id) }}"
-                            class="btn btn-light"
-                        >
-                            View Details
-                        </a>
+            @empty
 
-                        <a
-                            href="{{ route('rooms.details', $room->id) }}"
-                            class="btn btn-primary"
-                        >
-                            Book Now
-                        </a>
-
-                    </div>
-
+                <div class="empty">
+                    <span class="nx-explore__empty-icon" aria-hidden="true">⌕</span>
+                    <span class="nx-explore__section-kicker">NO MATCHES THIS TIME</span>
+                    <h3>No rooms found</h3>
+                    <p>Try adjusting your filters or broadening your search to discover more spaces.</p>
+                    <a href="{{ route('explore') }}" class="btn btn-primary">Clear all filters</a>
                 </div>
 
+            @endforelse
+
+        </div>
+
+        @if($rooms->hasPages())
+            <div class="pagination nx-explore__pagination">
+                {{ $rooms->onEachSide(1)->links() }}
             </div>
+        @endif
+    </section>
 
-        @empty
-
-            <div class="empty">
-                <h3>No rooms found</h3>
-                <p>Try changing your filters and search again.</p>
-            </div>
-
-        @endforelse
-
-    </div>
-
-    <div class="pagination">
-        {{ $rooms->links() }}
-    </div>
-
-</div>
-
-<script>
-function changeImage(button, direction) {
-
-    const gallery = button.closest('.gallery');
-    const images = gallery.querySelectorAll('img');
-
-    if (images.length < 2) return;
-
-    let current = Array.from(images).findIndex(
-        image => image.classList.contains('active')
-    );
-
-    if (current === -1) current = 0;
-
-    images[current].classList.remove('active');
-
-    current = (current + direction + images.length) % images.length;
-
-    images[current].classList.add('active');
-
-    const counter = gallery.querySelector('.current');
-
-    if (counter) {
-        counter.textContent = current + 1;
-    }
-}
-</script>
-
+</main>
 </body>
 </html>
