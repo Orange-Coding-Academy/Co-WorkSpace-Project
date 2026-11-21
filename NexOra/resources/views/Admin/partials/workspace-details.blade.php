@@ -512,7 +512,7 @@
 
                         @if ($room->relationLoaded('images'))
                             @foreach ($room->images as $image)
-                                <img src="{{ asset($image->image_path) }}"
+                                <img src="{{ asset('storage/' . $image->image_path) }}"
                                      alt="{{ $image->alt_text ?: $room->name }}"
                                      loading="lazy" @if (! $loop->first) hidden @endif>
                             @endforeach
