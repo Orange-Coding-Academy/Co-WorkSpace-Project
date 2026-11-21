@@ -432,15 +432,72 @@ Route::put('/profile/password', [ManagerProfileController::class, 'updatePasswor
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
     </style>
+
+    <style>
+        /* Manager Profile: page-specific layout refinements */
+        .nx-page-content { min-height: 100%; background: #F5F7F3; }
+        .nx-page-content .topbar { padding: 18px clamp(20px, 5%, 64px); border-bottom: 1px solid #E2E8E2; }
+        .nx-page-content .brand { font-family: 'Manrope', sans-serif; letter-spacing: -.04em; }
+        .nx-page-content .container[data-nx-page-main] { width: 100%; max-width: 1100px; margin: 0 auto; padding: 36px 28px 64px; }
+        .nx-page-content .page-heading { margin-bottom: 28px; }
+        .nx-page-content .page-heading h1 { font-family: 'Manrope', sans-serif; font-weight: 800; color: #152A23; font-size: clamp(25px, 3vw, 32px); }
+        .nx-page-content .page-heading p { line-height: 1.6; }
+        .nx-page-content section.card { padding: 32px; margin-bottom: 24px; border: 1px solid #E2E8E2; border-radius: 18px; box-shadow: 0 5px 20px rgba(21,42,35,.045); }
+        .nx-page-content .profile-header { gap: 20px; }
+        .nx-page-content .avatar { overflow: hidden; border: 2px solid #DCE6DC; background: #EDF2EC; }
+        .nx-page-content .profile-header h2, .nx-page-content .section-title { font-family: 'Manrope', sans-serif; color: #152A23; font-weight: 750; }
+        .nx-page-content .profile-divider { margin: 28px 0; background: #E9EEE9; }
+        .nx-page-content .section-description { margin-bottom: 26px; line-height: 1.6; }
+        .nx-page-content .form-grid { gap: 22px 24px; }
+        .nx-page-content .form-group { min-width: 0; gap: 9px; }
+        .nx-page-content .form-group label { color: #1D2924; font-size: 13px; }
+        .nx-page-content .form-group input { min-height: 46px; border: 1px solid #C9D4CC; border-radius: 11px; padding: 11px 14px; transition: border-color .2s, box-shadow .2s; }
+        .nx-page-content .form-group input:focus { border-color: #315C4D; box-shadow: 0 0 0 3px rgba(49,92,77,.15); }
+        .nx-page-content .form-group input[type=file] { padding: 10px 12px; }
+        .nx-page-content .hint { line-height: 1.5; }
+        .nx-page-content .actions { margin-top: 28px; }
+        .nx-page-content .actions .btn { min-height: 44px; border-radius: 999px; padding: 11px 22px; background: #315C4D; color: #fff; font-family: 'Manrope', sans-serif; font-weight: 700; }
+        .nx-page-content .actions .btn:hover { background: #274B3F; color: #fff; }
+        .nx-page-content .security-note { margin-top: 24px; padding: 16px 18px; border-radius: 10px; background: #F8FAF7; line-height: 1.6; }
+        .nx-page-content .success-message { border-radius: 12px; }
+        @media (max-width: 767px) {
+            .nx-page-content .container[data-nx-page-main] { padding: 24px 16px 44px; }
+            .nx-page-content section.card { padding: 22px 18px; }
+            .nx-page-content .form-grid { grid-template-columns: 1fr; gap: 18px; }
+            .nx-page-content .form-group.full { grid-column: auto; }
+            .nx-page-content .topbar { padding: 15px 18px; }
+            .nx-page-content .actions .btn { width: 100%; }
+        }
+        @media (max-width: 420px) {
+            .nx-page-content .profile-header { gap: 14px; }
+            .nx-page-content .avatar { width: 62px; height: 62px; font-size: 24px; }
+            .nx-page-content .profile-header h2 { font-size: 18px; }
+            .nx-page-content .topbar-label { font-size: 12px; }
+        }
+        /* Compact spacing: avoid duplicated dashboard header and excess whitespace */
+        .nx-page-content .container[data-nx-page-main] { margin: 0 auto; padding: 12px 22px 24px; }
+        .nx-page-content .page-heading { margin-bottom: 16px; }
+        .nx-page-content .page-heading h1 { margin-bottom: 4px; font-size: clamp(23px, 2.5vw, 28px); }
+        .nx-page-content section.card { padding: 22px 24px; margin-bottom: 16px; }
+        .nx-page-content .profile-header { gap: 14px; }
+        .nx-page-content .avatar { width: 64px; height: 64px; font-size: 25px; }
+        .nx-page-content .profile-divider { margin: 18px 0; }
+        .nx-page-content .section-title { margin-bottom: 5px; }
+        .nx-page-content .section-description { margin-bottom: 16px; }
+        .nx-page-content .form-grid { gap: 15px 18px; }
+        .nx-page-content .form-group { gap: 6px; }
+        .nx-page-content .actions { margin-top: 18px; }
+        .nx-page-content .security-note { margin-top: 16px; padding: 12px 14px; }
+        @media (max-width: 767px) {
+            .nx-page-content .container[data-nx-page-main] { padding: 10px 12px 20px; }
+            .nx-page-content section.card { padding: 18px 16px; margin-bottom: 14px; }
+            .nx-page-content .form-grid { gap: 14px; }
+        }
+    </style>
 @endpush
 
 @section('content')
 <div class="nx-page-content">
-<header class="topbar">
-    <div class="brand">Nex<span>Ora</span></div>
-    <div class="topbar-label">Manager Dashboard</div>
-</header>
-
 <div data-nx-page-main class="container">
 
     <div class="page-heading">
