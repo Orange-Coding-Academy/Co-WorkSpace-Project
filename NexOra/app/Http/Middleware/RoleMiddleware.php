@@ -31,27 +31,20 @@ class RoleMiddleware
             abort(403, 'You are not authorized to access this page.');
         }
 
-        // Check manager workspace approval
         if ($role === 'spaceManager') {
-
             $workspace = $user->managedWorkspaces()
                 ->latest()
                 ->first();
 
             if (!$workspace) {
-                return $this->logoutWithError(
-                    $request,
-                    'No workspace was found for your account.'
-                );
+                if (! $request->routeIs('manager.workspaces.create', 'manager.workspaces.store')) {
+                    return redirect()->route('manager.workspaces.create');
+                }
+
+                return $next($request);
             }
 
-            if ($workspace->approval_status !== 'approved') {
-                $message = $workspace->approval_status === 'pending'
-                    ? 'Your workspace is waiting for admin approval.'
-                    : 'Your workspace application is not approved.';
-
-                return $this->logoutWithError($request, $message);
-            }
+            // No approval check here, so all manager routes are allowed
         }
 
         return $next($request);

@@ -8,25 +8,25 @@
             --forest: #152A23;
             --ink: #152A23;
             --muted: #53615A;
-            --cream: #f7f1e7;
-            --paper: #F5F7F3;
+            --cream: #F5F7F3;
+            --paper: #FFFFFF;
             --line: #E2E8E2;
             --orange: #C58A62;
         }
 
         .nx-page-content *{ box-sizing: border-box; }
-        .nx-page-content{ margin: 0; background: var(--cream); color: var(--ink); font: 1rem/1.5 system-ui, sans-serif; }
+        .nx-page-content{ margin: 0; background: #F5F7F3; color: var(--ink); font: 1rem/1.5 system-ui, sans-serif; }
         .nx-page-content h1, .nx-page-content h2, .nx-page-content p{ margin: 0; }
         .nx-page-content a:focus-visible{ outline: 3px solid #29745e; outline-offset: 4px; }
         .nx-page-content .wrap{ width: min(1140px, calc(100% - 32px)); margin-inline: auto; }
-        .nx-page-content .topbar{ background: var(--forest); color: var(--paper); padding-block: 15px; }
+        .nx-page-content .topbar{ display: none; }
         .nx-page-content .topbar span{ font-weight: 800; font-size: 1.24rem; letter-spacing: -.04em; }
         .nx-page-content [data-nx-page-main]{ padding-block: clamp(26px, 5vw, 56px); }
         .nx-page-content .heading{ display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
         .nx-page-content h1{ font-size: clamp(2rem, 5vw, 3.35rem); line-height: 1.08; letter-spacing: -.05em; }
         .nx-page-content .heading p{ margin-top: 7px; color: var(--muted); }
-        .nx-page-content .button{ display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 10px; background: var(--orange); color: #1D2924; font-weight: 750; text-decoration: none; }
-        .nx-page-content .button:hover{ background: #E6C9B3; }
+        .nx-page-content .button{ display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 10px; background: #315C4D; color: #fff; font-weight: 750; text-decoration: none; }
+        .nx-page-content .button:hover{ background: #274B3F; color: #fff; }
         .nx-page-content .grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 16px; }
         .nx-page-content .card{ display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
         .nx-page-content .card:hover{ border-color: #7F8B84; box-shadow: 0 8px 22px #103b3410; }
