@@ -1480,3 +1480,210 @@
     }
 }
 
+/* =========================================
+   NEXORA — MARKETING CONFIRMATION MODAL
+========================================= */
+
+.nx-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(12, 27, 22, .62);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .25s ease, visibility .25s ease;
+}
+
+.nx-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nx-modal {
+    width: 100%;
+    max-width: 470px;
+    padding: 38px;
+    background: #fff;
+    border: 1px solid rgba(36, 72, 59, .12);
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, .2);
+    transform: translateY(18px) scale(.97);
+    transition: transform .3s ease;
+}
+
+.nx-modal-overlay.is-open .nx-modal {
+    transform: translateY(0) scale(1);
+}
+
+.nx-modal-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 20px;
+    border-radius: 18px;
+    background: #edf4ef;
+    color: #24483b;
+    font-size: 27px;
+}
+
+.nx-modal-eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    color: #799286;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.nx-modal h3 {
+    margin: 0 0 12px;
+    color: #19382d;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.nx-modal > p {
+    margin: 0 auto 24px;
+    max-width: 350px;
+    color: #718078;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.nx-modal-campaign {
+    padding: 15px 18px;
+    margin-bottom: 20px;
+    border: 1px solid #e5ece7;
+    border-radius: 13px;
+    background: #f7faf8;
+    text-align: left;
+}
+
+.nx-modal-campaign span {
+    display: block;
+    margin-bottom: 7px;
+    color: #87958d;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.nx-modal-campaign strong {
+    display: block;
+    color: #24483b;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.nx-modal-actions {
+    display: flex;
+    gap: 11px;
+    margin-top: 22px;
+}
+
+.nx-modal-actions button {
+    min-height: 48px;
+    flex: 1;
+    border: 0;
+    border-radius: 11px;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.nx-modal-cancel {
+    color: #52645a;
+    background: #edf1ee;
+}
+
+.nx-modal-cancel:hover {
+    background: #e1e9e3;
+}
+
+.nx-modal-confirm {
+    color: #fff;
+    background: #24483b;
+    box-shadow: 0 6px 16px rgba(36, 72, 59, .18);
+}
+
+.nx-modal-confirm:hover {
+    background: #19382d;
+    transform: translateY(-1px);
+}
+
+.nx-modal-actions button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.nx-modal-result {
+    display: none;
+    padding: 13px 15px;
+    margin-top: 18px;
+    border-radius: 11px;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: left;
+}
+
+.nx-modal-result.is-visible {
+    display: block;
+}
+
+.nx-modal-result.success {
+    color: #216342;
+    background: #edf8f0;
+    border: 1px solid #d5eddb;
+}
+
+.nx-modal-result.error {
+    color: #a43b3b;
+    background: #fff1f0;
+    border: 1px solid #f4d8d5;
+}
+
+.nx-modal-result.info {
+    color: #315c70;
+    background: #eef6fa;
+    border: 1px solid #d9eaf1;
+}
+
+.nx-modal-confirm .nx-loading-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: nxModalSpin .7s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes nxModalSpin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .nx-modal {
+        padding: 28px 22px;
+    }
+
+    .nx-modal h3 {
+        font-size: 22px;
+    }
+
+    .nx-modal-actions {
+        flex-direction: column-reverse;
+    }
+}
+

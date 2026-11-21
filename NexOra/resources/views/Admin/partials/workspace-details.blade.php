@@ -548,6 +548,7 @@
 @section('content')
 <div class="nx-page-content nx-workspace-ui nx-workspace-details">
     <div data-nx-page-main>
+
         <nav class="workspace-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('admin.AdminDashboard') }}">Admin</a>
             <span aria-hidden="true">/</span>
@@ -555,51 +556,64 @@
             <span aria-hidden="true">/</span>
             <strong>{{ $workspace->name }}</strong>
         </nav>
+
         <a class="back" href="{{ route('admin.workspaces') }}">&larr; Workspace directory</a>
 
         <section class="card overview" aria-labelledby="workspace-title">
-            @if ($workspace->relationLoaded('images'))
-               @foreach ($workspace->images->take(1) as $image)
-          <img class="cover"
-         src="{{ asset(\Illuminate\Support\Str::startsWith(ltrim($image->image_path, '/'), ['img/', 'storage/']) ? ltrim($image->image_path, '/') : 'storage/' . ltrim($image->image_path, '/')) }}"
-         alt="{{ $image->alt_text ?: $workspace->name }}">
-            @endforeach
+
+            {{-- Workspace cover image --}}
+            @php
+                $coverImage = $workspace->images->first();
+            @endphp
+
+            @if ($coverImage)
+                <img
+                    class="cover"
+                    src="{{ asset(ltrim($coverImage->image_path, '/')) }}"
+                    alt="{{ $coverImage->alt_text ?? $workspace->name }}"
+                    onerror="this.style.display='none';"
+                >
             @endif
-            
-    
-             <div>
+
+            <div>
                 <h1 id="workspace-title">{{ $workspace->name }}</h1>
+
                 @if (filled($workspace->description))
-                <p class="description">{{ $workspace->description }}</p>
+                    <p class="description">{{ $workspace->description }}</p>
                 @endif
+
                 <dl class="facts">
                     <div>
                         <dt>Location</dt>
                         <dd>{{ $workspace->location ?: 'Unavailable' }}</dd>
                     </div>
+
                     <div>
                         <dt>Manager</dt>
                         <dd>{{ $workspace->manager?->full_name ?? $workspace->manager?->name ?? 'Unassigned' }}</dd>
                     </div>
+
                     <div>
                         <dt>Status</dt>
                         <dd>
                             @if (! $workspace->is_active)
-                            <span class="pill">Disabled</span>
+                                <span class="pill">Disabled</span>
                             @elseif ($workspace->approval_status === 'approved')
-                            <span class="pill active">Active</span>
+                                <span class="pill active">Active</span>
                             @elseif ($workspace->approval_status === 'pending')
-                            <span class="pill pending">Pending review</span>
+                                <span class="pill pending">Pending review</span>
                             @else
-                            <span class="pill">{{ ucfirst($workspace->approval_status) }}</span>
+                                <span class="pill">{{ ucfirst($workspace->approval_status) }}</span>
                             @endif
                         </dd>
                     </div>
                 </dl>
+
                 <section class="workspace-facilities" aria-labelledby="facilities-title">
                     <h2 id="facilities-title">Facilities</h2>
+
                     <ul class="workspace-facilities-list" role="list">
-                        @forelse ($workspace->facilities ?? '[]' ?? [] as $facility)
+                        @forelse ($workspace->facilities ?? [] as $facility)
                             <li><span class="pill">{{ $facility }}</span></li>
                         @empty
                             <li>No facilities listed.</li>
@@ -608,11 +622,14 @@
                 </section>
 
                 <form method="POST" action="{{ route('admin.UpdateStatus', $workspace) }}">
-                  
                     @csrf
                     @method('PATCH')
-                    <button type="submit" class="approve-workspace"
-                            @if ($workspace->approval_status === 'approved') disabled @endif>
+
+                    <button
+                        type="submit"
+                        class="approve-workspace"
+                        @if ($workspace->approval_status === 'approved') disabled @endif
+                    >
                         {{ $workspace->approval_status === 'approved' ? 'Approved' : 'Approve workspace' }}
                     </button>
                 </form>
@@ -620,59 +637,103 @@
         </section>
 
         <section class="rooms" aria-labelledby="rooms-title">
+
             <div class="rooms-header">
                 <h2 id="rooms-title">Rooms</h2>
                 <span class="pill">{{ ($rooms ?? $workspace->rooms)->count() }}</span>
             </div>
 
             <div class="room-grid">
-                @forelse (($rooms ?? $workspace->rooms) as $room)
-                <article class="card room-card">
-                    <div class="room-media">
-                        <span class="room-placeholder" aria-hidden="true">{{ mb_strtoupper(mb_substr($room->name, 0, 1)) }}</span>
 
-                        @if ($room->relationLoaded('images'))
+                @forelse (($rooms ?? $workspace->rooms) as $room)
+
+                    <article class="card room-card">
+
+                        <div class="room-media">
+
+                            <span class="room-placeholder" aria-hidden="true">
+                                {{ mb_strtoupper(mb_substr($room->name, 0, 1)) }}
+                            </span>
+
+                            {{-- Room images --}}
                             @foreach ($room->images as $image)
-                                <img src="{{ asset(\Illuminate\Support\Str::startsWith(ltrim($image->image_path, '/'), ['img/', 'storage/']) ? ltrim($image->image_path, '/') : 'storage/' . ltrim($image->image_path, '/')) }}"
-                                     alt="{{ $image->alt_text ?: $room->name }}"
-                                     loading="lazy" @if (! $loop->first) hidden @endif>
+
+                                @php
+                                    $roomImagePath = ltrim($image->image_path, '/');
+
+                                    if (str_starts_with($roomImagePath, 'storage/')) {
+                                        $roomImagePath = substr($roomImagePath, strlen('storage/'));
+                                    }
+                                @endphp
+
+                                <img
+                                    src="{{ asset($roomImagePath) }}"
+                                    alt="{{ $image->alt_text ?: $room->name }}"
+                                    loading="lazy"
+                                    onerror="this.style.display='none';"
+                                    @if (! $loop->first) hidden @endif
+                                >
+
                             @endforeach
 
                             @if ($room->images->count() > 1)
-                                <button type="button" class="room-image-button previous" data-image-step="-1"
-                                        aria-label="Previous image for {{ $room->name }}">&lsaquo;</button>
-                                <button type="button" class="room-image-button next" data-image-step="1"
-                                        aria-label="Next image for {{ $room->name }}">&rsaquo;</button>
-                            @endif
-                        @endif
-                    </div>
+                                <button
+                                    type="button"
+                                    class="room-image-button previous"
+                                    data-image-step="-1"
+                                    aria-label="Previous image for {{ $room->name }}"
+                                >&lsaquo;</button>
 
-                    <div class="room-body">
-                        <div class="room-heading">
-                            <p class="room-type">{{ ucfirst(str_replace('_', ' ', $room->room_type)) }}</p>
-                            <span @class(['pill', 'active'=> $room->is_active])>{{ $room->is_active ? 'Active' : 'Disabled' }}</span>
+                                <button
+                                    type="button"
+                                    class="room-image-button next"
+                                    data-image-step="1"
+                                    aria-label="Next image for {{ $room->name }}"
+                                >&rsaquo;</button>
+                            @endif
+
                         </div>
-                        <h3>{{ $room->name }}</h3>
-                        <dl class="room-facts">
-                            <div>
-                                <dt>Capacity</dt>
-                                <dd>{{ $room->capacity }}</dd>
+
+                        <div class="room-body">
+
+                            <div class="room-heading">
+                                <p class="room-type">
+                                    {{ ucfirst(str_replace('_', ' ', $room->room_type)) }}
+                                </p>
+
+                                <span @class(['pill', 'active' => $room->is_active])>
+                                    {{ $room->is_active ? 'Active' : 'Disabled' }}
+                                </span>
                             </div>
-                            <div>
-                                <dt>Hourly price</dt>
-                                <dd>{{ number_format($room->hourly_price, 2) }}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                </article>
+
+                            <h3>{{ $room->name }}</h3>
+
+                            <dl class="room-facts">
+                                <div>
+                                    <dt>Capacity</dt>
+                                    <dd>{{ $room->capacity }}</dd>
+                                </div>
+
+                                <div>
+                                    <dt>Hourly price</dt>
+                                    <dd>{{ number_format($room->hourly_price, 2) }}</dd>
+                                </div>
+                            </dl>
+
+                        </div>
+                    </article>
+
                 @empty
-                <p class="card empty">No rooms have been added yet.</p>
+                    <p class="card empty">No rooms have been added yet.</p>
                 @endforelse
+
             </div>
         </section>
+
     </div>
 </div>
 @endsection
+
 
 @push('scripts')
     <script>

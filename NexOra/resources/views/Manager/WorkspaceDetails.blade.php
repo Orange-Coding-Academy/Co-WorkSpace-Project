@@ -1327,8 +1327,10 @@
             @if ($workspace->images->isNotEmpty())
             <div class="ws-gallery">
                 @foreach ($workspace->images as $image)
-                <img src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
-                    alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}">
+                <img
+    src="{{ asset($image->image_path) }}"
+    alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}"
+>
                 @endforeach
             </div>
             @endif
@@ -1359,7 +1361,7 @@
                     <div class="room-gallery-track">
                         @foreach ($room->images->sortBy([['is_primary', 'desc'], ['sort_order', 'asc']]) as $image)
                         <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
-                            src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
+                           src="{{ asset($image->image_path) }}"
                             alt="{{ $image->alt_text ?: $room->name }}"
                             data-image-id="{{ $image->id }}"
                             data-primary="{{ $image->is_primary ? '1' : '0' }}"
