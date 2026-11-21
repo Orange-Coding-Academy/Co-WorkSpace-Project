@@ -31,20 +31,20 @@
                         {
                             label: "Booking GMV",
                             data: revenue.bookingGMV,
-                            borderColor: "#526044",
-                            backgroundColor: "rgba(82, 96, 68, 0.10)",
+                            borderColor: "#2563EB",
+                            backgroundColor: "rgba(37, 99, 235, 0.12)",
                             fill: true,
                             tension: 0.4,
-                            borderWidth: 2,
+                            borderWidth: 3,
                         },
                         {
                             label: "Workspace Revenue",
                             data: revenue.workspaceRevenue,
-                            borderColor: "#C5A46D",
-                            backgroundColor: "rgba(197, 164, 109, 0.10)",
+                            borderColor: "#0EA5E9",
+                            backgroundColor: "rgba(14, 165, 233, 0.12)",
                             fill: true,
                             tension: 0.4,
-                            borderWidth: 2,
+                            borderWidth: 3,
                         },
                     ],
                 },
@@ -91,7 +91,7 @@
         }
 
         // ==================================
-        // BOOKING TREND CHART
+        // BOOKING STATUS DOUGHNUT CHART
         // ==================================
 
         const trend = data.bookingTrend || {};
@@ -99,82 +99,197 @@
         const bookingCanvas = document.getElementById(
             "managerBookingTrendChart",
         );
+
         const bookingEmpty = document.getElementById("managerBookingEmpty");
 
-        if (
-            bookingCanvas &&
-            Array.isArray(trend.labels) &&
-            trend.labels.length > 0
-        ) {
-            const statuses = [
-                {
-                    key: "pending",
-                    label: "Pending",
-                    color: "#C5A46D",
-                },
-                {
-                    key: "confirmed",
-                    label: "Confirmed",
-                    color: "#8C9B7A",
-                },
-                {
-                    key: "completed",
-                    label: "Completed",
-                    color: "#526044",
-                },
-                {
-                    key: "cancelled",
-                    label: "Cancelled",
-                    color: "#A66F5B",
-                },
-            ];
+        // Latest booking status values
+        const statuses = [
+            {
+                key: "completed",
+                label: "Completed",
+                color: "#22C55E",
+            },
+            {
+                key: "confirmed",
+                label: "Confirmed",
+                color: "#06B6D4",
+            },
+            {
+                key: "pending",
+                label: "Pending",
+                color: "#F59E0B",
+            },
+            {
+                key: "cancelled",
+                label: "Cancelled",
+                color: "#F43F5E",
+            },
+        ];
 
-            const datasets = statuses.map(function (status) {
-                return {
-                    label: status.label,
-                    data: trend[status.key] || [],
-                    borderColor: status.color,
-                    backgroundColor: status.color,
-                    tension: 0.35,
-                    borderWidth: 2,
-                };
+        // Calculate total bookings from the latest available period
+        const labels = trend.labels || [];
+        const lastIndex = labels.length - 1;
+
+        const statusValues = statuses.map(function (status) {
+            const values = trend[status.key] || [];
+
+            return Number(values[lastIndex] || 0);
+        });
+
+        const totalBookings = statusValues.reduce(function (sum, value) {
+            return sum + value;
+        }, 0);
+
+        if (bookingCanvas && labels.length > 0 && totalBookings > 0) {
+            const colors = statuses.map(function (status) {
+                return status.color;
             });
 
             new Chart(bookingCanvas, {
-                type: "line",
+                type: "doughnut",
 
                 data: {
-                    labels: trend.labels,
-                    datasets: datasets,
+                    labels: statuses.map(function (status) {
+                        return status.label;
+                    }),
+
+                    datasets: [
+                        {
+                            data: statusValues,
+                            backgroundColor: colors,
+                            borderWidth: 3,
+                            borderColor: "#ffffff",
+                            hoverOffset: 10,
+                            borderRadius: 5,
+                            spacing: 3,
+                        },
+                    ],
                 },
 
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: "75%",
 
-                    interaction: {
-                        intersect: false,
-                        mode: "index",
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 1000,
                     },
 
                     plugins: {
                         legend: {
-                            position: "bottom",
+                            display: false,
                         },
-                    },
 
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0,
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const value = Number(context.raw || 0);
+
+                                    const percentage =
+                                        totalBookings > 0
+                                            ? (
+                                                  (value / totalBookings) *
+                                                  100
+                                              ).toFixed(1)
+                                            : 0;
+
+                                    return (
+                                        context.label +
+                                        ": " +
+                                        value +
+                                        " (" +
+                                        percentage +
+                                        "%)"
+                                    );
+                                },
                             },
                         },
                     },
                 },
+
+                plugins: [
+                    {
+                        id: "managerDoughnutCenterText",
+
+                        afterDraw: function (chart) {
+                            const ctx = chart.ctx;
+
+                            const centerX =
+                                (chart.chartArea.left + chart.chartArea.right) /
+                                2;
+
+                            const centerY =
+                                (chart.chartArea.top + chart.chartArea.bottom) /
+                                2;
+
+                            ctx.save();
+
+                            ctx.textAlign = "center";
+                            ctx.textBaseline = "middle";
+
+                            ctx.font = "700 28px Inter, sans-serif";
+                            ctx.fillStyle = "#053631";
+
+                            ctx.fillText(
+                                totalBookings.toLocaleString(),
+                                centerX,
+                                centerY - 7,
+                            );
+
+                            ctx.font = "500 11px Inter, sans-serif";
+                            ctx.fillStyle = "#94A3B8";
+
+                            ctx.fillText(
+                                "Total Bookings",
+                                centerX,
+                                centerY + 18,
+                            );
+
+                            ctx.restore();
+                        },
+                    },
+                ],
             });
 
-            if (bookingEmpty) bookingEmpty.style.display = "none";
+            // Custom Legend
+            const bookingLegend = document.getElementById(
+                "managerBookingLegend",
+            );
+
+            if (bookingLegend) {
+                bookingLegend.innerHTML = statuses
+                    .map(function (status, index) {
+                        const value = statusValues[index];
+
+                        const percentage =
+                            totalBookings > 0
+                                ? ((value / totalBookings) * 100).toFixed(1)
+                                : 0;
+
+                        return `
+                    <div class="nx-legend-item">
+                        <span
+                            class="nx-legend-dot"
+                            style="background-color: ${status.color}">
+                        </span>
+
+                        <span>${status.label}</span>
+
+                        <strong>
+                            ${value}
+                            <small>(${percentage}%)</small>
+                        </strong>
+                    </div>
+                `;
+                    })
+                    .join("");
+            }
+
+            if (bookingEmpty) {
+                bookingEmpty.style.display = "none";
+            }
         } else if (bookingEmpty) {
             bookingEmpty.style.display = "flex";
         }

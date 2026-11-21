@@ -115,8 +115,8 @@
 
         var data = window.adminDashboardData || {};
 
-        var cGmv = token("--nx-chart-gmv", "#315c4d");
-        var cCommission = token("--nx-chart-commission", "#c58a62");
+        var cGmv = "#2563EB";
+        var cCommission = "#0EA5E9";
 
         Chart.defaults.font.family = token(
             "--nx-font-body",
@@ -151,7 +151,11 @@
                             data: revenue.bookingGMV,
                             borderColor: cGmv,
                             backgroundColor: withAlpha(cGmv, 0.1),
-                            borderWidth: 2,
+                            borderWidth: 3,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: "#ffffff",
+                            pointBorderWidth: 2,
                             fill: true,
                             tension: 0.4,
                         },
@@ -160,7 +164,11 @@
                             data: revenue.platformCommission,
                             borderColor: cCommission,
                             backgroundColor: withAlpha(cCommission, 0.1),
-                            borderWidth: 2,
+                            borderWidth: 3,
+                            pointRadius: 3,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: "#ffffff",
+                            pointBorderWidth: 2,
                             fill: true,
                             tension: 0.4,
                         },
@@ -235,12 +243,13 @@
         var statusValues = Object.values(statuses);
 
         var statusColors = {
-            completed: token("--nx-chart-completed", "#315c4d"),
-            confirmed: token("--nx-chart-confirmed", "#6f806e"),
-            pending: token("--nx-chart-pending", "#c58a62"),
-            cancelled: token("--nx-chart-cancelled", "#b42318"),
+            completed: "#22C55E",
+            confirmed: "#06B6D4",
+            pending: "#F59E0B",
+            cancelled: "#F43F5E",
         };
-        var fallbackColor = token("--nx-chart-fallback", "#87928b");
+
+        var fallbackColor = "#94A3B8";
 
         if (
             bookingCanvas &&
@@ -250,6 +259,10 @@
             var colors = statusLabels.map(function (status) {
                 return statusColors[status] || fallbackColor;
             });
+
+            var totalBookings = statusValues.reduce(function (sum, value) {
+                return sum + Number(value || 0);
+            }, 0);
 
             new Chart(bookingCanvas, {
                 type: "doughnut",
@@ -263,9 +276,11 @@
                         {
                             data: statusValues,
                             backgroundColor: colors,
-                            borderWidth: 2,
+                            borderWidth: 3,
                             borderColor: token("--nx-card", "#ffffff"),
-                            hoverOffset: 6,
+                            hoverOffset: 10,
+                            borderRadius: 5,
+                            spacing: 3,
                         },
                     ],
                 },
@@ -273,14 +288,86 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: "70%",
+                    cutout: "75%",
+
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 1000,
+                    },
 
                     plugins: {
                         legend: {
                             display: false,
                         },
+
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    var value = Number(context.raw || 0);
+
+                                    var percentage =
+                                        totalBookings > 0
+                                            ? (
+                                                  (value / totalBookings) *
+                                                  100
+                                              ).toFixed(1)
+                                            : 0;
+
+                                    return (
+                                        context.label +
+                                        ": " +
+                                        value +
+                                        " (" +
+                                        percentage +
+                                        "%)"
+                                    );
+                                },
+                            },
+                        },
                     },
                 },
+
+                plugins: [
+                    {
+                        id: "doughnutCenterText",
+
+                        afterDraw: function (chart) {
+                            var ctx = chart.ctx;
+                            var centerX =
+                                (chart.chartArea.left + chart.chartArea.right) /
+                                2;
+                            var centerY =
+                                (chart.chartArea.top + chart.chartArea.bottom) /
+                                2;
+
+                            ctx.save();
+
+                            ctx.textAlign = "center";
+                            ctx.textBaseline = "middle";
+
+                            ctx.font = "700 28px Inter, sans-serif";
+                            ctx.fillStyle = "#053631";
+
+                            ctx.fillText(
+                                totalBookings.toLocaleString(),
+                                centerX,
+                                centerY - 7,
+                            );
+
+                            ctx.font = "500 11px Inter, sans-serif";
+                            ctx.fillStyle = "#94A3B8";
+
+                            ctx.fillText(
+                                "Total Bookings",
+                                centerX,
+                                centerY + 18,
+                            );
+
+                            ctx.restore();
+                        },
+                    },
+                ],
             });
 
             // Custom Legend

@@ -87,9 +87,7 @@
                     {{ number_format($kpis['totalWorkspaces'] ?? 0) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Workspaces under your management
-                </p>
+
 
             </article>
 
@@ -113,9 +111,7 @@
                     {{ number_format($kpis['totalBookings'] ?? 0) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Bookings created during this period
-                </p>
+
 
             </article>
 
@@ -139,9 +135,7 @@
                     {{ number_format($kpis['pendingBookings'] ?? 0) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Bookings waiting for your action
-                </p>
+
 
             </article>
 
@@ -166,9 +160,7 @@
                     <small>JOD</small>
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Your net revenue from completed bookings
-                </p>
+
 
             </article>
 
@@ -193,9 +185,7 @@
                     <small>/ 5</small>
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Average rating across your workspaces
-                </p>
+
 
             </article>
 
@@ -295,7 +285,6 @@
 
                     <thead>
                         <tr>
-                            <th>BOOKING ID</th>
                             <th>CUSTOMER</th>
                             <th>WORKSPACE</th>
                             <th>ROOM</th>
@@ -310,11 +299,7 @@
                         @forelse ($recentBookings as $booking)
                             <tr>
 
-                                <td>
-                                    <strong class="nx-table-primary">
-                                        #{{ $booking['bookingId'] }}
-                                    </strong>
-                                </td>
+
 
                                 <td>
                                     {{ $booking['customerName'] ?? 'Unknown Customer' }}
@@ -353,7 +338,9 @@
                                 <td colspan="7">
 
                                     <div class="nx-empty-state">
-                                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'calendar'])
+                                        @include('layouts.dashboard.partials.ui-icon', [
+                                            'name' => 'calendar',
+                                        ])
                                         <strong>No recent bookings</strong>
                                         <p>Your latest bookings will appear here.</p>
                                     </div>
@@ -470,7 +457,9 @@
                         <div class="nx-alert nx-alert--{{ $alert['type'] ?? 'warning' }}">
 
                             <div class="nx-alert__icon">
-                                @include('layouts.dashboard.partials.ui-icon', ['name' => 'alert-triangle'])
+                                @include('layouts.dashboard.partials.ui-icon', [
+                                    'name' => 'alert-triangle',
+                                ])
                             </div>
 
                             <div class="nx-alert__content">
