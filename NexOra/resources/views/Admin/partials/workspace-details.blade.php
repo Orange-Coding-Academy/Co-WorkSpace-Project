@@ -440,7 +440,7 @@
             @if ($workspace->relationLoaded('images'))
                @foreach ($workspace->images->take(1) as $image)
           <img class="cover"
-         src="{{ asset($image->image_path) }}"
+         src="{{ asset(\Illuminate\Support\Str::startsWith(ltrim($image->image_path, '/'), ['img/', 'storage/']) ? ltrim($image->image_path, '/') : 'storage/' . ltrim($image->image_path, '/')) }}"
          alt="{{ $image->alt_text ?: $workspace->name }}">
             @endforeach
             @endif
@@ -512,7 +512,7 @@
 
                         @if ($room->relationLoaded('images'))
                             @foreach ($room->images as $image)
-                                <img src="{{ asset('storage/' . $image->image_path) }}"
+                                <img src="{{ asset(\Illuminate\Support\Str::startsWith(ltrim($image->image_path, '/'), ['img/', 'storage/']) ? ltrim($image->image_path, '/') : 'storage/' . ltrim($image->image_path, '/')) }}"
                                      alt="{{ $image->alt_text ?: $room->name }}"
                                      loading="lazy" @if (! $loop->first) hidden @endif>
                             @endforeach
