@@ -15,7 +15,7 @@ class ManagerReviewController extends Controller
                 $query->where('manager_id', Auth::id());
             })
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
 
         return view('Manager.index', compact('reviews'));
     }
