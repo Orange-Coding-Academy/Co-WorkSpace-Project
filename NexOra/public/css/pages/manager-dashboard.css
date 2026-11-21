@@ -1,0 +1,647 @@
+/* =========================================================
+   NEXORA — MANAGER DASHBOARD
+   Page-specific layer built on the shared Nexora dashboard
+   primitives. Load after css/nexora/dashboard.css.
+   All selectors are scoped to .nx-manager-dashboard.
+   ========================================================= */
+
+/* ---------- Page density ---------- */
+.nx-dashboard__main:has(> .nx-manager-dashboard) {
+    width: 100%;
+    max-width: 1680px;
+    padding: var(--nx-space-6);
+}
+
+.nx-manager-dashboard {
+    gap: var(--nx-space-4);
+}
+
+.nx-manager-dashboard .nx-dashboard-grid {
+    gap: var(--nx-space-4);
+}
+
+/* ---------- Page header ---------- */
+.nx-manager-dashboard .nx-page-header {
+    align-items: flex-end;
+    gap: var(--nx-space-4);
+}
+
+.nx-manager-dashboard .nx-page-header__copy {
+    min-width: 0;
+}
+
+.nx-manager-dashboard .nx-page-header h1 {
+    margin: 2px 0 var(--nx-space-1);
+    font-size: clamp(1.375rem, 2vw, 1.75rem);
+    line-height: 1.2;
+}
+
+.nx-manager-dashboard .nx-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nx-space-2);
+}
+
+.nx-manager-dashboard .nx-eyebrow::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    background: var(--nx-accent);
+    content: "";
+}
+
+.nx-manager-dashboard .nx-page-header__actions {
+    gap: var(--nx-space-2);
+}
+
+.nx-manager-dashboard .nx-date-filter,
+.nx-manager-dashboard .nx-page-header__actions > .nx-btn {
+    min-height: 40px;
+}
+
+.nx-manager-dashboard .nx-date-filter {
+    gap: var(--nx-space-2);
+    padding-inline: var(--nx-space-3) var(--nx-space-4);
+}
+
+.nx-manager-dashboard .nx-date-filter select {
+    min-width: 7.5rem;
+    padding-block: var(--nx-space-2);
+    font-size: var(--nx-text-body-sm);
+}
+
+.nx-manager-dashboard .nx-date-filter :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-manager-dashboard .nx-page-header__actions > .nx-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--nx-space-2);
+    padding-inline: var(--nx-space-4);
+    font-size: var(--nx-text-body-sm);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nx-manager-dashboard .nx-page-header__actions > .nx-btn :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-manager-dashboard .nx-page-header__actions > .nx-btn:focus-visible {
+    outline: none;
+    box-shadow: var(--nx-focus-ring);
+}
+
+/* ---------- KPI cards: same compact treatment as Admin ---------- */
+.nx-manager-dashboard .nx-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--nx-space-3);
+}
+
+.nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card {
+    grid-column: span 2;
+    justify-content: flex-start;
+    min-width: 0;
+    padding: var(--nx-space-3) var(--nx-space-4);
+    border-color: var(--nx-border);
+    background: var(--nx-card);
+    box-shadow: var(--nx-shadow-1);
+    transition: border-color var(--nx-duration-standard);
+}
+
+.nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n + 4) {
+    grid-column: span 3;
+}
+
+.nx-manager-dashboard .nx-kpi-card:hover {
+    border-color: var(--nx-border-strong);
+}
+
+.nx-manager-dashboard .nx-kpi-card__top {
+    gap: var(--nx-space-2);
+    margin-block-end: var(--nx-space-3);
+}
+
+.nx-manager-dashboard .nx-kpi-card__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--nx-radius-sm);
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+}
+
+.nx-manager-dashboard .nx-kpi-card__icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-manager-dashboard .nx-kpi-card__label {
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-label);
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-transform: none;
+}
+
+.nx-manager-dashboard .nx-kpi-card__value {
+    margin: 0;
+    color: var(--nx-text);
+    font-size: clamp(1.125rem, 1.55vw, 1.5rem);
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-manager-dashboard .nx-kpi-card__value small {
+    margin-inline-start: 2px;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+}
+
+.nx-manager-dashboard .nx-kpi-card__description {
+    margin-block-start: 2px;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    line-height: 1.4;
+}
+
+/* One restrained semantic tint per KPI */
+.nx-manager-dashboard .nx-kpi-card:nth-child(1) .nx-kpi-card__icon {
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+}
+
+.nx-manager-dashboard .nx-kpi-card:nth-child(2) .nx-kpi-card__icon {
+    background: var(--nx-info-bg);
+    color: var(--nx-info-icon);
+}
+
+.nx-manager-dashboard .nx-kpi-card:nth-child(3) .nx-kpi-card__icon {
+    background: var(--nx-warning-bg);
+    color: var(--nx-warning-icon);
+}
+
+.nx-manager-dashboard .nx-kpi-card:nth-child(4) .nx-kpi-card__icon {
+    background: var(--nx-success-bg);
+    color: var(--nx-success-icon);
+}
+
+.nx-manager-dashboard .nx-kpi-card:nth-child(5) .nx-kpi-card__icon {
+    background: var(--nx-sand);
+    color: var(--nx-accent-strong);
+}
+
+/* ---------- Dashboard panels ---------- */
+.nx-manager-dashboard .nx-dashboard-panel {
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.nx-manager-dashboard .nx-panel-header {
+    align-items: center;
+    gap: var(--nx-space-4);
+    margin: 0;
+    padding: var(--nx-space-3) var(--nx-space-5);
+    border-block-end: 1px solid var(--nx-divider);
+}
+
+.nx-manager-dashboard .nx-panel-header > div:first-child {
+    min-width: 0;
+}
+
+.nx-manager-dashboard .nx-panel-header h3 {
+    margin: 0 0 var(--nx-space-1);
+    color: var(--nx-text);
+    font: 700 var(--nx-text-body) / 1.3 var(--nx-font-heading);
+    letter-spacing: -0.01em;
+}
+
+.nx-manager-dashboard .nx-panel-header p {
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    line-height: 1.5;
+}
+
+.nx-manager-dashboard .nx-panel-tag {
+    flex: none;
+    padding: 4px 10px;
+    border-color: var(--nx-border);
+    background: var(--nx-surface);
+    color: var(--nx-primary);
+    font-size: var(--nx-text-caption);
+}
+
+.nx-manager-dashboard .nx-panel-header .nx-text-link {
+    flex: none;
+}
+
+/* ---------- Chart.js containers ---------- */
+.nx-manager-dashboard .nx-chart-container {
+    position: relative;
+    width: auto;
+    height: 250px;
+    margin: var(--nx-space-4) var(--nx-space-5) var(--nx-space-5);
+}
+
+.nx-manager-dashboard .nx-chart-container canvas {
+    display: block;
+    max-width: 100%;
+}
+
+/* JS switches this overlay to flex only when the dataset is empty. */
+.nx-manager-dashboard .nx-chart-empty {
+    display: none;
+    gap: var(--nx-space-2);
+    background: var(--nx-card);
+}
+
+.nx-manager-dashboard .nx-chart-empty :is(i, svg) {
+    width: 30px;
+    height: 30px;
+    color: var(--nx-secondary);
+}
+
+.nx-manager-dashboard .nx-chart-empty strong {
+    color: var(--nx-text);
+    font: 600 var(--nx-text-body-sm) / 1.4 var(--nx-font-heading);
+}
+
+.nx-manager-dashboard .nx-chart-empty p {
+    max-width: 320px;
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    line-height: 1.5;
+}
+
+/* ---------- Recent bookings table ---------- */
+.nx-manager-dashboard .nx-table-wrapper {
+    width: 100%;
+    padding-block-end: var(--nx-space-1);
+    overflow-x: auto;
+    scrollbar-color: var(--nx-border-strong) transparent;
+    scrollbar-width: thin;
+}
+
+.nx-manager-dashboard .nx-table {
+    min-width: 790px;
+    font-size: var(--nx-text-body-sm);
+}
+
+.nx-manager-dashboard .nx-table th {
+    padding: 11px var(--nx-space-4);
+    background: var(--nx-surface);
+    color: var(--nx-text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+}
+
+.nx-manager-dashboard .nx-table td {
+    height: 52px;
+    padding: 10px var(--nx-space-4);
+    border-block-start: 1px solid var(--nx-divider);
+    vertical-align: middle;
+}
+
+.nx-manager-dashboard .nx-table tbody tr {
+    transition: background-color var(--nx-duration-fast);
+}
+
+.nx-manager-dashboard .nx-table tbody tr:hover {
+    background: var(--nx-surface);
+}
+
+.nx-manager-dashboard .nx-table td:first-child,
+.nx-manager-dashboard .nx-table td:nth-child(6) {
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-manager-dashboard .nx-table-primary {
+    color: var(--nx-primary);
+    font-weight: 700;
+}
+
+.nx-manager-dashboard .nx-table td small {
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+}
+
+.nx-manager-dashboard .nx-status {
+    min-height: 24px;
+    padding: 3px 10px;
+    font-size: var(--nx-text-caption);
+}
+
+/* ---------- Recent reviews ---------- */
+.nx-manager-dashboard .nx-review-list {
+    padding: 0 var(--nx-space-5) var(--nx-space-2);
+}
+
+.nx-manager-dashboard .nx-review-item {
+    padding: var(--nx-space-4) 0;
+    border-block-start: 1px solid var(--nx-divider);
+}
+
+.nx-manager-dashboard .nx-review-item:first-child {
+    border-block-start: 0;
+}
+
+.nx-manager-dashboard .nx-review-item__top {
+    align-items: center;
+    gap: var(--nx-space-3);
+}
+
+.nx-manager-dashboard .nx-review-customer {
+    gap: var(--nx-space-3);
+    min-width: 0;
+}
+
+.nx-manager-dashboard .nx-review-avatar {
+    width: 34px;
+    height: 34px;
+    background: var(--nx-sand);
+    color: var(--nx-accent-strong);
+    font-size: var(--nx-text-label);
+}
+
+.nx-manager-dashboard .nx-review-customer strong {
+    display: block;
+    overflow: hidden;
+    color: var(--nx-text);
+    font-size: var(--nx-text-body-sm);
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nx-manager-dashboard .nx-review-customer p {
+    margin: 2px 0 0;
+    overflow: hidden;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nx-manager-dashboard .nx-review-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex: none;
+    color: var(--nx-accent-strong);
+    font-size: var(--nx-text-label);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-manager-dashboard .nx-review-rating :is(i, svg) {
+    width: 14px;
+    height: 14px;
+    fill: var(--nx-accent);
+    stroke: var(--nx-accent-strong);
+}
+
+.nx-manager-dashboard .nx-review-comment {
+    margin: var(--nx-space-2) 0 0;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-body-sm);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.nx-manager-dashboard .nx-review-item time {
+    display: block;
+    margin-block-start: var(--nx-space-2);
+    color: var(--nx-text-muted);
+    font-size: var(--nx-text-caption);
+}
+
+/* ---------- Pending actions / alerts ---------- */
+.nx-manager-dashboard .nx-alert-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nx-space-2);
+    padding: var(--nx-space-4) var(--nx-space-5) var(--nx-space-5);
+}
+
+.nx-manager-dashboard .nx-alert {
+    align-items: center;
+    gap: var(--nx-space-3);
+    padding: var(--nx-space-3) var(--nx-space-4);
+    border-inline-start-width: 4px;
+}
+
+.nx-manager-dashboard .nx-alert__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--nx-radius-sm);
+}
+
+.nx-manager-dashboard .nx-alert__icon :is(i, svg) {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-manager-dashboard .nx-alert__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.nx-manager-dashboard .nx-alert__content strong {
+    display: block;
+    margin: 0 0 2px;
+    font-size: var(--nx-text-body-sm);
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.nx-manager-dashboard .nx-alert__content p {
+    margin: 0;
+    font-size: var(--nx-text-caption);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.nx-manager-dashboard .nx-alert__count {
+    min-width: 28px;
+    height: 28px;
+    padding-inline: var(--nx-space-2);
+}
+
+.nx-manager-dashboard .nx-alert--success {
+    border-inline-start-color: var(--nx-success-icon);
+}
+
+.nx-manager-dashboard .nx-alert--warning {
+    border-inline-start-color: var(--nx-warning-icon);
+}
+
+.nx-manager-dashboard .nx-alert--danger {
+    border-inline-start-color: var(--nx-danger-icon);
+}
+
+.nx-manager-dashboard .nx-alert--info {
+    border-inline-start-color: var(--nx-info-icon);
+}
+
+.nx-manager-dashboard .nx-alert-empty {
+    gap: var(--nx-space-3);
+    padding: var(--nx-space-3) var(--nx-space-4);
+}
+
+.nx-manager-dashboard .nx-alert-empty :is(i, svg) {
+    width: 20px;
+    height: 20px;
+}
+
+.nx-manager-dashboard .nx-alert-empty strong {
+    font-size: var(--nx-text-body-sm);
+}
+
+.nx-manager-dashboard .nx-alert-empty p {
+    margin: 2px 0 0;
+    font-size: var(--nx-text-caption);
+}
+
+/* ---------- Empty table state ---------- */
+.nx-manager-dashboard .nx-empty-state {
+    gap: var(--nx-space-2);
+    min-height: 150px;
+    padding: var(--nx-space-6) var(--nx-space-4);
+}
+
+.nx-manager-dashboard .nx-empty-state :is(i, svg) {
+    width: 28px;
+    height: 28px;
+    color: var(--nx-secondary);
+}
+
+.nx-manager-dashboard .nx-empty-state strong {
+    color: var(--nx-text);
+    font: 600 var(--nx-text-body-sm) / 1.4 var(--nx-font-heading);
+}
+
+.nx-manager-dashboard .nx-empty-state p {
+    margin: 0;
+    color: var(--nx-text-secondary);
+    font-size: var(--nx-text-caption);
+}
+
+/* ---------- Responsive layout ---------- */
+@media (min-width: 1100px) {
+    .nx-manager-dashboard .nx-kpi-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card,
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n + 4) {
+        grid-column: auto;
+    }
+
+    .nx-manager-dashboard .nx-dashboard-grid--charts {
+        grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr);
+    }
+
+    .nx-manager-dashboard .nx-dashboard-grid--bottom {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 1fr);
+        align-items: start;
+    }
+}
+
+@media (max-width: 1023px) {
+    .nx-dashboard__main:has(> .nx-manager-dashboard) {
+        padding: var(--nx-space-5);
+    }
+}
+
+@media (max-width: 767px) {
+    .nx-dashboard__main:has(> .nx-manager-dashboard) {
+        padding: var(--nx-space-4);
+    }
+
+    .nx-manager-dashboard .nx-page-header {
+        align-items: stretch;
+    }
+
+    .nx-manager-dashboard .nx-page-header__actions {
+        width: 100%;
+    }
+
+    .nx-manager-dashboard .nx-page-header__actions > * {
+        flex: 1 1 auto;
+    }
+
+    .nx-manager-dashboard .nx-date-filter select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .nx-manager-dashboard .nx-page-header__actions > .nx-btn {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 639px) {
+    .nx-manager-dashboard .nx-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card,
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card:nth-child(n + 4) {
+        grid-column: auto;
+    }
+
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .nx-manager-dashboard .nx-panel-header {
+        flex-wrap: wrap;
+        padding-inline: var(--nx-space-4);
+    }
+
+    .nx-manager-dashboard .nx-panel-tag {
+        margin-inline-start: 0;
+    }
+
+    .nx-manager-dashboard .nx-chart-container {
+        height: 220px;
+        margin-inline: var(--nx-space-4);
+    }
+
+    .nx-manager-dashboard .nx-review-list,
+    .nx-manager-dashboard .nx-alert-list {
+        padding-inline: var(--nx-space-4);
+    }
+
+    .nx-manager-dashboard .nx-review-item__top {
+        align-items: flex-start;
+    }
+
+    .nx-manager-dashboard .nx-alert {
+        padding-inline: var(--nx-space-3);
+    }
+}
+
+@media (max-width: 380px) {
+    .nx-manager-dashboard .nx-kpi-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nx-manager-dashboard .nx-kpi-grid > .nx-kpi-card:last-child {
+        grid-column: auto;
+    }
+
+    .nx-manager-dashboard .nx-page-header__actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

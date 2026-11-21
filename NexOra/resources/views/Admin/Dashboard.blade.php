@@ -49,6 +49,10 @@
                         </option>
 
                     </select>
+                    @include('layouts.dashboard.partials.ui-icon', [
+                        'name' => 'chevron-down',
+                        'class' => 'nx-date-filter__chevron',
+                    ])
                 </form>
 
                 <button type="button" class="nx-btn nx-btn--primary" disabled
@@ -75,12 +79,21 @@
                         )
                             ? $alert['priority']
                             : 'warning';
+
+                        $alertIcons = [
+                            'success' => 'check-circle',
+                            'warning' => 'alert-triangle',
+                            'danger' => 'x-circle',
+                            'info' => 'info',
+                        ];
                     @endphp
 
                     <div class="nx-alert nx-alert--{{ $alertLevel }}">
 
                         <div class="nx-alert__icon">
-                            @include('layouts.dashboard.partials.ui-icon', ['name' => 'alert-triangle'])
+                            @include('layouts.dashboard.partials.ui-icon', [
+                                'name' => $alertIcons[$alertLevel],
+                            ])
                         </div>
 
                         <div class="nx-alert__content">
@@ -113,7 +126,7 @@
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'trending-up'])
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'percent'])
                     </div>
                     <span class="nx-kpi-card__label">PLATFORM COMMISSION</span>
                 </div>
@@ -210,7 +223,7 @@
 
                 <div class="nx-panel-header">
                     <div class="nx-panel-heading">
-                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'trending-up'])</span>
+                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'bar-chart-2'])</span>
                         <div>
                             <h2 class="nx-panel-title" id="revenueTitle">Revenue Performance</h2>
                             <p class="nx-panel-subtitle">Booking value and platform commission over time</p>
@@ -418,6 +431,10 @@
                             </div>
 
                             <time datetime="{{ $activity['createdAt'] }}">
+                                @include('layouts.dashboard.partials.ui-icon', [
+                                    'name' => 'clock',
+                                    'class' => 'nx-icon--xs',
+                                ])
                                 {{ \Carbon\Carbon::parse($activity['createdAt'])->diffForHumans() }}
                             </time>
 
