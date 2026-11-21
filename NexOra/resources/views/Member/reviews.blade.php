@@ -12,8 +12,11 @@
 /* Member Reviews — page-scoped NexOra styling */
 .nx-page-content { color: var(--nx-text, #1D2924); font-family: 'Inter', 'Noto Sans Arabic', sans-serif; }
 .nx-page-content *, .nx-page-content *::before, .nx-page-content *::after { box-sizing: border-box; }
-.nx-page-content .reviews-container { max-width: 1100px; margin: 24px auto; padding: 0 16px 40px; }
-.nx-page-content .page-header { margin-bottom: 26px; }
+.nx-page-content .reviews-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px 20px;
+}.nx-page-content .page-header { margin-bottom: 26px; }
 .nx-page-content .page-title { margin: 0 0 8px; font-family: 'Manrope', sans-serif; font-size: clamp(25px, 3vw, 32px); font-weight: 800; letter-spacing: -.035em; color: #152A23; }
 .nx-page-content .subtitle { margin: 0; font-size: 14px; line-height: 1.65; color: #53615A; }
 .nx-page-content .reviews-card { padding: 28px; border: 1px solid #E2E8E2; border-radius: 18px; background: #fff; box-shadow: 0 5px 22px rgba(29,41,36,.045); }
