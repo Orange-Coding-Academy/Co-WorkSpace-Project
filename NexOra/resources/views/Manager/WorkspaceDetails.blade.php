@@ -5,8 +5,12 @@
 @section('title') Workspace details @endsection
 @section('page-title') Workspace details @endsection
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
+@endpush
+
 @section('content')
-<div class="nx-page-content">
+<div class="nx-page-content nx-workspace-ui nx-workspace-details">
 {{-- Workspace Details Page --}}
 
 <style>
@@ -1456,17 +1460,18 @@
 
 {{-- EDIT ROOM MODAL --}}
 
-<div class="ws-modal" id="editRoomModal">
+<div class="ws-modal" id="editRoomModal" role="dialog" aria-modal="true" aria-labelledby="edit-room-title">
 
     <div class="ws-modal-content">
 
         <div class="ws-modal-header">
 
-            <h2>Edit Room</h2>
+            <h2 id="edit-room-title">Edit Room</h2>
 
             <button
                 type="button"
                 class="ws-close"
+                aria-label="Close edit room"
                 onclick="closeModal('editRoomModal')">
                 &times;
             </button>
@@ -1482,7 +1487,7 @@
             @method('PUT')
 
             <div class="ws-form-group">
-                <label>Room Name</label>
+                <label for="edit_name">Room Name</label>
 
                 <input
                     type="text"
@@ -1492,7 +1497,7 @@
             </div>
 
             <div class="ws-form-group">
-                <label>Room Type</label>
+                <label for="edit_room_type">Room Type</label>
 
                 <input
                     type="text"
@@ -1502,7 +1507,7 @@
             </div>
 
             <div class="ws-form-group">
-                <label>Capacity</label>
+                <label for="edit_capacity">Capacity</label>
 
                 <input
                     type="number"
@@ -1513,7 +1518,7 @@
             </div>
 
             <div class="ws-form-group">
-                <label>Hourly Price</label>
+                <label for="edit_hourly_price">Hourly Price</label>
 
                 <input
                     type="number"
@@ -1525,7 +1530,7 @@
             </div>
 
             <div class="ws-form-group">
-                <label>Facilities</label>
+                <label for="edit_facilities">Facilities</label>
 
                 <textarea
                     name="facilities"
@@ -1542,9 +1547,11 @@
                     id="existingRoomImages"></div>
 
                 <small>
-                    Select the checkbox below an image to remove it.
-                    Select a radio button to make an image primary.
+                    Mark photos for removal, then click Update Room to save.
+                    You can undo removal before saving. If you remove the primary photo,
+                    another remaining photo becomes primary automatically.
                 </small>
+                <p id="edit-room-image-status" role="status" aria-live="polite"></p>
 
             </div>
 
@@ -1584,9 +1591,6 @@
 </div>
 
 
-    @if(old('_room_form') === 'add' && $errors > any())
-    openAddModal();
-    @endif
 </div>
 @endsection
 
@@ -1596,10 +1600,42 @@
         document.getElementById('addRoomModal').showModal();
     }
 
+    @if(old('_room_form') === 'add' && $errors->any())
+        openAddModal();
+    @endif
+
+    function syncRoomImageRemoval(container) {
+        const radios = Array.from(container.querySelectorAll('input[name="primary_image_id"]'));
+        let removedCount = 0;
+
+        container.querySelectorAll('.ws-existing-image').forEach(item => {
+            const remove = item.querySelector('input[name="remove_images[]"]');
+            const primary = item.querySelector('input[name="primary_image_id"]');
+            const pending = remove.checked;
+            item.classList.toggle('is-pending-removal', pending);
+            primary.disabled = pending;
+            if (pending) {
+                primary.checked = false;
+                removedCount++;
+            }
+            item.querySelector('[data-removal-label]').textContent = pending
+                ? ' Undo removal' : ' Remove photo';
+        });
+
+        const available = radios.filter(radio => !radio.disabled);
+        if (available.length && !available.some(radio => radio.checked)) {
+            available[0].checked = true;
+        }
+        document.getElementById('edit-room-image-status').textContent = removedCount
+            ? `${removedCount} photo${removedCount === 1 ? '' : 's'} marked for removal. Changes apply when you click Update Room.`
+            : 'No photos marked for removal.';
+    }
+
     function openEditModal(button) {
         const card = button.closest('.ws-room-card');
         const room = card.dataset;
 
+        document.getElementById('editRoomForm').reset();
         document.getElementById('editRoomForm').action = button.dataset.updateUrl;
         document.getElementById('edit_name').value = room.name;
         document.getElementById('edit_room_type').value = room.type;
@@ -1635,11 +1671,16 @@
             checkbox.name = 'remove_images[]';
             checkbox.value = image.dataset.imageId;
 
-            removeLabel.append(checkbox, ' Remove');
+            const removalText = document.createElement('span');
+            removalText.dataset.removalLabel = '';
+            removalText.textContent = ' Remove photo';
+            removeLabel.append(checkbox, removalText);
+            checkbox.addEventListener('change', () => syncRoomImageRemoval(imagesContainer));
 
             div.append(img, primaryLabel, removeLabel);
             imagesContainer.appendChild(div);
         });
+        syncRoomImageRemoval(imagesContainer);
 
         document.getElementById('editRoomModal').classList.add('show');
     }

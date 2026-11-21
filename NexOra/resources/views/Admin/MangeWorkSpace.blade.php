@@ -185,7 +185,6 @@ $selectedWorkspace = is_string($workspaceId)
 
         .nx-page-content .directory-header > *{ position: relative; z-index: 1; }
         .nx-page-content .directory-header h2{ color: #fff; }
-        }
 
         .nx-page-content .directory-title-row{
             display: flex;
@@ -880,10 +879,11 @@ $selectedWorkspace = is_string($workspaceId)
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
 @endpush
 
 @section('content')
-<div class="nx-page-content">
+<div class="nx-page-content nx-workspace-ui nx-workspace-directory">
     <div data-nx-page-main aria-label="Manage workspaces">
 
 

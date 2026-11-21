@@ -542,10 +542,11 @@
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
 @endpush
 
 @section('content')
-<div class="nx-page-content">
+<div class="nx-page-content nx-workspace-ui nx-workspace-details">
     <div data-nx-page-main>
         <nav class="workspace-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('admin.AdminDashboard') }}">Admin</a>
