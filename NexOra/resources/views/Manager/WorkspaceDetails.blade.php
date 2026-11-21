@@ -635,13 +635,13 @@
 
     .nx-page-content .ws-page{
         --forest: #152A23;
-        --ink: #152A23;
+        --ink: #1D2924;
         --muted: #53615A;
         --paper: #F5F7F3;
         --line: #E2E8E2;
         min-height: 100vh;
         box-sizing: border-box;
-        padding: clamp(16px, 4vw, 48px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
+        padding: clamp(20px, 2.5vw, 30px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
         background: #F5F7F3;
         color: var(--ink);
         font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
@@ -659,15 +659,74 @@
     }
 
     .nx-page-content .ws-page .ws-overview{
+        position: relative;
+        overflow: hidden;
         display: grid;
-        gap: clamp(18px, 4vw, 36px);
+        gap: clamp(20px, 3vw, 30px);
         align-items: center;
-        padding: clamp(20px, 4vw, 40px);
-        margin-bottom: 30px;
-        border-radius: 24px;
-        background: var(--forest);
-        color: var(--paper);
-        box-shadow: 0 14px 35px #103b3420;
+        padding: clamp(22px, 3vw, 30px);
+        margin-bottom: 24px;
+        border: 1px solid #315C4D;
+        border-radius: 22px;
+        background: #315C4D;
+        color: #fff;
+        box-shadow: 0 14px 32px rgba(40, 91, 75, .18);
+        transition: transform .28s ease, background-color .28s ease, box-shadow .28s ease;
+    }
+
+    .nx-page-content .ws-page .ws-overview::before,
+    .nx-page-content .ws-page .ws-overview::after{
+        position: absolute;
+        content: "";
+        pointer-events: none;
+        z-index: 0;
+        border-radius: 50%;
+        transition: transform .4s ease, opacity .28s ease;
+    }
+
+    .nx-page-content .ws-page .ws-overview::before{
+        top: -150px;
+        right: 7%;
+        width: 245px;
+        height: 245px;
+        background: rgba(255, 255, 255, .10);
+    }
+
+    .nx-page-content .ws-page .ws-overview::after{
+        right: 25%;
+        bottom: -122px;
+        width: 165px;
+        height: 165px;
+        background: rgba(197, 138, 98, .24);
+    }
+
+    .nx-page-content .ws-page .ws-overview > *{
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (hover: hover) {
+        .nx-page-content .ws-page .ws-overview:hover{
+            background: #274B3F;
+            box-shadow: 0 20px 42px rgba(39, 75, 63, .24);
+            transform: translateY(-3px);
+        }
+
+        .nx-page-content .ws-page .ws-overview:hover::before{
+            transform: translate(-10px, 10px) scale(1.05);
+        }
+
+        .nx-page-content .ws-page .ws-overview:hover::after{
+            transform: translate(8px, -8px) scale(1.08);
+        }
+
+        .nx-page-content .ws-page .ws-overview .ws-gallery img{
+            transition: transform .35s ease;
+        }
+
+        .nx-page-content .ws-page .ws-overview:hover .ws-gallery img{
+            transform: scale(1.025);
+        }
     }
 
     .nx-page-content .ws-overview:has(.ws-gallery){
@@ -676,15 +735,16 @@
 
     .nx-page-content .ws-overview h1{
         margin: 0;
-        font-size: clamp(2.1rem, 5vw, 3.5rem);
-        line-height: 1.06;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.1;
         letter-spacing: -.055em;
         overflow-wrap: anywhere;
+        color: #fff;
     }
 
     .nx-page-content .ws-overview-copy>p{
-        color: #E9EEE9;
-        margin: 10px 0 0;
+        color: #E3EFE8;
+        margin: 8px 0 0;
     }
 
     .nx-page-content .ws-page .ws-info{
@@ -692,12 +752,12 @@
     }
 
     .nx-page-content .ws-overview .ws-info-item{
-        color: #C9D4CC;
+        color: #CFE1D8;
         font-size: .8rem;
     }
 
     .nx-page-content .ws-overview .ws-info-item strong{
-        color: var(--paper);
+        color: #fff;
         font-size: .94rem;
     }
 
@@ -706,15 +766,16 @@
         flex-wrap: wrap;
         gap: 7px;
         padding: 0;
-        margin: 18px 0 0;
+        margin: 16px 0 0;
         list-style: none;
     }
 
     .nx-page-content .ws-facilities li{
         padding: 4px 9px;
         border-radius: 999px;
-        background: #ffffff22;
-        color: var(--paper);
+        border: 1px solid rgba(255, 255, 255, .18);
+        background: rgba(255, 255, 255, .14);
+        color: #fff;
         font-size: .82rem;
     }
 
@@ -732,8 +793,9 @@
 
     .nx-page-content .ws-page .ws-gallery img:first-child{
         grid-column: 1 / -1;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 4 / 3;
         border-radius: 16px;
+        object-fit: cover;
     }
 
     .nx-page-content .ws-page .ws-section-header{
@@ -760,6 +822,7 @@
 
     .nx-page-content .ws-page .ws-btn{
         min-height: 44px;
+        border-radius: 12px;
         font: inherit;
         font-size: .9rem;
         font-weight: 700;
@@ -775,12 +838,13 @@
     }
 
     .nx-page-content .ws-page .ws-btn-edit{
-        background: #E9EEE9;
-        color: #203D34;
+        border: 1px solid #C9D4CC;
+        background: #F8FAF7;
+        color: #1D2924;
     }
 
     .nx-page-content .ws-page .ws-btn-edit:hover{
-        background: #E2E8E2;
+        background: #E9EEE9;
     }
 
     .nx-page-content .ws-page .ws-btn-delete{
@@ -797,10 +861,35 @@
         gap: 16px;
     }
 
+    .nx-page-content .ws-page .ws-room-grid:has(.ws-room-card:only-child){
+        grid-template-columns: 1fr;
+    }
+
+    .nx-page-content .ws-page .ws-room-card:only-child{
+        display: grid;
+        grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
+        min-height: 300px;
+    }
+
+    .nx-page-content .ws-page .ws-room-card:only-child .room-gallery,
+    .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image{
+        height: 100%;
+        min-height: 300px;
+        aspect-ratio: auto;
+    }
+
+    .nx-page-content .ws-page .ws-room-card:only-child .ws-room-content{
+        padding: 24px;
+    }
+
+    .nx-page-content .ws-page .ws-room-card:only-child .ws-room-meta{
+        max-width: 540px;
+    }
+
     .nx-page-content .ws-page .ws-room-card{
         display: flex;
         flex-direction: column;
-        background: var(--paper);
+        background: #fff;
         border: 1px solid var(--line);
         border-radius: 18px;
         box-shadow: none;
@@ -881,6 +970,16 @@
     @media (max-width: 700px) {
         .nx-page-content .ws-overview:has(.ws-gallery){
             grid-template-columns: minmax(0, 1fr);
+        }
+
+        .nx-page-content .ws-page .ws-room-card:only-child{
+            grid-template-columns: 1fr;
+        }
+
+        .nx-page-content .ws-page .ws-room-card:only-child .room-gallery,
+        .nx-page-content .ws-page .ws-room-card:only-child .ws-no-image{
+            min-height: 0;
+            aspect-ratio: 16 / 9;
         }
     }
 
@@ -1026,13 +1125,31 @@
         padding: 8px 12px;
         border: 1px solid #C9D4CC;
         border-radius: 9px;
-        background: #E9EEE9;
-        color: #152A23;
+        background: #F8FAF7;
+        color: #1D2924;
         font-weight: 700;
         text-decoration: none;
     }
 
     .nx-page-content .ws-back-link:hover{ background: #E2E8E2; }
+
+    .nx-page-content .ws-breadcrumb{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 10px;
+        color: #718078;
+        font-size: .86rem;
+    }
+
+    .nx-page-content .ws-breadcrumb a{
+        color: #285B4B;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .nx-page-content .ws-breadcrumb strong{ color: #1D2925; }
 </style>
 
 <div class="ws-page">
@@ -1062,6 +1179,14 @@
         </ul>
     </div>
     @endif
+
+    <nav class="ws-breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ route('manager.dashboard') }}">Manager</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">My workspaces</a>
+        <span aria-hidden="true">/</span>
+        <strong>{{ $workspace->name }}</strong>
+    </nav>
 
     <a class="ws-back-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
         <span aria-hidden="true">&larr;</span> My workspaces

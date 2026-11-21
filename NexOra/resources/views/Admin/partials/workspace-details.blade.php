@@ -4,6 +4,13 @@
 
 @push('styles')
     <style>
+        /* Use the complete dashboard canvas with one consistent small gutter. */
+        .nx-dashboard__main:has(> .nx-page-content){
+            max-width: none;
+            margin: 0;
+            padding: clamp(12px, 1.25vw, 20px);
+        }
+
         .nx-page-content *{
             box-sizing: border-box;
         }
@@ -16,14 +23,15 @@
         }
 
         .nx-page-content [data-nx-page-main]{
-            width: min(1120px, 100%);
+            width: 100%;
+            max-width: 1800px;
             margin: auto;
-            padding: clamp(16px, 4vw, 40px);
+            padding: 0;
         }
 
         .nx-page-content .back{
             display: inline-block;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             color: #315C4D;
             font-weight: 650;
             text-decoration: none;
@@ -32,6 +40,24 @@
         .nx-page-content .back:hover{
             text-decoration: underline;
         }
+
+        .nx-page-content .workspace-breadcrumb{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+            color: #718078;
+            font-size: .86rem;
+        }
+
+        .nx-page-content .workspace-breadcrumb a{
+            color: #285B4B;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nx-page-content .workspace-breadcrumb strong{ color: #1D2925; }
 
         .nx-page-content :focus-visible{
             outline: 2px solid #315C4D;
@@ -44,11 +70,49 @@
             border-radius: 20px;
         }
 
-        .nx-page-content .overview{
+        .nx-page-content .card.overview{
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
             display: grid;
-            gap: 24px;
-            padding: clamp(18px, 3vw, 28px);
+            gap: clamp(20px, 3vw, 30px);
+            align-items: center;
+            padding: clamp(22px, 3vw, 32px);
+            border: 1px solid #315C4D;
+            border-radius: 22px;
+            background: #315C4D;
+            color: #fff;
+            box-shadow: 0 14px 32px rgba(40, 91, 75, .18);
+            transition: transform .28s ease, background-color .28s ease, box-shadow .28s ease;
         }
+
+        .nx-page-content .overview::before,
+        .nx-page-content .overview::after{
+            position: absolute;
+            z-index: -1;
+            content: '';
+            border-radius: 50%;
+            pointer-events: none;
+            transition: transform .42s ease;
+        }
+
+        .nx-page-content .overview::before{
+            top: -150px;
+            right: 7%;
+            width: 245px;
+            height: 245px;
+            background: rgba(255, 255, 255, .10);
+        }
+
+        .nx-page-content .overview::after{
+            right: 25%;
+            bottom: -122px;
+            width: 165px;
+            height: 165px;
+            background: rgba(197, 138, 98, .24);
+        }
+
+        .nx-page-content .overview > *{ position: relative; z-index: 1; }
 
         .nx-page-content .overview:has(img:not([hidden])){
             grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
@@ -56,14 +120,29 @@
 
         .nx-page-content .cover{
             display: block;
+            order: 2;
             width: 100%;
             aspect-ratio: 16 / 10;
             border-radius: 14px;
             object-fit: cover;
+            box-shadow: 0 12px 24px rgba(8, 32, 25, .24);
+            transition: transform .35s ease;
         }
 
         .nx-page-content .cover[hidden]{
             display: none;
+        }
+
+        @media (hover: hover) {
+            .nx-page-content .overview:hover{
+                background: #274B3F;
+                box-shadow: 0 20px 42px rgba(39, 75, 63, .24);
+                transform: translateY(-3px);
+            }
+
+            .nx-page-content .overview:hover::before{ transform: translate(-10px, 10px) scale(1.05); }
+            .nx-page-content .overview:hover::after{ transform: translate(8px, -8px) scale(1.08); }
+            .nx-page-content .overview:hover .cover{ transform: scale(1.025); }
         }
 
         .nx-page-content h1,
@@ -74,10 +153,11 @@
             margin: 0;
         }
 
-        .nx-page-content h1{
+        .nx-page-content .overview h1{
             font-size: clamp(1.65rem, 4vw, 2.35rem);
             line-height: 1.15;
             overflow-wrap: anywhere;
+            color: #fff;
         }
 
         .nx-page-content h2{
@@ -88,7 +168,7 @@
             margin-top: 16px;
             white-space: pre-line;
             overflow-wrap: anywhere;
-            color: #53615A;
+            color: #E3EFE8;
         }
 
         .nx-page-content .facts{
@@ -98,28 +178,31 @@
             margin-top: 18px;
         }
 
-        .nx-page-content dt{
-            color: #53615A;
+        .nx-page-content .overview dt{
+            color: #CFE1D8;
             font-size: .85rem;
         }
 
-        .nx-page-content dd{
+        .nx-page-content .overview dd{
             font-weight: 600;
+            color: #fff;
         }
 
-        .nx-page-content .pill{
+        .nx-page-content .overview .pill{
             display: inline-block;
             padding: 3px 9px;
             border-radius: 999px;
-            background: #E9EEE9;
-            color: #53615A;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .14);
+            color: #fff;
             font-size: .84rem;
             font-weight: 650;
         }
 
-        .nx-page-content .active{
+        .nx-page-content .overview .active{
             background: #def5eb;
             color: #16634d;
+            border-color: transparent;
         }
 
         .nx-page-content .pending{
@@ -142,6 +225,26 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
             gap: 16px;
+        }
+
+        /* Match the manager view: one room becomes a balanced, full-width feature card. */
+        .nx-page-content .room-grid:has(.room-card:only-child){
+            grid-template-columns: 1fr;
+        }
+
+        .nx-page-content .room-card:only-child{
+            display: grid;
+            grid-template-columns: minmax(300px, .9fr) minmax(0, 1.1fr);
+            min-height: 300px;
+        }
+
+        .nx-page-content .room-card:only-child .room-media{
+            min-height: 300px;
+            aspect-ratio: auto;
+        }
+
+        .nx-page-content .room-card:only-child .room-body{
+            padding: 24px;
         }
 
         .nx-page-content .room-card{
@@ -231,6 +334,15 @@
             .nx-page-content .overview:has(img:not([hidden])){
                 grid-template-columns: 1fr;
             }
+
+            .nx-page-content .room-card:only-child{
+                grid-template-columns: 1fr;
+            }
+
+            .nx-page-content .room-card:only-child .room-media{
+                min-height: 0;
+                aspect-ratio: 16 / 9;
+            }
         }
         .nx-page-content .room-image-button{
             position: absolute;
@@ -257,6 +369,7 @@
 
         .nx-page-content .workspace-facilities h2{
             font-size: .95rem;
+            color: #fff;
         }
 
         .nx-page-content .workspace-facilities-list{
@@ -266,7 +379,7 @@
             margin: 8px 0 0;
             padding: 0;
             list-style: none;
-            color: #53615A;
+            color: #E3EFE8;
             font-size: .85rem;
         }
         .nx-page-content .approve-workspace{
@@ -434,6 +547,13 @@
 @section('content')
 <div class="nx-page-content">
     <div data-nx-page-main>
+        <nav class="workspace-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ route('admin.AdminDashboard') }}">Admin</a>
+            <span aria-hidden="true">/</span>
+            <a href="{{ route('admin.workspaces') }}">Workspace directory</a>
+            <span aria-hidden="true">/</span>
+            <strong>{{ $workspace->name }}</strong>
+        </nav>
         <a class="back" href="{{ route('admin.workspaces') }}">&larr; Workspace directory</a>
 
         <section class="card overview" aria-labelledby="workspace-title">
