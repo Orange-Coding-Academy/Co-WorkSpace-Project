@@ -213,9 +213,10 @@
                     <div class="media">
                         <span aria-hidden="true">{{ mb_strtoupper(mb_substr($workspace->name, 0, 1)) }}</span>
                         @foreach ($workspace->images->take(1) as $image)
-                            <img src="{{ asset(\Illuminate\Support\Str::startsWith($image->image_path, ['http://', 'https://', 'img/', '/img/', 'storage/', '/storage/']) ? $image->image_path : 'storage/' . $image->image_path) }}"
-                                 alt="{{ $image->alt_text ?: $workspace->name }}" loading="lazy"
-                                 onerror="this.hidden = true">
+                           <img
+    src="{{ asset($image->image_path) }}"
+    alt="{{ $image->alt_text ?: $workspace->name . ' photo ' . $loop->iteration }}"
+>
                         @endforeach
                     </div>
                     <div class="content">
