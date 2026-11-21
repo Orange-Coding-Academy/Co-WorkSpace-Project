@@ -183,6 +183,37 @@
             .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
+
+        /* User Details — page-specific refinements (CSS only) */
+        .nx-page-content { min-height: 100%; background: #F5F7F3; }
+        .nx-page-content > .container { max-width: 1180px; }
+        .nx-page-content .card { border: 1px solid #E2E8E2 !important; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 22px rgba(29,41,36,.045) !important; }
+        .nx-page-content .card-body.p-4 { padding: 28px !important; }
+        .nx-page-content .profile-avatar { width: 110px; height: 110px; flex: 0 0 110px; border: 4px solid #fff; border-radius: 50%; background: #EAF0E9 !important; box-shadow: 0 0 0 1px #DCE6DC, 0 5px 16px rgba(29,41,36,.08); object-fit: cover; }
+        .nx-page-content .section-title { font-family: var(--nx-font-heading); font-size: 17px; font-weight: 800; color: #203D34; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid #E9EEE9; }
+        .nx-page-content .detail-label { font-size: 12px; font-weight: 700; letter-spacing: .025em; color: #718077; margin-bottom: 8px; }
+        .nx-page-content .detail-value { font-size: 15px; font-weight: 600; color: #1D2924; line-height: 1.55; }
+        .nx-page-content .stat-number { font-family: var(--nx-font-heading); font-size: 32px; font-weight: 800; color: #315C4D; line-height: 1.2; margin-bottom: 8px; }
+        .nx-page-content .border.rounded-3.p-4.text-center { border-color: #E2E8E2 !important; background: #F8FAF7; border-radius: 16px !important; min-height: 132px; display: flex; flex-direction: column; justify-content: center; }
+        .nx-page-content .badge { padding: 7px 12px; font-weight: 700; }
+        .nx-page-content .badge.bg-success { background: #EAF6EF !important; color: #145C3A !important; }
+        .nx-page-content .badge.bg-danger { background: #FDEDEC !important; color: #912018 !important; }
+        .nx-page-content .badge.bg-warning { background: #FFF6E5 !important; color: #754C05 !important; }
+        .nx-page-content .badge.bg-primary { background: #E7EEE7 !important; color: #203D34 !important; }
+        .nx-page-content .table-responsive { border: 1px solid #E9EEE9; border-radius: 14px; }
+        .nx-page-content .table { margin-bottom: 0; }
+        .nx-page-content .table > :not(caption) > * > * { padding: 15px 18px; }
+        .nx-page-content .table-bordered > :not(caption) > * { border-width: 0 0 1px; }
+        .nx-page-content .table tbody tr:last-child td { border-bottom: 0; }
+        .nx-page-content .table tbody tr:hover { background-color: #F8FAF7; }
+        .nx-page-content .btn-outline-secondary { border-color: #C9D4CC; color: #315C4D; }
+        @media (max-width: 767px) {
+            .nx-page-content > .container { padding-top: 24px !important; padding-bottom: 24px !important; }
+            .nx-page-content .card-body.p-4 { padding: 20px !important; }
+            .nx-page-content .profile-avatar { width: 84px; height: 84px; flex-basis: 84px; }
+            .nx-page-content .section-title { font-size: 16px; }
+            .nx-page-content .table-responsive table { min-width: 560px; }
+        }
     </style>
 @endpush
 
@@ -303,8 +334,11 @@
 
                 <div class="col-md-6">
                     <div class="detail-label">Email Verification</div>
-                    <span class="badge bg-success">{{ $user->email_verified_at }}</span>
-                </div>
+@if ($user->email_verified_at)
+    <span class="badge bg-success">Verified</span>
+@else
+    <span class="badge bg-danger">Not Verified</span>
+@endif                </div>
 
             </div>
 
