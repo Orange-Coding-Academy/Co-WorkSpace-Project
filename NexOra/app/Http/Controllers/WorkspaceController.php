@@ -17,7 +17,10 @@ class WorkspaceController extends Controller
     {
 
 
-        $workspaces = Workspace::with(['manager', 'rooms', 'images'])->get();
+        $workspaces = Workspace::with(['manager', 'rooms', 'images'])
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc') // newest first
+            ->get();
 
 
         $enabled = $workspaces->where('is_active', true);
@@ -67,7 +70,7 @@ class WorkspaceController extends Controller
         try {
             $workspace = DB::transaction(function () use ($data, $request, $imagePath) {
 
-            
+
                 $workspace = Workspace::create([
                     'manager_id' => $request->user()->id,
                     'name' => $data['name'],
@@ -141,10 +144,6 @@ class WorkspaceController extends Controller
     {
         if (! $workspace->is_active) {
             return back()->with('error', 'This workspace is already disabled.');
-        }
-
-        if ($workspace->approval_status !== 'approved') {
-            return back()->with('error', 'Only approved workspaces can be disabled.');
         }
 
         $workspace->is_active = false;

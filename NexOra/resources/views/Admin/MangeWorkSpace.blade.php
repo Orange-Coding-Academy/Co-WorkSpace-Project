@@ -122,14 +122,20 @@ $selectedWorkspace = is_string($workspaceId)
         }
 
         .nx-page-content .filters{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(190px, 250px);
+            gap: 16px 20px;
+            margin-top: 18px;
+            padding: 20px;
+            border: 1px solid #E7EEE7;
+            border-radius: 20px;
+            background: #fff;
         }
 
         .nx-page-content .filters input,
         .nx-page-content .filters select{
+            width: 100%;
+            min-height: 50px;
             border: 1px solid #E7EEE7;
             border-radius: 12px;
             background: #fff;
@@ -139,8 +145,55 @@ $selectedWorkspace = is_string($workspaceId)
         }
 
         .nx-page-content .filters input{
-            flex: 1 1 230px;
             min-width: 0;
+        }
+
+        .nx-page-content .filters select{
+            cursor: pointer;
+        }
+
+        .nx-page-content .filter-field label{
+            display: block;
+            margin-bottom: 8px;
+            color: var(--ink);
+            font-size: .9rem;
+            font-weight: 700;
+        }
+
+        .nx-page-content .filter-actions{
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nx-page-content .filter-button{
+            min-height: 46px;
+            padding: 10px 18px;
+            border: 1px solid #315C4D;
+            border-radius: 999px;
+            background: #315C4D;
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .nx-page-content .filter-button:hover{ background: #274B3F; }
+
+        .nx-page-content .filter-button--reset{
+            border-color: #C9D4CC;
+            background: #fff;
+            color: #315C4D;
+        }
+
+        .nx-page-content .filter-button--reset:hover{ background: #E9EEE9; }
+
+        .nx-page-content .filters input:focus,
+        .nx-page-content .filters select:focus{
+            border-color: #315C4D;
+            box-shadow: 0 0 0 3px rgba(49, 92, 77, .14);
+            outline: 0;
         }
 
         .nx-page-content .table-scroll{
@@ -148,14 +201,62 @@ $selectedWorkspace = is_string($workspaceId)
             border-radius: 0 0 24px 24px;
         }
 
+        .nx-page-content .directory-pagination{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px;
+            border-top: 1px solid var(--line);
+        }
+
+        .nx-page-content .directory-pagination p{ color: var(--muted); }
+
+        .nx-page-content .pagination-controls{ display: inline-flex; gap: 6px; }
+
+        .nx-page-content .page-button{
+            display: inline-grid;
+            place-items: center;
+            min-width: 40px;
+            min-height: 40px;
+            padding: 6px 10px;
+            border: 1px solid #DCE6DC;
+            border-radius: 10px;
+            background: #F5F7F3;
+            color: #315C4D;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .nx-page-content .page-button:hover:not(:disabled){ border-color: #315C4D; }
+        .nx-page-content .page-button.is-current{ border-color: #315C4D; background: #315C4D; color: #fff; }
+        .nx-page-content .page-button:disabled{ opacity: .45; cursor: not-allowed; }
+
         .nx-page-content table{
             width: 100%;
             border-collapse: collapse;
         }
 
+        @media (min-width: 861px) {
+            .nx-page-content .table-scroll{ overflow-x: hidden; }
+
+            .nx-page-content table{
+                min-width: 0;
+                table-layout: fixed;
+            }
+
+            .nx-page-content th:nth-child(1){ width: 22%; }
+            .nx-page-content th:nth-child(2){ width: 18%; }
+            .nx-page-content th:nth-child(3){ width: 7%; }
+            .nx-page-content th:nth-child(4){ width: 12%; }
+            .nx-page-content th:nth-child(5){ width: 15%; }
+            .nx-page-content th:nth-child(6){ width: 26%; }
+        }
+
         .nx-page-content th,
         .nx-page-content td{
-            padding: 10px 16px;
+            padding: 14px 16px;
             text-align: left;
             border-top: 1px solid var(--line);
         }
@@ -173,6 +274,11 @@ $selectedWorkspace = is_string($workspaceId)
 
         .nx-page-content td{
             color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .nx-page-content tbody tr{
+            transition: background-color .15s ease;
         }
 
         .nx-page-content .workspace{
@@ -313,6 +419,11 @@ $selectedWorkspace = is_string($workspaceId)
         }
 
         @media (max-width: 480px) {
+            .nx-page-content .filters{
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+
             .nx-page-content .summary{
                 gap: 12px;
             }
@@ -338,11 +449,28 @@ $selectedWorkspace = is_string($workspaceId)
             white-space: nowrap;
         }
 
+        .nx-page-content .workspace-actions-group{
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .nx-page-content .workspace-actions-group .workspace-action{
+            min-width: 0;
+            width: clamp(72px, 8vw, 92px);
+        }
+
+        .nx-page-content .workspace-actions-group form{ margin: 0; }
+
         .nx-page-content .badge{
             white-space: nowrap;
         }
 
         .nx-page-content .workspace-action{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             min-width: 92px;
             padding: 6px 12px;
             border: 1px solid var(--action-border);
@@ -353,6 +481,7 @@ $selectedWorkspace = is_string($workspaceId)
             font-size: .85rem;
             font-weight: 700;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .nx-page-content .workspace-action--disable{
@@ -374,6 +503,13 @@ $selectedWorkspace = is_string($workspaceId)
             --action-border: #C9D4CC;
             --action-ink: #176248;
             --action-hover: #d2f0e2;
+        }
+
+        .nx-page-content .workspace-action--view{
+            --action-background: #fff;
+            --action-border: #C9D4CC;
+            --action-ink: #315C4D;
+            --action-hover: #E9EEE9;
         }
 
         .nx-page-content .workspace-action:hover:not(:disabled){
@@ -668,14 +804,26 @@ $selectedWorkspace = is_string($workspaceId)
                 <div class="directory-header">
                     <h2 id="directory-title">Workspace directory</h2>
                     <div class="filters" role="search">
-                        <input type="search" id="workspace-search"
-                            placeholder="Search name, location or manager" aria-label="Search name, location or manager">
-                        <select id="workspace-status" aria-label="Filter by status">
-                            <option value="">All statuses</option>
-                            <option value="active">Active</option>
-                            <option value="pending">Pending</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                        <div class="filter-field">
+                            <label for="workspace-search">Search workspaces</label>
+                            <input type="search" id="workspace-search"
+                                placeholder="Search name, location or manager">
+                        </div>
+
+                        <div class="filter-field">
+                            <label for="workspace-status">Status</label>
+                            <select id="workspace-status">
+                                <option value="">All statuses</option>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button type="button" class="filter-button" id="apply-workspace-filters">Apply filters</button>
+                            <button type="button" class="filter-button filter-button--reset" id="reset-workspace-filters">Reset</button>
+                        </div>
                     </div>
                 </div>
 
@@ -695,7 +843,7 @@ $selectedWorkspace = is_string($workspaceId)
                         <tbody>
                             @foreach ($workspaces as $workspace)
 
-                            <tr data-workspace-status="">
+                            <tr data-workspace-status="{{ ! $workspace->is_active ? 'inactive' : ($workspace->approval_status === 'pending' ? 'pending' : 'active') }}">
                                 <td>
 
                                     <a class="workspace workspace-details-link"
@@ -719,36 +867,36 @@ $selectedWorkspace = is_string($workspaceId)
                                     </span>
                                 </td>
                                 <td class="workspace-actions">
-                                    @if (! $workspace->is_active)
-                                    <form method="POST" action="{{ route('admin.Enable', $workspace) }}">
-                                        @csrf
-                                        @method('PATCH')
+                                    <div class="workspace-actions-group">
+                                        <a href="{{ route('admin.workspace.details', $workspace->id) }}"
+                                           class="workspace-action workspace-action--view">
+                                            View
+                                        </a>
 
-                                        <button type="submit" class="workspace-action workspace-action--enable">
-                                            Enable
-                                        </button>
-                                    </form>
-                                    @elseif ($workspace->approval_status === 'pending')
-                                    <form method="POST" action="{{ route('admin.UpdateStatus', $workspace) }}">
-                                        @csrf
-                                        @method('PATCH')
-
-                                        <button type="submit" class="workspace-action workspace-action--review">
-                                            Review
-                                        </button>
-                                    </form>
-                                    @elseif ($workspace->approval_status === 'approved')
-                                    <form method="POST"
-                                        action="{{Route('admin.destroy',$workspace)}}"
-                                        onsubmit="return confirm('Disable this workspace?')">
-                                        @csrf
-                                        @method('PATCH')
-
-                                        <button type="submit" class="workspace-action workspace-action--disable">Disable</button>
-                                    </form>
-                                    @else
-                                    <span aria-label="No available actions">&mdash;</span>
-                                    @endif
+                                        @if (! $workspace->is_active)
+                                        <form method="POST" action="{{ route('admin.Enable', $workspace) }}">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="workspace-action workspace-action--enable">Enable</button>
+                                        </form>
+                                        @elseif ($workspace->approval_status === 'pending')
+                                        <form method="POST"
+                                            action="{{Route('admin.destroy',$workspace)}}"
+                                            onsubmit="return confirm('Disable this workspace?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="workspace-action workspace-action--disable">Disable</button>
+                                        </form>
+                                        @elseif ($workspace->approval_status === 'approved')
+                                        <form method="POST"
+                                            action="{{Route('admin.destroy',$workspace)}}"
+                                            onsubmit="return confirm('Disable this workspace?')">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="workspace-action workspace-action--disable">Disable</button>
+                                        </form>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -759,6 +907,11 @@ $selectedWorkspace = is_string($workspaceId)
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="directory-pagination" id="workspace-pagination" hidden>
+                    <p id="workspace-pagination-summary" aria-live="polite"></p>
+                    <div class="pagination-controls" id="workspace-pagination-controls"></div>
                 </div>
             </section>
 
@@ -772,13 +925,22 @@ $selectedWorkspace = is_string($workspaceId)
     <script>
         const searchInput = document.querySelector('#workspace-search');
         const statusFilter = document.querySelector('#workspace-status');
+        const applyFiltersButton = document.querySelector('#apply-workspace-filters');
+        const resetFiltersButton = document.querySelector('#reset-workspace-filters');
         const emptyRow = document.querySelector('#workspace-empty');
         const workspaceRows = document.querySelectorAll('[data-workspace-status]');
+        const pagination = document.querySelector('#workspace-pagination');
+        const paginationSummary = document.querySelector('#workspace-pagination-summary');
+        const paginationControls = document.querySelector('#workspace-pagination-controls');
+        const pageSize = 5;
+        let currentPage = 1;
 
-        function filterWorkspaces() {
+        function filterWorkspaces(resetPage = true) {
+            if (resetPage) currentPage = 1;
+
             const search = searchInput.value.trim().toLocaleLowerCase();
             const status = statusFilter.value;
-            let hasResults = false;
+            const matchingRows = [];
 
             for (const row of workspaceRows) {
                 const workspaceSearchFields = [row.querySelector('.workspace-details-link span span').textContent, row.cells[1].textContent, row.cells[3].textContent];
@@ -786,15 +948,64 @@ $selectedWorkspace = is_string($workspaceId)
                     value.toLocaleLowerCase().includes(search)
                 );
                 const matchesStatus = !status || row.dataset.workspaceStatus === status;
-                row.hidden = !(matchesSearch && matchesStatus);
-                hasResults ||= !row.hidden;
+
+                if (matchesSearch && matchesStatus) matchingRows.push(row);
             }
 
-            emptyRow.hidden = hasResults;
+            const totalPages = Math.max(1, Math.ceil(matchingRows.length / pageSize));
+            currentPage = Math.min(currentPage, totalPages);
+            const firstIndex = (currentPage - 1) * pageSize;
+            const visibleRows = matchingRows.slice(firstIndex, firstIndex + pageSize);
+
+            for (const row of workspaceRows) {
+                row.hidden = !visibleRows.includes(row);
+            }
+
+            emptyRow.hidden = matchingRows.length > 0;
+            renderPagination(matchingRows.length, totalPages, firstIndex);
         }
 
-        searchInput.addEventListener('input', filterWorkspaces);
-        statusFilter.addEventListener('change', filterWorkspaces);
+        function renderPagination(totalResults, totalPages, firstIndex) {
+            paginationControls.replaceChildren();
+            pagination.hidden = totalResults === 0;
+
+            if (totalResults === 0) return;
+
+            const lastResult = Math.min(firstIndex + pageSize, totalResults);
+            paginationSummary.textContent = `Showing ${firstIndex + 1} to ${lastResult} of ${totalResults} results`;
+
+            const addButton = (label, page, disabled = false, current = false) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = `page-button${current ? ' is-current' : ''}`;
+                button.textContent = label;
+                button.disabled = disabled;
+                button.setAttribute('aria-label', label === '‹' ? 'Previous page' : label === '›' ? 'Next page' : `Page ${label}`);
+                button.addEventListener('click', () => {
+                    currentPage = page;
+                    filterWorkspaces(false);
+                });
+                paginationControls.append(button);
+            };
+
+            addButton('‹', currentPage - 1, currentPage === 1);
+
+            for (let page = 1; page <= totalPages; page++) {
+                addButton(String(page), page, false, page === currentPage);
+            }
+
+            addButton('›', currentPage + 1, currentPage === totalPages);
+        }
+
+        applyFiltersButton.addEventListener('click', () => filterWorkspaces());
+        resetFiltersButton.addEventListener('click', () => {
+            searchInput.value = '';
+            statusFilter.value = '';
+            filterWorkspaces();
+        });
+        searchInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter') filterWorkspaces();
+        });
         filterWorkspaces();
     </script>
 @endpush

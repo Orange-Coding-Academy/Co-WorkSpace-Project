@@ -62,7 +62,8 @@ class LoginController extends Controller
                 if ($workspace->approval_status === 'pending') {
                     return redirect()->route('manager.workspaces.details', [
                         'workspaceId' => $workspace->id,
-                    ])->with('warning', 'Your workspace is waiting for admin approval.');
+                    ])
+                        ->with('warning', 'Your workspace is waiting for admin approval.');
                 }
 
                 // Application is rejected
