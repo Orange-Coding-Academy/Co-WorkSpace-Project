@@ -1,105 +1,236 @@
-/* NexOra Explore — AJAX filtering, pagination and image gallery.
- * Falls back to normal Laravel navigation if fetch/HTML replacement fails.
- */
-(function () {
-    'use strict';
 
-    window.changeImage = function (button, direction) {
-        if (!button || !Number.isFinite(Number(direction))) return;
-        const gallery = button.closest('.gallery');
-        if (!gallery) return;
-        const images = Array.from(gallery.querySelectorAll('img'));
-        if (images.length < 2) return;
+document.addEventListener('DOMContentLoaded', function () {
 
-        let current = images.findIndex(function (image) {
-            return image.classList.contains('active');
-        });
-        if (current < 0) current = 0;
+    const form = document.getElementById('explore-filters');
+    const results = document.getElementById('explore-results');
 
-        images[current].classList.remove('active');
-        current = (current + Number(direction) + images.length) % images.length;
-        images[current].classList.add('active');
+    if (!form || !results) {
+        console.error('Explore form or results section not found.');
+        return;
+    }
 
-        const counter = gallery.querySelector('.current');
-        if (counter) counter.textContent = String(current + 1);
-    };
+    let controller = null;
+    let requestNumber = 0;
+    let filterTimer = null;
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('explore-filters');
-        const results = document.getElementById('explore-results');
-        if (!form || !results || !window.fetch || !window.DOMParser) return;
+    // =====================================
+    // LOAD RESULTS WITHOUT PAGE REFRESH
+    // =====================================
 
-        let activeRequest = null;
+    async function loadResults(url, addHistory = true) {
 
-        async function loadResults(url, updateHistory) {
-            if (activeRequest) activeRequest.abort();
-            activeRequest = new AbortController();
-
-            results.classList.add('is-loading');
-            const pagination = results.querySelector('.nx-explore__pagination');
-            if (pagination) pagination.classList.add('is-loading');
-
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'text/html'
-                    },
-                    signal: activeRequest.signal
-                });
-                if (!response.ok) throw new Error('Could not load rooms.');
-
-                const html = await response.text();
-                const doc = new DOMParser().parseFromString(html, 'text/html');
-                const nextResults = doc.querySelector('#explore-results');
-                if (!nextResults) throw new Error('Results section not found.');
-
-                results.innerHTML = nextResults.innerHTML;
-                results.classList.remove('is-loading');
-
-                if (updateHistory) {
-                    window.history.pushState({ explore: true }, '', response.url || url);
-                }
-            } catch (error) {
-                if (error.name === 'AbortError') return;
-                // Preserve reliable navigation if the AJAX response cannot be parsed.
-                window.location.href = url;
-            } finally {
-                results.classList.remove('is-loading');
-                activeRequest = null;
-            }
+        if (controller) {
+            controller.abort();
         }
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            const url = new URL(form.action, window.location.origin);
-            const data = new FormData(form);
-            data.forEach(function (value, key) {
-                if (String(value).trim() !== '') url.searchParams.set(key, value);
-                else url.searchParams.delete(key);
+        controller = new AbortController();
+
+        const currentRequest = ++requestNumber;
+
+        results.classList.add('is-loading');
+
+        try {
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html'
+                },
+                signal: controller.signal
             });
-            url.searchParams.delete('page');
-            loadResults(url.toString(), true);
-        });
 
-        form.addEventListener('click', function (event) {
-            const resetLink = event.target.closest('a[href]');
-            if (!resetLink || !resetLink.classList.contains('btn-light')) return;
-            event.preventDefault();
-            form.reset();
-            loadResults(resetLink.href, true);
-        });
+            if (!response.ok) {
+                throw new Error('Request failed: ' + response.status);
+            }
 
-        results.addEventListener('click', function (event) {
-            const link = event.target.closest('.nx-explore__pagination a');
-            if (!link || link.origin !== window.location.origin) return;
-            event.preventDefault();
-            loadResults(link.href, true);
-        });
+            const html = await response.text();
 
-        window.addEventListener('popstate', function () {
-            loadResults(window.location.href, false);
-        });
+            const parser = new DOMParser();
+            const documentHTML = parser.parseFromString(html, 'text/html');
+
+            const newResults = documentHTML.getElementById('explore-results');
+
+            if (!newResults) {
+                throw new Error('Could not find explore-results in response.');
+            }
+
+            // Ignore outdated responses
+            if (currentRequest !== requestNumber) return;
+
+            // IMPORTANT:
+            // Keep the original results element.
+            // Replace its content only.
+            results.innerHTML = newResults.innerHTML;
+
+            results.classList.remove('is-loading');
+
+            if (addHistory) {
+                history.pushState({}, '', url);
+            }
+
+            // Keep the results section in view
+            results.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+        } catch (error) {
+
+            if (error.name === 'AbortError') return;
+
+            console.error('Explore loading error:', error);
+
+            results.classList.remove('is-loading');
+
+        } finally {
+
+            if (currentRequest === requestNumber) {
+                controller = null;
+            }
+
+        }
+    }
+
+    // =====================================
+    // BUILD FILTER URL
+    // =====================================
+
+    function getFilterUrl() {
+
+        const url = new URL(form.action, window.location.origin);
+        const formData = new FormData(form);
+
+        url.search = '';
+
+        for (const [key, value] of formData.entries()) {
+
+            if (value.trim() !== '') {
+                url.searchParams.set(key, value);
+            }
+
+        }
+
+        return url.toString();
+    }
+
+    // =====================================
+    // FILTER SUBMISSION
+    // =====================================
+
+    form.addEventListener('submit', function (event) {
+
+        event.preventDefault();
+
+        clearTimeout(filterTimer);
+
+        loadResults(getFilterUrl());
+
     });
-})();
+
+    // Select filters
+    form.querySelectorAll('select').forEach(function (select) {
+
+        select.addEventListener('change', function () {
+            form.requestSubmit();
+        });
+
+    });
+
+    // Number filters
+    form.querySelectorAll('input[type="number"]').forEach(function (input) {
+
+        input.addEventListener('input', function () {
+
+            clearTimeout(filterTimer);
+
+            filterTimer = setTimeout(function () {
+                form.requestSubmit();
+            }, 700);
+
+        });
+
+        input.addEventListener('change', function () {
+
+            clearTimeout(filterTimer);
+            form.requestSubmit();
+
+        });
+
+    });
+
+    // =====================================
+    // PAGINATION
+    // =====================================
+
+    document.addEventListener('click', function (event) {
+
+        const link = event.target.closest(
+            '#explore-results .nx-page-number'
+        );
+
+        if (!link) return;
+
+        event.preventDefault();
+
+        loadResults(link.href);
+
+    });
+
+    // =====================================
+    // IMAGE GALLERY
+    // =====================================
+
+    document.addEventListener('click', function (event) {
+
+        const prev = event.target.closest('[data-gallery-prev]');
+        const next = event.target.closest('[data-gallery-next]');
+
+        if (!prev && !next) return;
+
+        const button = prev || next;
+        const gallery = button.closest('[data-gallery]');
+
+        if (!gallery) return;
+
+        const images = gallery.querySelectorAll('.nx-room-card__image');
+
+        if (!images.length) return;
+
+        let index = Array.from(images).findIndex(function (image) {
+            return image.classList.contains('is-active');
+        });
+
+        if (index === -1) index = 0;
+
+        if (prev) {
+            index = (index - 1 + images.length) % images.length;
+        } else {
+            index = (index + 1) % images.length;
+        }
+
+        images.forEach(function (image, i) {
+            image.classList.toggle('is-active', i === index);
+        });
+
+        const counter = gallery.querySelector('[data-gallery-current]');
+
+        if (counter) {
+            counter.textContent = index + 1;
+        }
+
+    });
+
+    // =====================================
+    // BROWSER BACK / FORWARD
+    // =====================================
+
+    window.addEventListener('popstate', function () {
+
+        clearTimeout(filterTimer);
+
+        loadResults(window.location.href, false);
+
+    });
+
+});

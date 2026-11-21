@@ -63,17 +63,16 @@ class WorkspaceAIService
         $roomData = $matchedRooms->map(function ($room) {
 
             $facilities = json_decode($room->facilities ?? '[]', true);
-
-            return [
-                'room_id' => $room->id,
-                'room_name' => $room->name,
-                'workspace_name' => $room->workspace_name,
-                'location' => $room->location,
-                'room_type' => $room->room_type,
-                'capacity' => $room->capacity,
-                'hourly_price' => (float) $room->hourly_price,
-                'facilities' => is_array($facilities) ? $facilities : [],
-            ];
+return [
+    'id' => $room->id,
+    'room_name' => $room->name,
+    'workspace_name' => $room->workspace_name,
+    'location' => $room->location,
+    'room_type' => $room->room_type,
+    'capacity' => $room->capacity,
+    'hourly_price' => (float) $room->hourly_price,
+    'facilities' => is_array($facilities) ? $facilities : [],
+];
 
         })->all();
 
