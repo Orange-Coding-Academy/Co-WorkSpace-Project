@@ -475,8 +475,10 @@ Route::put('/profile/password', [ManagerProfileController::class, 'updatePasswor
             .nx-page-content .topbar-label { font-size: 12px; }
         }
         /* Compact spacing: avoid duplicated dashboard header and excess whitespace */
-        .nx-page-content .container[data-nx-page-main] { margin: 0 auto; padding: 12px 22px 24px; }
-        .nx-page-content .page-heading { margin-bottom: 16px; }
+.nx-page-content .container[data-nx-page-main] {
+    margin: 0 auto;
+    padding: 0 22px 24px;
+}        .nx-page-content .page-heading { margin-bottom: 16px; }
         .nx-page-content .page-heading h1 { margin-bottom: 4px; font-size: clamp(23px, 2.5vw, 28px); }
         .nx-page-content section.card { padding: 22px 24px; margin-bottom: 16px; }
         .nx-page-content .profile-header { gap: 14px; }
