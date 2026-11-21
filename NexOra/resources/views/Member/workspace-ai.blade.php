@@ -637,6 +637,7 @@
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
     }
+
 }
 
   
@@ -774,6 +775,7 @@
             .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
+     
     </style>
 @endpush
 

@@ -1,130 +1,762 @@
 
-/* ===== NEXORA Manager AI ===== */
+/* =========================================================
+   NEXORA — MANAGER AI
+   Creative Premium AI Experience
+========================================================= */
 
-body {
-    background: #f5f6fa;
-    font-family: 'Segoe UI', sans-serif;
-    color: #25243a;
+.nx-page-content {
+    --ma-green: #315C4D;
+    --ma-dark: #1B382E;
+    --ma-mint: #DCECE1;
+    --ma-copper: #C58A62;
+    --ma-gold: #E5B98D;
+    --ma-purple: #8175A8;
+    --ma-blue: #6B9B9B;
+    --ma-bg: #F2F5F0;
+    --ma-text: #1D2924;
+    --ma-muted: #748078;
+    --ma-border: #E2E9E1;
+
+    position: relative;
+    min-height: 100vh;
+    padding: 18px 0 65px;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 5% 5%, rgba(197,138,98,.12), transparent 28%),
+        radial-gradient(ellipse at 95% 30%, rgba(107,155,155,.11), transparent 27%),
+        radial-gradient(ellipse at 50% 100%, rgba(129,117,168,.07), transparent 35%),
+        var(--ma-bg);
+    color: var(--ma-text);
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
 }
 
-.ai-page {
+.nx-page-content *,
+.nx-page-content *::before,
+.nx-page-content *::after {
+    box-sizing: border-box;
+}
+
+.nx-page-content > .container {
+    max-width: 1180px;
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================================
+   HERO — COLORFUL AI INTRO
+========================================================= */
+
+.nx-page-content .header {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 225px;
+    margin-bottom: 27px;
+    padding: 38px 42px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 78% 22%, rgba(229,185,141,.48), transparent 19%),
+        radial-gradient(circle at 92% 100%, rgba(129,117,168,.45), transparent 30%),
+        radial-gradient(circle at 10% 100%, rgba(107,155,155,.35), transparent 30%),
+        linear-gradient(115deg, #17352B 0%, #285744 48%, #416E5B 100%);
+    box-shadow: 0 18px 45px rgba(32,61,52,.19);
+    animation: maHeroIn .7s ease both;
+}
+
+.nx-page-content .header::before {
+    content: "✦";
+    position: absolute;
+    z-index: -1;
+    top: 10px;
+    right: 90px;
+    color: rgba(255,255,255,.16);
+    font-size: 155px;
+    animation: maFloat 6s ease-in-out infinite;
+}
+
+.nx-page-content .header::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 250px;
+    height: 250px;
+    right: -65px;
+    bottom: -155px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 24px rgba(255,255,255,.055),
+        0 0 0 50px rgba(255,255,255,.035),
+        0 0 0 78px rgba(255,255,255,.02);
+    animation: maOrbit 18s linear infinite;
+}
+
+.nx-page-content .header h1 {
+    position: relative;
+    max-width: 700px;
+    margin: 0 0 13px;
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(29px, 3.5vw, 40px);
+    font-weight: 800;
+    letter-spacing: -1.4px;
+    line-height: 1.2;
+    text-shadow: 0 3px 18px rgba(0,0,0,.12);
+}
+
+.nx-page-content .header p {
+    position: relative;
+    max-width: 550px;
+    margin: 0;
+    color: rgba(255,255,255,.82);
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+/* =========================================================
+   CHAT CARD
+========================================================= */
+
+.nx-page-content .chat-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 560px;
+    margin-bottom: 30px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(197,138,98,.2);
+    border-radius: 23px;
+    background: rgba(255,255,255,.93);
+    box-shadow:
+        0 15px 45px rgba(29,41,36,.06),
+        0 2px 8px rgba(49,92,77,.035);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.nx-page-content .chat-box:hover {
+    box-shadow: 0 20px 55px rgba(29,41,36,.09);
+}
+
+/* AI workspace top bar */
+
+.nx-page-content .chat-box::before {
+    content: "✦  NEXORA INTELLIGENCE  ·  MANAGER WORKSPACE";
+    display: flex;
+    align-items: center;
+    min-height: 62px;
+    padding: 0 26px;
+    border-bottom: 1px solid #E7ECE6;
+    background:
+        linear-gradient(100deg, #F0F6F0, #FAF4EE 55%, #F1EFF7);
+    color: #466252;
+    font-family: 'Manrope', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+/* Chat background */
+
+.nx-page-content .messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 350px;
+    max-height: 470px;
     padding: 30px;
+    overflow-y: auto;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(197,138,98,.055), transparent 30%),
+        radial-gradient(circle at 100% 90%, rgba(107,155,155,.055), transparent 30%),
+        #FFFFFF;
+    scroll-behavior: smooth;
 }
 
-/* Page Header */
-.ai-header {
-    margin-bottom: 28px;
+.nx-page-content .messages::-webkit-scrollbar {
+    width: 5px;
 }
 
-.ai-header h2 {
-    font-size: 27px;
-    font-weight: 700;
-    color: #29264b;
+.nx-page-content .messages::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: linear-gradient(#C58A62, #315C4D);
 }
 
-.ai-header p {
-    color: #85859a;
-    margin-top: 8px;
+/* Messages */
+
+.nx-page-content .message {
+    position: relative;
+    width: fit-content;
+    max-width: min(75%, 680px);
+    padding: 16px 19px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    animation: maMessageEnter .4s cubic-bezier(.2,.8,.2,1) both;
 }
 
-/* Cards */
-.ai-card {
+.nx-page-content .message.ai {
+    align-self: flex-start;
+    border: 1px solid #DDE9DF;
+    border-bottom-left-radius: 5px;
+    background: linear-gradient(135deg, #F0F7F1, #F8FAF6);
+    color: #35483D;
+    box-shadow: 0 5px 16px rgba(49,92,77,.045);
+}
+
+.nx-page-content .message.ai::before {
+    content: "✦";
+    display: inline-grid;
+    place-items: center;
+    width: 23px;
+    height: 23px;
+    margin-right: 8px;
+    border-radius: 7px;
+    background: #DCECE1;
+    color: #315C4D;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.nx-page-content .message.user {
+    align-self: flex-end;
+    border: 1px solid #315C4D;
+    border-bottom-right-radius: 5px;
+    background:
+        linear-gradient(130deg, #315C4D, #244638 65%, #345A50);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(49,92,77,.17);
+}
+
+/* =========================================================
+   INPUT AREA
+========================================================= */
+
+.nx-page-content .input-area {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin: 0 24px;
+    padding: 11px;
+    border: 1px solid #DCE7DD;
+    border-radius: 18px;
+    background: linear-gradient(110deg, #FAFCF9, #FBF8F4);
+    transition: .3s ease;
+}
+
+.nx-page-content .input-area:focus-within {
+    border-color: #7B9B84;
     background: #fff;
-    border: 1px solid #eeeef5;
-    border-radius: 16px;
-    padding: 25px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 18px rgba(35, 30, 80, 0.04);
+    box-shadow:
+        0 0 0 4px rgba(49,92,77,.07),
+        0 8px 24px rgba(49,92,77,.06);
 }
 
-.ai-card h4 {
-    color: #302d52;
-    font-size: 19px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
-
-/* Inputs */
-.ai-card input,
-.ai-card select,
-.ai-card textarea {
-    width: 100%;
-    border: 1px solid #e4e3ee;
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin: 8px 0 16px;
+.nx-page-content .input-area textarea {
+    flex: 1;
+    min-width: 0;
+    min-height: 48px;
+    max-height: 140px;
+    padding: 12px 13px;
+    resize: vertical;
+    border: 0;
     outline: none;
-    background: #fcfcff;
+    background: transparent;
+    color: var(--ma-text);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
-.ai-card input:focus,
-.ai-card select:focus,
-.ai-card textarea:focus {
-    border-color: #7563d8;
-    box-shadow: 0 0 0 3px rgba(117, 99, 216, .12);
+.nx-page-content .input-area textarea::placeholder {
+    color: #9AA49D;
 }
 
-.ai-card textarea {
-    min-height: 130px;
+.nx-page-content .input-area textarea:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.nx-page-content #sendBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 112px;
+    min-height: 47px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(125deg, #315C4D, #46745C);
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(49,92,77,.19);
+    transition: .3s ease;
+}
+
+.nx-page-content #sendBtn::after {
+    content: "↗";
+    font-size: 17px;
+}
+
+.nx-page-content #sendBtn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(125deg, #203D34, #315C4D);
+    box-shadow: 0 9px 22px rgba(49,92,77,.25);
+}
+
+.nx-page-content #sendBtn:active {
+    transform: scale(.97);
+}
+
+.nx-page-content #sendBtn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================================================
+   QUICK SUGGESTIONS
+========================================================= */
+
+.nx-page-content .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 19px 25px 24px;
+}
+
+.nx-page-content .suggestions::before {
+    content: "QUICK PROMPTS";
+    margin-right: 5px;
+    color: #A18A77;
+    font-family: 'Manrope', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.nx-page-content .suggestions button {
+    min-height: 37px;
+    padding: 7px 15px;
+    border: 1px solid #E5E7DF;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #FFFFFF, #F8FAF6);
+    color: #53615A;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .28s ease;
+}
+
+.nx-page-content .suggestions button:nth-of-type(1) {
+    border-color: #D5E5D7;
+    background: #F0F7F0;
+}
+
+.nx-page-content .suggestions button:nth-of-type(2) {
+    border-color: #E9DCCF;
+    background: #FBF4ED;
+}
+
+.nx-page-content .suggestions button:nth-of-type(3) {
+    border-color: #DED9EC;
+    background: #F5F2FA;
+}
+
+.nx-page-content .suggestions button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(29,41,36,.08);
+}
+
+.nx-page-content .suggestions button:nth-of-type(1):hover {
+    background: #DCECE1;
+    color: #315C4D;
+}
+
+.nx-page-content .suggestions button:nth-of-type(2):hover {
+    background: #F1DFCF;
+    color: #855A3E;
+}
+
+.nx-page-content .suggestions button:nth-of-type(3):hover {
+    background: #E8E1F3;
+    color: #66578D;
+}
+
+/* =========================================================
+   MARKETING ASSISTANT
+========================================================= */
+
+.nx-page-content > .card {
+    width: calc(100% - 48px);
+    max-width: 1180px;
+    margin: 0 auto 25px !important;
+    overflow: hidden;
+    border: 1px solid rgba(197,138,98,.2) !important;
+    border-radius: 23px !important;
+    background: #fff;
+    box-shadow: var(--ma-shadow, 0 12px 40px rgba(29,41,36,.055)) !important;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.nx-page-content > .card:hover {
+    box-shadow: 0 19px 48px rgba(29,41,36,.09) !important;
+}
+
+/* Marketing heading */
+
+.nx-page-content > .card .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 88px;
+    padding: 20px 29px;
+    overflow: hidden;
+    border-bottom: 1px solid #E8E8DF;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(197,138,98,.19), transparent 25%),
+        linear-gradient(110deg, #EDF5EE, #F8F3ED 55%, #F1EFF7);
+}
+
+.nx-page-content > .card .card-header::after {
+    content: "✧";
+    position: absolute;
+    right: 28px;
+    top: -18px;
+    color: rgba(197,138,98,.22);
+    font-size: 100px;
+    line-height: 1;
+}
+
+.nx-page-content > .card .card-header h4 {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0;
+    color: #203D34;
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.6px;
+}
+
+.nx-page-content > .card .card-header h4::before {
+    content: "✦";
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(49,92,77,.1);
+    border-radius: 13px;
+    background: linear-gradient(135deg, #DCECE1, #F3E4D8);
+    color: #315C4D;
+    font-size: 21px;
+    box-shadow: 0 4px 12px rgba(49,92,77,.08);
+}
+
+.nx-page-content > .card .card-body {
+    padding: 32px;
+    background:
+        radial-gradient(circle at 100% 100%, rgba(107,155,155,.035), transparent 30%),
+        #FFFFFF;
+}
+
+/* Labels */
+
+.nx-page-content .card-body .form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #34463A;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* Fields */
+
+.nx-page-content .card-body .form-control {
+    width: 100%;
+    min-height: 50px;
+    padding: 13px 16px;
+    border: 1px solid #DFE7DE;
+    border-radius: 12px;
+    background: #FAFCF9;
+    color: var(--ma-text);
+    font-family: inherit;
+    font-size: 13px;
+    transition: .28s ease;
+}
+
+.nx-page-content .card-body textarea.form-control {
+    min-height: 120px;
+    line-height: 1.8;
     resize: vertical;
 }
 
-/* Buttons */
-.ai-btn {
-    background: #6554c0;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 22px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: .2s;
+.nx-page-content .card-body #marketing_content {
+    min-height: 190px;
+    background:
+        linear-gradient(135deg, rgba(240,247,240,.55), rgba(251,245,238,.55)),
+        #FFFFFF;
 }
 
-.ai-btn:hover {
-    background: #5040a6;
-    transform: translateY(-1px);
+.nx-page-content .card-body .form-control::placeholder {
+    color: #A1AAA3;
 }
 
-.ai-btn-secondary {
-    background: #eeeafd;
-    color: #5b4bb2;
+.nx-page-content .card-body .form-control:hover {
+    border-color: #B8CBB9;
+    background-color: #fff;
 }
 
-.ai-btn-secondary:hover {
-    background: #e1dcfa;
+.nx-page-content .card-body .form-control:focus {
+    border-color: #668B72;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(49,92,77,.08);
 }
 
-/* AI Response */
-.ai-response {
-    background: #f7f5ff;
-    border: 1px solid #e7e2ff;
+.nx-page-content .card-body .mb-3 {
+    margin-bottom: 25px !important;
+}
+
+/* Separator */
+
+.nx-page-content .card-body hr {
+    position: relative;
+    margin: 35px 0;
+    border: 0;
+    border-top: 1px solid #E7EBE4;
+    opacity: 1;
+}
+
+/* Generate advertisement */
+
+.nx-page-content #generateMarketingBtn {
+    position: relative;
+    min-height: 49px;
+    padding: 0 25px;
+    overflow: hidden;
+    border: 0;
     border-radius: 12px;
-    padding: 18px;
-    margin-top: 18px;
-    color: #46416c;
+    background: linear-gradient(120deg, #315C4D, #49745B 60%, #658A6C);
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 6px 17px rgba(49,92,77,.19);
+    transition: .3s ease;
+}
+
+.nx-page-content #generateMarketingBtn::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -70%;
+    width: 40%;
+    height: 300%;
+    transform: rotate(25deg);
+    background: rgba(255,255,255,.2);
+    transition: left .5s ease;
+}
+
+.nx-page-content #generateMarketingBtn:hover::before {
+    left: 130%;
+}
+
+.nx-page-content #generateMarketingBtn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(120deg, #203D34, #315C4D);
+    box-shadow: 0 10px 23px rgba(49,92,77,.24);
+}
+
+/* Approve and send */
+
+.nx-page-content #sendMarketingBtn {
+    min-height: 50px;
+    padding: 0 25px;
+    border: 1px solid #BFDCC7;
+    border-radius: 12px;
+    background: linear-gradient(120deg, #EAF5ED, #F1F7ED);
+    color: #216443;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 5px 14px rgba(33,100,67,.055);
+    transition: .3s ease;
+}
+
+.nx-page-content #sendMarketingBtn:hover {
+    transform: translateY(-3px);
+    border-color: #8FBE9C;
+    background: linear-gradient(120deg, #D9EEDF, #E7F1E5);
+    box-shadow: 0 9px 20px rgba(33,100,67,.11);
+}
+
+.nx-page-content #generateMarketingBtn:disabled,
+.nx-page-content #sendMarketingBtn:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Marketing status */
+
+.nx-page-content #marketingMessage:not(:empty) {
+    margin-top: 20px !important;
+    padding: 15px 17px;
+    border: 1px solid #D6E8D8;
+    border-left: 4px solid #629675;
+    border-radius: 12px;
+    background: linear-gradient(110deg, #EDF7EF, #F6FAF4);
+    color: #315C4D;
+    font-size: 13px;
     line-height: 1.8;
+    overflow-wrap: anywhere;
+    animation: maMessageEnter .35s ease both;
 }
 
-/* Small labels */
-.ai-label {
-    font-weight: 600;
-    color: #55516f;
-    margin-bottom: 7px;
-    display: block;
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes maHeroIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Responsive */
+@keyframes maFloat {
+    0%, 100% { transform: translateY(0) rotate(-12deg); }
+    50% { transform: translateY(-13px) rotate(2deg); }
+}
+
+@keyframes maOrbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes maMessageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media (max-width: 768px) {
-    .ai-page {
-        padding: 15px;
+    .nx-page-content {
+        padding: 12px 0 40px;
     }
 
-    .ai-card {
-        padding: 18px;
+    .nx-page-content .header {
+        min-height: 180px;
+        padding: 27px 23px;
+        border-radius: 19px;
     }
 
-    .ai-header h2 {
-        font-size: 22px;
+    .nx-page-content .header::before {
+        right: 5px;
+        font-size: 100px;
+    }
+
+    .nx-page-content .chat-box {
+        min-height: 500px;
+        border-radius: 18px;
+    }
+
+    .nx-page-content .messages {
+        min-height: 300px;
+        padding: 22px 16px;
+    }
+
+    .nx-page-content .message {
+        max-width: 90%;
+        font-size: 13px;
+    }
+
+    .nx-page-content .input-area {
+        margin: 0 13px;
+        gap: 8px;
+    }
+
+    .nx-page-content #sendBtn {
+        min-width: 83px;
+        padding: 0 12px;
+    }
+
+    .nx-page-content .suggestions {
+        padding: 16px;
+    }
+
+    .nx-page-content > .card {
+        width: 100%;
+        border-radius: 18px !important;
+    }
+
+    .nx-page-content > .card .card-body {
+        padding: 21px;
+    }
+
+    .nx-page-content > .card .card-header {
+        padding: 18px 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nx-page-content .input-area {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nx-page-content #sendBtn {
+        width: 100%;
+    }
+
+    .nx-page-content .message {
+        max-width: 96%;
+    }
+
+    .nx-page-content .suggestions::before {
+        width: 100%;
+    }
+
+    .nx-page-content #generateMarketingBtn,
+    .nx-page-content #sendMarketingBtn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nx-page-content *,
+    .nx-page-content *::before,
+    .nx-page-content *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
     }
 }
