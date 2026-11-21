@@ -6,7 +6,8 @@
 @section('page-title', 'Bookings')
 
 @push('styles')
-@include('layouts.dashboard.partials.app-compat-styles')
+    @include('layouts.dashboard.partials.app-compat-styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-bookings.css') }}">
 @endpush
 
 @push('scripts')
@@ -14,9 +15,8 @@
 @endpush
 
 @section('content')
-<div class="nx-page-content py-4">
-<div class="container-fluid py-4">
-
+<div class="nx-page-content nx-admin-bookings">
+<div class="container-fluid nx-bookings-container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold mb-1">All Bookings</h2>
@@ -56,8 +56,8 @@
     {{-- Bookings Table --}}
     <div class="card border-0 shadow-sm">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
+         <div class="bookings-table-wrapper">
+    <table class="table table-hover align-middle bookings-table">
                     <thead class="table-light">
                         <tr>
                             <th>Member</th>
@@ -99,18 +99,23 @@
                                 </td>
 
                                 <td>
-                                    <div>{{ $booking->start_date_time }}</div>
-                                    <small class="text-muted">
-                                        To: {{ $booking->end_date_time }}
-                                    </small>
+                                   <div>
+    {{ \Carbon\Carbon::parse($booking->start_date_time)->format('Y-m-d') }}
+</div>
+
+<small class="text-muted">
+    {{ \Carbon\Carbon::parse($booking->start_date_time)->format('g:i A') }}
+    -
+    {{ \Carbon\Carbon::parse($booking->end_date_time)->format('g:i A') }}
+</small>
                                 </td>
 
                                 <td class="fw-semibold">
-                                    {{ number_format($booking->total_price, 2) }} JOD
+                                    {{ number_format($booking->total_price, 0) }} JOD
                                 </td>
 
                                 <td class="text-success fw-semibold">
-                                    {{ number_format($paidAmount, 2) }} JOD
+                                    {{ number_format($paidAmount, 0) }} JOD
                                 </td>
 
                                 <td>
@@ -145,9 +150,23 @@
                 </table>
             </div>
 
-            <div class="mt-3">
-                {{ $bookings->links() }}
-            </div>
+           @if($bookings->hasPages())
+    <div class="bookings-pagination">
+        <div class="pagination-info">
+            Showing
+            <strong>{{ $bookings->firstItem() }}</strong>
+            to
+            <strong>{{ $bookings->lastItem() }}</strong>
+            of
+            <strong>{{ $bookings->total() }}</strong>
+            bookings
+        </div>
+
+        <div class="pagination-links">
+            {{ $bookings->onEachSide(1)->links('pagination::bootstrap-5') }}
+        </div>
+    </div>
+@endif
         </div>
     </div>
 
