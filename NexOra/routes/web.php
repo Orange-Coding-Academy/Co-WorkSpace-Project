@@ -27,6 +27,9 @@ use App\Http\Controllers\Guest\RoomDetailsController;
 use App\Http\Controllers\Guest\RoomAvailabilityController;
 use App\Http\Controllers\ManagerDashboardController;
 use App\Http\Controllers\Member\MemberProfileController;
+use App\Http\Controllers\Member\MemberMembershipController;
+use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Member\MemberReviewController;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use Carbon\Carbon;
@@ -63,6 +66,14 @@ Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->g
      Route::get('/profile', [MemberProfileController::class, 'index'])->name('profile.index');
      Route::put('/profile', [MemberProfileController::class, 'updatePersonal'])->name('profile.updatePersonal');
      Route::put('/profile/password', [MemberProfileController::class, 'updatePassword']) ->name('profile.updatePassword'); 
+     Route::get('/memberships', [MemberMembershipController::class, 'index'])->name('memberships.index');
+     Route::patch('/memberships/{id}/cancel',[MemberMembershipController::class, 'cancel'])->name('memberships.cancel');
+     Route::get('/reviews',[MemberReviewController::class,'index'])->name('reviews.index');
+     Route::get('/reviews/create', [MemberReviewController::class, 'createreview'])->name('reviews.create');
+     Route::post('/reviews', [MemberReviewController::class, 'store'])->name('reviews.store');
+     Route::get('/reviews/{id}/edit', [MemberReviewController::class, 'edit'])->name('reviews.edit');
+     Route::put('/reviews/{id}', [MemberReviewController::class, 'update'])->name('reviews.update');
+     Route::delete('/reviews/{id}', [MemberReviewController::class, 'destroy'])->name('reviews.destroy');  
        
 });
 
@@ -114,8 +125,10 @@ Route::middleware(['auth', 'role:admin'])
    Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
    Route::get('/payments/{id}', [PaymentController::class, 'show'])->whereNumber('id')->name('payments.show');
-    });
-
+   Route::get('/profile', [AdminProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile/personal', [AdminProfileController::class, 'updatePersonal'])->name('profile.personal');
+    Route::patch('/profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password'); 
+   });
 
 Route::get('/preview-email', function () {
     $booking = \App\Models\Booking::with(['user', 'room.workspace'])->latest()->first();

@@ -78,13 +78,52 @@
     // DASHBOARD CHARTS
     // ==============================
 
+    // Read colours/fonts from the CSS design tokens so charts always match the UI
+    function token(name, fallback) {
+        var v = getComputedStyle(document.documentElement)
+            .getPropertyValue(name)
+            .trim();
+        return v || fallback;
+    }
+
+    function withAlpha(hex, alpha) {
+        var m = /^#?([0-9a-f]{6})$/i.exec(hex);
+        if (!m) return hex;
+        var n = parseInt(m[1], 16);
+        return (
+            "rgba(" +
+            ((n >> 16) & 255) +
+            ", " +
+            ((n >> 8) & 255) +
+            ", " +
+            (n & 255) +
+            ", " +
+            alpha +
+            ")"
+        );
+    }
+
     function initializeCharts() {
         if (typeof Chart === "undefined") {
             console.error("Chart.js is not loaded!");
+            ["revenueEmpty", "bookingEmpty"].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = "flex";
+            });
             return;
         }
 
         var data = window.adminDashboardData || {};
+
+        var cGmv = token("--nx-chart-gmv", "#315c4d");
+        var cCommission = token("--nx-chart-commission", "#c58a62");
+
+        Chart.defaults.font.family = token(
+            "--nx-font-body",
+            "Inter, sans-serif",
+        );
+        Chart.defaults.font.size = 12;
+        Chart.defaults.color = token("--nx-text-secondary", "#53615a");
 
         // ------------------------------
         // REVENUE CHART
@@ -110,8 +149,8 @@
                         {
                             label: "Booking GMV",
                             data: revenue.bookingGMV,
-                            borderColor: "#526044",
-                            backgroundColor: "rgba(82, 96, 68, 0.10)",
+                            borderColor: cGmv,
+                            backgroundColor: withAlpha(cGmv, 0.1),
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4,
@@ -119,8 +158,8 @@
                         {
                             label: "Platform Commission",
                             data: revenue.platformCommission,
-                            borderColor: "#C5A46D",
-                            backgroundColor: "rgba(197, 164, 109, 0.10)",
+                            borderColor: cCommission,
+                            backgroundColor: withAlpha(cCommission, 0.1),
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4,
@@ -140,6 +179,8 @@
                     plugins: {
                         legend: {
                             position: "top",
+                            align: "end",
+                            labels: { usePointStyle: true, boxWidth: 8 },
                         },
 
                         tooltip: {
@@ -157,8 +198,12 @@
                     },
 
                     scales: {
+                        x: {
+                            grid: { display: false },
+                        },
                         y: {
                             beginAtZero: true,
+                            grid: { color: token("--nx-divider", "#e9eee9") },
                             ticks: {
                                 callback: function (value) {
                                     return value + " JOD";
@@ -190,11 +235,12 @@
         var statusValues = Object.values(statuses);
 
         var statusColors = {
-            completed: "#526044",
-            confirmed: "#8C9B7A",
-            pending: "#C5A46D",
-            cancelled: "#A66F5B",
+            completed: token("--nx-chart-completed", "#315c4d"),
+            confirmed: token("--nx-chart-confirmed", "#6f806e"),
+            pending: token("--nx-chart-pending", "#c58a62"),
+            cancelled: token("--nx-chart-cancelled", "#b42318"),
         };
+        var fallbackColor = token("--nx-chart-fallback", "#87928b");
 
         if (
             bookingCanvas &&
@@ -202,7 +248,7 @@
             statusValues.some((value) => Number(value) > 0)
         ) {
             var colors = statusLabels.map(function (status) {
-                return statusColors[status] || "#A0A0A0";
+                return statusColors[status] || fallbackColor;
             });
 
             new Chart(bookingCanvas, {
@@ -218,6 +264,7 @@
                             data: statusValues,
                             backgroundColor: colors,
                             borderWidth: 2,
+                            borderColor: token("--nx-card", "#ffffff"),
                             hoverOffset: 6,
                         },
                     ],

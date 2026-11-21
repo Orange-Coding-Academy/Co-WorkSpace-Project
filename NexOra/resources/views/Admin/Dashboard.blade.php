@@ -1,5 +1,7 @@
 @extends('layouts.dashboard')
 
+@section('dashboard-role', 'admin')
+
 @section('title', 'Admin Dashboard')
 @section('page-title', 'Dashboard')
 
@@ -22,7 +24,7 @@
 
                 <form method="GET" action="{{ route('admin.AdminDashboard') }}" class="nx-date-filter">
 
-                    <i data-feather="calendar"></i>
+                    @include('layouts.dashboard.partials.ui-icon', ['name' => 'calendar'])
 
                     <select name="period" aria-label="Filter dashboard period" onchange="this.form.submit()">
 
@@ -52,20 +54,66 @@
                 <button type="button" class="nx-btn nx-btn--primary" disabled
                     title="Export functionality is not implemented yet">
 
-                    <i data-feather="download"></i>
+                    @include('layouts.dashboard.partials.ui-icon', ['name' => 'download'])
                     <span>Export Report</span>
                 </button>
 
             </div>
         </section>
 
+        <section class="nx-alert-strip" aria-labelledby="alertsTitle">
+            <h2 class="nx-sr-only" id="alertsTitle">Platform alerts</h2>
+
+            <div class="nx-alert-list">
+
+                @forelse ($alerts as $alert)
+                    @php
+                        $alertLevel = in_array(
+                            $alert['priority'] ?? null,
+                            ['success', 'warning', 'danger', 'info'],
+                            true,
+                        )
+                            ? $alert['priority']
+                            : 'warning';
+                    @endphp
+
+                    <div class="nx-alert nx-alert--{{ $alertLevel }}">
+
+                        <div class="nx-alert__icon">
+                            @include('layouts.dashboard.partials.ui-icon', ['name' => 'alert-triangle'])
+                        </div>
+
+                        <div class="nx-alert__content">
+                            <p class="nx-alert__title">{{ $alert['title'] }}</p>
+                            <p class="nx-alert__text">{{ $alert['description'] }}</p>
+                        </div>
+
+                        <span class="nx-alert__count" title="Pending items">{{ $alert['count'] }}</span>
+
+                    </div>
+
+                @empty
+
+                    <div class="nx-alert-empty">
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'check-circle'])
+
+                        <div>
+                            <strong>All clear</strong>
+                            <span>There are no pending actions requiring attention.</span>
+                        </div>
+                    </div>
+                @endforelse
+
+            </div>
+
+        </section>
 
         <section class="nx-kpi-grid">
 
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        <i data-feather="trending-up"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'trending-up'])
                     </div>
                     <span class="nx-kpi-card__label">PLATFORM COMMISSION</span>
                 </div>
@@ -84,7 +132,7 @@
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        <i data-feather="wallet"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'wallet'])
                     </div>
                     <span class="nx-kpi-card__label">BOOKING GMV</span>
                 </div>
@@ -103,7 +151,7 @@
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        <i data-feather="calendar-check"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'calendar-check'])
                     </div>
                     <span class="nx-kpi-card__label">TOTAL BOOKINGS</span>
                 </div>
@@ -121,7 +169,7 @@
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        <i data-feather="users"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'users'])
                     </div>
                     <span class="nx-kpi-card__label">TOTAL MEMBERS</span>
                 </div>
@@ -139,7 +187,7 @@
             <article class="nx-card nx-kpi-card">
                 <div class="nx-kpi-card__top">
                     <div class="nx-kpi-card__icon">
-                        <i data-feather="briefcase"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'briefcase'])
                     </div>
                     <span class="nx-kpi-card__label">ACTIVE WORKSPACES</span>
                 </div>
@@ -161,21 +209,20 @@
             <article class="nx-card nx-dashboard-panel nx-revenue-panel">
 
                 <div class="nx-panel-header">
-                    <div>
-                        <h3>Revenue Performance</h3>
-                        <p>Booking value and platform commission over time</p>
+                    <div class="nx-panel-heading">
+                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'trending-up'])</span>
+                        <div>
+                            <h2 class="nx-panel-title" id="revenueTitle">Revenue Performance</h2>
+                            <p class="nx-panel-subtitle">Booking value and platform commission over time</p>
+                        </div>
                     </div>
-
-                    <span class="nx-panel-tag">
-                        Financial Overview
-                    </span>
                 </div>
 
                 <div class="nx-chart-container">
                     <canvas id="revenueChart"></canvas>
 
                     <div class="nx-chart-empty" id="revenueEmpty">
-                        <i data-feather="bar-chart-2"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'bar-chart-2'])
                         <strong>No revenue data available</strong>
                         <p>Revenue statistics will appear here once data is available.</p>
                     </div>
@@ -187,21 +234,20 @@
             <article class="nx-card nx-dashboard-panel nx-bookings-panel">
 
                 <div class="nx-panel-header">
-                    <div>
-                        <h3>Booking Overview</h3>
-                        <p>Booking status distribution</p>
+                    <div class="nx-panel-heading">
+                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'pie-chart'])</span>
+                        <div>
+                            <h2 class="nx-panel-title" id="bookingTitle">Booking Overview</h2>
+                            <p class="nx-panel-subtitle">Booking status distribution</p>
+                        </div>
                     </div>
-
-                    <span class="nx-panel-tag">
-                        Bookings
-                    </span>
                 </div>
 
                 <div class="nx-donut-wrapper">
                     <canvas id="bookingChart"></canvas>
 
                     <div class="nx-chart-empty" id="bookingEmpty">
-                        <i data-feather="pie-chart"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'pie-chart'])
                         <strong>No booking data available</strong>
                         <p>Booking statistics will appear here.</p>
                     </div>
@@ -221,14 +267,17 @@
             <article class="nx-card nx-dashboard-panel">
 
                 <div class="nx-panel-header">
-                    <div>
-                        <h3>Top Performing Workspaces</h3>
-                        <p>Workspaces ranked by booking activity</p>
+                    <div class="nx-panel-heading">
+                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'briefcase'])</span>
+                        <div>
+                            <h2 class="nx-panel-title" id="topWorkspacesTitle">Top Performing Workspaces</h2>
+                            <p class="nx-panel-subtitle">Workspaces ranked by booking activity</p>
+                        </div>
                     </div>
 
                     <a href="{{ url('/admin/workspaces') }}" class="nx-text-link">
                         View All
-                        <i data-feather="arrow-up-right"></i>
+                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'arrow-up-right'])
                     </a>
                 </div>
 
@@ -258,9 +307,13 @@
 
                                 <tr>
                                     <td>
-                                        <strong class="nx-table-primary">
-                                            {{ $workspace['name'] }}
-                                        </strong>
+                                        <div class="nx-entity">
+                                            <span class="nx-avatar nx-avatar--sm"
+                                                aria-hidden="true">{{ mb_strtoupper(mb_substr(trim($workspace['name']), 0, 1)) }}</span>
+                                            <strong class="nx-table-primary" title="{{ $workspace['name'] }}">
+                                                {{ $workspace['name'] }}
+                                            </strong>
+                                        </div>
                                     </td>
 
                                     <td>
@@ -289,7 +342,9 @@
                                 <tr>
                                     <td colspan="4">
                                         <div class="nx-empty-state">
-                                            <i data-feather="inbox"></i>
+                                            @include('layouts.dashboard.partials.ui-icon', [
+                                                'name' => 'inbox',
+                                            ])
                                             <strong>No workspace data available</strong>
                                             <p>Workspace performance will appear here.</p>
                                         </div>
@@ -310,17 +365,16 @@
             <article class="nx-card nx-dashboard-panel">
 
                 <div class="nx-panel-header">
-                    <div>
-                        <h3>Recent Activity</h3>
-                        <p>Latest platform activities</p>
+                    <div class="nx-panel-heading">
+                        <span class="nx-panel-icon" aria-hidden="true">@include('layouts.dashboard.partials.ui-icon', ['name' => 'activity'])</span>
+                        <div>
+                            <h2 class="nx-panel-title" id="recentActivityTitle">Recent Activity</h2>
+                            <p class="nx-panel-subtitle">Latest platform activities</p>
+                        </div>
                     </div>
-
-                    <span class="nx-panel-tag">
-                        Latest
-                    </span>
                 </div>
 
-                <div class="nx-activity-list">
+                <div class="nx-activity-list" tabindex="0" role="region" aria-labelledby="recentActivityTitle">
 
                     @forelse ($recentActivities as $activity)
                         <div class="nx-activity-item">
@@ -329,23 +383,31 @@
 
                                 @switch($activity['type'])
                                     @case('booking')
-                                        <i data-feather="calendar"></i>
+                                        @include('layouts.dashboard.partials.ui-icon', [
+                                            'name' => 'calendar',
+                                        ])
                                     @break
 
                                     @case('payment')
-                                        <i data-feather="credit-card"></i>
+                                        @include('layouts.dashboard.partials.ui-icon', [
+                                            'name' => 'credit-card',
+                                        ])
                                     @break
 
                                     @case('user')
-                                        <i data-feather="user"></i>
+                                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'user'])
                                     @break
 
                                     @case('workspace')
-                                        <i data-feather="briefcase"></i>
+                                        @include('layouts.dashboard.partials.ui-icon', [
+                                            'name' => 'briefcase',
+                                        ])
                                     @break
 
                                     @default
-                                        <i data-feather="activity"></i>
+                                        @include('layouts.dashboard.partials.ui-icon', [
+                                            'name' => 'activity',
+                                        ])
                                 @endswitch
 
                             </div>
@@ -364,7 +426,7 @@
                         @empty
 
                             <div class="nx-empty-state">
-                                <i data-feather="clock"></i>
+                                @include('layouts.dashboard.partials.ui-icon', ['name' => 'clock'])
                                 <strong>No recent activity</strong>
                                 <p>Platform activity will appear here.</p>
                             </div>
@@ -373,57 +435,6 @@
                     </div>
 
                 </article>
-
-            </section>
-
-
-            {{-- ALERTS --}}
-            <section class="nx-card nx-dashboard-panel nx-alerts-panel">
-
-                <div class="nx-panel-header">
-                    <div>
-                        <h3>Platform Alerts</h3>
-                        <p>Actions that may require your attention</p>
-                    </div>
-
-                    <span class="nx-panel-tag">
-                        Notifications
-                    </span>
-                </div>
-
-                <div class="nx-alert-list">
-
-                    @forelse ($alerts as $alert)
-                        <div class="nx-alert nx-alert--{{ $alert['priority'] ?? 'warning' }}">
-
-                            <div class="nx-alert__icon">
-                                <i data-feather="alert-triangle"></i>
-                            </div>
-
-                            <div class="nx-alert__content">
-                                <strong>{{ $alert['title'] }}</strong>
-                                <p>{{ $alert['description'] }}</p>
-                            </div>
-
-                            <span class="nx-alert__count">
-                                {{ $alert['count'] }}
-                            </span>
-
-                        </div>
-
-                    @empty
-
-                        <div class="nx-alert-empty">
-                            <i data-feather="check-circle"></i>
-
-                            <div>
-                                <strong>All Clear</strong>
-                                <p>There are no pending actions requiring attention.</p>
-                            </div>
-                        </div>
-                    @endforelse
-
-                </div>
 
             </section>
 

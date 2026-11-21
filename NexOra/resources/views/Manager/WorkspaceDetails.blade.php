@@ -1,12 +1,21 @@
+@extends('layouts.dashboard')
+
+@section('dashboard-role', 'manager')
+
+@section('title') Workspace details @endsection
+@section('page-title') Workspace details @endsection
+
+@section('content')
+<div class="nx-page-content">
 {{-- Workspace Details Page --}}
 
 <style>
-    .ws-page {
+    .nx-page-content .ws-page{
         padding: 25px;
-        color: #253047;
+        color: #1D2924;
     }
 
-    .ws-header {
+    .nx-page-content .ws-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -15,32 +24,32 @@
         margin-bottom: 25px;
     }
 
-    .room-gallery {
+    .nx-page-content .room-gallery{
         width: 100%;
         height: 230px;
         position: relative;
         overflow: hidden;
         border-radius: 14px;
-        background: #f1f1f1;
+        background: #F5F7F3;
     }
 
-    .room-gallery-track {
+    .nx-page-content .room-gallery-track{
         width: 100%;
         height: 100%;
     }
 
-    .room-gallery-image {
+    .nx-page-content .room-gallery-image{
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: none;
     }
 
-    .room-gallery-image.active {
+    .nx-page-content .room-gallery-image.active{
         display: block;
     }
 
-    .gallery-arrow {
+    .nx-page-content .gallery-arrow{
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -55,19 +64,19 @@
         z-index: 2;
     }
 
-    .gallery-arrow.prev {
+    .nx-page-content .gallery-arrow.prev{
         left: 12px;
     }
 
-    .gallery-arrow.next {
+    .nx-page-content .gallery-arrow.next{
         right: 12px;
     }
 
-    .gallery-arrow:hover {
+    .nx-page-content .gallery-arrow:hover{
         background: rgba(0, 0, 0, 0.8);
     }
 
-    .gallery-counter {
+    .nx-page-content .gallery-counter{
         position: absolute;
         bottom: 12px;
         right: 12px;
@@ -78,25 +87,25 @@
         font-size: 12px;
     }
 
-    .no-room-image {
+    .nx-page-content .no-room-image{
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #888;
+        color: #7F8B84;
     }
 
-    .ws-title {
+    .nx-page-content .ws-title{
         font-size: 27px;
         font-weight: 700;
     }
 
-    .ws-subtitle {
-        color: #8490a3;
+    .nx-page-content .ws-subtitle{
+        color: #7F8B84;
         margin-top: 6px;
     }
 
-    .ws-btn {
+    .nx-page-content .ws-btn{
         border: none;
         padding: 11px 18px;
         border-radius: 9px;
@@ -104,22 +113,22 @@
         font-weight: 600;
     }
 
-    .ws-btn-primary {
-        background: #5146e5;
+    .nx-page-content .ws-btn-primary{
+        background: #315C4D;
         color: white;
     }
 
-    .ws-btn-edit {
-        background: #eef0ff;
-        color: #5146e5;
+    .nx-page-content .ws-btn-edit{
+        background: #F5F7F3;
+        color: #315C4D;
     }
 
-    .ws-btn-delete {
-        background: #fff0f0;
+    .nx-page-content .ws-btn-delete{
+        background: #F5F7F3;
         color: #dc3545;
     }
 
-    .ws-overview {
+    .nx-page-content .ws-overview{
         background: white;
         border-radius: 14px;
         padding: 22px;
@@ -127,38 +136,38 @@
         box-shadow: 0 3px 15px rgba(0, 0, 0, .04);
     }
 
-    .ws-gallery {
+    .nx-page-content .ws-gallery{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
         gap: 12px;
         margin-top: 18px;
     }
 
-    .ws-gallery img {
+    .nx-page-content .ws-gallery img{
         width: 100%;
         height: 145px;
         object-fit: cover;
         border-radius: 10px;
     }
 
-    .ws-info {
+    .nx-page-content .ws-info{
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         margin-top: 18px;
     }
 
-    .ws-info-item {
-        color: #64748b;
+    .nx-page-content .ws-info-item{
+        color: #53615A;
     }
 
-    .ws-info-item strong {
+    .nx-page-content .ws-info-item strong{
         display: block;
-        color: #253047;
+        color: #1D2924;
         margin-top: 5px;
     }
 
-    .ws-section-header {
+    .nx-page-content .ws-section-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -167,78 +176,78 @@
         margin-bottom: 20px;
     }
 
-    .ws-room-grid {
+    .nx-page-content .ws-room-grid{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 20px;
     }
 
-    .ws-room-card {
+    .nx-page-content .ws-room-card{
         background: white;
         border-radius: 14px;
         overflow: hidden;
         box-shadow: 0 3px 15px rgba(0, 0, 0, .05);
     }
 
-    .ws-room-image {
+    .nx-page-content .ws-room-image{
         width: 100%;
         height: 190px;
         object-fit: cover;
     }
 
-    .ws-no-image {
+    .nx-page-content .ws-no-image{
         height: 190px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f1f3f8;
-        color: #8490a3;
+        background: #F5F7F3;
+        color: #7F8B84;
     }
 
-    .ws-room-content {
+    .nx-page-content .ws-room-content{
         padding: 18px;
     }
 
-    .ws-room-content h3 {
+    .nx-page-content .ws-room-content h3{
         font-size: 19px;
         margin: 0 0 12px;
     }
 
-    .ws-room-meta {
+    .nx-page-content .ws-room-meta{
         display: flex;
         justify-content: space-between;
         gap: 8px;
         margin: 9px 0;
-        color: #64748b;
+        color: #53615A;
         font-size: 14px;
     }
 
-    .ws-room-actions {
+    .nx-page-content .ws-room-actions{
         display: flex;
         gap: 10px;
         margin-top: 18px;
     }
 
-    .ws-room-actions button {
+    .nx-page-content .ws-room-actions button{
         flex: 1;
     }
 
-    .ws-modal {
+    .nx-page-content .ws-modal{
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, .65);
+        background: rgba(21, 42, 35, .65);
         z-index: 9999;
         align-items: center;
         justify-content: center;
         padding: 15px;
     }
 
-    .ws-modal.show {
+    .nx-page-content .ws-modal.show{
         display: flex;
     }
 
-    .ws-modal-content {
+    .nx-page-content .ws-modal-content{
         background: white;
         width: 100%;
         max-width: 620px;
@@ -248,96 +257,96 @@
         padding: 25px;
     }
 
-    .ws-modal-header {
+    .nx-page-content .ws-modal-header{
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 22px;
     }
 
-    .ws-modal-header h2 {
+    .nx-page-content .ws-modal-header h2{
         margin: 0;
         font-size: 22px;
     }
 
-    .ws-close {
+    .nx-page-content .ws-close{
         border: none;
         background: none;
         font-size: 27px;
         cursor: pointer;
     }
 
-    .ws-form-group {
+    .nx-page-content .ws-form-group{
         margin-bottom: 17px;
     }
 
-    .ws-form-group label {
+    .nx-page-content .ws-form-group label{
         display: block;
         margin-bottom: 7px;
         font-weight: 600;
     }
 
-    .ws-form-group input,
-    .ws-form-group select,
-    .ws-form-group textarea {
+    .nx-page-content .ws-form-group input,
+    .nx-page-content .ws-form-group select,
+    .nx-page-content .ws-form-group textarea{
         width: 100%;
         padding: 11px;
-        border: 1px solid #dce1eb;
+        border: 1px solid #E2E8E2;
         border-radius: 8px;
         outline: none;
         box-sizing: border-box;
     }
 
-    .ws-form-group input:focus,
-    .ws-form-group select:focus,
-    .ws-form-group textarea:focus {
-        border-color: #5146e5;
+    .nx-page-content .ws-form-group input:focus,
+    .nx-page-content .ws-form-group select:focus,
+    .nx-page-content .ws-form-group textarea:focus{
+        border-color: #315C4D;
     }
 
-    .ws-modal-actions {
+    .nx-page-content .ws-modal-actions{
         display: flex;
         justify-content: flex-end;
         gap: 10px;
         margin-top: 22px;
     }
 
-    .ws-existing-images {
+    .nx-page-content .ws-existing-images{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
         gap: 12px;
     }
 
-    .ws-existing-image {
-        border: 1px solid #e2e8f0;
+    .nx-page-content .ws-existing-image{
+        border: 1px solid #E9EEE9;
         border-radius: 9px;
         padding: 8px;
         font-size: 12px;
     }
 
-    .ws-existing-image img {
+    .nx-page-content .ws-existing-image img{
         width: 100%;
         height: 85px;
         object-fit: cover;
         border-radius: 6px;
     }
 
-    .ws-alert {
+    .nx-page-content .ws-alert{
         padding: 13px 17px;
         border-radius: 9px;
         margin-bottom: 18px;
     }
 
-    .ws-success {
+    .nx-page-content .ws-success{
         background: #e8f8ef;
         color: #167343;
     }
 
-    .ws-error {
-        background: #fff0f0;
+    .nx-page-content .ws-error{
+        background: #F5F7F3;
         color: #b42318;
     }
 
-    .ws-badge {
+    .nx-page-content .ws-badge{
         display: inline-block;
         padding: 5px 10px;
         border-radius: 20px;
@@ -346,50 +355,50 @@
         font-size: 12px;
     }
 
-    .ws-empty {
+    .nx-page-content .ws-empty{
         background: white;
         border-radius: 14px;
         padding: 50px 20px;
         text-align: center;
-        color: #8490a3;
+        color: #7F8B84;
     }
 
     @media(max-width:600px) {
-        .ws-page {
+        .nx-page-content .ws-page{
             padding: 12px;
         }
 
-        .ws-title {
+        .nx-page-content .ws-title{
             font-size: 22px;
         }
     }
 
-    .ws-add-room {
+    .nx-page-content .ws-add-room{
         box-sizing: border-box;
         width: min(680px, calc(100% - 24px));
         max-width: none;
         max-height: min(90dvh, 820px);
         overflow: hidden;
         padding: 0;
-        border: 1px solid #dde3d8;
+        border: 1px solid #E2E8E2;
         border-radius: 22px;
-        color: #18352d;
-        background: #fffdf8;
+        color: #152A23;
+        background: #F5F7F3;
         box-shadow: 0 28px 80px #102c3a45;
     }
 
-    .ws-add-room::backdrop {
+    .nx-page-content .ws-add-room::backdrop{
         background: #152c2bb3;
     }
 
-    .ws-add-room h2,
-    .ws-add-room p,
-    .ws-add-previews {
+    .nx-page-content .ws-add-room h2,
+    .nx-page-content .ws-add-room p,
+    .nx-page-content .ws-add-previews{
         margin: 0;
     }
 
-    .ws-add-header,
-    .ws-add-actions {
+    .nx-page-content .ws-add-header,
+    .nx-page-content .ws-add-actions{
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -397,107 +406,107 @@
         padding: 16px clamp(16px, 4vw, 28px);
     }
 
-    .ws-add-header {
-        background: #103b34;
-        color: #fffdf8;
+    .nx-page-content .ws-add-header{
+        background: #152A23;
+        color: #F5F7F3;
     }
 
-    .ws-add-header p {
+    .nx-page-content .ws-add-header p{
         margin-top: 2px;
-        color: #d6e7df;
+        color: #E2E8E2;
         font-size: .9rem;
     }
 
-    .ws-add-room[open],
-    .ws-add-room>form {
+    .nx-page-content .ws-add-room[open],
+    .nx-page-content .ws-add-room>form{
         display: flex;
         flex-direction: column;
     }
 
-    .ws-add-room>form {
+    .nx-page-content .ws-add-room>form{
         min-height: 0;
     }
 
-    .ws-add-header,
-    .ws-add-actions {
+    .nx-page-content .ws-add-header,
+    .nx-page-content .ws-add-actions{
         flex: none;
     }
 
-    .ws-add-body {
+    .nx-page-content .ws-add-body{
         flex: 1 1 auto;
         min-height: 0;
         padding: 20px clamp(16px, 4vw, 28px);
         overflow-y: auto;
         overscroll-behavior-y: contain;
         scrollbar-width: thin;
-        scrollbar-color: #6f9284 #edf3e9;
+        scrollbar-color: #7F8B84 #E9EEE9;
     }
 
-    .ws-add-fields {
+    .nx-page-content .ws-add-fields{
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
     }
 
-    .ws-add-fields .ws-form-group {
+    .nx-page-content .ws-add-fields .ws-form-group{
         margin-bottom: 0;
     }
 
-    .ws-add-fields textarea {
+    .nx-page-content .ws-add-fields textarea{
         resize: vertical;
     }
 
-    .ws-add-wide {
+    .nx-page-content .ws-add-wide{
         grid-column: 1 / -1;
     }
 
-    .ws-add-muted,
-    .ws-add-fields small {
-        color: #53665c;
+    .nx-page-content .ws-add-muted,
+    .nx-page-content .ws-add-fields small{
+        color: #53615A;
         font-size: .85rem;
         font-weight: 400;
     }
 
-    .ws-add-photos {
+    .nx-page-content .ws-add-photos{
         margin-top: 20px;
     }
 
-    .ws-add-photos>label {
+    .nx-page-content .ws-add-photos>label{
         display: block;
         margin-bottom: 7px;
         font-weight: 650;
     }
 
-    .ws-add-dropzone {
+    .nx-page-content .ws-add-dropzone{
         display: grid;
         gap: 8px;
         padding: 16px;
-        border: 1px dashed #91aa9b;
+        border: 1px dashed #7F8B84;
         border-radius: 12px;
-        background: #edf3e9;
+        background: #E9EEE9;
     }
 
-    .ws-add-dropzone.is-dragging {
+    .nx-page-content .ws-add-dropzone.is-dragging{
         border-color: #276a59;
-        background: #dcece0;
+        background: #E2E8E2;
     }
 
-    .ws-add-dropzone p {
-        color: #53665c;
+    .nx-page-content .ws-add-dropzone p{
+        color: #53615A;
         font-size: .84rem;
     }
 
-    .ws-add-dropzone input {
+    .nx-page-content .ws-add-dropzone input{
         width: 100%;
         font: inherit;
         font-size: .88rem;
     }
 
-    .ws-add-dropzone input::file-selector-button {
+    .nx-page-content .ws-add-dropzone input::file-selector-button{
         cursor: pointer;
     }
 
-    .ws-add-previews {
+    .nx-page-content .ws-add-previews{
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         gap: 10px;
@@ -505,17 +514,17 @@
         list-style: none;
     }
 
-    .ws-add-previews:not(:empty),
-    #add-room-image-status:not(:empty) {
+    .nx-page-content .ws-add-previews:not(:empty),
+    .nx-page-content #C9D4CC-room-image-status:not(:empty){
         margin-top: 10px;
     }
 
-    .ws-add-preview {
+    .nx-page-content .ws-add-preview{
         position: relative;
         min-width: 0;
     }
 
-    .ws-add-preview img {
+    .nx-page-content .ws-add-preview img{
         display: block;
         width: 100%;
         aspect-ratio: 4 / 3;
@@ -523,18 +532,18 @@
         object-fit: cover;
     }
 
-    .ws-add-cover-label {
+    .nx-page-content .ws-add-cover-label{
         display: inline-block;
         margin-top: 3px;
-        color: #103b34;
+        color: #152A23;
         font-size: .8rem;
         font-weight: 700;
     }
 
-    .ws-add-close,
-    .ws-add-remove,
-    .ws-add-save,
-    .ws-add-cancel {
+    .nx-page-content .ws-add-close,
+    .nx-page-content .ws-add-remove,
+    .nx-page-content .ws-add-save,
+    .nx-page-content .ws-add-cancel{
         border: 1px solid transparent;
         border-radius: 9px;
         font: inherit;
@@ -542,69 +551,69 @@
         cursor: pointer;
     }
 
-    .ws-add-close,
-    .ws-add-remove {
+    .nx-page-content .ws-add-close,
+    .nx-page-content .ws-add-remove{
         width: 34px;
         height: 34px;
-        background: #103b34;
+        background: #152A23;
         color: #fff;
     }
 
-    .ws-add-close {
+    .nx-page-content .ws-add-close{
         border-color: #ffffff55;
         font-size: 1.2rem;
     }
 
-    .ws-add-remove {
+    .nx-page-content .ws-add-remove{
         position: absolute;
         top: 5px;
         right: 5px;
     }
 
-    .ws-add-close:hover,
-    .ws-add-remove:hover {
-        background: #24594e;
+    .nx-page-content .ws-add-close:hover,
+    .nx-page-content .ws-add-remove:hover{
+        background: #203D34;
     }
 
-    .ws-add-actions {
+    .nx-page-content .ws-add-actions{
         justify-content: flex-end;
-        border-top: 1px solid #dde3d8;
+        border-top: 1px solid #E2E8E2;
     }
 
-    .ws-add-save,
-    .ws-add-cancel {
+    .nx-page-content .ws-add-save,
+    .nx-page-content .ws-add-cancel{
         min-height: 44px;
         padding: 8px 14px;
-        color: #18352d;
+        color: #152A23;
     }
 
-    .ws-add-save {
-        background: #ff8750;
+    .nx-page-content .ws-add-save{
+        background: #C58A62;
     }
 
-    .ws-add-save:hover {
-        background: #ffa071;
+    .nx-page-content .ws-add-save:hover{
+        background: #E6C9B3;
     }
 
-    .ws-add-cancel {
-        border-color: #dde3d8;
-        background: #fffdf8;
+    .nx-page-content .ws-add-cancel{
+        border-color: #E2E8E2;
+        background: #F5F7F3;
     }
 
-    .ws-add-cancel:hover {
-        background: #edf3e9;
+    .nx-page-content .ws-add-cancel:hover{
+        background: #E9EEE9;
     }
 
-    .ws-add-room :focus-visible {
+    .nx-page-content .ws-add-room :focus-visible{
         outline: 2px solid #29745e;
         outline-offset: 2px;
     }
 
-    .ws-add-header :focus-visible {
-        outline-color: #ffae84;
+    .nx-page-content .ws-add-header :focus-visible{
+        outline-color: #E6C9B3;
     }
 
-    .ws-add-errors {
+    .nx-page-content .ws-add-errors{
         margin-top: 12px;
         padding: 10px 14px;
         border-radius: 8px;
@@ -612,43 +621,43 @@
         color: #922f21;
     }
 
-    .ws-add-errors ul {
+    .nx-page-content .ws-add-errors ul{
         margin: 0 0 6px;
         padding-left: 18px;
     }
 
     @media (max-width: 480px) {
-        .ws-add-fields {
+        .nx-page-content .ws-add-fields{
             grid-template-columns: 1fr;
         }
     }
 
-    .ws-page {
-        --forest: #103b34;
-        --ink: #18352d;
-        --muted: #53665c;
-        --paper: #fffdf8;
-        --line: #dce2d6;
+    .nx-page-content .ws-page{
+        --forest: #152A23;
+        --ink: #152A23;
+        --muted: #53615A;
+        --paper: #F5F7F3;
+        --line: #E2E8E2;
         min-height: 100vh;
         box-sizing: border-box;
         padding: clamp(16px, 4vw, 48px) max(clamp(16px, 4vw, 48px), calc((100% - 1220px) / 2));
         background: #f7f1e7;
         color: var(--ink);
-        font-family: system-ui, sans-serif;
+        font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
     }
 
-    .ws-page *,
-    .ws-page *::before,
-    .ws-page *::after {
+    .nx-page-content .ws-page *,
+    .nx-page-content .ws-page *::before,
+    .nx-page-content .ws-page *::after{
         box-sizing: border-box;
     }
 
-    .ws-page :focus-visible {
+    .nx-page-content .ws-page :focus-visible{
         outline: 3px solid #29745e;
         outline-offset: 3px;
     }
 
-    .ws-page .ws-overview {
+    .nx-page-content .ws-page .ws-overview{
         display: grid;
         gap: clamp(18px, 4vw, 36px);
         align-items: center;
@@ -660,11 +669,11 @@
         box-shadow: 0 14px 35px #103b3420;
     }
 
-    .ws-overview:has(.ws-gallery) {
+    .nx-page-content .ws-overview:has(.ws-gallery){
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 
-    .ws-overview h1 {
+    .nx-page-content .ws-overview h1{
         margin: 0;
         font-size: clamp(2.1rem, 5vw, 3.5rem);
         line-height: 1.06;
@@ -672,26 +681,26 @@
         overflow-wrap: anywhere;
     }
 
-    .ws-overview-copy>p {
-        color: #e1ede8;
+    .nx-page-content .ws-overview-copy>p{
+        color: #E9EEE9;
         margin: 10px 0 0;
     }
 
-    .ws-page .ws-info {
+    .nx-page-content .ws-page .ws-info{
         gap: 10px 20px;
     }
 
-    .ws-overview .ws-info-item {
-        color: #bcd4c9;
+    .nx-page-content .ws-overview .ws-info-item{
+        color: #C9D4CC;
         font-size: .8rem;
     }
 
-    .ws-overview .ws-info-item strong {
+    .nx-page-content .ws-overview .ws-info-item strong{
         color: var(--paper);
         font-size: .94rem;
     }
 
-    .ws-facilities {
+    .nx-page-content .ws-facilities{
         display: flex;
         flex-wrap: wrap;
         gap: 7px;
@@ -700,7 +709,7 @@
         list-style: none;
     }
 
-    .ws-facilities li {
+    .nx-page-content .ws-facilities li{
         padding: 4px 9px;
         border-radius: 999px;
         background: #ffffff22;
@@ -708,29 +717,29 @@
         font-size: .82rem;
     }
 
-    .ws-page .ws-gallery {
+    .nx-page-content .ws-page .ws-gallery{
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
         margin: 0;
     }
 
-    .ws-page .ws-gallery img {
+    .nx-page-content .ws-page .ws-gallery img{
         display: block;
         height: auto;
         aspect-ratio: 4 / 3;
     }
 
-    .ws-page .ws-gallery img:first-child {
+    .nx-page-content .ws-page .ws-gallery img:first-child{
         grid-column: 1 / -1;
         aspect-ratio: 16 / 9;
         border-radius: 16px;
     }
 
-    .ws-page .ws-section-header {
+    .nx-page-content .ws-page .ws-section-header{
         margin-bottom: 16px;
     }
 
-    .ws-rooms-title {
+    .nx-page-content .ws-rooms-title{
         display: flex;
         align-items: center;
         gap: 10px;
@@ -739,55 +748,55 @@
         letter-spacing: -.04em;
     }
 
-    .ws-room-count {
-        background: #e7ecdf;
-        color: #31564a;
+    .nx-page-content .ws-room-count{
+        background: #E2E8E2;
+        color: #1D2924;
         border-radius: 999px;
         padding: 4px 10px;
         font-size: .82rem;
         letter-spacing: 0;
     }
 
-    .ws-page .ws-btn {
+    .nx-page-content .ws-page .ws-btn{
         min-height: 44px;
         font: inherit;
         font-size: .9rem;
         font-weight: 700;
     }
 
-    .ws-page .ws-btn-primary {
-        background: #ff8750;
-        color: #252016;
+    .nx-page-content .ws-page .ws-btn-primary{
+        background: #C58A62;
+        color: #1D2924;
     }
 
-    .ws-page .ws-btn-primary:hover {
-        background: #ffa071;
+    .nx-page-content .ws-page .ws-btn-primary:hover{
+        background: #E6C9B3;
     }
 
-    .ws-page .ws-btn-edit {
-        background: #e7efe5;
-        color: #234f40;
+    .nx-page-content .ws-page .ws-btn-edit{
+        background: #E9EEE9;
+        color: #203D34;
     }
 
-    .ws-page .ws-btn-edit:hover {
-        background: #d7e7da;
+    .nx-page-content .ws-page .ws-btn-edit:hover{
+        background: #E2E8E2;
     }
 
-    .ws-page .ws-btn-delete {
+    .nx-page-content .ws-page .ws-btn-delete{
         background: #fff0ec;
         color: #963529;
     }
 
-    .ws-page .ws-btn-delete:hover {
+    .nx-page-content .ws-page .ws-btn-delete:hover{
         background: #ffe2d9;
     }
 
-    .ws-page .ws-room-grid {
+    .nx-page-content .ws-page .ws-room-grid{
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
         gap: 16px;
     }
 
-    .ws-page .ws-room-card {
+    .nx-page-content .ws-page .ws-room-card{
         display: flex;
         flex-direction: column;
         background: var(--paper);
@@ -796,185 +805,185 @@
         box-shadow: none;
     }
 
-    .ws-page .ws-room-card:hover {
-        border-color: #afc2b3;
+    .nx-page-content .ws-page .ws-room-card:hover{
+        border-color: #C9D4CC;
         box-shadow: 0 8px 22px #103b3410;
     }
 
-    .ws-page .room-gallery,
-    .ws-page .ws-no-image {
+    .nx-page-content .ws-page .room-gallery,
+    .nx-page-content .ws-page .ws-no-image{
         height: auto;
         aspect-ratio: 16 / 9;
         border-radius: 0;
-        background: #e4ede2;
+        background: #E9EEE9;
     }
 
-    .ws-page .ws-no-image {
+    .nx-page-content .ws-page .ws-no-image{
         color: var(--muted);
     }
 
-    .ws-page .gallery-arrow {
+    .nx-page-content .ws-page .gallery-arrow{
         width: 44px;
         height: 44px;
         background: #103b34d9;
     }
 
-    .ws-page .gallery-arrow:hover {
-        background: #103b34;
+    .nx-page-content .ws-page .gallery-arrow:hover{
+        background: #152A23;
     }
 
-    .ws-page .gallery-arrow:focus-visible {
+    .nx-page-content .ws-page .gallery-arrow:focus-visible{
         outline-color: #fff;
     }
 
-    .ws-page .ws-room-content {
+    .nx-page-content .ws-page .ws-room-content{
         display: flex;
         flex-direction: column;
         flex: 1;
         padding: 16px;
     }
 
-    .ws-page .ws-room-content h3 {
+    .nx-page-content .ws-page .ws-room-content h3{
         margin-bottom: 8px;
         overflow-wrap: anywhere;
     }
 
-    .ws-page .ws-room-meta {
+    .nx-page-content .ws-page .ws-room-meta{
         margin: 0;
         padding: 8px 0;
         border-bottom: 1px solid var(--line);
         color: var(--muted);
     }
 
-    .ws-room-meta strong {
+    .nx-page-content .ws-room-meta strong{
         color: var(--ink);
         text-align: right;
     }
 
-    .ws-page .ws-room-actions {
+    .nx-page-content .ws-page .ws-room-actions{
         margin-top: auto;
         padding-top: 14px;
         flex-wrap: wrap;
     }
 
-    .ws-page .ws-badge {
+    .nx-page-content .ws-page .ws-badge{
         align-self: start;
-        background: #dceee3;
+        background: #E2E8E2;
         color: #185940;
     }
 
-    .ws-page .ws-badge.is-inactive {
-        background: #eee9e2;
-        color: #5b5046;
+    .nx-page-content .ws-page .ws-badge.is-inactive{
+        background: #E9EEE9;
+        color: #53615A;
     }
 
     @media (max-width: 700px) {
-        .ws-overview:has(.ws-gallery) {
+        .nx-page-content .ws-overview:has(.ws-gallery){
             grid-template-columns: minmax(0, 1fr);
         }
     }
 
-    .ws-facility-picker {
+    .nx-page-content .ws-facility-picker{
         min-width: 0;
         margin: 0;
         padding: 0;
         border: 0;
     }
 
-    .ws-facility-picker legend {
+    .nx-page-content .ws-facility-picker legend{
         margin-bottom: 8px;
         padding: 0;
         font-weight: 650;
     }
 
-    .ws-facility-options {
+    .nx-page-content .ws-facility-options{
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
     }
 
-    .ws-facility-option {
+    .nx-page-content .ws-facility-option{
         display: inline-flex;
         align-items: center;
         gap: 8px;
         min-height: 40px;
         padding: 6px 12px;
-        border: 1px solid #dce5da;
+        border: 1px solid #E2E8E2;
         border-radius: 9px;
-        background: #fffdf8;
+        background: #F5F7F3;
         font-size: .88rem;
         cursor: pointer;
     }
 
-    .ws-facility-option:hover {
-        border-color: #819e90;
+    .nx-page-content .ws-facility-option:hover{
+        border-color: #7F8B84;
     }
 
-    .ws-facility-option:has(:checked) {
-        border-color: #558575;
-        background: #e3efe5;
+    .nx-page-content .ws-facility-option:has(:checked){
+        border-color: #53615A;
+        background: #E9EEE9;
     }
 
-    .ws-facility-option input {
+    .nx-page-content .ws-facility-option input{
         width: 16px;
         height: 16px;
         margin: 0;
         accent-color: #276a59;
     }
 
-    .ws-add-photos .ws-photo-label {
+    .nx-page-content .ws-add-photos .ws-photo-label{
         margin-bottom: 8px;
         font-weight: 650;
     }
 
-    .ws-add-dropzone {
+    .nx-page-content .ws-add-dropzone{
         grid-template-columns: auto minmax(0, 1fr) auto;
         align-items: center;
         gap: 12px;
     }
 
-    .ws-upload-icon {
+    .nx-page-content .ws-upload-icon{
         display: grid;
         width: 42px;
         height: 42px;
         place-items: center;
         border-radius: 11px;
-        background: #d8e9dd;
-        color: #103b34;
+        background: #E2E8E2;
+        color: #152A23;
         font-size: 1.25rem;
         font-weight: 750;
     }
 
-    .ws-upload-copy p {
+    .nx-page-content .ws-upload-copy p{
         margin-top: 3px;
     }
 
-    .ws-file-picker {
+    .nx-page-content .ws-file-picker{
         position: relative;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         min-height: 44px;
         padding: 8px 13px;
-        border: 1px solid #2c6254;
+        border: 1px solid #203D34;
         border-radius: 9px;
-        background: #103b34;
-        color: #fffdf8;
+        background: #152A23;
+        color: #F5F7F3;
         font-size: .86rem;
         font-weight: 700;
         cursor: pointer;
     }
 
-    .ws-file-picker:hover {
-        background: #24594e;
+    .nx-page-content .ws-file-picker:hover{
+        background: #203D34;
     }
 
-    .ws-file-picker:focus-within {
+    .nx-page-content .ws-file-picker:focus-within{
         outline: 2px solid #29745e;
         outline-offset: 3px;
     }
 
-    .ws-add-dropzone .ws-file-picker input {
+    .nx-page-content .ws-add-dropzone .ws-file-picker input{
         position: absolute;
         inset: 0;
         height: 100%;
@@ -982,32 +991,47 @@
         cursor: pointer;
     }
 
-    .ws-add-preview img {
-        border: 1px solid #dce5da;
+    .nx-page-content .ws-add-preview img{
+        border: 1px solid #E2E8E2;
     }
 
-    .ws-add-previews .ws-add-remove {
+    .nx-page-content .ws-add-previews .ws-add-remove{
         width: 30px;
         height: 30px;
         border-radius: 50%;
     }
 
-    .ws-add-cover-label {
+    .nx-page-content .ws-add-cover-label{
         padding: 2px 8px;
         border-radius: 999px;
-        background: #e3efe5;
+        background: #E9EEE9;
     }
 
     @media (max-width: 480px) {
-        .ws-add-dropzone {
+        .nx-page-content .ws-add-dropzone{
             grid-template-columns: auto minmax(0, 1fr);
         }
 
-        .ws-file-picker {
+        .nx-page-content .ws-file-picker{
             grid-column: 1 / -1;
             justify-self: start;
         }
     }
+    .nx-page-content .ws-back-link{
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 16px;
+        padding: 8px 12px;
+        border: 1px solid #C9D4CC;
+        border-radius: 9px;
+        background: #E9EEE9;
+        color: #152A23;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .nx-page-content .ws-back-link:hover{ background: #E2E8E2; }
 </style>
 
 <div class="ws-page">
@@ -1037,6 +1061,10 @@
         </ul>
     </div>
     @endif
+
+    <a class="ws-back-link" href="{{ route('manager.workspaces.create', ['view' => 'list']) }}">
+        <span aria-hidden="true">&larr;</span> My workspaces
+    </a>
 
     {{-- Workspace Overview --}}
     <section class="ws-overview" aria-labelledby="workspace-title">
@@ -1430,6 +1458,13 @@
 </div>
 
 
+    @if(old('_room_form') === 'add' && $errors > any())
+    openAddModal();
+    @endif
+</div>
+@endsection
+
+@push('scripts')
 <script>
     function openAddModal() {
         document.getElementById('addRoomModal').showModal();
@@ -1631,6 +1666,4 @@
         });
     }
 </script>
-    @if(old('_room_form') === 'add' && $errors > any())
-    openAddModal();
-    @endif
+@endpush

@@ -12,6 +12,10 @@ class RoomAvailabilityController extends Controller
 {
     public function index(Request $request, Room $room)
     {
+        $timezone = config('app.timezone', 'Asia/Amman');
+
+        $now = Carbon::now($timezone);
+
         $validated = $request->validate([
             'date' => ['required', 'date', 'after_or_equal:today'],
         ]);
@@ -26,17 +30,17 @@ class RoomAvailabilityController extends Controller
 
         $date = $validated['date'];
 
-        $dayStart = Carbon::parse($date)->startOfDay();
+        $dayStart = Carbon::parse($date, $timezone)->startOfDay();
         $dayEnd = $dayStart->copy()->addDay();
 
         $bookings = Booking::where('room_id', $room->id)
             ->where('start_date_time', '<', $dayEnd)
             ->where('end_date_time', '>', $dayStart)
-            ->where(function ($query) {
+            ->where(function ($query) use ($now) {
                 $query->where('status', 'confirmed')
-                    ->orWhere(function ($q) {
+                    ->orWhere(function ($q) use ($now) {
                         $q->where('status', 'pending')
-                          ->where('payment_expires_at', '>', now());
+                          ->where('payment_expires_at', '>', $now);
                     });
             })
             ->get([
@@ -52,18 +56,32 @@ class RoomAvailabilityController extends Controller
             $start = $dayStart->copy()->addHours($hour);
             $end = $start->copy()->addHour();
 
-            $isBooked = $bookings->contains(function ($booking) use ($start, $end) {
+            // Check whether another booking overlaps this slot
+            $isBooked = $bookings->contains(function ($booking) use ($start, $end, $timezone) {
 
-                return $booking->start_date_time < $end
-                    && $booking->end_date_time > $start;
+                $bookingStart = Carbon::parse(
+                    $booking->start_date_time,
+                    $timezone
+                );
+
+                $bookingEnd = Carbon::parse(
+                    $booking->end_date_time,
+                    $timezone
+                );
+
+                return $bookingStart->lt($end)
+                    && $bookingEnd->gt($start);
             });
 
-            $isPast = $start->lessThanOrEqualTo(now());
+            // A slot that has already started cannot be booked
+            $isPast = $start->lessThanOrEqualTo($now);
+
+            $available = !$isBooked && !$isPast;
 
             $slots[] = [
                 'start' => $start->format('H:i'),
                 'end' => $end->format('H:i'),
-                'available' => !$isBooked && !$isPast,
+                'available' => $available,
                 'status' => $isBooked
                     ? 'booked'
                     : ($isPast ? 'past' : 'available'),
@@ -72,6 +90,8 @@ class RoomAvailabilityController extends Controller
 
         return response()->json([
             'date' => $date,
+            'current_time' => $now->format('Y-m-d H:i:s'),
+            'timezone' => $timezone,
             'slots' => $slots,
         ]);
     }

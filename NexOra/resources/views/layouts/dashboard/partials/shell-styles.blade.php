@@ -1,0 +1,60 @@
+{{-- Shared shell guard — loaded after page styles so the shell keeps its NexOra typography/layout. --}}
+<style>
+    body.nx-shell-body { margin: 0; background: var(--nx-bg); color: var(--nx-text); font-family: var(--nx-font-body); -webkit-font-smoothing: antialiased; }
+    #nxDashboard { display: flex; min-height: 100vh; min-height: 100dvh; font-family: var(--nx-font-body); font-size: 16px; line-height: 1.5; }
+    #nxDashboard .nx-dashboard__sidebar,
+    #nxDashboard .nx-topbar { box-sizing: border-box; font-family: var(--nx-font-body); line-height: 1.5; letter-spacing: normal; }
+    #nxDashboard .nx-dashboard__sidebar *,
+    #nxDashboard .nx-topbar * { box-sizing: border-box; }
+    #nxDashboard .nx-sidebar__logo { color: #fff; font: 800 21px/1.2 var(--nx-font-heading); text-decoration: none; }
+    #nxDashboard .nx-sidebar__link { color: rgba(248, 250, 247, .78); text-decoration: none; font-size: 14px; font-weight: 500; }
+    #nxDashboard .nx-sidebar__link:hover,
+    #nxDashboard .nx-sidebar__link.is-active { color: #fff; }
+    #nxDashboard .nx-sidebar__link svg { width: 18px; height: 18px; flex: none; }
+    #nxDashboard .nx-topbar { margin: 0; }
+    #nxDashboard .nx-topbar__breadcrumb { margin: 0; padding: 0; background: none; border: 0; min-height: 0; }
+    #nxDashboard .nx-topbar__breadcrumb span { color: var(--nx-text-muted); }
+    #nxDashboard .nx-topbar__explore {
+        display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px;
+        border: 1px solid var(--nx-border-strong); border-radius: 999px; color: var(--nx-text);
+        font: 700 13px/1 var(--nx-font-heading); text-decoration: none; white-space: nowrap;
+        transition: background-color .25s var(--nx-ease), color .25s var(--nx-ease), border-color .25s var(--nx-ease);
+    }
+    #nxDashboard .nx-topbar__explore:hover { background: var(--nx-primary); border-color: var(--nx-primary); color: var(--nx-bg); }
+    #nxDashboard .nx-topbar__explore svg,
+    #nxDashboard .nx-topbar__logout-btn svg { width: 16px; height: 16px; flex: none; }
+    #nxDashboard .nx-topbar__user--link { color: inherit; text-decoration: none; border-radius: 999px; padding: 4px 10px 4px 4px; }
+    #nxDashboard .nx-topbar__user--link:hover { background: rgba(49, 92, 77, .07); }
+    #nxDashboard .nx-avatar { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; flex: none; font-size: 15px; }
+    #nxDashboard .nx-topbar__logout { margin: 0; }
+    #nxDashboard .nx-topbar__logout-btn {
+        display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px; margin: 0;
+        border: 0; border-radius: 999px; background: transparent; color: var(--nx-text-secondary);
+        font: 600 13px/1 var(--nx-font-body); cursor: pointer;
+    }
+    #nxDashboard .nx-topbar__logout-btn:hover { background: rgba(180, 35, 24, .07); color: #912018; }
+    #nxDashboard .nx-topbar a:focus-visible,
+    #nxDashboard .nx-topbar button:focus-visible { outline: 2px solid var(--nx-accent); outline-offset: 2px; }
+    #nxDashboard .nx-dashboard__main { box-sizing: border-box; flex: 1 0 auto; }
+
+    /* Migrated page content wrapper: hosts each page's scoped styles. */
+    #nxDashboard .nx-page-content { display: block; position: relative; min-width: 0; min-height: 0; width: auto; height: auto; margin: 0; }
+
+    /* Sidebar collapse (desktop) / reveal (mobile) */
+    #nxDashboard.is-nav-collapsed .nx-dashboard__sidebar { display: none; }
+    @media (max-width: 767px) {
+        #nxDashboard { flex-direction: column; }
+        #nxDashboard .nx-dashboard__sidebar { position: fixed; top: var(--nx-topbar-height, 72px); left: 0; right: 0; z-index: 60; width: 100%; height: auto; max-height: calc(100dvh - var(--nx-topbar-height, 72px)); overflow-y: auto; box-shadow: 0 16px 32px rgba(21, 42, 35, .25); }
+        #nxDashboard.is-nav-closed-mobile .nx-dashboard__sidebar { display: none; }
+        #nxDashboard.is-nav-collapsed .nx-dashboard__sidebar { display: flex; }
+        #nxDashboard.is-nav-collapsed.is-nav-closed-mobile .nx-dashboard__sidebar { display: none; }
+        #nxDashboard .nx-dashboard__main { padding: 20px 16px; }
+        #nxDashboard .nx-topbar__explore span,
+        #nxDashboard .nx-topbar__logout-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        #nxDashboard .nx-topbar__explore,
+        #nxDashboard .nx-topbar__logout-btn { width: 40px; padding: 0; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #nxDashboard * { transition: none !important; }
+    }
+</style>

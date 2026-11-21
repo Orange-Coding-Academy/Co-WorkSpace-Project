@@ -1,6 +1,7 @@
 @import url("nexora/design-tokens.css");
 @import url("nexora/typography.css");
-@import url("nexora/layout.css");
 @import url("nexora/components.css");
+@import url("nexora/layout.css");
+@import url("nexora/dashboard.css");
 @import url("nexora/utilities.css");
 @import url("nexora/responsive.css");
