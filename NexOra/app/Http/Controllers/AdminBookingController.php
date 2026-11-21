@@ -39,7 +39,7 @@ class AdminBookingController extends Controller
         }
 
         $bookings = $query->latest('created_at')
-            ->paginate(15)
+            ->paginate(5)
             ->withQueryString();
 
         $stats = [

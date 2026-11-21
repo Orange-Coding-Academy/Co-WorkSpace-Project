@@ -1,1250 +1,1424 @@
-{{--
-Manager Bookings Routes
-use App\Http\Controllers\BookingController;
-
-Route::get('/bookings', [BookingController::class, 'index'])
-    ->name('bookings.index');
-
-Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancelManagerBooking'])
-    ->name('bookings.cancel');
-
---}}
 
 @extends('layouts.dashboard')
 
 @section('dashboard-role', 'manager')
-
-@section('title') Manager Bookings | NexOra @endsection
-@section('page-title') Manager Bookings @endsection
+@section('title', 'Manager Bookings | NexOra')
+@section('page-title', 'Manager Bookings')
 
 @push('styles')
-    <style>
-        .nx-page-content *{ box-sizing: border-box; }
+@include('layouts.dashboard.partials.app-compat-styles')
 
-        .nx-page-content{
-            margin: 0;
-            font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-            background: #F5F7F3;
-            color: #1D2924;
-        }
+<style>
+/* =========================================================
+   NexOra — Manager Bookings
+   Scoped page styles | Shared NexOra design system
+========================================================= */
 
-        .nx-page-content .container{
-            max-width: 1250px;
-            margin: 40px auto;
-            padding: 0 24px;
-        }
-
-        .nx-page-content .page-header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-        }
-
-        .nx-page-content h1{ margin: 0 0 8px; font-size: 28px; }
-        .nx-page-content .subtitle{ color: #53615A; margin: 0; }
-
-        .nx-page-content .card{
-            background: white;
-            border: 1px solid #E9EEE9;
-            border-radius: 14px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 18px rgba(21, 42, 35,.04);
-        }
-
-        .nx-page-content .filters{
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .nx-page-content label{
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .nx-page-content select, .nx-page-content input, .nx-page-content textarea{
-            width: 100%;
-            padding: 11px 12px;
-            border: 1px solid #C9D4CC;
-            border-radius: 8px;
-            font: inherit;
-            background: white;
-        }
-
-        .nx-page-content .filter-actions{
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .nx-page-content .btn{
-            display: inline-block;
-            text-decoration: none;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .nx-page-content .btn-primary{ background: #315C4D; color: white; }
-        .nx-page-content .btn-secondary{ background: #F5F7F3; color: #1D2924; }
-        .nx-page-content .btn-outline{
-            background: white;
-            border: 1px solid #C9D4CC;
-            color: #315C4D;
-        }
-        .nx-page-content .btn-danger{ background: #dc2626; color: white; }
-
-        .nx-page-content .table-header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .nx-page-content .table-header h2{ margin: 0; font-size: 19px; }
-        .nx-page-content .table-wrapper{ overflow-x: auto; }
-
-        .nx-page-content table{
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            white-space: nowrap;
-        }
-
-        .nx-page-content th{
-            background: #F5F7F3;
-            color: #53615A;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .4px;
-        }
-
-        .nx-page-content th, .nx-page-content td{
-            padding: 15px 12px;
-            border-bottom: 1px solid #F5F7F3;
-        }
-
-        .nx-page-content td{ font-size: 13px; }
-        .nx-page-content tr:last-child td{ border-bottom: none; }
-
-        .nx-page-content .member-name{ font-weight: 600; }
-        .nx-page-content .muted{ color: #53615A; font-size: 12px; margin-top: 4px; }
-
-        .nx-page-content .badge{
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .nx-page-content .pending{ background: #fef3c7; color: #C58A62; }
-        .nx-page-content .confirmed, .nx-page-content .paid{ background: #dcfce7; color: #166534; }
-        .nx-page-content .cancelled, .nx-page-content .failed{ background: #fee2e2; color: #991b1b; }
-        .nx-page-content .completed{ background: #E7EEE7; color: #315C4D; }
-        .nx-page-content .expired{ background: #E9EEE9; color: #53615A; }
-
-        .nx-page-content .actions{ display: flex; gap: 8px; }
-
-        .nx-page-content .modal{
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(21, 42, 35,.55);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 100;
-        }
-
-        .nx-page-content .modal:target{ display: flex; }
-
-        .nx-page-content .modal-content{
-            background: white;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 520px;
-            padding: 26px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .nx-page-content .modal-header{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .nx-page-content .modal-header h2{ margin: 0; font-size: 21px; }
-
-        .nx-page-content .close{
-            text-decoration: none;
-            font-size: 25px;
-            color: #53615A;
-        }
-
-        .nx-page-content .detail-row{
-            display: flex;
-            justify-content: space-between;
-            padding: 13px 0;
-            border-bottom: 1px solid #F5F7F3;
-            gap: 16px;
-        }
-
-        .nx-page-content .detail-row span:first-child{ color: #53615A; }
-        .nx-page-content .detail-row strong{ text-align: right; overflow-wrap: anywhere; }
-
-        .nx-page-content .modal-actions{
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 24px;
-        }
-
-        .nx-page-content .btn-link{
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        @media (max-width: 850px) {
-            .nx-page-content .filters{ grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 520px) {
-            .nx-page-content .filters{ grid-template-columns: 1fr; }
-            .nx-page-content .page-header{ align-items: flex-start; }
-            .nx-page-content .container{ padding: 0 12px; margin-top: 24px; }
-            .nx-page-content .card{ padding: 16px; }
-        }
-
-/* =====================================================
-   NexOra — Manager Bookings Premium UI
-   Append at the end of the page styles
-
-.nx-page-content {
-    min-height: 100vh;
-    padding: 1px 0 45px;
-    background:
-        radial-gradient(ellipse at 8% 4%, rgba(197,138,98,.10), transparent 28%),
-        radial-gradient(ellipse at 92% 18%, rgba(49,92,77,.09), transparent 30%),
-        #F5F7F3;
+.nx-bookings-page,
+.nx-bookings-page * {
+    box-sizing: border-box;
 }
 
-/* Balanced distance from dashboard navbar */
-.nx-page-content > .container {
-    max-width: 1320px;
+.nx-bookings-page {
+    --bk-primary: var(--nx-primary, #315c4d);
+    --bk-dark: var(--nx-sidebar, #203d34);
+    --bk-accent: var(--nx-accent, #c58a62);
+    --bk-bg: var(--nx-bg, #f5f7f3);
+    --bk-card: var(--nx-card, #fff);
+    --bk-text: var(--nx-text, #1d2924);
+    --bk-muted: var(--nx-text-muted, #7f8b84);
+    --bk-border: var(--nx-border, #e2e8e2);
+    --bk-soft: #f7f9f6;
+
+    width: 100%;
+    min-height: 100%;
+    padding: 1px 0 38px;
+    color: var(--bk-text);
+    font-family: var(--nx-font-body, "Inter", sans-serif);
+    background:
+        radial-gradient(ellipse at 5% 0%, rgba(197,138,98,.07), transparent 28%),
+        var(--bk-bg);
+}
+
+.nx-bookings-page .bk-container {
+    width: 100%;
+    max-width: 1440px;
     margin: 22px auto 0;
     padding: 0 28px;
 }
 
-/* Page heading */
-.nx-page-content .page-header {
+/* Header */
+.nx-bookings-page .bk-header {
     position: relative;
-    margin-bottom: 25px;
-    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 150px;
+    margin-bottom: 22px;
+    padding: 28px 32px;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.65);
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 20px;
-    background: linear-gradient(115deg, #203D34 0%, #315C4D 65%, #557565 100%);
-    box-shadow: 0 12px 30px rgba(32,61,52,.13);
-    animation: bookingsEnter .55s ease both;
+    background: linear-gradient(115deg, #203d34 0%, #315c4d 65%, #557565 100%);
+    box-shadow: 0 12px 28px rgba(32,61,52,.12);
 }
 
-.nx-page-content .page-header::before,
-.nx-page-content .page-header::after {
-    content: "";
+.nx-bookings-page .bk-header::before,
+.nx-bookings-page .bk-header::after {
     position: absolute;
+    content: "";
     border-radius: 50%;
     pointer-events: none;
 }
 
-.nx-page-content .page-header::before {
-    width: 230px;
-    height: 230px;
-    right: 5%;
-    top: -145px;
-    background: rgba(255,255,255,.07);
+.nx-bookings-page .bk-header::before {
+    width: 250px;
+    height: 250px;
+    top: -155px;
+    right: 7%;
+    background: rgba(255,255,255,.055);
 }
 
-.nx-page-content .page-header::after {
-    width: 150px;
-    height: 150px;
-    right: 22%;
-    bottom: -115px;
-    background: rgba(197,138,98,.20);
+.nx-bookings-page .bk-header::after {
+    width: 170px;
+    height: 170px;
+    right: 25%;
+    bottom: -125px;
+    background: rgba(197,138,98,.17);
 }
 
-.nx-page-content .page-header > div {
+.nx-bookings-page .bk-header-content {
     position: relative;
     z-index: 1;
 }
 
-.nx-page-content .page-header h1 {
-    color: #fff;
-    font-family: var(--nx-font-heading);
-    font-size: clamp(23px, 3vw, 30px);
-    font-weight: 800;
-    letter-spacing: -.7px;
-    margin: 0 0 7px;
-}
-
-.nx-page-content .page-header .subtitle {
-    color: rgba(255,255,255,.76);
-    font-size: 13px;
-    margin: 0;
-}
-
-/* Main cards */
-.nx-page-content .card {
-    position: relative;
-    padding: 25px;
-    margin-bottom: 22px;
-    border: 1px solid #E4EAE3;
-    border-radius: 19px;
-    background: rgba(255,255,255,.94);
-    box-shadow: 0 5px 22px rgba(29,41,36,.045);
-    transition: box-shadow .25s ease, transform .25s ease;
-    animation: bookingsEnter .55s ease both;
-}
-
-.nx-page-content .card:hover {
-    box-shadow: 0 10px 28px rgba(29,41,36,.075);
-}
-
-/* Success and error messages */
-.nx-page-content .card[style*="color: green"],
-.nx-page-content .card[style*="color: red"] {
-    padding: 15px 19px;
-    border-radius: 13px;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.nx-page-content .card[style*="color: green"] {
-    background: #ECF7F0;
-    border-color: #C7E8D2;
-}
-
-.nx-page-content .card[style*="color: red"] {
-    background: #FFF0EE;
-    border-color: #F3D0CB;
-}
-
-/* Filter section */
-.nx-page-content .filters {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.nx-page-content label {
-    color: #34483E;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .1px;
-    margin-bottom: 9px;
-}
-
-.nx-page-content select,
-.nx-page-content input {
-    min-height: 46px;
-    padding: 11px 14px;
-    border: 1px solid #DCE5DC;
-    border-radius: 11px;
-    background-color: #FBFCFA;
-    color: #263B31;
-    font-size: 13px;
-    outline: none;
-    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
-}
-
-.nx-page-content select:hover,
-.nx-page-content input:hover {
-    border-color: #9DB4A3;
-    background: #fff;
-}
-
-.nx-page-content select:focus,
-.nx-page-content input:focus {
-    border-color: #557D68;
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(49,92,77,.10);
-}
-
-.nx-page-content .filter-actions {
-    margin-top: 22px;
-    padding-top: 18px;
-    border-top: 1px solid #EEF1ED;
-}
-
-.nx-page-content .btn {
-    min-height: 42px;
-    padding: 10px 19px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-}
-
-.nx-page-content .btn:hover {
-    transform: translateY(-2px);
-}
-
-.nx-page-content .btn-primary {
-    background: linear-gradient(135deg, #315C4D, #42745E);
-    color: #fff;
-    box-shadow: 0 5px 12px rgba(49,92,77,.16);
-}
-
-.nx-page-content .btn-primary:hover {
-    background: linear-gradient(135deg, #274B3F, #315C4D);
-    box-shadow: 0 7px 16px rgba(49,92,77,.22);
-}
-
-.nx-page-content .btn-secondary {
-    background: #F0F3EF;
-    color: #43564B;
-    border: 1px solid #E1E8E0;
-}
-
-.nx-page-content .btn-outline {
-    background: #F7FAF7;
-    color: #315C4D;
-    border: 1px solid #D8E4D9;
-}
-
-.nx-page-content .btn-outline:hover {
-    background: #EAF2EB;
-    border-color: #AFC7B3;
-}
-
-.nx-page-content .btn-danger {
-    background: #B9433B;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(185,67,59,.12);
-}
-
-.nx-page-content .btn-danger:hover {
-    background: #9F342E;
-    box-shadow: 0 6px 14px rgba(185,67,59,.2);
-}
-
-/* Table heading */
-.nx-page-content .table-header {
-    margin-bottom: 18px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #EDF1EC;
-}
-
-.nx-page-content .table-header h2 {
-    color: #203D34;
-    font-size: 19px;
-    font-weight: 800;
-}
-
-.nx-page-content .table-header .muted {
-    margin: 0;
-    padding: 7px 12px;
-    border-radius: 30px;
-    background: #EDF3ED;
-    color: #315C4D;
-    font-size: 11px;
-    font-weight: 700;
-}
-
-/* Bookings table */
-.nx-page-content .table-wrapper {
-    overflow-x: auto;
-    border: 1px solid #E9EEE8;
-    border-radius: 14px;
-    scrollbar-width: thin;
-    scrollbar-color: #B9C9BB #F3F6F2;
-}
-
-.nx-page-content table {
-    min-width: 1000px;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.nx-page-content th {
-    padding: 16px 14px;
-    background: #F1F5F0;
-    color: #64736A;
+.nx-bookings-page .bk-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 11px;
+    color: #d7e4d9;
     font-size: 10px;
     font-weight: 800;
-    letter-spacing: .65px;
-    border-bottom: 1px solid #E4EBE3;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.nx-page-content td {
-    padding: 16px 14px;
-    color: #34443B;
-    font-size: 12px;
-    vertical-align: middle;
-    border-bottom: 1px solid #EEF2ED;
+.nx-bookings-page .bk-eyebrow::before {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #c58a62;
+    content: "";
 }
 
-.nx-page-content tbody tr {
-    transition: background .2s ease;
-}
-
-.nx-page-content tbody tr:hover {
-    background: #F8FBF7;
-}
-
-.nx-page-content tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.nx-page-content td strong {
-    color: #315C4D;
+.nx-bookings-page .bk-header h1 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: clamp(25px, 3vw, 32px);
     font-weight: 800;
+    letter-spacing: -.8px;
 }
 
-.nx-page-content .member-name {
-    color: #263B31;
-    font-size: 12px;
-    font-weight: 750;
-}
-
-.nx-page-content .muted {
-    color: #87938B;
-    font-size: 11px;
+.nx-bookings-page .bk-header p {
+    margin: 0;
+    color: rgba(255,255,255,.76);
+    font-size: 13px;
     line-height: 1.6;
 }
 
-/* Status badges */
-.nx-page-content .badge {
-    padding: 6px 11px;
-    border: 1px solid transparent;
-    border-radius: 30px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .15px;
-}
-
-.nx-page-content .pending {
-    color: #93620C;
-    background: #FFF5DF;
-    border-color: #F2E1B9;
-}
-
-.nx-page-content .confirmed,
-.nx-page-content .paid {
-    color: #247247;
-    background: #EAF6EE;
-    border-color: #CDE8D5;
-}
-
-.nx-page-content .cancelled,
-.nx-page-content .failed {
-    color: #A33B35;
-    background: #FCEFED;
-    border-color: #F1D2CE;
-}
-
-.nx-page-content .completed {
-    color: #315C4D;
-    background: #EAF1EB;
-    border-color: #D3E1D4;
-}
-
-.nx-page-content .expired {
-    color: #68756D;
-    background: #F0F2EF;
-    border-color: #E1E5E0;
-}
-
-/* Row actions */
-.nx-page-content .actions {
-    align-items: center;
-    gap: 7px;
-}
-
-.nx-page-content .actions .btn {
-    min-height: 33px;
-    padding: 7px 12px;
-    font-size: 10px;
-    border-radius: 8px;
-}
-
-/* Details and cancellation modal */
-.nx-page-content .modal {
-    z-index: 2000;
-    background: rgba(17,35,28,.62);
-    backdrop-filter: blur(5px);
-    animation: modalFade .2s ease;
-}
-
-.nx-page-content .modal-content {
-    max-width: 540px;
-    padding: 27px;
-    border: 1px solid rgba(255,255,255,.7);
-    border-radius: 20px;
-    box-shadow: 0 24px 70px rgba(13,30,22,.25);
-    animation: modalUp .25s ease;
-}
-
-.nx-page-content .modal-header {
-    padding-bottom: 17px;
-    border-bottom: 1px solid #EDF1EC;
-}
-
-.nx-page-content .modal-header h2 {
-    color: #203D34;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.nx-page-content .close {
+.nx-bookings-page .bk-header-icon {
+    position: relative;
+    z-index: 1;
     display: grid;
+    width: 62px;
+    height: 62px;
+    flex: 0 0 62px;
     place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #F0F3EF;
-    color: #53615A;
-    font-size: 22px;
-    transition: .2s ease;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 18px;
+    background: rgba(255,255,255,.1);
+    color: #fff;
 }
 
-.nx-page-content .close:hover {
-    background: #E5ECE5;
-    color: #203D34;
-    transform: rotate(90deg);
+.nx-bookings-page .bk-header-icon svg {
+    width: 29px;
+    height: 29px;
 }
 
-.nx-page-content .detail-row {
-    padding: 14px 0;
-    border-bottom: 1px solid #EEF2ED;
-    font-size: 12px;
-}
-
-.nx-page-content .detail-row span:first-child {
-    color: #7A887F;
-    font-weight: 600;
-}
-
-.nx-page-content .detail-row strong {
-    color: #263B31;
-    font-weight: 750;
-}
-
-.nx-page-content .modal-actions {
-    padding-top: 17px;
-    border-top: 1px solid #EEF2ED;
-}
-
-.nx-page-content .modal .subtitle {
-    color: #718078;
+/* Alerts */
+.nx-bookings-page .bk-alert {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 17px;
+    padding: 14px 17px;
+    border: 1px solid;
+    border-radius: 12px;
     font-size: 13px;
-    line-height: 1.7;
+    font-weight: 600;
+    animation: bkFadeUp .35s ease both;
 }
 
-/* Pagination */
-.nx-page-content .bookings-pagination {
+.nx-bookings-page .bk-alert-success {
+    color: #236b43;
+    border-color: #cce7d4;
+    background: #eff8f1;
+}
+
+.nx-bookings-page .bk-alert-error {
+    color: #a33b35;
+    border-color: #f0d1cd;
+    background: #fff2f0;
+}
+
+.nx-bookings-page .bk-alert svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+}
+
+/* General card */
+.nx-bookings-page .bk-card {
+    margin-bottom: 20px;
+    padding: 24px;
+    border: 1px solid var(--bk-border);
+    border-radius: 17px;
+    background: var(--bk-card);
+    box-shadow: 0 3px 14px rgba(29,41,36,.035);
+    animation: bkFadeUp .45s ease both;
+}
+
+.nx-bookings-page .bk-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 19px;
+}
+
+.nx-bookings-page .bk-section-icon {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    place-items: center;
+    border-radius: 11px;
+    background: #edf3ed;
+    color: var(--bk-primary);
+}
+
+.nx-bookings-page .bk-section-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.nx-bookings-page .bk-section-heading h2 {
+    margin: 0 0 3px;
+    color: var(--bk-dark);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.nx-bookings-page .bk-section-heading p {
+    margin: 0;
+    color: var(--bk-muted);
+    font-size: 11px;
+}
+
+/* Filters */
+.nx-bookings-page .bk-filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.nx-bookings-page .bk-field {
+    min-width: 0;
+}
+
+.nx-bookings-page .bk-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: #405248;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.nx-bookings-page .bk-field select,
+.nx-bookings-page .bk-field input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    padding: 0 13px;
+    border: 1px solid #dfe6de;
+    border-radius: 10px;
+    outline: none;
+    background: #fbfcfa;
+    color: #304238;
+    font-family: inherit;
+    font-size: 12px;
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.nx-bookings-page .bk-field select:hover,
+.nx-bookings-page .bk-field input:hover {
+    border-color: #aabdaf;
+    background: #fff;
+}
+
+.nx-bookings-page .bk-field select:focus,
+.nx-bookings-page .bk-field input:focus {
+    border-color: var(--bk-primary);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(49,92,77,.11);
+}
+
+.nx-bookings-page .bk-filter-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 22px;
-    padding: 16px 18px;
-    border: 1px solid #E7EDE6;
-    border-radius: 14px;
-    background: #FBFCFA;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid #edf1ec;
 }
 
-.nx-page-content .bookings-pagination .pagination {
-    display: flex;
-    flex-wrap: wrap;
+.nx-bookings-page .bk-filter-hint {
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    margin: 0;
+    gap: 7px;
+    color: var(--bk-muted);
+    font-size: 11px;
 }
 
-.nx-page-content .bookings-pagination .page-item {
-    list-style: none;
+.nx-bookings-page .bk-filter-hint svg {
+    width: 14px;
+    height: 14px;
+    color: var(--bk-primary);
 }
 
-.nx-page-content .bookings-pagination .page-link {
-    display: grid;
-    place-items: center;
-    min-width: 36px;
+.nx-bookings-page .bk-reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     min-height: 36px;
-    padding: 7px 11px;
-    border: 1px solid #E1E9E0;
-    border-radius: 9px !important;
+    padding: 8px 13px;
+    border: 1px solid #dfe7df;
+    border-radius: 9px;
     background: #fff;
-    color: #53665A;
-    font-size: 12px;
+    color: #53665a;
+    font-size: 11px;
     font-weight: 700;
     text-decoration: none;
     transition: .2s ease;
 }
 
-.nx-page-content .bookings-pagination .page-link:hover {
-    border-color: #AFC7B3;
-    background: #EDF4ED;
-    color: #315C4D;
+.nx-bookings-page .bk-reset:hover {
+    border-color: #b6c9b9;
+    background: #f0f5ef;
+    color: var(--bk-primary);
 }
 
-.nx-page-content .bookings-pagination .page-item.active .page-link {
-    border-color: #315C4D;
-    background: #315C4D;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(49,92,77,.17);
+.nx-bookings-page .bk-reset svg {
+    width: 14px;
+    height: 14px;
 }
 
-.nx-page-content .bookings-pagination .page-item.disabled .page-link {
-    opacity: .4;
-    pointer-events: none;
+/* Table heading */
+.nx-bookings-page .bk-table-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
 }
 
-.nx-page-content .bookings-pagination .pagination-summary {
-    color: #7B8980;
+.nx-bookings-page .bk-table-title {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.nx-bookings-page .bk-table-title h2 {
+    margin: 0 0 4px;
+    color: var(--bk-dark);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.nx-bookings-page .bk-table-title p {
+    margin: 0;
+    color: var(--bk-muted);
+    font-size: 11px;
+}
+
+.nx-bookings-page .bk-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #dce8dc;
+    border-radius: 30px;
+    background: #f0f5ef;
+    color: var(--bk-primary);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* Table */
+.nx-bookings-page .bk-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e8ede7;
+    border-radius: 13px;
+    scrollbar-width: thin;
+    scrollbar-color: #c5d2c6 #f4f6f3;
+}
+
+.nx-bookings-page .bk-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+}
+
+.nx-bookings-page .bk-table th {
+    padding: 14px 13px;
+    border-bottom: 1px solid #e6ece5;
+    background: #f5f8f4;
+    color: #718078;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .55px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.nx-bookings-page .bk-table td {
+    padding: 15px 13px;
+    border-bottom: 1px solid #edf1ec;
+    color: #35463c;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.nx-bookings-page .bk-table tbody tr {
+    transition: background .18s ease;
+}
+
+.nx-bookings-page .bk-table tbody tr:hover {
+    background: #f9fbf8;
+}
+
+.nx-bookings-page .bk-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.nx-bookings-page .bk-member {
+    color: #263b31;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.nx-bookings-page .bk-subtext {
+    margin-top: 5px;
+    color: #87938b;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.nx-bookings-page .bk-workspace {
+    color: #304238;
+    font-weight: 700;
+}
+
+.nx-bookings-page .bk-date {
+    color: #304238;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.nx-bookings-page .bk-time {
+    margin-top: 5px;
+    color: #87938b;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.nx-bookings-page .bk-amount {
+    color: var(--bk-dark);
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* Statuses */
+.nx-bookings-page .bk-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 25px;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.nx-bookings-page .bk-badge.pending {
+    border-color: #f1e1bd;
+    background: #fff6e5;
+    color: #865c13;
+}
+
+.nx-bookings-page .bk-badge.confirmed,
+.nx-bookings-page .bk-badge.paid {
+    border-color: #cce7d4;
+    background: #eaf6ee;
+    color: #236b43;
+}
+
+.nx-bookings-page .bk-badge.cancelled,
+.nx-bookings-page .bk-badge.failed {
+    border-color: #f0d1cd;
+    background: #fcefed;
+    color: #a33b35;
+}
+
+.nx-bookings-page .bk-badge.completed {
+    border-color: #d5e2d5;
+    background: #eaf1eb;
+    color: #315c4d;
+}
+
+.nx-bookings-page .bk-badge.expired {
+    border-color: #e2e7e1;
+    background: #f1f3f0;
+    color: #68756d;
+}
+
+/* Actions */
+.nx-bookings-page .bk-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.nx-bookings-page .bk-action {
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    place-items: center;
+    border: 1px solid;
+    border-radius: 9px;
+    text-decoration: none;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.nx-bookings-page .bk-action:hover {
+    transform: translateY(-2px);
+}
+
+.nx-bookings-page .bk-action svg {
+    width: 16px;
+    height: 16px;
+}
+
+.nx-bookings-page .bk-view {
+    border-color: #dce7dc;
+    background: #f1f6f0;
+    color: #315c4d;
+}
+
+.nx-bookings-page .bk-view:hover {
+    border-color: #a9c4ac;
+    background: #e5efe4;
+}
+
+.nx-bookings-page .bk-cancel {
+    border-color: #f0d8d5;
+    background: #fff4f2;
+    color: #b3433b;
+}
+
+.nx-bookings-page .bk-cancel:hover {
+    border-color: #e6bcb6;
+    background: #fde9e6;
+}
+
+/* Empty state */
+.nx-bookings-page .bk-empty {
+    padding: 48px 20px !important;
+    text-align: center;
+}
+
+.nx-bookings-page .bk-empty-icon {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 13px;
+    place-items: center;
+    border-radius: 16px;
+    background: #f0f5ef;
+    color: #63816c;
+}
+
+.nx-bookings-page .bk-empty-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.nx-bookings-page .bk-empty strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #304238;
+    font-size: 13px;
+}
+
+.nx-bookings-page .bk-empty span {
+    color: var(--bk-muted);
+    font-size: 11px;
+}
+/* =========================================================
+   Pagination — Laravel Compatible
+========================================================= */
+
+.nx-bookings-page .bk-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 13px 15px;
+    border: 1px solid #e8ede7;
+    border-radius: 12px;
+    background: #fbfcfa;
+}
+
+.nx-bookings-page .bk-pagination-summary {
+    color: #7b8980;
     font-size: 11px;
     font-weight: 600;
 }
 
+/* Laravel pagination navigation */
+.nx-bookings-page .bk-pagination nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+/* Main Laravel wrappers */
+.nx-bookings-page .bk-pagination nav > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+/* Mobile previous / next wrapper */
+.nx-bookings-page .bk-pagination nav > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+/* Desktop pagination wrapper */
+.nx-bookings-page .bk-pagination nav > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Hide Laravel's internal "Showing..." text
+   because we already have our own summary */
+.nx-bookings-page .bk-pagination nav p {
+    display: none;
+}
+
+/* Number buttons wrapper */
+.nx-bookings-page .bk-pagination nav > div:last-child > div:last-child,
+.nx-bookings-page .bk-pagination nav > div:last-child > span {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* Pagination buttons */
+.nx-bookings-page .bk-pagination nav a,
+.nx-bookings-page .bk-pagination nav span[aria-current],
+.nx-bookings-page .bk-pagination nav span[aria-disabled] {
+    display: inline-flex;
+    min-width: 35px;
+    height: 35px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border: 1px solid #e1e9e0;
+    border-radius: 8px;
+    background: #fff;
+    color: #53665a;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+
+/* Hover */
+.nx-bookings-page .bk-pagination nav a:hover {
+    border-color: #afc7b3;
+    background: #edf4ed;
+    color: var(--bk-primary);
+    transform: translateY(-1px);
+}
+
+/* Current page */
+.nx-bookings-page .bk-pagination nav span[aria-current="page"] {
+    border-color: var(--bk-primary);
+    background: var(--bk-primary);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(49,92,77,.16);
+}
+
+/* Disabled buttons */
+.nx-bookings-page .bk-pagination nav span[aria-disabled="true"] {
+    background: #f4f6f3;
+    color: #a4aea6;
+    border-color: #e8ece7;
+    cursor: not-allowed;
+    opacity: .7;
+}
+
+/* Pagination icons */
+.nx-bookings-page .bk-pagination nav svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* Responsive */
+@media (max-width: 650px) {
+    .nx-bookings-page .bk-pagination {
+        justify-content: center;
+        padding: 13px;
+    }
+
+    .nx-bookings-page .bk-pagination-summary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nx-bookings-page .bk-pagination nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nx-bookings-page .bk-pagination nav > div {
+        justify-content: center;
+    }
+}
+
+/* Modals */
+.nx-bookings-page .bk-modal {
+    position: fixed;
+    z-index: 3000;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(17,35,28,.62);
+    backdrop-filter: blur(5px);
+}
+
+.nx-bookings-page .bk-modal:target {
+    display: flex;
+    animation: bkModalFade .2s ease both;
+}
+
+.nx-bookings-page .bk-modal-content {
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    padding: 25px;
+    overflow-y: auto;
+    border: 1px solid rgba(255,255,255,.65);
+    border-radius: 19px;
+    background: #fff;
+    box-shadow: 0 22px 65px rgba(13,30,22,.24);
+    animation: bkModalUp .25s ease both;
+}
+
+.nx-bookings-page .bk-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 17px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9eee9;
+}
+
+.nx-bookings-page .bk-modal-header h2 {
+    margin: 0;
+    color: var(--bk-dark);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.nx-bookings-page .bk-close {
+    display: grid;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+    place-items: center;
+    border-radius: 10px;
+    background: #f0f3ef;
+    color: #53615a;
+    font-size: 23px;
+    line-height: 1;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.nx-bookings-page .bk-close:hover {
+    transform: rotate(90deg);
+    background: #e5ece5;
+    color: var(--bk-dark);
+}
+
+.nx-bookings-page .bk-detail-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf1ec;
+    font-size: 12px;
+}
+
+.nx-bookings-page .bk-detail-row > span:first-child {
+    flex: 0 0 40%;
+    color: #7b8980;
+    font-weight: 600;
+}
+
+.nx-bookings-page .bk-detail-row strong {
+    color: #304238;
+    font-weight: 750;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.nx-bookings-page .bk-detail-row .bk-badge {
+    margin-left: auto;
+}
+
+.nx-bookings-page .bk-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 21px;
+}
+
+.nx-bookings-page .bk-modal-btn {
+    display: inline-flex;
+    min-height: 39px;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.nx-bookings-page .bk-modal-btn:hover {
+    transform: translateY(-1px);
+}
+
+.nx-bookings-page .bk-modal-btn-secondary {
+    border-color: #dfe7df;
+    background: #f4f7f3;
+    color: #53665a;
+}
+
+.nx-bookings-page .bk-modal-btn-danger {
+    border-color: #b9433b;
+    background: #b9433b;
+    color: #fff;
+}
+
+.nx-bookings-page .bk-modal-btn-danger:hover {
+    background: #9f342e;
+}
+
+.nx-bookings-page .bk-cancel-note {
+    margin: 0 0 15px;
+    padding: 13px 14px;
+    border: 1px solid #f0dfc7;
+    border-radius: 10px;
+    background: #fff8ed;
+    color: #805c2d;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.nx-bookings-page .bk-cancel-question {
+    margin: 0;
+    color: #53615a;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
 /* Animations */
-@keyframes bookingsEnter {
-    from { opacity: 0; transform: translateY(12px); }
+@keyframes bkFadeUp {
+    from { opacity: 0; transform: translateY(9px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes modalFade {
+@keyframes bkModalFade {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-@keyframes modalUp {
-    from { opacity: 0; transform: translateY(12px) scale(.98); }
+@keyframes bkModalUp {
+    from { opacity: 0; transform: translateY(10px) scale(.985); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-    .nx-page-content .filters {
+@media (max-width: 1050px) {
+    .nx-bookings-page .bk-filters {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 600px) {
-    .nx-page-content > .container {
-        margin-top: 16px;
+@media (max-width: 650px) {
+    .nx-bookings-page .bk-container {
+        margin-top: 15px;
         padding: 0 13px;
     }
 
-    .nx-page-content .page-header {
-        padding: 20px;
-        margin-bottom: 17px;
+    .nx-bookings-page .bk-header {
+        min-height: 130px;
+        margin-bottom: 16px;
+        padding: 21px;
         border-radius: 16px;
     }
 
-    .nx-page-content .card {
+    .nx-bookings-page .bk-header-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        border-radius: 13px;
+    }
+
+    .nx-bookings-page .bk-header-icon svg {
+        width: 23px;
+        height: 23px;
+    }
+
+    .nx-bookings-page .bk-card {
+        margin-bottom: 15px;
         padding: 17px;
-        border-radius: 15px;
+        border-radius: 14px;
     }
 
-    .nx-page-content .filters {
+    .nx-bookings-page .bk-filters {
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 13px;
     }
 
-    .nx-page-content .filter-actions {
-        flex-direction: column-reverse;
+    .nx-bookings-page .bk-filter-footer {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .nx-page-content .filter-actions .btn {
+    .nx-bookings-page .bk-reset {
         width: 100%;
     }
 
-    .nx-page-content .table-header {
+    .nx-bookings-page .bk-table-heading {
         align-items: flex-start;
-        gap: 10px;
     }
 
-    .nx-page-content .bookings-pagination {
+    .nx-bookings-page .bk-pagination {
         justify-content: center;
     }
 
-    .nx-page-content .modal-content {
+    .nx-bookings-page .bk-modal {
+        padding: 12px;
+    }
+
+    .nx-bookings-page .bk-modal-content {
         padding: 19px;
+        border-radius: 15px;
+    }
+
+    .nx-bookings-page .bk-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .nx-bookings-page .bk-modal-btn {
+        width: 100%;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nx-page-content *,
-    .nx-page-content *::before,
-    .nx-page-content *::after {
+    .nx-bookings-page *,
+    .nx-bookings-page *::before,
+    .nx-bookings-page *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
     }
-
 }
-
-/* =========================================
-   Bookings Table - No Horizontal Scroll
-
-/* إلغاء السكرول الأفقي */
-.table-wrapper {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden !important;
-    overflow-y: visible;
-}
-
-/* عرض الجدول بكامل المساحة */
-.table-wrapper table {
-    width: 100%;
-    min-width: 0 !important;
-    table-layout: fixed;
-    border-collapse: collapse;
-}
-
-/* توزيع الأعمدة */
-.table-wrapper th,
-.table-wrapper td {
-    padding: 13px 8px;
-    white-space: normal !important;
-    overflow-wrap: anywhere;
-    word-break: normal;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 12px;
-}
-
-/* عناوين الأعمدة */
-.table-wrapper th {
-    font-size: 11px;
-    font-weight: 800;
-    line-height: 1.5;
-}
-
-/* إخفاء أي أسهم أو أزرار خاصة بالسكرول */
-.table-scroll-arrow,
-.scroll-arrow,
-.table-scroll-btn {
-    display: none !important;
-}
-
-/* تحسين العرض على الشاشات المتوسطة */
-@media (max-width: 1200px) {
-    .table-wrapper th,
-    .table-wrapper td {
-        padding: 10px 5px;
-        font-size: 11px;
-    }
-}
-
-/* تحسين العرض على الموبايل */
-@media (max-width: 768px) {
-    .table-wrapper {
-        overflow-x: hidden !important;
-    }
-
-    .table-wrapper table {
-        table-layout: auto;
-    }
-
-    .table-wrapper th,
-    .table-wrapper td {
-        padding: 8px 4px;
-        font-size: 10px;
-    }
-}
-
-
-    </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* NexOra Manager Bookings — presentation only */
-        .nx-page-content {
-            --nx-primary:#315C4D; --nx-dark:#203D34; --nx-hover:#274B3F;
-            --nx-text:#1D2924; --nx-muted:#53615A; --nx-bg:#F5F7F3;
-            --nx-border:#E2E8E2; --nx-soft:#F8FAF7; --nx-accent:#C58A62;
-            font-family:'Inter','Noto Sans Arabic',system-ui,sans-serif;
-            color:var(--nx-text); background:var(--nx-bg);
-            min-height:100%; padding:1px 0 36px;
-        }
-        .nx-page-content *, .nx-page-content *::before, .nx-page-content *::after {box-sizing:border-box;}
-        .nx-page-content .container {max-width:1250px; width:100%; margin:32px auto 0; padding:0 24px;}
-        .nx-page-content .page-header {display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:26px;}
-        .nx-page-content h1,.nx-page-content h2 {font-family:'Manrope','Noto Sans Arabic',sans-serif; letter-spacing:-.025em; color:var(--nx-text);}
-        .nx-page-content h1 {font-size:clamp(24px,3vw,30px); font-weight:800; margin:0 0 8px;}
-        .nx-page-content .subtitle {color:var(--nx-muted); font-size:14px; line-height:1.6; margin:0;}
-        .nx-page-content .card {background:#fff; border:1px solid var(--nx-border); border-radius:18px; padding:26px; margin-bottom:24px; box-shadow:0 5px 22px rgba(21,42,35,.045);}
-        .nx-page-content .filters {display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px;}
-        .nx-page-content label {display:block; margin-bottom:9px; color:var(--nx-text); font-size:13px; font-weight:700;}
-        .nx-page-content select,.nx-page-content input,.nx-page-content textarea {width:100%; min-width:0; min-height:46px; padding:11px 14px; border:1px solid #C9D4CC; border-radius:11px; background:#fff; color:var(--nx-text); font:inherit; font-size:14px; transition:border-color .2s,box-shadow .2s;}
-        .nx-page-content select:hover,.nx-page-content input:hover {border-color:#6F806E;}
-        .nx-page-content select:focus,.nx-page-content input:focus,.nx-page-content textarea:focus {outline:0; border-color:var(--nx-primary); box-shadow:0 0 0 3px rgba(49,92,77,.16);}
-        .nx-page-content :focus-visible {outline:2px solid var(--nx-accent); outline-offset:2px;}
-        .nx-page-content .filter-actions {display:flex; justify-content:flex-end; flex-wrap:wrap; gap:10px; margin-top:22px;}
-        .nx-page-content .btn {display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:42px; padding:10px 20px; border:1px solid transparent; border-radius:999px; font:700 13px 'Manrope','Noto Sans Arabic',sans-serif; text-decoration:none; cursor:pointer; white-space:nowrap; transition:background-color .2s,border-color .2s,color .2s,transform .2s;}
-        .nx-page-content .btn:hover {transform:translateY(-1px);}
-        .nx-page-content .btn:active {transform:translateY(0);}
-        .nx-page-content .btn-primary {background:var(--nx-primary); color:#fff; border-color:var(--nx-primary);}
-        .nx-page-content .btn-primary:hover {background:var(--nx-hover); color:#fff; border-color:var(--nx-hover);}
-        .nx-page-content .btn-secondary {background:#EDF2EC; color:var(--nx-dark); border-color:#DCE6DC;}
-        .nx-page-content .btn-secondary:hover {background:#E3EBE2; color:var(--nx-dark);}
-        .nx-page-content .btn-outline {background:#fff; border-color:#C9D4CC; color:var(--nx-primary);}
-        .nx-page-content .btn-outline:hover {background:#EDF2EC; border-color:var(--nx-primary); color:var(--nx-dark);}
-        .nx-page-content .btn-danger {background:#B42318; border-color:#B42318; color:#fff;}
-        .nx-page-content .btn-danger:hover {background:#912018; border-color:#912018; color:#fff;}
-        .nx-page-content .btn-link {text-align:center;}
-        .nx-page-content .table-header {display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:20px;}
-        .nx-page-content .table-header h2 {margin:0; font-size:19px; font-weight:800;}
-        .nx-page-content .table-wrapper {width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid var(--nx-border); border-radius:13px;}
-        .nx-page-content table {width:100%; border-collapse:collapse; text-align:left; white-space:nowrap;}
-        .nx-page-content th {background:var(--nx-soft); color:var(--nx-muted); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.045em;}
-        .nx-page-content th,.nx-page-content td {padding:17px 15px; border-bottom:1px solid #E9EEE9; vertical-align:middle;}
-        .nx-page-content td {font-size:13px;}
-        .nx-page-content tbody tr:hover {background:#FAFCF9;}
-        .nx-page-content tr:last-child td {border-bottom:0;}
-        .nx-page-content .member-name {font-weight:700; color:var(--nx-text);}
-        .nx-page-content .muted {color:var(--nx-muted); font-size:12px; margin-top:5px;}
-        .nx-page-content .badge {display:inline-flex; align-items:center; justify-content:center; padding:7px 12px; border-radius:999px; font-size:11px; font-weight:700; line-height:1.2;}
-        .nx-page-content .pending {background:#FFF6E5; color:#754C05;}
-        .nx-page-content .confirmed,.nx-page-content .paid {background:#EAF6EF; color:#145C3A;}
-        .nx-page-content .cancelled,.nx-page-content .failed {background:#FDEDEC; color:#912018;}
-        .nx-page-content .completed {background:#E7EEE7; color:var(--nx-dark);}
-        .nx-page-content .expired {background:#F0F2EF; color:var(--nx-muted);}
-        .nx-page-content .actions {display:flex; align-items:center; gap:8px;}
-        .nx-page-content .actions .btn {min-height:36px; padding:8px 14px; font-size:12px;}
-        /* Keep existing CSS :target modal behavior intact. */
-        .nx-page-content .modal {display:none; position:fixed; inset:0; background:rgba(21,42,35,.62); align-items:center; justify-content:center; padding:20px; z-index:1050; overflow-y:auto;}
-        .nx-page-content .modal:target {display:flex;}
-        .nx-page-content .modal-content {background:#fff; border:1px solid var(--nx-border); border-radius:20px; width:100%; max-width:560px; padding:28px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 55px rgba(21,42,35,.2);}
-        .nx-page-content .modal-header {display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:20px; padding:0 0 16px; border-bottom:1px solid #E9EEE9;}
-        .nx-page-content .modal-header h2 {margin:0; font-size:20px; font-weight:800;}
-        .nx-page-content .close {display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; background:var(--nx-soft); color:var(--nx-muted); text-decoration:none; font-size:25px; line-height:1; flex-shrink:0;}
-        .nx-page-content .close:hover {background:#E7EEE7; color:var(--nx-dark);}
-        .nx-page-content .detail-row {display:flex; justify-content:space-between; align-items:flex-start; gap:18px; padding:14px 0; border-bottom:1px solid #E9EEE9; font-size:13px;}
-        .nx-page-content .detail-row > span:first-child {color:var(--nx-muted); flex:0 0 42%;}
-        .nx-page-content .detail-row strong {text-align:right; overflow-wrap:anywhere; white-space:normal; font-weight:700;}
-        .nx-page-content .detail-row .badge {margin-left:auto;}
-        .nx-page-content .modal-actions {display:flex; justify-content:flex-end; flex-wrap:wrap; gap:10px; margin-top:24px;}
-        .nx-page-content .modal-content form p {font-size:14px; line-height:1.6; color:var(--nx-muted);}
-        @media(max-width:950px) {.nx-page-content .filters {grid-template-columns:repeat(2,minmax(0,1fr));}}
-        @media(max-width:600px) {
-            .nx-page-content .container {padding:0 14px; margin-top:22px;}
-            .nx-page-content .card {padding:18px; margin-bottom:18px; border-radius:15px;}
-            .nx-page-content .filters {grid-template-columns:1fr; gap:14px;}
-            .nx-page-content .page-header {align-items:flex-start;}
-            .nx-page-content .filter-actions {justify-content:stretch;}
-            .nx-page-content .filter-actions .btn {flex:1;}
-            .nx-page-content .table-header {flex-wrap:wrap;}
-            .nx-page-content .modal {padding:12px;}
-            .nx-page-content .modal-content {padding:20px; border-radius:16px;}
-            .nx-page-content .detail-row {gap:12px;}
-            .nx-page-content .modal-actions .btn {flex:1;}
-        }
-        @media(prefers-reduced-motion:reduce) {.nx-page-content .btn {transition:none;}}
-    </style>
+</style>
 @endpush
 
 @section('content')
-<div class="nx-page-content">
-<div class="container">
-    <header class="page-header">
-        <div>
-            <h1>Manager Bookings</h1>
-            <p class="subtitle">View and manage bookings across your workspaces.</p>
-        </div>
-    </header>
-@if(session('success'))
-    <div class="card" style="color: green;">
-        {{ session('success') }}
-    </div>
-@endif
+<div class="nx-bookings-page">
+    <div class="bk-container">
 
-@if($errors->any())
-    <div class="card" style="color: red;">
-        {{ $errors->first() }}
-    </div>
-@endif
-    <!-- Filters -->
-    <section class="card">
-<form action="{{ route('manager.bookings.index') }}" method="GET">
-            <div class="filters">
-                  <div>
-    <label for="status">Booking Status</label>
+        {{-- Page Header --}}
+        <header class="bk-header">
+            <div class="bk-header-content">
+                <div class="bk-eyebrow">MANAGEMENT / BOOKINGS</div>
+                <h1>Manager Bookings</h1>
+                <p>View and manage bookings across your workspaces.</p>
+            </div>
 
-    <select id="status" name="status">
-        <option value="">All Statuses</option>
+            <div class="bk-header-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="18" height="16" rx="2"/>
+                    <path d="M16 3v4M8 3v4M3 10h18"/>
+                    <path d="m9 15 2 2 4-4"/>
+                </svg>
+            </div>
+        </header>
 
-        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-            Pending
-        </option>
+        {{-- Alerts --}}
+        @if(session('success'))
+            <div class="bk-alert bk-alert-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <path d="m9 11 3 3L22 4"/>
+                </svg>
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>
-            Confirmed
-        </option>
+        @if($errors->any())
+            <div class="bk-alert bk-alert-error">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 8v4M12 16h.01"/>
+                </svg>
+                {{ $errors->first() }}
+            </div>
+        @endif
 
-        <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>
-            Cancelled
-        </option>
-
-        <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>
-            Completed
-        </option>
-
-        <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>
-            Expired
-        </option>
-    </select>
-</div>
-
-               <div>
-    <label for="payment_status">Payment Status</label>
-
-    <select id="payment_status" name="payment_status">
-        <option value="">All Payments</option>
-
-        <option value="pending" {{ request('payment_status') == 'pending' ? 'selected' : '' }}>
-            Pending
-        </option>
-
-        <option value="paid" {{ request('payment_status') == 'paid' ? 'selected' : '' }}>
-            Paid
-        </option>
-
-        <option value="failed" {{ request('payment_status') == 'failed' ? 'selected' : '' }}>
-            Failed
-        </option>
-    </select>
-</div>
-
-         <div>
-    <label for="workspace_id">Workspace</label>
-
-    <select id="workspace_id" name="workspace_id">
-        <option value="">All Workspaces</option>
-
-        @foreach($workspaces as $workspace)
-            <option value="{{ $workspace->id }}"
-                {{ request('workspace_id') == $workspace->id ? 'selected' : '' }}>
-                {{ $workspace->name }}
-            </option>
-        @endforeach
-
-    </select>
-</div>
+        {{-- Filters --}}
+        <section class="bk-card">
+            <div class="bk-section-heading">
+                <div class="bk-section-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 7h16M7 12h10M10 17h4"/>
+                        <circle cx="8" cy="7" r="1.5" fill="currentColor"/>
+                        <circle cx="15" cy="12" r="1.5" fill="currentColor"/>
+                    </svg>
+                </div>
                 <div>
-                    <label for="date">Booking Date</label>
-                    <input type="date" id="date" name="date" value="{{ request('date') }}">
+                    <h2>Filter Bookings</h2>
+                    <p>Refine your bookings by status, workspace or date</p>
                 </div>
             </div>
 
-            <div class="filter-actions">
-                <a href="{{ route('manager.bookings.index') }}" class="btn btn-secondary btn-link">Reset</a>
-                <button type="submit" class="btn btn-primary">Apply Filters</button>
-            </div>
-        </form>
-    </section>
+            <form action="{{ route('manager.bookings.index') }}"
+                  method="GET"
+                  id="bookingFiltersForm">
 
-    <!-- Bookings Table -->
-    <section class="card">
-        <div class="table-header">
-            <h2>All Bookings</h2>
-<span class="muted">{{ $bookings->count() }} bookings</span>
-        </div>
+                <div class="bk-filters">
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Member</th>
-                        <th>Workspace / Room</th>
-                        <th>Time Slot</th>
-                        <th>Amount</th>
-                        <th>Booking Status</th>
-                        <th>Payment Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-               
-<tbody>
-    @forelse($bookings as $booking)
-        <tr>
-        
-            <!-- Member -->
-            <td>
-                <div class="member-name">
-                    {{ $booking->user?->name ?? 'N/A' }}
+                    <div class="bk-field">
+                        <label for="status">Booking Status</label>
+                        <select id="status" name="status">
+                            <option value="">All Statuses</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                        </select>
+                    </div>
+
+                    <div class="bk-field">
+                        <label for="payment_status">Payment Status</label>
+                        <select id="payment_status" name="payment_status">
+                            <option value="">All Payments</option>
+                            <option value="pending" {{ request('payment_status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="paid" {{ request('payment_status') == 'paid' ? 'selected' : '' }}>Paid</option>
+                            <option value="failed" {{ request('payment_status') == 'failed' ? 'selected' : '' }}>Failed</option>
+                        </select>
+                    </div>
+
+                    <div class="bk-field">
+                        <label for="workspace_id">Workspace</label>
+                        <select id="workspace_id" name="workspace_id">
+                            <option value="">All Workspaces</option>
+                            @foreach($workspaces as $workspace)
+                                <option value="{{ $workspace->id }}"
+                                    {{ request('workspace_id') == $workspace->id ? 'selected' : '' }}>
+                                    {{ $workspace->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="bk-field">
+                        <label for="date">Booking Date</label>
+                        <input type="date"
+                               id="date"
+                               name="date"
+                               value="{{ request('date') }}">
+                    </div>
+
                 </div>
-                
-            </td>
 
-            <!-- Workspace / Room -->
-            <td>
-                <div>{{ $booking->room?->workspace?->name ?? 'N/A' }}</div>
-                <div class="muted">{{ $booking->room?->name ?? 'N/A' }}</div>
-            </td>
+                <div class="bk-filter-footer">
+                    <span class="bk-filter-hint">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 16v-4M12 8h.01"/>
+                        </svg>
+                        Filters are applied automatically when changed.
+                    </span>
 
-            <!-- Time Slot -->
-            <td>
-                <div>
-                    {{ \Carbon\Carbon::parse($booking->start_date_time)->format('d M Y') }}
+                    <a href="{{ route('manager.bookings.index') }}" class="bk-reset">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                        Reset Filters
+                    </a>
                 </div>
-                <div class="muted">
-                    {{ \Carbon\Carbon::parse($booking->start_date_time)->format('h:i A') }}
-                    -
-                    {{ \Carbon\Carbon::parse($booking->end_date_time)->format('h:i A') }}
+            </form>
+        </section>
+
+        {{-- Bookings Table --}}
+        <section class="bk-card">
+            <div class="bk-table-heading">
+                <div class="bk-table-title">
+                    <div class="bk-section-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="17" rx="2"/>
+                            <path d="M7 2v4M17 2v4M3 9h18"/>
+                            <path d="M7 13h3M7 17h6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>All Bookings</h2>
+                        <p>Review booking details and payment information</p>
+                    </div>
                 </div>
-            </td>
 
-            <!-- Amount -->
-            <td>
-                {{ number_format($booking->total_price, 2) }} JOD
-            </td>
-
-            <!-- Booking Status -->
-            <td>
-                <span class="badge {{ $booking->status }}">
-                    {{ ucfirst($booking->status) }}
+                <span class="bk-count">
+                    {{ $bookings->total() }} Bookings
                 </span>
-            </td>
+            </div>
 
-            <!-- Payment Status -->
+            <div class="bk-table-wrap">
+                <table class="bk-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Workspace / Room</th>
+                            <th>Time Slot</th>
+                            <th>Amount</th>
+                            <th>Booking Status</th>
+                            <th>Payment Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @forelse($bookings as $booking)
+                            @php
+                                $paymentStatus = $booking->payments
+                                    ->sortByDesc('id')
+                                    ->first()?->status ?? 'pending';
+                            @endphp
+
+                            <tr>
+                                {{-- Member --}}
+                                <td>
+                                    <div class="bk-member">
+                                        {{ $booking->user?->name ?? 'N/A' }}
+                                    </div>
+                                </td>
+
+                                {{-- Workspace / Room --}}
+                                <td>
+                                    <div class="bk-workspace">
+                                        {{ $booking->room?->workspace?->name ?? 'N/A' }}
+                                    </div>
+                                    <div class="bk-subtext">
+                                        {{ $booking->room?->name ?? 'N/A' }}
+                                    </div>
+                                </td>
+
+                                {{-- Time Slot --}}
+                                <td>
+                                    <div class="bk-date">
+                                        {{ \Carbon\Carbon::parse($booking->start_date_time)->format('d M Y') }}
+                                    </div>
+                                    <div class="bk-time">
+                                        {{ \Carbon\Carbon::parse($booking->start_date_time)->format('h:i A') }}
+                                        –
+                                        {{ \Carbon\Carbon::parse($booking->end_date_time)->format('h:i A') }}
+                                    </div>
+                                </td>
+
+                                {{-- Amount --}}
+                                <td>
+                                    <div class="bk-amount">
+                                        {{ number_format($booking->total_price, 2) }} JOD
+                                    </div>
+                                </td>
+
+                                {{-- Booking Status --}}
+                                <td>
+                                    <span class="bk-badge {{ $booking->status }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
+                                </td>
+
+                                {{-- Payment Status --}}
+                                <td>
+                                    <span class="bk-badge {{ $paymentStatus }}">
+                                        {{ ucfirst($paymentStatus) }}
+                                    </span>
+                                </td>
+
+                                {{-- Actions --}}
+                                <td>
+                                    <div class="bk-actions">
+                                        <a href="#details-{{ $booking->id }}"
+                                           class="bk-action bk-view"
+                                           title="View Details"
+                                           aria-label="View Details">
+                                            <svg viewBox="0 0 24 24" fill="none"
+                                                 stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
+                                                <circle cx="12" cy="12" r="3"/>
+                                            </svg>
+                                        </a>
+
+                                        @if(in_array($booking->status, ['pending', 'confirmed']))
+                                            <a href="#cancel-{{ $booking->id }}"
+                                               class="bk-action bk-cancel"
+                                               title="Cancel Booking"
+                                               aria-label="Cancel Booking">
+                                                <svg viewBox="0 0 24 24" fill="none"
+                                                     stroke="currentColor" stroke-width="2"
+                                                     stroke-linecap="round">
+                                                    <path d="M18 6 6 18M6 6l12 12"/>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+
+                        @empty
+                            <tr>
+                                <td colspan="7" class="bk-empty">
+                                    <div class="bk-empty-icon">
+                                        <svg viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="1.6"
+                                             stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="4" width="18" height="17" rx="2"/>
+                                            <path d="M7 2v4M17 2v4M3 9h18"/>
+                                            <path d="M9 14h6"/>
+                                        </svg>
+                                    </div>
+                                    <strong>No bookings found</strong>
+                                    <span>Try changing or resetting your filters.</span>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            <div class="bk-pagination">
+                <span class="bk-pagination-summary">
+                    Showing {{ $bookings->firstItem() ?? 0 }}–{{ $bookings->lastItem() ?? 0 }}
+                    of {{ $bookings->total() }} bookings
+                </span>
+
+                {{ $bookings->onEachSide(1)->links() }}
+            </div>
+        </section>
+
+        {{-- Details and Cancellation Modals --}}
+        @foreach($bookings as $booking)
             @php
-                $paymentStatus = $booking->payments->sortByDesc('id')->first()?->status ?? 'pending';
+                $latestPaymentStatus = $booking->payments
+                    ->sortByDesc('id')
+                    ->first()?->status ?? 'pending';
             @endphp
 
-            <td>
-                <span class="badge {{ $paymentStatus }}">
-                    {{ ucfirst($paymentStatus) }}
-                </span>
-            </td>
+            {{-- Booking Details --}}
+            <div id="details-{{ $booking->id }}" class="bk-modal">
+                <div class="bk-modal-content">
+                    <div class="bk-modal-header">
+                        <h2>Booking Details</h2>
+                        <a href="#" class="bk-close" aria-label="Close">&times;</a>
+                    </div>
 
-            <!-- Actions -->
-           
+                    <div class="bk-detail-row">
+                        <span>Member</span>
+                        <strong>{{ $booking->user?->name ?? 'N/A' }}</strong>
+                    </div>
 
-<td>
-    <div class="actions">
-        <a href="#details-{{ $booking->id }}"
-           class="btn btn-outline btn-link icon-action view-icon"
-           title="View Details"
-           aria-label="View Details">
-            <svg viewBox="0 0 24 24" width="18" height="18"
-                 fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-            </svg>
-        </a>
+                    <div class="bk-detail-row">
+                        <span>Workspace</span>
+                        <strong>{{ $booking->room?->workspace?->name ?? 'N/A' }}</strong>
+                    </div>
 
-        @if(in_array($booking->status, ['pending', 'confirmed']))
-            <a href="#cancel-{{ $booking->id }}"
-               class="btn btn-danger btn-link icon-action cancel-icon"
-               title="Cancel Booking"
-               aria-label="Cancel Booking">
-                <svg viewBox="0 0 24 24" width="18" height="18"
-                     fill="none" stroke="currentColor"
-                     stroke-width="2" stroke-linecap="round">
-                    <path d="M18 6 6 18M6 6l12 12"/>
-                </svg>
-            </a>
-        @endif
-    </div>
-</td>
+                    <div class="bk-detail-row">
+                        <span>Room</span>
+                        <strong>{{ $booking->room?->name ?? 'N/A' }}</strong>
+                    </div>
 
+                    <div class="bk-detail-row">
+                        <span>Start</span>
+                        <strong>{{ \Carbon\Carbon::parse($booking->start_date_time)->format('d M Y, h:i A') }}</strong>
+                    </div>
 
-        </tr>
-    @empty
-        <tr><td colspan="8" style="text-align:center;padding:30px;color:#53615A;">No bookings found.</td></tr>
-    @endforelse
-</tbody>
+                    <div class="bk-detail-row">
+                        <span>End</span>
+                        <strong>{{ \Carbon\Carbon::parse($booking->end_date_time)->format('d M Y, h:i A') }}</strong>
+                    </div>
 
+                    <div class="bk-detail-row">
+                        <span>Amount</span>
+                        <strong>{{ number_format($booking->total_price, 2) }} JOD</strong>
+                    </div>
 
-               
-            </table>
-        </div>
+                    <div class="bk-detail-row">
+                        <span>Booking Status</span>
+                        <span class="bk-badge {{ $booking->status }}">
+                            {{ ucfirst($booking->status) }}
+                        </span>
+                    </div>
 
-<div class="bookings-pagination">
-    <span class="pagination-summary">
-        Showing {{ $bookings->firstItem() ?? 0 }}–{{ $bookings->lastItem() ?? 0 }}
-        of {{ $bookings->total() }} bookings
-    </span>
+                    <div class="bk-detail-row">
+                        <span>Payment Status</span>
+                        <span class="bk-badge {{ $latestPaymentStatus }}">
+                            {{ ucfirst($latestPaymentStatus) }}
+                        </span>
+                    </div>
 
-    {{ $bookings->onEachSide(1)->links() }}
-</div>
+                    @if($booking->cancellation_reason ?? null)
+                        <div class="bk-detail-row">
+                            <span>Cancellation Reason</span>
+                            <strong>{{ $booking->cancellation_reason }}</strong>
+                        </div>
+                    @endif
 
-    </section>
-</div>
-
-<!-- Details and cancellation modals for each booking -->
-@foreach($bookings as $booking)
-    @php
-        $latestPaymentStatus = $booking->payments->sortByDesc('id')->first()?->status ?? 'pending';
-    @endphp
-
-    <div id="details-{{ $booking->id }}" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Booking Details</h2>
-                <a href="#" class="close" aria-label="Close">&times;</a>
-            </div>
-           
-            <div class="detail-row"><span>Member</span><strong>{{ $booking->user?->name ?? 'N/A' }}</strong></div>
-            
-            <div class="detail-row"><span>Workspace</span><strong>{{ $booking->room?->workspace?->name ?? 'N/A' }}</strong></div>
-            <div class="detail-row"><span>Room</span><strong>{{ $booking->room?->name ?? 'N/A' }}</strong></div>
-            <div class="detail-row"><span>Start</span><strong>{{ \Carbon\Carbon::parse($booking->start_date_time)->format('d M Y, h:i A') }}</strong></div>
-            <div class="detail-row"><span>End</span><strong>{{ \Carbon\Carbon::parse($booking->end_date_time)->format('d M Y, h:i A') }}</strong></div>
-            <div class="detail-row"><span>Amount</span><strong>{{ number_format($booking->total_price, 2) }} JOD</strong></div>
-            <div class="detail-row"><span>Booking Status</span><span class="badge {{ $booking->status }}">{{ ucfirst($booking->status) }}</span></div>
-            <div class="detail-row"><span>Payment Status</span><span class="badge {{ $latestPaymentStatus }}">{{ ucfirst($latestPaymentStatus) }}</span></div>
-            @if($booking->cancellation_reason ?? null)
-                <div class="detail-row"><span>Cancellation Reason</span><strong>{{ $booking->cancellation_reason }}</strong></div>
-            @endif
-            <div class="modal-actions"><a href="#" class="btn btn-secondary btn-link">Close</a></div>
-        </div>
-    </div>
-
-    @if(in_array($booking->status, ['pending', 'confirmed']))
-        <div id="cancel-{{ $booking->id }}" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Cancel Booking #BK-{{ $booking->id }}</h2>
-                    <a href="#" class="close" aria-label="Close">&times;</a>
+                    <div class="bk-modal-actions">
+                        <a href="#" class="bk-modal-btn bk-modal-btn-secondary">Close</a>
+                    </div>
                 </div>
-                <p class="subtitle">Please provide a reason for cancelling this booking.</p>
-                {{-- This form requires the manager.bookings.cancel route and controller cancellation method. --}}
-               <form action="{{ route('manager.bookings.cancel', $booking->id) }}" method="POST">
-    @csrf
-    @method('PATCH')
-
-    <p>Are you sure you want to cancel this booking?</p>
-
-    <div class="modal-actions">
-        <a href="#" class="btn btn-secondary btn-link">
-            Keep Booking
-        </a>
-
-        <button type="submit" class="btn btn-danger">
-            Confirm Cancellation
-        </button>
-    </div>
-</form>
             </div>
-        </div>
-    @endif
-@endforeach
+
+            {{-- Cancel Booking --}}
+            @if(in_array($booking->status, ['pending', 'confirmed']))
+                <div id="cancel-{{ $booking->id }}" class="bk-modal">
+                    <div class="bk-modal-content">
+                        <div class="bk-modal-header">
+                            <h2>Cancel Booking #BK-{{ $booking->id }}</h2>
+                            <a href="#" class="bk-close" aria-label="Close">&times;</a>
+                        </div>
+
+                        <div class="bk-cancel-note">
+                            Please review this action carefully. Cancelling this booking may affect the member's reservation.
+                        </div>
+
+                        <form action="{{ route('manager.bookings.cancel', $booking->id) }}"
+                              method="POST">
+                            @csrf
+                            @method('PATCH')
+
+                            <p class="bk-cancel-question">
+                                Are you sure you want to cancel this booking?
+                            </p>
+
+                            <div class="bk-modal-actions">
+                                <a href="#" class="bk-modal-btn bk-modal-btn-secondary">
+                                    Keep Booking
+                                </a>
+
+                                <button type="submit"
+                                        class="bk-modal-btn bk-modal-btn-danger">
+                                    Confirm Cancellation
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('bookingFiltersForm');
+
+    if (!form) return;
+
+    const filters = form.querySelectorAll('select, input[type="date"]');
+
+    filters.forEach(function (filter) {
+        filter.addEventListener('change', function () {
+            form.requestSubmit();
+        });
+    });
+});
+</script>
 @endsection

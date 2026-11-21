@@ -17,6 +17,13 @@ $selectedWorkspace = is_string($workspaceId)
 
 @push('styles')
     <style>
+        /* This directory needs the complete dashboard canvas, not the default centred content width. */
+        .nx-dashboard__main:has(> .nx-page-content){
+            max-width: none;
+            margin: 0;
+            padding: clamp(12px, 1.25vw, 20px);
+        }
+
         .nx-page-content{
             color-scheme: light;
             --ink: #1D2924;
@@ -41,7 +48,7 @@ $selectedWorkspace = is_string($workspaceId)
         .nx-page-content [data-nx-page-main]{
             max-width: 1800px;
             margin: auto;
-            padding: clamp(12px, 1.6vw, 24px);
+            padding: 0;
         }
 
         .nx-page-content .summary,
@@ -118,18 +125,110 @@ $selectedWorkspace = is_string($workspaceId)
 
         .nx-page-content .directory-header,
         .nx-page-content .status-panel{
-            padding: 16px 20px;
+            padding: 28px;
+        }
+
+        /* Keep controls and results as two focused surfaces. */
+        .nx-page-content .dashboard > .card{
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .nx-page-content .directory-header{
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            margin-bottom: 16px;
+            border: 1px solid #315C4D;
+            border-radius: 22px;
+            background: linear-gradient(112deg, #203D34 0%, #315C4D 100%);
+            color: #fff;
+            box-shadow: 0 14px 32px rgba(40, 91, 75, .18);
+            transition: transform .28s ease, box-shadow .28s ease;
+        }
+
+        .nx-page-content .directory-header::before,
+        .nx-page-content .directory-header::after{
+            position: absolute;
+            z-index: -1;
+            content: '';
+            border-radius: 50%;
+            pointer-events: none;
+            transition: transform .42s ease;
+        }
+
+        .nx-page-content .directory-header::before{
+            top: -155px;
+            right: 8%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, .11);
+        }
+
+        .nx-page-content .directory-header::after{
+            right: 26%;
+            bottom: -126px;
+            width: 172px;
+            height: 172px;
+            background: rgba(197, 138, 98, .27);
+        }
+
+        .nx-page-content .directory-header:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 20px 42px rgba(39, 75, 63, .24);
+        }
+
+        .nx-page-content .directory-header:hover::before{ transform: translate(-10px, 10px) scale(1.05); }
+        .nx-page-content .directory-header:hover::after{ transform: translate(8px, -8px) scale(1.08); }
+
+        .nx-page-content .directory-header > *{ position: relative; z-index: 1; }
+        .nx-page-content .directory-header h2{ color: #fff; }
+
+        .nx-page-content .directory-title-row{
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .nx-page-content .directory-eyebrow{
+            margin-bottom: 6px;
+            color: #CFE1D8;
+            font-size: .78rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .nx-page-content .directory-copy{
+            margin-top: 7px;
+            color: rgba(255, 255, 255, .78);
+        }
+
+        .nx-page-content .directory-count{
+            flex: none;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            font-size: .88rem;
+            font-weight: 750;
         }
 
         .nx-page-content .filters{
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(190px, 250px);
+            grid-template-columns: minmax(0, 1fr) minmax(190px, 250px) auto;
+            align-items: end;
             gap: 16px 20px;
-            margin-top: 18px;
+            margin: 0 0 16px;
             padding: 20px;
             border: 1px solid #E7EEE7;
             border-radius: 20px;
             background: #fff;
+            box-shadow: 0 5px 18px rgba(29, 41, 36, .035);
         }
 
         .nx-page-content .filters input,
@@ -161,7 +260,6 @@ $selectedWorkspace = is_string($workspaceId)
         }
 
         .nx-page-content .filter-actions{
-            grid-column: 1 / -1;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -198,7 +296,9 @@ $selectedWorkspace = is_string($workspaceId)
 
         .nx-page-content .table-scroll{
             overflow-x: auto;
-            border-radius: 0 0 24px 24px;
+            border: 1px solid var(--line);
+            border-radius: 22px 22px 0 0;
+            background: #fff;
         }
 
         .nx-page-content .directory-pagination{
@@ -208,7 +308,10 @@ $selectedWorkspace = is_string($workspaceId)
             flex-wrap: wrap;
             gap: 12px;
             padding: 20px;
-            border-top: 1px solid var(--line);
+            border: 1px solid var(--line);
+            border-top: 0;
+            border-radius: 0 0 22px 22px;
+            background: #fff;
         }
 
         .nx-page-content .directory-pagination p{ color: var(--muted); }
@@ -247,17 +350,18 @@ $selectedWorkspace = is_string($workspaceId)
             }
 
             .nx-page-content th:nth-child(1){ width: 22%; }
-            .nx-page-content th:nth-child(2){ width: 18%; }
-            .nx-page-content th:nth-child(3){ width: 7%; }
-            .nx-page-content th:nth-child(4){ width: 12%; }
+            .nx-page-content th:nth-child(2){ width: 19%; }
+            .nx-page-content th:nth-child(3){ width: 9%; }
+            .nx-page-content th:nth-child(4){ width: 13%; }
             .nx-page-content th:nth-child(5){ width: 15%; }
-            .nx-page-content th:nth-child(6){ width: 26%; }
+            .nx-page-content th:nth-child(6){ width: 22%; }
         }
 
         .nx-page-content th,
         .nx-page-content td{
-            padding: 14px 16px;
+            padding: 17px 16px;
             text-align: left;
+            vertical-align: middle;
             border-top: 1px solid var(--line);
         }
 
@@ -265,6 +369,9 @@ $selectedWorkspace = is_string($workspaceId)
             background: #F5F7F3;
             color: #53615A;
             font-size: .9rem;
+            font-weight: 800;
+            letter-spacing: .015em;
+            white-space: nowrap;
         }
 
         .nx-page-content th:first-child,
@@ -277,9 +384,14 @@ $selectedWorkspace = is_string($workspaceId)
             overflow-wrap: anywhere;
         }
 
+        .nx-page-content td:nth-child(2),
+        .nx-page-content td:nth-child(4){ line-height: 1.45; }
+
         .nx-page-content tbody tr{
             transition: background-color .15s ease;
         }
+
+        .nx-page-content tbody tr:nth-child(even){ background: #F8FAF7; }
 
         .nx-page-content .workspace{
             color: var(--ink);
@@ -419,6 +531,20 @@ $selectedWorkspace = is_string($workspaceId)
         }
 
         @media (max-width: 480px) {
+            .nx-page-content .directory-header{ padding: 20px; }
+            .nx-page-content .directory-title-row{ align-items: flex-start; flex-direction: column; }
+
+            .nx-page-content .table-scroll{ overflow: visible; }
+            .nx-page-content table{ min-width: 0; }
+            .nx-page-content thead{ display: none; }
+            .nx-page-content tbody, .nx-page-content tr, .nx-page-content td{ display: block; width: 100%; }
+            .nx-page-content tbody tr[data-workspace-status]{ padding: 14px 18px; border-top: 1px solid var(--line); }
+            .nx-page-content tbody tr[data-workspace-status] td{ display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 8px 0; border: 0; text-align: right; }
+            .nx-page-content tbody tr[data-workspace-status] td::before{ content: attr(data-label); flex: none; color: var(--muted); font-size: .78rem; font-weight: 750; text-align: left; text-transform: uppercase; }
+            .nx-page-content tbody tr[data-workspace-status] td:first-child{ display: block; padding-left: 0; text-align: left; }
+            .nx-page-content tbody tr[data-workspace-status] td:first-child::before{ display: none; }
+            .nx-page-content .workspace-actions-group{ width: 100%; justify-content: flex-end; }
+
             .nx-page-content .filters{
                 grid-template-columns: 1fr;
                 padding: 16px;
@@ -753,10 +879,11 @@ $selectedWorkspace = is_string($workspaceId)
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
 @endpush
 
 @section('content')
-<div class="nx-page-content">
+<div class="nx-page-content nx-workspace-ui nx-workspace-directory">
     <div data-nx-page-main aria-label="Manage workspaces">
 
 
@@ -802,7 +929,14 @@ $selectedWorkspace = is_string($workspaceId)
         <div class="dashboard">
             <section class="card" aria-labelledby="directory-title">
                 <div class="directory-header">
-                    <h2 id="directory-title">Workspace directory</h2>
+                    <div class="directory-title-row">
+                        <div>
+                            <p class="directory-eyebrow">Administration</p>
+                            <h2 id="directory-title">Workspace directory</h2>
+                            <p class="directory-copy">Review workspace activity, approval status, and room availability.</p>
+                        </div>
+                        <span class="directory-count">Total workspaces: {{ $workspaces->count() }}</span>
+                    </div>
                     <div class="filters" role="search">
                         <div class="filter-field">
                             <label for="workspace-search">Search workspaces</label>
@@ -821,7 +955,6 @@ $selectedWorkspace = is_string($workspaceId)
                         </div>
 
                         <div class="filter-actions">
-                            <button type="button" class="filter-button" id="apply-workspace-filters">Apply filters</button>
                             <button type="button" class="filter-button filter-button--reset" id="reset-workspace-filters">Reset</button>
                         </div>
                     </div>
@@ -844,7 +977,7 @@ $selectedWorkspace = is_string($workspaceId)
                             @foreach ($workspaces as $workspace)
 
                             <tr data-workspace-status="{{ ! $workspace->is_active ? 'inactive' : ($workspace->approval_status === 'pending' ? 'pending' : 'active') }}">
-                                <td>
+                                <td data-label="Workspace">
 
                                     <a class="workspace workspace-details-link"
                                         href="{{ route('admin.workspace.details',$workspace->id ) }}">
@@ -855,10 +988,10 @@ $selectedWorkspace = is_string($workspaceId)
                                         </span>
                                     </a>
                                 </td>
-                                <td>{{ $workspace->location ?: 'Location unavailable' }}</td>
-                                <td class="rooms-column">{{ $workspace->rooms->count() }}</td>
-                                <td>{{ $workspace->manager?->full_name ?? $workspace->manager?->name ?? 'Unassigned' }}</td>
-                                <td>
+                                <td data-label="Location">{{ $workspace->location ?: 'Location unavailable' }}</td>
+                                <td class="rooms-column" data-label="Rooms">{{ $workspace->rooms->count() }}</td>
+                                <td data-label="Manager">{{ $workspace->manager?->full_name ?? $workspace->manager?->name ?? 'Unassigned' }}</td>
+                                <td data-label="Status">
                                     <span @class([ 'badge' , 'active'=> $workspace->approval_status === 'approved',
                                         'pending' => $workspace->approval_status === 'pending',
                                         'inactive' => ! in_array($workspace->approval_status, ['approved', 'pending'], true),
@@ -866,7 +999,7 @@ $selectedWorkspace = is_string($workspaceId)
                                         {{ ucfirst($workspace->approval_status) }}
                                     </span>
                                 </td>
-                                <td class="workspace-actions">
+                                <td class="workspace-actions" data-label="Actions">
                                     <div class="workspace-actions-group">
                                         <a href="{{ route('admin.workspace.details', $workspace->id) }}"
                                            class="workspace-action workspace-action--view">
@@ -925,7 +1058,6 @@ $selectedWorkspace = is_string($workspaceId)
     <script>
         const searchInput = document.querySelector('#workspace-search');
         const statusFilter = document.querySelector('#workspace-status');
-        const applyFiltersButton = document.querySelector('#apply-workspace-filters');
         const resetFiltersButton = document.querySelector('#reset-workspace-filters');
         const emptyRow = document.querySelector('#workspace-empty');
         const workspaceRows = document.querySelectorAll('[data-workspace-status]');
@@ -997,15 +1129,13 @@ $selectedWorkspace = is_string($workspaceId)
             addButton('›', currentPage + 1, currentPage === totalPages);
         }
 
-        applyFiltersButton.addEventListener('click', () => filterWorkspaces());
         resetFiltersButton.addEventListener('click', () => {
             searchInput.value = '';
             statusFilter.value = '';
             filterWorkspaces();
         });
-        searchInput.addEventListener('keydown', event => {
-            if (event.key === 'Enter') filterWorkspaces();
-        });
+        searchInput.addEventListener('input', () => filterWorkspaces());
+        statusFilter.addEventListener('change', () => filterWorkspaces());
         filterWorkspaces();
     </script>
 @endpush
