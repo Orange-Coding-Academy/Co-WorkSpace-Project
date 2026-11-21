@@ -14,12 +14,11 @@
             color: #152A23;
             font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
         }
-
-        .nx-page-content .page{
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
+.nx-page-content .page {
+    max-width: 1200px;
+    margin: 5px auto 50px;
+    padding: 0 20px;
+}
 
         .nx-page-content .card-box{
             background: white;
@@ -224,6 +223,7 @@
             .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
+        
     </style>
 @endpush
 

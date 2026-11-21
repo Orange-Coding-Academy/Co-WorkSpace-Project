@@ -145,6 +145,27 @@
             .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
             .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
         }
+        /* Create Plan button — always readable */
+.nx-page-content .btn-primary {
+    color: #FFFFFF !important;
+    background-color: #315C4D !important;
+    border-color: #315C4D !important;
+    opacity: 1 !important;
+}
+
+.nx-page-content .btn-primary:hover {
+    color: #FFFFFF !important;
+    background-color: #274B3F !important;
+    border-color: #274B3F !important;
+}
+/* Compact page top spacing */
+.nx-page-content > .container-fluid {
+    padding-top: 5px !important;
+}
+
+.nx-page-content .container-fluid > .d-flex.justify-content-between {
+    margin-bottom: 16px !important;
+}
     </style>
 @endpush
 
