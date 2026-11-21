@@ -413,3 +413,30 @@
         height: 220px;
     }
 }
+
+/* ---------- Inline SVG icons (ui-icon partial) ---------- */
+.nx-icon {
+    flex: none;
+    width: 1em;
+    height: 1em;
+}
+.nx-icon--xs {
+    width: 12px;
+    height: 12px;
+}
+.nx-admin-dashboard .nx-activity-item time {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--nx-space-1);
+}
+.nx-admin-dashboard .nx-date-filter select {
+    appearance: none;
+    padding-inline-end: var(--nx-space-5);
+}
+.nx-admin-dashboard .nx-date-filter__chevron {
+    width: 14px;
+    height: 14px;
+    margin-inline-start: calc(-1 * var(--nx-space-5));
+    color: var(--nx-text-secondary);
+    pointer-events: none;
+}
