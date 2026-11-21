@@ -1360,12 +1360,12 @@
                 <div class="room-gallery">
                     <div class="room-gallery-track">
                         @foreach ($room->images->sortBy([['is_primary', 'desc'], ['sort_order', 'asc']]) as $image)
-                        <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
-                           src="{{ asset($image->image_path) }}"
-                            alt="{{ $image->alt_text ?: $room->name }}"
-                            data-image-id="{{ $image->id }}"
-                            data-primary="{{ $image->is_primary ? '1' : '0' }}"
-                            loading="lazy">
+                     <img class="room-gallery-image {{ $loop->first ? 'active' : '' }}"
+    src="{{ asset('storage/' . $image->image_path) }}"
+    alt="{{ $image->alt_text ?: $room->name }}"
+    data-image-id="{{ $image->id }}"
+    data-primary="{{ $image->is_primary ? '1' : '0' }}"
+    loading="lazy">
                         @endforeach
                     </div>
 
