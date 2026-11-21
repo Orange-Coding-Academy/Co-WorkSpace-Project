@@ -192,7 +192,7 @@ class AdminDashboard extends Controller
 
     private function getRecentActivities(): array
     {
-        $limit = 10;
+        $limit = 5;
 
         $bookings = Booking::latest()
             ->take($limit)

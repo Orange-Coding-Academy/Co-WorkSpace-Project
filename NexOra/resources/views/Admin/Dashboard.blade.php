@@ -301,7 +301,7 @@
                         <thead>
                             <tr>
                                 <th>WORKSPACE</th>
-                                <th>BOOKINGS</th>
+
                                 <th>GMV</th>
                                 <th>PERFORMANCE</th>
                             </tr>
@@ -329,9 +329,7 @@
                                         </div>
                                     </td>
 
-                                    <td>
-                                        {{ number_format($workspace['totalBookings']) }}
-                                    </td>
+
 
                                     <td>
                                         {{ number_format($workspace['totalGMV'], 2) }}
@@ -393,7 +391,6 @@
                         <div class="nx-activity-item">
 
                             <div class="nx-activity-icon nx-activity-icon--{{ $activity['type'] }}">
-
                                 @switch($activity['type'])
                                     @case('booking')
                                         @include('layouts.dashboard.partials.ui-icon', [
@@ -422,23 +419,18 @@
                                             'name' => 'activity',
                                         ])
                                 @endswitch
-
                             </div>
 
                             <div class="nx-activity-content">
                                 <strong>{{ $activity['title'] }}</strong>
-                                <p>{{ $activity['description'] }}</p>
                             </div>
 
                             <time datetime="{{ $activity['createdAt'] }}">
-                                @include('layouts.dashboard.partials.ui-icon', [
-                                    'name' => 'clock',
-                                    'class' => 'nx-icon--xs',
-                                ])
                                 {{ \Carbon\Carbon::parse($activity['createdAt'])->diffForHumans() }}
                             </time>
 
                         </div>
+
 
                         @empty
 

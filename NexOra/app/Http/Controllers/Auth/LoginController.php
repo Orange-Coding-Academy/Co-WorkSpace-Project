@@ -19,7 +19,7 @@ class LoginController extends Controller
     |
     */
 
-  use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
     protected $redirectTo = '/home';
 
@@ -76,7 +76,7 @@ class LoginController extends Controller
 
                 // Application is approved
                 if ($workspace->approval_status === 'approved') {
-                  return redirect()->route('manager.dashboard');
+                    return redirect()->route('manager.dashboard');
                 }
 
                 // Unknown approval status
