@@ -18,6 +18,7 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
 @section('page-title') Manage Users @endsection
 
 @push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,7 +170,7 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
 
 @section('content')
 <div class="nx-page-content bg-light">
-<div class="container py-5">
+<div class="container px-3 pb-3 pt-0">
 
     <!-- Page Header -->
     <div class="mb-4">
@@ -306,19 +307,28 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
                             <td>{{ $user->created_at->format('M d, Y') }}</td>
 
                             <td class="text-end">
-                               <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-outline-primary">
-                                         View
-                                   </a>
+    <a href="{{ route('admin.users.show', $user->id) }}"
+       class="btn btn-sm btn-outline-primary"
+       title="View User"
+       aria-label="View User">
+        <i class="bi bi-eye"></i>
+    </a>
 
-                               <form action="{{ route('admin.users.deactivate', $user->id) }}" method="POST" class="d-inline">
-                                             @csrf
-                                            @method('PUT')
-                                              <button type="submit"  class="btn btn-sm btn-outline-danger"
-                                                         {{ $user->is_active == 0 ? 'disabled' : '' }}>
-                                                     Delete
-                                               </button>
-                                   </form>
-                            </td>
+    <form action="{{ route('admin.users.deactivate', $user->id) }}"
+          method="POST"
+          class="d-inline">
+        @csrf
+        @method('PUT')
+
+        <button type="submit"
+                class="btn btn-sm btn-outline-danger"
+                title="Deactivate User"
+                aria-label="Deactivate User"
+                {{ $user->is_active == 0 ? 'disabled' : '' }}>
+            <i class="bi bi-trash"></i>
+        </button>
+    </form>
+</td>
                         </tr>
                         @endforeach
                          

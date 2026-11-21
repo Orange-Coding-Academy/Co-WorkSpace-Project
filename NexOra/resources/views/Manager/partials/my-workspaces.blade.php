@@ -22,11 +22,18 @@
         .nx-page-content .topbar{ display: none; }
         .nx-page-content .topbar span{ font-weight: 800; font-size: 1.24rem; letter-spacing: -.04em; }
         .nx-page-content [data-nx-page-main]{ padding-block: clamp(26px, 5vw, 56px); }
-        .nx-page-content .heading{ display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 24px; }
-        .nx-page-content h1{ font-size: clamp(2rem, 5vw, 3.35rem); line-height: 1.08; letter-spacing: -.05em; }
-        .nx-page-content .heading p{ margin-top: 7px; color: var(--muted); }
-        .nx-page-content .button{ display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 10px; background: #315C4D; color: #fff; font-weight: 750; text-decoration: none; }
-        .nx-page-content .button:hover{ background: #274B3F; color: #fff; }
+        .nx-page-content .heading{ position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; min-height: 160px; margin-bottom: 28px; padding: clamp(25px, 3vw, 38px); border-radius: 28px; background: linear-gradient(112deg, #203D34 0%, #315C4D 100%); color: #fff; box-shadow: 0 18px 38px rgba(32, 61, 52, .14); transition: transform .28s ease, box-shadow .28s ease; }
+        .nx-page-content .heading::before, .nx-page-content .heading::after{ position: absolute; z-index: -1; content: ''; border-radius: 50%; pointer-events: none; transition: transform .45s ease; }
+        .nx-page-content .heading::before{ top: -154px; right: 8%; width: 250px; height: 250px; background: rgba(255, 255, 255, .12); }
+        .nx-page-content .heading::after{ right: 26%; bottom: -124px; width: 172px; height: 172px; background: rgba(197, 138, 98, .28); }
+        .nx-page-content .heading:hover{ transform: translateY(-2px); box-shadow: 0 23px 45px rgba(32, 61, 52, .22); }
+        .nx-page-content .heading:hover::before{ transform: translate(-12px, 11px) scale(1.06); }
+        .nx-page-content .heading:hover::after{ transform: translate(9px, -10px) scale(1.08); }
+        .nx-page-content h1{ font-size: clamp(2rem, 5vw, 3.35rem); line-height: 1.08; letter-spacing: -.05em; color: #fff; }
+        .nx-page-content .heading p{ margin-top: 7px; color: rgba(255, 255, 255, .78); }
+        .nx-page-content .workspace-count{ display: inline-flex; align-items: center; min-height: 30px; margin-top: 12px; padding: 4px 10px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 999px; background: rgba(255, 255, 255, .12); color: #fff; font-size: .82rem; font-weight: 750; }
+        .nx-page-content .button{ display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border: 1px solid rgba(255, 255, 255, .42); border-radius: 12px; background: #fff; color: #203D34; font-weight: 800; text-decoration: none; box-shadow: 0 7px 16px rgba(11, 37, 30, .16); transition: transform .2s ease, background-color .2s ease; }
+        .nx-page-content .button:hover{ transform: translateY(-2px); background: #F5F7F3; color: #203D34; }
         .nx-page-content .grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 16px; }
         .nx-page-content .card{ display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
         .nx-page-content .card:hover{ border-color: #7F8B84; box-shadow: 0 8px 22px #103b3410; }
@@ -195,6 +202,7 @@
             <div>
                 <h1>My workspaces</h1>
                 <p>Open a workspace to view its details and manage its rooms.</p>
+                <span class="workspace-count">{{ $workspaces->count() }} {{ Illuminate\Support\Str::plural('workspace', $workspaces->count()) }}</span>
             </div>
             <a class="button" href="{{ route('manager.workspaces.create') }}"><span aria-hidden="true">+</span> Create workspace</a>
         </header>
