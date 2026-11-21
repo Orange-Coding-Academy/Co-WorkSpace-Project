@@ -69,7 +69,7 @@ class ExploreController extends Controller
             });
         }
 
-        $rooms = $query->latest()->paginate(9)->withQueryString();
+        $rooms = $query->latest()->paginate(3)->withQueryString();
 
         // Active approved workspaces for filter
         $workspaces = Workspace::where('is_active', true)
