@@ -453,10 +453,11 @@
         @media(max-width:760px){.nx-page-content [data-nx-page-main]{width:min(calc(100% - 28px),620px);padding-block:12px 36px}.nx-page-content .form-grid{grid-template-columns:1fr}.nx-page-content .cover-panel{border-top:1px solid #e1e8e1;border-left:0}.nx-page-content .preview{min-height:180px}}
         @media(max-width:480px){.nx-page-content .form-footer{align-items:stretch}.nx-page-content .cancel,.nx-page-content .submit{flex:1;justify-content:center;text-align:center}}
     </style>
+    <link rel="stylesheet" href="{{ asset('css/nexora/workspace-pages.css') }}">
 @endpush
 
 @section('content')
-<div class="nx-page-content">
+<div class="nx-page-content nx-workspace-ui nx-workspace-create">
     <header class="topbar">
         <div class="topbar-inner">
             <span class="brand">NexOra</span>

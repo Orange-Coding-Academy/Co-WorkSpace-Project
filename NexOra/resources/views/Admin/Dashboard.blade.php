@@ -136,9 +136,7 @@
                     <small>JOD</small>
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Platform earnings from bookings
-                </p>
+
             </article>
 
 
@@ -155,9 +153,7 @@
                     <small>JOD</small>
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Total eligible booking value
-                </p>
+
             </article>
 
 
@@ -173,9 +169,7 @@
                     {{ number_format((int) ($kpis['totalBookings'] ?? 0)) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Bookings created during the period
-                </p>
+
             </article>
 
 
@@ -191,9 +185,7 @@
                     {{ number_format((int) ($kpis['totalMembers'] ?? 0)) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Registered members
-                </p>
+
             </article>
 
 
@@ -209,9 +201,7 @@
                     {{ number_format((int) ($kpis['activeWorkspaces'] ?? 0)) }}
                 </h2>
 
-                <p class="nx-kpi-card__description">
-                    Approved and bookable spaces
-                </p>
+
             </article>
 
         </section>

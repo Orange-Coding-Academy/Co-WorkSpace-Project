@@ -208,8 +208,10 @@
         .nx-page-content .table tbody tr:hover { background-color: #F8FAF7; }
         .nx-page-content .btn-outline-secondary { border-color: #C9D4CC; color: #315C4D; }
         @media (max-width: 767px) {
-            .nx-page-content > .container { padding-top: 24px !important; padding-bottom: 24px !important; }
-            .nx-page-content .card-body.p-4 { padding: 20px !important; }
+.nx-page-content > .container {
+    padding-top: 0 !important;
+    padding-bottom: 12px !important;
+}            .nx-page-content .card-body.p-4 { padding: 20px !important; }
             .nx-page-content .profile-avatar { width: 84px; height: 84px; flex-basis: 84px; }
             .nx-page-content .section-title { font-size: 16px; }
             .nx-page-content .table-responsive table { min-width: 560px; }
@@ -219,8 +221,7 @@
 
 @section('content')
 <div class="nx-page-content">
-<div class="container py-5">
-
+<div class="container pt-0 pb-3">
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>

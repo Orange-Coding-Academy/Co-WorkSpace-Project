@@ -23,12 +23,12 @@
             min-width: 0;
         }
 
-        .nx-page-content .profile-container {
-            width: 100%;
-            max-width: 1080px;
-            margin: 18px auto 48px;
-            padding: 0 12px;
-        }
+    .nx-page-content .profile-container {
+        width: 100%;
+        max-width: 1080px;
+       margin: 0 auto 48px;
+        padding: 0 12px;
+    }
 
         .nx-page-content .page-title {
             margin: 0 0 8px;
