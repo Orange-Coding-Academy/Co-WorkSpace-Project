@@ -7,13 +7,13 @@
     NOTES FOR THE NEXT DEVELOPER (header refactor):
     - Member (customer) links are shown ONLY when role === 'member'. Admin / spaceManager
       users see a "Dashboard" button instead (plain @auth would show member links to them).
-    - The header is transparent over the hero and becomes `.is-solid` on scroll. On any other
-      page (My Bookings, etc.) it must be solid all the time: add `is-solid is-forced` on the
-      <header> and skip updateHeader() when `is-forced` is present.
+    - The header is transparent over the hero and becomes .is-solid on scroll. On any other
+      page (My Bookings, etc.) it must be solid all the time: add is-solid is-forced on the
+      <header> and skip updateHeader() when is-forced is present.
     - When the header is extracted into a shared partial, the logo must point to url('/') and
       every "#anchor" link must become url('/') . '#anchor'.
     - Header class names (.btn, .nav-link, .logo, .wrap) collide with Bootstrap. Prefix them
-      with `nx-` before using the header inside pages that load Bootstrap.
+      with nx- before using the header inside pages that load Bootstrap.
 --}}
 @php
     $nxUrls = [
@@ -68,6 +68,11 @@
     foreach ($nxMemberMore as $nxL) {
         $nxMemberMobile[] = [$nxL[0], $nxL[1]];
     }
+    // Prefer a real NexOra workspace image for the hero.
+    $nxHeroImage = isset($workspaces) ? $workspaces->first() : null;
+    $nxHeroImagePath = $nxHeroImage && $nxHeroImage->landing_images->isNotEmpty()
+        ? asset($nxHeroImage->landing_images->first()->image_path)
+        : 'https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=1920';
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
@@ -2414,6 +2419,47 @@
                 display: block;
             }
         }
+
+        /* ============ NexOra live listings — premium editorial cards ============ */
+        .nx-live { background: linear-gradient(180deg,#f5f7f3 0%,#eef2ec 100%); position:relative; overflow:hidden; }
+        .nx-live::before { content:""; position:absolute; width:420px; height:420px; border:1px solid rgba(49,92,77,.09); border-radius:50%; top:6%; right:-220px; pointer-events:none; }
+        .nx-live-head { display:flex; align-items:end; justify-content:space-between; gap:28px; margin-bottom:62px; }
+        .nx-live-head .h2 { max-width:760px; margin:16px 0; }
+        .nx-live-head .h2 span { color:var(--nx-primary); font-family:Georgia,serif; font-style:italic; font-weight:500; }
+        .nx-listing-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; border-bottom:1px solid var(--nx-border-strong); padding-bottom:18px; margin-bottom:26px; }
+        .nx-live-kicker { display:block; color:var(--nx-accent); font:700 10px/1.4 var(--font-display); letter-spacing:.2em; margin-bottom:10px; }
+        .nx-listing-heading h3 { font-size:clamp(23px,2.6vw,32px); }
+        .nx-live-count { color:var(--nx-text-muted); font-size:12px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+        .nx-listing-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+        .nx-listing-card { background:#fff; border:1px solid rgba(32,61,52,.08); border-radius:18px; overflow:hidden; box-shadow:0 8px 28px rgba(21,42,35,.045); transition:transform .55s var(--ease),box-shadow .55s var(--ease); }
+        .nx-listing-card:hover { transform:translateY(-9px); box-shadow:0 24px 55px rgba(21,42,35,.13); }
+        .nx-listing-photo { display:block; position:relative; height:245px; overflow:hidden; background:#dfe6df; }
+        .nx-listing-photo::after { content:""; position:absolute; inset:45% 0 0; background:linear-gradient(transparent,rgba(12,27,21,.32)); pointer-events:none; }
+        .nx-listing-photo img { width:100%; height:100%; object-fit:cover; transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .7s; }
+        .nx-listing-card:hover .nx-listing-photo img { transform:scale(1.075); filter:saturate(1.08); }
+        .nx-photo-tag { position:absolute; z-index:1; left:16px; bottom:15px; color:#fff; background:rgba(21,42,35,.72); border:1px solid rgba(255,255,255,.25); border-radius:99px; padding:7px 12px; font-size:10px; letter-spacing:.09em; text-transform:uppercase; backdrop-filter:blur(10px); }
+        .nx-listing-info { padding:22px 22px 24px; }
+        .nx-listing-location { color:var(--nx-accent); font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; margin-bottom:9px; }
+        .nx-listing-info h4 { font-size:21px; margin-bottom:10px; }
+        .nx-listing-info p { color:var(--nx-text-secondary); font-size:13px; line-height:1.7; min-height:44px; }
+        .nx-card-link { display:inline-flex; align-items:center; gap:10px; margin-top:18px; color:var(--nx-primary); font-size:12px; font-weight:800; text-decoration:none; letter-spacing:.02em; }
+        .nx-card-link span { transition:transform .3s var(--ease); }
+        .nx-card-link:hover span { transform:translate(3px,-3px); }
+        .nx-room-heading { margin-top:78px; }
+        .nx-room-card .nx-listing-photo { height:220px; }
+        .nx-no-photo { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:rgba(255,255,255,.88); background:radial-gradient(circle at 75% 25%,#668575,#203d34 70%); }
+        .nx-no-photo span { font:800 25px var(--font-display); letter-spacing:.18em; }
+        .nx-no-photo small { font-size:11px; opacity:.75; }
+        .nx-empty-state { grid-column:1/-1; padding:42px; text-align:center; color:var(--nx-text-secondary); border:1px dashed var(--nx-border-strong); border-radius:16px; }
+        @media(max-width:900px) { .nx-listing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media(max-width:600px) {
+            .nx-live-head { align-items:flex-start; flex-direction:column; margin-bottom:42px; }
+            .nx-listing-grid { grid-template-columns:1fr; gap:18px; }
+            .nx-listing-photo,.nx-room-card .nx-listing-photo { height:235px; }
+            .nx-listing-heading { align-items:flex-start; }
+            .nx-room-heading { margin-top:54px; }
+        }
+
     </style>
 </head>
 
@@ -2549,12 +2595,8 @@
         <section class="hero" id="top" aria-labelledby="hero-title">
             <div class="hero-frame" id="heroFrame">
                 <div class="hero-media">
-                    <img src="https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=1920"
-                        srcset="https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=960 960w,
-                         https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w,
-                         https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=2400 2400w"
-                        sizes="100vw"
-                        alt="Open-plan loft workspace with a dark timber ceiling, white desks and tall windows letting in daylight"
+                    <img src="{{ $nxHeroImagePath }}"
+                        alt="{{ $nxHeroImage ? ($nxHeroImage->name . ' workspace') : 'Premium coworking workspace interior' }}"
                         fetchpriority="high" width="1920" height="1280" id="heroImg">
                 </div>
             </div>
@@ -2636,7 +2678,77 @@
             </div>
         </section>
 
-        {{-- ================= 3. INSPIRATION (replaces featured listings: editorial, not businesses) ================= --}}
+        {{-- ================= 3. LIVE NEXORA LISTINGS ================= --}}
+        <section class="section nx-live" id="live-spaces" aria-labelledby="live-title">
+            <div class="wrap">
+                <div class="nx-live-head reveal">
+                    <div>
+                        <p class="eyebrow"><span class="idx">02</span> Explore real spaces</p>
+                        <h2 id="live-title" class="h2">A space that feels <span>like your next chapter.</span></h2>
+                        <p class="lede">Discover real workspaces and rooms published on NexOra.</p>
+                    </div>
+                    <a class="btn btn-sm btn-outline" href="{{ route('explore') }}">View all spaces <span class="arrow" aria-hidden="true">&rarr;</span></a>
+                </div>
+
+                <div class="nx-listing-heading reveal">
+                    <div><span class="nx-live-kicker">CURATED WORKSPACES</span><h3>Spaces to make things happen</h3></div>
+                    <span class="nx-live-count">{{ isset($workspaces) ? $workspaces->count() : 0 }} spaces</span>
+                </div>
+                <div class="nx-listing-grid">
+                    @forelse(($workspaces ?? collect()) as $workspace)
+                        @php $workspacePhoto = $workspace->landing_images->first(); @endphp
+                        <article class="nx-listing-card reveal">
+                            <a class="nx-listing-photo" href="{{ route('explore') }}" aria-label="Explore {{ $workspace->name }}">
+                                @if($workspacePhoto)
+                                    <img src="{{ asset($workspacePhoto->image_path) }}" alt="{{ $workspacePhoto->alt_text ?: $workspace->name }}" loading="lazy">
+                                @else
+                                    <div class="nx-no-photo"><span>NEXORA</span><small>Workspace photography coming soon</small></div>
+                                @endif
+                                <span class="nx-photo-tag">NexOra space</span>
+                            </a>
+                            <div class="nx-listing-info">
+                                <div class="nx-listing-location">{{ $workspace->location }}</div>
+                                <h4>{{ $workspace->name }}</h4>
+                                <p>{{ \Illuminate\Support\Str::limit($workspace->description ?? 'A thoughtfully designed space for focused work and collaboration.', 105) }}</p>
+                                <a href="{{ route('explore') }}" class="nx-card-link">Discover workspace <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+                    @empty
+                        <div class="nx-empty-state">New workspaces are on their way. Check back soon.</div>
+                    @endforelse
+                </div>
+
+                <div class="nx-listing-heading nx-room-heading reveal">
+                    <div><span class="nx-live-kicker">ROOMS & PRIVATE SPACES</span><h3>Find the room for the moment</h3></div>
+                    <span class="nx-live-count">{{ isset($rooms) ? $rooms->count() : 0 }} rooms</span>
+                </div>
+                <div class="nx-listing-grid nx-room-grid">
+                    @forelse(($rooms ?? collect()) as $room)
+                        @php $roomPhoto = $room->landing_images->first(); @endphp
+                        <article class="nx-listing-card nx-room-card reveal">
+                            <a class="nx-listing-photo" href="{{ route('explore') }}" aria-label="Explore {{ $room->name }}">
+                                @if($roomPhoto)
+                                    <img src="{{ asset($roomPhoto->image_path) }}" alt="{{ $roomPhoto->alt_text ?: $room->name }}" loading="lazy">
+                                @else
+                                    <div class="nx-no-photo"><span>NEXORA</span><small>Room photography coming soon</small></div>
+                                @endif
+                                <span class="nx-photo-tag">{{ str_replace('_', ' ', ucfirst($room->room_type ?? 'Room')) }}</span>
+                            </a>
+                            <div class="nx-listing-info">
+                                <div class="nx-listing-location">{{ $room->workspace_name }}</div>
+                                <h4>{{ $room->name }}</h4>
+                                <p>{{ (int) $room->capacity }} {{ (int) $room->capacity === 1 ? 'person' : 'people' }} capacity · {{ number_format((float) $room->hourly_price, 2) }} JOD / hour</p>
+                                <a href="{{ route('explore') }}" class="nx-card-link">Explore this room <span aria-hidden="true">↗</span></a>
+                            </div>
+                        </article>
+                    @empty
+                        <div class="nx-empty-state">Rooms will appear here as soon as they are published.</div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        {{-- ================= 4. INSPIRATION ================= --}}
         <section class="section inspire" id="inspiration" aria-labelledby="inspire-title">
             <div class="wrap">
                 <div class="inspire-head">
@@ -3098,7 +3210,7 @@
             });
 
             function updateHeader() {
-                // On non-landing pages the header carries `is-forced` and stays solid.
+                // On non-landing pages the header carries is-forced and stays solid.
                 if (header.classList.contains('is-forced')) return;
                 var y = window.scrollY;
                 header.classList.toggle('is-solid', y > 40 || menuOpen);

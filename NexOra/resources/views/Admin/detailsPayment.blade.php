@@ -1,123 +1,61 @@
+@php
+    $statusClass = match ($payment->status) {
+        'paid'    => 'status-paid',
+        'pending' => 'status-pending',
+        default   => 'status-failed',
+    };
 
-<div>
-    {{-- Payment Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    $statusLabel = $payment->status === 'paid' ? 'Succeeded' : ucfirst($payment->status);
+@endphp
+
+<div class="pd">
+
+    <div class="pd-summary">
         <div>
-            <h5 class="fw-bold mb-1">Payment #{{ $payment->id }}</h5>
-            <small class="text-muted">
-                {{ $payment->created_at?->format('d M Y, H:i') ?? 'N/A' }}
-            </small>
-        </div>
-
-        @if($payment->status === 'paid')
-            <span class="badge bg-success">Succeeded</span>
-        @elseif($payment->status === 'pending')
-            <span class="badge bg-warning text-dark">Pending</span>
-        @else
-            <span class="badge bg-danger">{{ ucfirst($payment->status) }}</span>
-        @endif
-    </div>
-
-    {{-- Amount --}}
-    <div class="bg-light rounded p-4 text-center mb-4">
-        <small class="text-muted">Payment Amount</small>
-        <h2 class="fw-bold mt-2">
-            {{ number_format($payment->amount, 2) }}
-            {{ strtoupper($payment->currency ?? 'USD') }}
-        </h2>
-    </div>
-
-    {{-- Payment Information --}}
-    <h6 class="fw-bold mb-3">Payment Information</h6>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <small class="text-muted">Payment ID</small>
-            <div>{{ $payment->id }}</div>
-        </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Provider</small>
-            <div>{{ ucfirst($payment->provider ?? 'N/A') }}</div>
-        </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Currency</small>
-            <div>{{ strtoupper($payment->currency ?? 'USD') }}</div>
-        </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Paid At</small>
-            <div>
-                {{ $payment->paid_at?->format('d M Y, H:i') ?? 'Not paid' }}
+            <span class="pd-label">Amount</span>
+            <div class="pd-amount">
+                {{ number_format($payment->amount, 2) }}
+                <small>{{ strtoupper($payment->currency ?? 'USD') }}</small>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <small class="text-muted">Created At</small>
-            <div>
-                {{ $payment->created_at?->format('d M Y, H:i') ?? 'N/A' }}
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Last Updated</small>
-            <div>
-                {{ $payment->updated_at?->format('d M Y, H:i') ?? 'N/A' }}
-            </div>
-        </div>
+        <span class="payment-status {{ $statusClass }}">{{ $statusLabel }}</span>
     </div>
 
-    <hr>
-
-    {{-- Customer Information --}}
-    <h6 class="fw-bold mb-3">Customer Information</h6>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <small class="text-muted">Customer</small>
-            <div>{{ $payment->user?->name ?? 'N/A' }}</div>
+    <h3 class="pd-title">Customer</h3>
+    <dl class="pd-grid">
+        <div class="pd-row">
+            <dt>Name</dt>
+            <dd>{{ $payment->user?->name ?? 'Unknown' }}</dd>
         </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Email</small>
-            <div>{{ $payment->user?->email ?? 'N/A' }}</div>
+        <div class="pd-row">
+            <dt>Email</dt>
+            <dd>{{ $payment->user?->email ?? 'N/A' }}</dd>
         </div>
-    </div>
+    </dl>
 
-    <hr>
-
-    {{-- Related Information --}}
-    <h6 class="fw-bold mb-3">Related Information</h6>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-6">
-            <small class="text-muted">Booking ID</small>
-            <div>{{ $payment->booking?->id ?? 'N/A' }}</div>
+    <h3 class="pd-title">Transaction information</h3>
+    <dl class="pd-grid">
+        <div class="pd-row">
+            <dt>Payment</dt>
+            <dd>#{{ $payment->id }}</dd>
         </div>
-
-        <div class="col-md-6">
-            <small class="text-muted">Membership ID</small>
-            <div>{{ $payment->membership?->id ?? 'N/A' }}</div>
+        <div class="pd-row">
+            <dt>Provider</dt>
+            <dd>{{ ucfirst($payment->provider ?? 'N/A') }}</dd>
         </div>
-    </div>
-
-    <hr>
-
-    {{-- Transaction Information --}}
-    <h6 class="fw-bold mb-3">Transaction Information</h6>
-
-    <div class="mb-3">
-        <small class="text-muted">Stripe Checkout Session</small>
-        <div class="text-break">
-            {{ $payment->stripe_checkout_session_id ?? 'N/A' }}
+        <div class="pd-row">
+            <dt>Date</dt>
+            <dd>{{ $payment->created_at?->format('d M Y, H:i') ?? 'N/A' }}</dd>
         </div>
-    </div>
-
-    <div class="mb-3">
-        <small class="text-muted">Stripe Payment Intent</small>
-        <div class="text-break">
-            {{ $payment->stripe_payment_intent_id ?? 'N/A' }}
+        <div class="pd-row">
+            <dt>Stripe Checkout Session</dt>
+            <dd>{{ $payment->stripe_checkout_session_id ?? 'N/A' }}</dd>
         </div>
-    </div>
+        <div class="pd-row">
+            <dt>Stripe Payment Intent</dt>
+            <dd>{{ $payment->stripe_payment_intent_id ?? 'N/A' }}</dd>
+        </div>
+    </dl>
+
 </div>

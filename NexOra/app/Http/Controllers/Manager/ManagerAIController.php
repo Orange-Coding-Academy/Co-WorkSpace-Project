@@ -20,15 +20,14 @@ class ManagerAIController extends Controller
         $this->aiService = $aiService;
     }
 
-    public function index()
+ public function index()
 {
-    $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
+    $manager = auth()->user();
 
     $workspaces = $this->aiService->getManagerWorkspaces($manager);
 
     return view('manager.ai.index', compact('workspaces'));
 }
-
     public function ask(Request $request)
     {
         $validated = $request->validate([
@@ -36,7 +35,7 @@ class ManagerAIController extends Controller
         ]);
 
         try {
-        $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
+        $manager = auth()->user();
 
    $answer = $this->aiService->askWithManagerData(
     $manager,
@@ -67,7 +66,7 @@ class ManagerAIController extends Controller
     ]);
 
     try {
-       $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
+       $manager = auth()->user();
 
         $content = $this->aiService->generateMarketingContent(
             $manager,
@@ -100,8 +99,7 @@ public function sendMarketing(Request $request)
 
     try {
         // Temporary test manager until Auth is implemented
-        $manager = User::where('email', 'omar.manager@nexora.com')->firstOrFail();
-
+      $manager = auth()->user();
         // Make sure the workspace belongs to this manager
         $workspace = \Illuminate\Support\Facades\DB::table('workspaces')
             ->where('id', $validated['workspace_id'])
