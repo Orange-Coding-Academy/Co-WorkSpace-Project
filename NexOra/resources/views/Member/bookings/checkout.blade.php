@@ -657,27 +657,300 @@
                 gap: 12px;
             }
         }
+
+        /* ===== Checkout layout ===== */
+        .nx-co { padding: 28px 0 40px; }
+
+        .nx-co-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .nx-co-title h1 {
+            font-size: 26px;
+            font-weight: 800;
+            margin: 0 0 2px;
+        }
+
+        .nx-co-title p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--nx-text-secondary);
+        }
+
+        .nx-co-steps {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--nx-card);
+            border: 1px solid var(--nx-border);
+            border-radius: 999px;
+            padding: 8px 16px;
+            box-shadow: 0 1px 2px rgba(29, 41, 36, .05);
+        }
+
+        .nx-co-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--nx-text-muted);
+            white-space: nowrap;
+        }
+
+        .nx-co-step-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            background: #F0F2EF;
+            color: var(--nx-text-muted);
+            flex-shrink: 0;
+        }
+
+        .nx-co-step.is-done { color: var(--nx-primary); }
+        .nx-co-step.is-done .nx-co-step-dot { background: var(--nx-primary); color: #fff; }
+        .nx-co-step.is-active { color: var(--nx-text); }
+        .nx-co-step.is-active .nx-co-step-dot {
+            background: var(--nx-accent);
+            color: var(--nx-deep);
+            box-shadow: 0 0 0 4px rgba(197, 138, 98, .2);
+        }
+
+        .nx-co-step-line {
+            width: 22px;
+            height: 2px;
+            background: var(--nx-border-strong);
+            border-radius: 2px;
+        }
+
+        .nx-co-card {
+            background: var(--nx-card);
+            border: 1px solid var(--nx-border);
+            border-radius: 16px;
+            box-shadow: 0 1px 2px rgba(29, 41, 36, .05);
+            overflow: hidden;
+        }
+
+        .nx-co-section { padding: 20px 24px; }
+        .nx-co-section + .nx-co-section { border-top: 1px solid var(--nx-divider); }
+
+        .nx-co-section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .nx-co-section-head h2 {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .nx-co-ref {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--nx-primary);
+            background: #E7EEE7;
+            border-radius: 999px;
+            padding: 4px 10px;
+        }
+
+        .nx-co-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .nx-co-fields .form-label { margin-bottom: 4px; }
+
+        .nx-co-tiles {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .nx-co-tile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--nx-surface);
+            border: 1px solid var(--nx-divider);
+            border-radius: 12px;
+            min-width: 0;
+        }
+
+        .nx-co-tile-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: #E7EEE7;
+            color: var(--nx-primary);
+            flex-shrink: 0;
+        }
+
+        .nx-co-tile-icon svg { width: 20px; height: 20px; }
+
+        .nx-co-tile-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: var(--nx-text-muted);
+            line-height: 1.2;
+        }
+
+        .nx-co-tile-value {
+            display: block;
+            font-family: var(--nx-font-heading);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--nx-text);
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+        }
+
+        .nx-co-tile.is-wide { grid-column: 1 / -1; }
+
+        .nx-co-summary { position: sticky; top: 90px; }
+
+        .nx-co-summary-head {
+            background: var(--nx-sidebar);
+            color: #F5F7F3;
+            padding: 18px 24px;
+        }
+
+        .nx-co-summary-head small {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--nx-accent-soft);
+            margin-bottom: 2px;
+        }
+
+        .nx-co-summary-head strong {
+            font-family: var(--nx-font-heading);
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .nx-co-summary-body { padding: 18px 24px 22px; }
+
+        .nx-co-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            padding: 6px 0;
+        }
+
+        .nx-co-line span { color: var(--nx-text-secondary); }
+        .nx-co-line strong { font-weight: 600; }
+
+        .nx-co-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 14px 16px;
+            background: var(--nx-surface);
+            border: 1px dashed var(--nx-border-strong);
+            border-radius: 12px;
+        }
+
+        .nx-co-total span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--nx-text-secondary);
+        }
+
+        .nx-co-total strong {
+            font-family: var(--nx-font-heading);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--nx-primary);
+        }
+
+        .nx-co-terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 16px 0 14px;
+            font-size: 13px;
+            color: var(--nx-text-secondary);
+        }
+
+        .nx-co-terms .form-check-input { margin-top: 2px; flex-shrink: 0; }
+
+        .nx-co-secure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 12px 0 0;
+            font-size: 12px;
+            color: var(--nx-text-muted);
+        }
+
+        .nx-co-secure svg { width: 14px; height: 14px; }
+
+        @media (max-width: 991px) {
+            .nx-co-summary { position: static; }
+        }
+
+        @media (max-width: 575px) {
+            .nx-co-fields,
+            .nx-co-tiles { grid-template-columns: 1fr; }
+            .nx-co-steps { width: 100%; justify-content: space-between; padding: 8px 12px; }
+            .nx-co-step-line { width: 10px; }
+            .nx-co-section { padding: 16px 18px; }
+        }
     </style>
 @endpush
 
 @section('content')
     <div class="nx-page-content bg-light">
-        <div class="container py-5">
+        <div class="container nx-co">
 
-            <a href="{{ route('member.bookings.show', $booking->id) }}" class="btn btn-outline-secondary mb-4">
-                Back to Booking
-            </a>
+            {{-- Title + stepper --}}
+            <div class="nx-co-top">
+                <div class="nx-co-title">
+                    <a href="{{ route('member.bookings.show', $booking->id) }}"
+                       class="btn btn-outline-secondary btn-sm mb-2">
+                        &larr; Back to Booking
+                    </a>
+                    <h1>Booking Checkout</h1>
+                    <p>Review your booking before proceeding to payment.</p>
+                </div>
 
-            <h3 class="fw-bold mb-2">Booking Checkout</h3>
-            <p class="text-muted mb-4">
-                Review your booking before proceeding to payment.
-            </p>
-
-            <!-- Progress -->
-            <div class="d-flex justify-content-between mb-4">
-                <span class="text-success fw-bold">1. Details</span>
-                <span class="text-primary fw-bold">2. Payment</span>
-                <span class="text-muted">3. Confirmation</span>
+                <div class="nx-co-steps" aria-label="Checkout progress">
+                    <div class="nx-co-step is-done">
+                        <span class="nx-co-step-dot">&#10003;</span> Details
+                    </div>
+                    <span class="nx-co-step-line"></span>
+                    <div class="nx-co-step is-active">
+                        <span class="nx-co-step-dot">2</span> Payment
+                    </div>
+                    <span class="nx-co-step-line"></span>
+                    <div class="nx-co-step">
+                        <span class="nx-co-step-dot">3</span> Confirmation
+                    </div>
+                </div>
             </div>
 
             @if ($errors->any())
@@ -693,145 +966,167 @@
             <form method="POST" action="{{ route('member.stripe.checkout.booking') }}">
                 @csrf
 
-                <div class="row g-4">
+                <div class="row g-4 align-items-start">
 
-                    <!-- Booking details -->
+                    {{-- LEFT: customer + booking details --}}
                     <div class="col-lg-7">
+                        <div class="nx-co-card">
 
-                        <!-- Customer Information -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-body p-4">
-
-                                <h5 class="fw-bold mb-3">Customer Information</h5>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
+                            {{-- Customer --}}
+                            <div class="nx-co-section">
+                                <div class="nx-co-section-head">
+                                    <h2>Customer Information</h2>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" value="{{ auth()->user()->email }}" readonly>
+                                <div class="nx-co-fields">
+                                    <div>
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="{{ auth()->user()->email }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Booking details --}}
+                            <div class="nx-co-section">
+                                <div class="nx-co-section-head">
+                                    <h2>Booking Details</h2>
+                                    <span class="nx-co-ref">Ref #{{ $booking->id }}</span>
                                 </div>
 
-                            </div>
-                        </div>
+                                <div class="nx-co-tiles">
 
-                        <!-- Booking Information -->
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-body p-4">
+                                    <div class="nx-co-tile is-wide">
+                                        <span class="nx-co-tile-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>
+                                                <path d="M16 9h2a2 2 0 0 1 2 2v10"/>
+                                                <path d="M2 21h20"/>
+                                                <path d="M8 7h4M8 11h4M8 15h4"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="nx-co-tile-label">Room</span>
+                                            <span class="nx-co-tile-value">{{ $room->name }}</span>
+                                        </div>
+                                    </div>
 
-                                <h5 class="fw-bold mb-3">Booking Details</h5>
+                                    <div class="nx-co-tile">
+                                        <span class="nx-co-tile-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <rect x="3" y="4" width="18" height="17" rx="3"/>
+                                                <path d="M3 10h18M8 2v4M16 2v4"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="nx-co-tile-label">Date</span>
+                                            <span class="nx-co-tile-value">{{ $start->format('d M Y') }}</span>
+                                        </div>
+                                    </div>
 
-                                <p>
-                                    <strong>Booking Reference:</strong>
-                                    #{{ $booking->id }}
-                                </p>
+                                    <div class="nx-co-tile">
+                                        <span class="nx-co-tile-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M6 2h12M6 22h12"/>
+                                                <path d="M7 2c0 5 5 5 5 10s-5 5-5 10M17 2c0 5-5 5-5 10s5 5 5 10"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="nx-co-tile-label">Duration</span>
+                                            <span class="nx-co-tile-value">{{ number_format($hours, 2) }} hours</span>
+                                        </div>
+                                    </div>
 
-                                <p>
-                                    <strong>Room:</strong>
-                                    {{ $room->name }}
-                                </p>
+                                    <div class="nx-co-tile">
+                                        <span class="nx-co-tile-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <circle cx="12" cy="12" r="9"/>
+                                                <path d="M12 7v5l3 2"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="nx-co-tile-label">Start</span>
+                                            <span class="nx-co-tile-value">{{ $start->format('h:i A') }}</span>
+                                        </div>
+                                    </div>
 
-                                <p>
-                                    <strong>Date:</strong>
-                                    {{ $start->format('d M Y') }}
-                                </p>
-
-                                <p>
-                                    <strong>Start:</strong>
-                                    {{ $start->format('h:i A') }}
-                                </p>
-
-                                <p>
-                                    <strong>End:</strong>
-                                    {{ $end->format('h:i A') }}
-                                </p>
-
-                                <p>
-                                    <strong>Duration:</strong>
-                                    {{ number_format($hours, 2) }} hours
-                                </p>
-
-                            </div>
-                        </div>
-
-                        <!-- Terms -->
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-4">
-
-                                <h5 class="fw-bold">Terms and Conditions</h5>
-
-                                <div class="form-check mt-3">
-
-                                    <input type="checkbox" class="form-check-input" name="terms" value="1"
-                                        id="terms" required>
-
-                                    <label for="terms" class="form-check-label">
-                                        I agree to the booking terms and cancellation policy.
-                                    </label>
+                                    <div class="nx-co-tile">
+                                        <span class="nx-co-tile-icon">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <circle cx="12" cy="12" r="9"/>
+                                                <path d="M9 12l2 2 4-4"/>
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <span class="nx-co-tile-label">End</span>
+                                            <span class="nx-co-tile-value">{{ $end->format('h:i A') }}</span>
+                                        </div>
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
 
+                        </div>
                     </div>
 
-                    <!-- Price summary -->
+                    {{-- RIGHT: order summary + terms + pay --}}
                     <div class="col-lg-5">
+                        <div class="nx-co-card nx-co-summary">
 
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body p-4">
+                            <div class="nx-co-summary-head">
+                                <small>Order Summary</small>
+                                <strong>{{ $room->name }}</strong>
+                            </div>
 
-                                <h5 class="fw-bold mb-4">Order Summary</h5>
+                            <div class="nx-co-summary-body">
 
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="text-muted">Room</span>
-                                    <strong>{{ $room->name }}</strong>
+                                <div class="nx-co-line">
+                                    <span>Hourly Price</span>
+                                    <strong>${{ number_format($room->hourly_price, 2) }}</strong>
                                 </div>
 
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="text-muted">Hourly Price</span>
-                                    <strong>
-                                        ${{ number_format($room->hourly_price, 2) }}
-                                    </strong>
+                                <div class="nx-co-line">
+                                    <span>Duration</span>
+                                    <strong>{{ number_format($hours, 2) }} hours</strong>
                                 </div>
 
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="text-muted">Duration</span>
-                                    <strong>
-                                        {{ number_format($hours, 2) }} hours
-                                    </strong>
+                                <div class="nx-co-total">
+                                    <span>Total</span>
+                                    <strong>${{ number_format($total, 2) }}</strong>
                                 </div>
 
-                                <hr>
-
-                                <div class="d-flex justify-content-between mb-4">
-                                    <h5>Total</h5>
-                                    <h5 class="text-primary">
-                                        ${{ number_format($total, 2) }}
-                                    </h5>
+                                {{-- Terms --}}
+                                <div class="nx-co-terms">
+                                    <input type="checkbox" class="form-check-input" name="terms" value="1"
+                                        id="terms" required>
+                                    <label for="terms">
+                                        I agree to the booking terms and cancellation policy.
+                                    </label>
                                 </div>
 
-                                <!-- Existing booking ID -->
+                                {{-- Existing booking ID --}}
                                 <input type="hidden" name="booking_id" value="{{ $booking->id }}">
 
-                                <button type="submit" class="btn btn-primary w-100 py-3">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
                                     Proceed to Payment
                                 </button>
 
-                                <p class="text-muted text-center small mt-3 mb-0">
-                                    You will be redirected to Stripe for secure payment.
+                                <p class="nx-co-secure">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <rect x="4" y="11" width="16" height="10" rx="2"/>
+                                        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+                                    </svg>
+                                    Secure payment through Stripe
                                 </p>
 
                             </div>
                         </div>
-
                     </div>
 
                 </div>
-
             </form>
 
         </div>
