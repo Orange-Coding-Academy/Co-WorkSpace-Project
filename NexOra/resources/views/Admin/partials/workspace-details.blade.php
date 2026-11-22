@@ -659,20 +659,20 @@
                             @foreach ($room->images as $image)
 
                                 @php
-                                    $roomImagePath = ltrim($image->image_path, '/');
+    $roomImagePath = ltrim($image->image_path, '/');
 
-                                    if (str_starts_with($roomImagePath, 'storage/')) {
-                                        $roomImagePath = substr($roomImagePath, strlen('storage/'));
-                                    }
-                                @endphp
+    if (str_starts_with($roomImagePath, 'storage/')) {
+        $roomImagePath = substr($roomImagePath, strlen('storage/'));
+    }
+@endphp
 
-                                <img
-                                    src="{{ asset($roomImagePath) }}"
-                                    alt="{{ $image->alt_text ?: $room->name }}"
-                                    loading="lazy"
-                                    onerror="this.style.display='none';"
-                                    @if (! $loop->first) hidden @endif
-                                >
+                               <img
+    src="{{ asset('storage/' . $roomImagePath) }}"
+    alt="{{ $image->alt_text ?: $room->name }}"
+    loading="lazy"
+    onerror="this.style.display='none';"
+    @if (! $loop->first) hidden @endif
+>
 
                             @endforeach
 

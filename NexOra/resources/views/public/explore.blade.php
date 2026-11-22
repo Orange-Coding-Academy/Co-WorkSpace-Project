@@ -223,7 +223,7 @@
                         @forelse ($room->images as $index => $image)
 
                             <img
-                                src="{{ asset($image->image_path)}}"
+                                src="{{  asset('storage/' . $image->image_path)}}"
                                 class="nx-room-card__image {{ $index === 0 ? 'is-active' : '' }}"
                                 alt="{{ $image->alt_text ?? $room->name }}"
                                 loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
