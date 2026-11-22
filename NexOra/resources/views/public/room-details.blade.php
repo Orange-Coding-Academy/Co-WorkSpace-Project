@@ -43,7 +43,7 @@
 
                     @forelse($room->images as $index => $image)
                         <img
-                            src="{{ asset($image->image_path) }}"
+                            src="{{asset('storage/' . $image->image_path) }}"
                             class="nx-room__gallery-image {{ $index === 0 ? 'is-active' : '' }}"
                             alt="{{ $image->alt_text ?? $room->name }}"
                             loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
@@ -104,7 +104,7 @@
                                 aria-label="Show image {{ $index + 1 }}"
                                 aria-pressed="{{ $index === 0 ? 'true' : 'false' }}"
                             >
-                                <img src="{{ asset($image->image_path) }}" alt="" loading="lazy">
+                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="" loading="lazy">
                             </button>
                         @endforeach
                     </div>
