@@ -379,6 +379,43 @@
             </div>
         </section>
 
+{{-- Marketing Confirmation Popup --}}
+<div class="nx-modal-overlay" id="marketingModal" aria-hidden="true">
+    <div class="nx-modal" role="dialog" aria-modal="true"
+         aria-labelledby="marketingModalTitle">
+
+        <div class="nx-modal-icon" id="marketingModalIcon">✦</div>
+
+        <span class="nx-modal-eyebrow">NEXORA CAMPAIGN</span>
+
+        <h3 id="marketingModalTitle">Ready to launch?</h3>
+
+        <p id="marketingModalText">
+            You're about to send this campaign to all eligible previous bookers.
+            Please review your decision before continuing.
+        </p>
+
+        <div class="nx-modal-campaign">
+            <span>EMAIL SUBJECT</span>
+            <strong id="modalCampaignSubject"></strong>
+        </div>
+
+        <div class="nx-modal-result" id="marketingModalResult"
+             role="status" aria-live="polite"></div>
+
+        <div class="nx-modal-actions" id="marketingModalActions">
+            <button type="button" class="nx-modal-cancel" id="cancelMarketingBtn">
+                Cancel
+            </button>
+
+            <button type="button" class="nx-modal-confirm" id="confirmMarketingBtn">
+                <span>✓</span> Confirm & Send
+            </button>
+        </div>
+
+    </div>
+</div>
+
 
         {{-- Footer Note --}}
         <div class="nx-ai-footer">
@@ -412,7 +449,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const generateBtn = document.getElementById('generateMarketingBtn');
     const sendMarketingBtn = document.getElementById('sendMarketingBtn');
+const marketingModal = document.getElementById('marketingModal');
+const modalCampaignSubject = document.getElementById('modalCampaignSubject');
+const marketingModalResult = document.getElementById('marketingModalResult');
+const marketingModalTitle = document.getElementById('marketingModalTitle');
+const marketingModalText = document.getElementById('marketingModalText');
+const marketingModalIcon = document.getElementById('marketingModalIcon');
 
+const confirmMarketingBtn = document.getElementById('confirmMarketingBtn');
+const cancelMarketingBtn = document.getElementById('cancelMarketingBtn');
+const marketingModalActions = document.getElementById('marketingModalActions');
+
+let campaignSending = false;
+
+function openMarketingModal() {
+    marketingModal.classList.add('is-open');
+    marketingModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    confirmMarketingBtn.focus();
+}
+
+function closeMarketingModal() {
+    if (campaignSending) return;
+
+    marketingModal.classList.remove('is-open');
+    marketingModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
 
     function showMarketingMessage(message, type = 'info') {
         messageBox.textContent = message;
@@ -494,78 +557,203 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Send advertisement after manager approval
-    sendMarketingBtn.addEventListener('click', async function () {
+   
+// ================================================
+// MARKETING CAMPAIGN — CUSTOM CONFIRMATION MODAL
+// ================================================
 
-        const workspaceId = workspaceSelect.value;
-        const subject = subjectInput.value.trim();
-        const content = contentInput.value.trim();
+sendMarketingBtn.addEventListener('click', function () {
 
-        if (!workspaceId || !subject || !content) {
-            showMarketingMessage(
-                'Please select a workspace and provide an email subject and advertisement.',
-                'error'
-            );
-            return;
-        }
+    const workspaceId = workspaceSelect.value;
+    const subject = subjectInput.value.trim();
+    const content = contentInput.value.trim();
 
-        const approved = confirm(
-            'Are you sure you want to send this advertisement to all eligible previous bookers?'
+    if (!workspaceId || !subject || !content) {
+        showMarketingMessage(
+            'Please select a workspace and provide an email subject and advertisement.',
+            'error'
+        );
+        return;
+    }
+
+    // Reset modal
+    marketingModalTitle.textContent = 'Ready to launch?';
+    marketingModalText.textContent =
+        "You're about to send this campaign to all eligible previous bookers. Please review your decision before continuing.";
+
+    marketingModalIcon.textContent = '✦';
+    modalCampaignSubject.textContent = subject;
+
+    marketingModalResult.textContent = '';
+    marketingModalResult.className = 'nx-modal-result';
+
+    marketingModalActions.style.display = 'flex';
+    confirmMarketingBtn.disabled = false;
+    cancelMarketingBtn.style.display = '';
+
+    confirmMarketingBtn.innerHTML = '<span>✓</span> Confirm & Send';
+confirmMarketingBtn.onclick = null;
+    openMarketingModal();
+});
+
+
+// Cancel button
+cancelMarketingBtn.addEventListener('click', closeMarketingModal);
+
+
+// Click outside the popup to close it
+marketingModal.addEventListener('click', function (event) {
+    if (event.target === marketingModal) {
+        closeMarketingModal();
+    }
+});
+
+
+// Escape key
+document.addEventListener('keydown', function (event) {
+    if (
+        event.key === 'Escape' &&
+        marketingModal.classList.contains('is-open')
+    ) {
+        closeMarketingModal();
+    }
+});
+
+
+// Confirm and send campaign
+confirmMarketingBtn.addEventListener('click', async function () {
+
+    if (campaignSending) return;
+
+    const workspaceId = workspaceSelect.value;
+    const subject = subjectInput.value.trim();
+    const content = contentInput.value.trim();
+
+    campaignSending = true;
+
+    confirmMarketingBtn.disabled = true;
+    cancelMarketingBtn.disabled = true;
+
+    confirmMarketingBtn.innerHTML =
+        '<span class="nx-loading-spinner"></span> Sending...';
+
+    marketingModalTitle.textContent = 'Sending your campaign';
+    marketingModalText.textContent =
+        'Please wait while NexOra delivers your advertisement.';
+
+    marketingModalIcon.textContent = '✉';
+
+    marketingModalResult.textContent =
+        'Your campaign is being processed. Please do not close this window.';
+
+    marketingModalResult.className =
+        'nx-modal-result is-visible info';
+
+    sendMarketingBtn.disabled = true;
+    sendMarketingBtn.innerHTML =
+        '<span class="nx-loading-spinner"></span> Sending campaign...';
+
+    showMarketingMessage(
+        'Your campaign is being sent. Please wait...',
+        'info'
+    );
+
+    try {
+
+        const response = await fetch(
+            "{{ route('manager.ai.marketing.send') }}",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    workspace_id: workspaceId,
+                    subject: subject,
+                    content: content
+                })
+            }
         );
 
-        if (!approved) {
-            return;
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Email sending failed.');
         }
 
-        this.disabled = true;
-        this.innerHTML = '<span class="nx-loading-spinner"></span> Sending campaign...';
+        const resultMessage =
+            'Campaign completed successfully!\n' +
+            'Total recipients: ' + data.total_recipients +
+            ' | Sent: ' + data.sent +
+            ' | Failed: ' + data.failed;
 
-        showMarketingMessage('Your campaign is being sent. Please wait...', 'info');
+        marketingModalTitle.textContent =
+            data.failed > 0 ? 'Campaign partially completed' : 'Campaign sent!';
 
-        try {
+        marketingModalText.textContent =
+            'Your campaign sending process has finished.';
 
-            const response = await fetch(
-                "{{ route('manager.ai.marketing.send') }}",
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        workspace_id: workspaceId,
-                        subject: subject,
-                        content: content
-                    })
-                }
-            );
+        marketingModalIcon.textContent =
+            data.failed > 0 ? '!' : '✓';
 
-            const data = await response.json();
+        marketingModalResult.textContent = resultMessage;
 
-            if (!response.ok || !data.success) {
-                throw new Error(data.message || 'Email sending failed.');
-            }
+        marketingModalResult.className =
+            'nx-modal-result is-visible ' +
+            (data.failed > 0 ? 'info' : 'success');
 
-            showMarketingMessage(
-                'Campaign completed! Total recipients: ' +
-                data.total_recipients +
-                ' | Sent: ' + data.sent +
-                ' | Failed: ' + data.failed,
-                'success'
-            );
+        confirmMarketingBtn.innerHTML = 'Done';
+        cancelMarketingBtn.style.display = 'none';
 
-        } catch (error) {
+        confirmMarketingBtn.disabled = false;
 
-            showMarketingMessage(error.message, 'error');
+        confirmMarketingBtn.onclick = function () {
+            closeMarketingModal();
+        };
 
-        } finally {
+        showMarketingMessage(resultMessage, 'success');
 
-            this.disabled = false;
-            this.innerHTML = '<span>✓</span> Approve & Send Campaign';
+    } catch (error) {
 
-        }
+        marketingModalTitle.textContent = 'Sending failed';
 
-    });
+        marketingModalText.textContent =
+            'We could not complete your campaign. Please review the error below.';
+
+        marketingModalIcon.textContent = '!';
+
+        marketingModalResult.textContent = error.message;
+
+        marketingModalResult.className =
+            'nx-modal-result is-visible error';
+
+        confirmMarketingBtn.innerHTML = 'Try Again';
+        confirmMarketingBtn.disabled = false;
+        cancelMarketingBtn.disabled = false;
+
+        confirmMarketingBtn.onclick = function () {
+            confirmMarketingBtn.onclick = null;
+            confirmMarketingBtn.innerHTML = '<span>✓</span> Confirm & Send';
+            confirmMarketingBtn.click();
+        };
+
+        showMarketingMessage(error.message, 'error');
+
+    } finally {
+
+        campaignSending = false;
+
+        sendMarketingBtn.disabled = false;
+
+        sendMarketingBtn.innerHTML =
+            '<span>✓</span> Approve & Send Campaign';
+
+        cancelMarketingBtn.disabled = false;
+    }
+
+});
 
 
     // =====================================================

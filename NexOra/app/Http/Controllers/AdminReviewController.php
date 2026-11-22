@@ -34,7 +34,7 @@ class AdminReviewController extends Controller
             $query->where('is_visible', true);
         }
 
-        $reviews = $query->latest()->paginate(10)->withQueryString();
+        $reviews = $query->latest()->paginate(2)->withQueryString();
 
         $totalReviews = Review::count();
 

@@ -150,5 +150,10 @@
     <p>Thank you. Your booking or membership will be confirmed in a few seconds, once Stripe notifies our server.</p>
     
 </div>
+<script>
+    setTimeout(function () {
+        window.location.href = "{{ url('/member/my-bookings') }}";
+    }, 4000);
+</script>
 </body>
 </html>

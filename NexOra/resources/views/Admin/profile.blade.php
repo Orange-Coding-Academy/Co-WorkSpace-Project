@@ -34,7 +34,7 @@
     .nx-page-content .profile-container {
         width: 100%;
         max-width: 1080px;
-        margin: 18px auto 48px;
+        margin: 5px auto 48px;
         padding: 0 12px;
     }
 

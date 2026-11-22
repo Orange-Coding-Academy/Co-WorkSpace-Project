@@ -148,7 +148,7 @@
 <div class="container py-5 text-center" style="max-width: 500px;">
     <h2 class="text-danger">Payment canceled</h2>
     <p>No money was taken. You can try again.</p>
-    <a href="{{ route('stripe.test') }}" class="btn btn-primary">Back</a>
+    <a href="{{ route('member.bookings.index') }}" class="btn btn-primary">Back</a>
 </div>
 </body>
 </html>

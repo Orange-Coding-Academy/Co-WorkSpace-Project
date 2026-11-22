@@ -368,18 +368,7 @@
             {{-- Pagination --}}
             @if($reviews->hasPages())
 
-                <div class="nx-reviews-pagination">
-
-                    <div class="nx-reviews-pagination__info">
-                        Showing
-                        <strong>{{ $reviews->firstItem() }}</strong>
-                        –
-                        <strong>{{ $reviews->lastItem() }}</strong>
-                        of
-                        <strong>{{ $reviews->total() }}</strong>
-                        reviews
-                    </div>
-
+               
                     <div class="nx-reviews-pagination__links">
                         {{ $reviews->onEachSide(1)->links('pagination::bootstrap-5') }}
                     </div>

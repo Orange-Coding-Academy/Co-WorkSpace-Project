@@ -5,6 +5,7 @@
 @endsection
 
 @push('styles')
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +13,38 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap"
         rel="stylesheet">
     <style>
+        /* Premium Checkout Button */
+.nx-checkout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+
+    background: #24483B;
+    color: #F5E8C8;
+    border: 1px solid #C9A96E;
+
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+
+    box-shadow: 0 2px 7px rgba(201, 169, 110, 0.18);
+    transition: all 0.25s ease;
+}
+
+.nx-checkout-btn {
+    color: #FFFFFF !important;
+    background: #24483B;
+    border: 1px solid #C9A96E;
+    font-weight: 700;
+}
+
+.nx-checkout-btn:hover {
+    background: #C9A96E;
+    color: #203D34 !important;
+}
         /* ===== NexOra visual skin (tokens mirror welcome.blade.php) ===== */
         .nx-page-content {
             --nx-primary: #315C4D;
@@ -656,6 +689,7 @@
                 flex-wrap: wrap;
                 gap: 12px;
             }
+            
         }
     </style>
 @endpush
@@ -793,12 +827,14 @@
                                         </td>
 
                                         <td>
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex gap-2 flex-wrap">
 
-                                                <a href="{{ route('member.bookings.show', $booking->id) }}"
-                                                    class="btn btn-sm btn-outline-primary">
-                                                    View
-                                                </a>
+    <a href="{{ route('member.bookings.show', $booking->id) }}"
+        class="btn btn-sm btn-outline-primary">
+        View
+    </a>
+
+   
 
                                                 @if ($booking->status === 'pending' && \Carbon\Carbon::parse($booking->start_date_time)->isFuture())
                                                     <form method="POST"
@@ -813,7 +849,17 @@
                                                         </button>
                                                     </form>
                                                 @endif
+ @if ($booking->status === 'pending' &&
+        \Carbon\Carbon::parse($booking->start_date_time)->isFuture())
 
+        <a href="{{ route('member.bookings.checkout', $booking->id) }}"
+   class="nx-checkout-btn">
+    <i class="bi bi-credit-card"></i>
+    <span>Proceed to Checkout</span>
+    <i class="bi bi-arrow-up-right nx-checkout-arrow"></i>
+</a>
+
+    @endif
                                             </div>
                                         </td>
                                     </tr>
