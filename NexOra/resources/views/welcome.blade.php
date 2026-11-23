@@ -2679,75 +2679,7 @@
         </section>
 
         {{-- ================= 3. LIVE NEXORA LISTINGS ================= --}}
-        <section class="section nx-live" id="live-spaces" aria-labelledby="live-title">
-            <div class="wrap">
-                <div class="nx-live-head reveal">
-                    <div>
-                        <p class="eyebrow"><span class="idx">02</span> Explore real spaces</p>
-                        <h2 id="live-title" class="h2">A space that feels <span>like your next chapter.</span></h2>
-                        <p class="lede">Discover real workspaces and rooms published on NexOra.</p>
-                    </div>
-                    <a class="btn btn-sm btn-outline" href="{{ route('explore') }}">View all spaces <span class="arrow" aria-hidden="true">&rarr;</span></a>
-                </div>
-
-                <div class="nx-listing-heading reveal">
-                    <div><span class="nx-live-kicker">CURATED WORKSPACES</span><h3>Spaces to make things happen</h3></div>
-                    <span class="nx-live-count">{{ isset($workspaces) ? $workspaces->count() : 0 }} spaces</span>
-                </div>
-                <div class="nx-listing-grid">
-                    @forelse(($workspaces ?? collect()) as $workspace)
-                        @php $workspacePhoto = $workspace->landing_images->first(); @endphp
-                        <article class="nx-listing-card reveal">
-                            <a class="nx-listing-photo" href="{{ route('explore') }}" aria-label="Explore {{ $workspace->name }}">
-                                @if($workspacePhoto)
-                                    <img src="{{ asset($workspacePhoto->image_path) }}" alt="{{ $workspacePhoto->alt_text ?: $workspace->name }}" loading="lazy">
-                                @else
-                                    <div class="nx-no-photo"><span>NEXORA</span><small>Workspace photography coming soon</small></div>
-                                @endif
-                                <span class="nx-photo-tag">NexOra space</span>
-                            </a>
-                            <div class="nx-listing-info">
-                                <div class="nx-listing-location">{{ $workspace->location }}</div>
-                                <h4>{{ $workspace->name }}</h4>
-                                <p>{{ \Illuminate\Support\Str::limit($workspace->description ?? 'A thoughtfully designed space for focused work and collaboration.', 105) }}</p>
-                                <a href="{{ route('explore') }}" class="nx-card-link">Discover workspace <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-                    @empty
-                        <div class="nx-empty-state">New workspaces are on their way. Check back soon.</div>
-                    @endforelse
-                </div>
-
-                <div class="nx-listing-heading nx-room-heading reveal">
-                    <div><span class="nx-live-kicker">ROOMS & PRIVATE SPACES</span><h3>Find the room for the moment</h3></div>
-                    <span class="nx-live-count">{{ isset($rooms) ? $rooms->count() : 0 }} rooms</span>
-                </div>
-                <div class="nx-listing-grid nx-room-grid">
-                    @forelse(($rooms ?? collect()) as $room)
-                        @php $roomPhoto = $room->landing_images->first(); @endphp
-                        <article class="nx-listing-card nx-room-card reveal">
-                            <a class="nx-listing-photo" href="{{ route('explore') }}" aria-label="Explore {{ $room->name }}">
-                                @if($roomPhoto)
-                                    <img src="{{ asset($roomPhoto->image_path) }}" alt="{{ $roomPhoto->alt_text ?: $room->name }}" loading="lazy">
-                                @else
-                                    <div class="nx-no-photo"><span>NEXORA</span><small>Room photography coming soon</small></div>
-                                @endif
-                                <span class="nx-photo-tag">{{ str_replace('_', ' ', ucfirst($room->room_type ?? 'Room')) }}</span>
-                            </a>
-                            <div class="nx-listing-info">
-                                <div class="nx-listing-location">{{ $room->workspace_name }}</div>
-                                <h4>{{ $room->name }}</h4>
-                                <p>{{ (int) $room->capacity }} {{ (int) $room->capacity === 1 ? 'person' : 'people' }} capacity · {{ number_format((float) $room->hourly_price, 2) }} JOD / hour</p>
-                                <a href="{{ route('explore') }}" class="nx-card-link">Explore this room <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </article>
-                    @empty
-                        <div class="nx-empty-state">Rooms will appear here as soon as they are published.</div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
+       
         {{-- ================= 4. INSPIRATION ================= --}}
         <section class="section inspire" id="inspiration" aria-labelledby="inspire-title">
             <div class="wrap">

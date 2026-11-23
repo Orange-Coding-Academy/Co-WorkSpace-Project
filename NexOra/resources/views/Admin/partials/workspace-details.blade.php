@@ -562,19 +562,18 @@
         <section class="card overview" aria-labelledby="workspace-title">
 
             {{-- Workspace cover image --}}
-            @php
-                $coverImage = $workspace->images->first();
-            @endphp
+          @php
+    $coverImage = $workspace->images->first();
+@endphp
 
-            @if ($coverImage)
-                <img
-                    class="cover"
-                    src="{{ asset(ltrim($coverImage->image_path, '/')) }}"
-                    alt="{{ $coverImage->alt_text ?? $workspace->name }}"
-                    onerror="this.style.display='none';"
-                >
-            @endif
-
+@if ($coverImage)
+    <img
+        class="cover"
+        src="{{ asset('storage/' . ltrim($coverImage->image_path, '/')) }}"
+        alt="{{ $coverImage->alt_text ?? $workspace->name }}"
+        onerror="this.style.display='none';"
+    >
+@endif
             <div>
                 <h1 id="workspace-title">{{ $workspace->name }}</h1>
 

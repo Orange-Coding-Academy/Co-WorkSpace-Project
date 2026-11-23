@@ -32,14 +32,13 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Member\MemberReviewController;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Http\Controllers\LandingPageController;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('home');
 Auth::routes();
 
 // Public pages routes
