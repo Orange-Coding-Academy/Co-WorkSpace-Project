@@ -55,12 +55,7 @@
                     ])
                 </form>
 
-                <button type="button" class="nx-btn nx-btn--primary" disabled
-                    title="Export functionality is not implemented yet">
-
-                    @include('layouts.dashboard.partials.ui-icon', ['name' => 'download'])
-                    <span>Export Report</span>
-                </button>
+                
 
             </div>
         </section>
