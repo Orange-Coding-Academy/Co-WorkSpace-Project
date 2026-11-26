@@ -1,0 +1,189 @@
+.nx-page-content *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .nx-page-content{
+            font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .nx-page-content .container{
+            max-width: 850px;
+            margin: 55px auto;
+            padding: 0 20px;
+        }
+
+        .nx-page-content .back-link{
+            display: inline-block;
+            margin-bottom: 25px;
+            color: var(--color-primary-hover);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nx-page-content .back-link:hover{
+            text-decoration: underline;
+        }
+
+        .nx-page-content .page-title{
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .nx-page-content .page-description{
+            color: var(--color-text-muted);
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .nx-page-content .review-card{
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 4px 18px color-mix(in srgb, var(--color-text) 3%, transparent);
+        }
+
+        .nx-page-content .card-title{
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .nx-page-content .card-description{
+            color: var(--color-text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .nx-page-content .form-group{
+            margin-bottom: 25px;
+        }
+
+        .nx-page-content .form-label{
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .nx-page-content .form-control{
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background: var(--color-surface);
+            font-size: 14px;
+            color: var(--color-text);
+            outline: none;
+        }
+
+        .nx-page-content .form-control:focus{
+            border-color: var(--color-primary-hover);
+        }
+
+        .nx-page-content textarea.form-control{
+            min-height: 140px;
+            resize: vertical;
+            font-family: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+            line-height: 1.6;
+        }
+
+        .nx-page-content .form-hint{
+            display: block;
+            color: var(--color-text-muted);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .nx-page-content .rating-options{
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .nx-page-content .rating-options input{
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .nx-page-content .rating-options label{
+            font-size: 36px;
+            color: var(--color-border);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nx-page-content .rating-options label:hover,
+        .nx-page-content .rating-options label:hover ~ label,
+        .nx-page-content .rating-options input:checked ~ label{
+            color: var(--color-rating);
+        }
+
+        .nx-page-content .form-actions{
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .nx-page-content .btn{
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nx-page-content .btn-primary{
+            background-color: var(--color-primary-hover);
+            color: var(--color-surface);
+        }
+
+        .nx-page-content .btn-primary:hover{
+            background-color: var(--color-primary-dark);
+        }
+
+        .nx-page-content .btn-secondary{
+            background-color: var(--color-background);
+            color: var(--color-text-muted);
+        }
+
+        .nx-page-content .btn-secondary:hover{
+            background-color: var(--color-border);
+        }
+
+        @media (max-width: 600px) {
+            .nx-page-content .container{
+                margin: 30px auto;
+            }
+
+            .nx-page-content .review-card{
+                padding: 22px;
+            }
+
+            .nx-page-content .page-title{
+                font-size: 25px;
+            }
+
+            .nx-page-content .form-actions{
+                flex-direction: column-reverse;
+            }
+
+            .nx-page-content .btn{
+                text-align: center;
+            }
+        }

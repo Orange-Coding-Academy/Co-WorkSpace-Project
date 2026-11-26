@@ -1,3 +1,7 @@
+/* =========================================
+   NEXORA FLOATING AI CHAT
+   Clean, consolidated stylesheet
+========================================= */
 
 .nx-chat-widget,
 .nx-chat-widget * {
@@ -10,21 +14,33 @@
     bottom: 24px;
     z-index: 99999;
     font-family: inherit;
-    color: #183f39;
+    color: var(--color-text);
 }
 
+/* Floating launcher */
 .nx-chat-launcher {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     border: 0;
     border-radius: 999px;
     padding: 12px 18px;
-    background: #053631;
-    color: white;
-    box-shadow: 0 8px 28px #05363140;
+    background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+);
+
+color: white;
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-accent) 30%, transparent);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 500;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.nx-chat-launcher:hover {
+    background: var(--color-primary);
+    transform: translateY(-2px);
 }
 
 .nx-chat-launcher-icon {
@@ -33,40 +49,44 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: #f96e39;
-    color: white;
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
     font-size: 20px;
 }
 
+/* Chat panel */
 .nx-chat-panel {
     position: absolute;
     right: 0;
     bottom: 66px;
+    display: flex;
+    flex-direction: column;
     width: min(390px, calc(100vw - 28px));
     height: min(570px, calc(100vh - 115px));
     min-height: 390px;
-    background: white;
-    border: 1px solid #d8e5dc;
-    border-radius: 20px;
-    box-shadow: 0 18px 60px #102c2740;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: 0 18px 48px color-mix(in srgb, var(--color-primary-dark) 22%, transparent);
 }
 
 .nx-chat-panel[hidden] {
     display: none;
 }
 
+/* Header */
 .nx-chat-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 15px 17px;
-    background: #053631;
-    color: white;
+    background: var(--color-primary-dark);
+    color: var(--color-surface);
 }
-
+#nx-chat-title{
+    color: var(--color-primary);
+}
 .nx-chat-brand {
     display: flex;
     align-items: center;
@@ -78,8 +98,10 @@
     place-items: center;
     width: 40px;
     height: 40px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
     border-radius: 13px;
-    background: #f96e39;
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    color: var(--color-accent);
     font-size: 23px;
 }
 
@@ -88,36 +110,59 @@
     display: block;
 }
 
-.nx-chat-brand small {
-    margin-top: 3px;
-    color: #d8e5dc;
-    font-size: 11px;
+.nx-chat-brand strong {
+    color: var(--color-surface);
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.3px;
 }
 
+.nx-chat-brand small {
+    margin-top: 4px;
+    color: var(--color-accent);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* Clear and close actions */
 .nx-chat-head-actions {
     display: flex;
+    align-items: center;
     gap: 7px;
 }
 
 .nx-chat-head-actions button {
-    width: 31px;
-    height: 31px;
-    border: 1px solid #ffffff55;
+    width: auto;
+    min-width: 0;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid color-mix(in srgb, white 25%, transparent);
     border-radius: 9px;
-    background: #ffffff15;
+    background: color-mix(in srgb, white 9%, transparent);
     color: white;
-    font-size: 19px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
     cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, background .2s ease;
 }
 
+.nx-chat-head-actions button:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+/* Messages */
 .nx-chat-messages {
+    display: flex;
     flex: 1;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
     overflow-y: auto;
     padding: 16px;
-    background: #f9f1e6;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    background: var(--color-background);
 }
 
 .nx-chat-message {
@@ -125,84 +170,114 @@
     padding: 11px 13px;
     border-radius: 14px;
     font-size: 13px;
-    line-height: 1.55;
+    line-height: 1.6;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
 
 .nx-chat-message.assistant {
     align-self: flex-start;
-    background: white;
-    color: #183f39;
-    border: 1px solid #e4eae5;
+    width: fit-content;
+    max-width: 88%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-border);
     border-bottom-left-radius: 4px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-align: left;
+    white-space: normal;
 }
 
 .nx-chat-message.user {
     align-self: flex-end;
-    background: #183f39;
-    color: white;
     border-bottom-right-radius: 4px;
+    background: var(--color-primary);
+    color: var(--color-surface);
 }
 
 .nx-chat-typing {
-    font-size: 12px;
-    color: #62756f;
     padding: 4px 8px;
+    color: var(--color-text-muted);
+    font-size: 12px;
 }
 
+/* Suggested prompts */
 .nx-chat-suggestions {
     display: flex;
     gap: 6px;
     overflow-x: auto;
     padding: 9px 12px;
-    background: white;
+    background: var(--color-surface);
 }
 
 .nx-chat-suggestions button {
-    white-space: nowrap;
-    border: 1px solid #d8e5dc;
-    background: white;
-    border-radius: 999px;
     padding: 7px 10px;
-    color: #183f39;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-primary-hover);
     font-size: 11px;
+    white-space: nowrap;
     cursor: pointer;
 }
 
+/* Message input */
 .nx-chat-form {
     display: flex;
     gap: 8px;
     padding: 12px;
-    border-top: 1px solid #edf0ed;
-    background: white;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
 }
 
 .nx-chat-form input {
     min-width: 0;
     flex: 1;
-    border: 1px solid #d8e5dc;
-    border-radius: 12px;
     padding: 11px 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
     outline: none;
+    background: var(--color-surface);
+    color: var(--color-text);
     font: inherit;
     font-size: 13px;
 }
 
 .nx-chat-form input:focus {
-    border-color: #f96e39;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
 }
 
 .nx-chat-form button {
-    width: 43px;
+    width: auto;
+    min-width: 68px;
+    padding: 0 12px;
     border: 0;
-    border-radius: 12px;
-    background: #f96e39;
-    color: white;
-    font-size: 19px;
+    border-radius: 10px;
+    background: var(--color-primary)!important;
+    color: var(--color-primary-dark);
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
 }
 
+.nx-chat-form button:hover {
+    background: var(--color-primary-hover);
+}
+
+/* Keyboard focus and disabled states */
+.nx-chat-widget button:focus-visible,
+.nx-chat-widget input:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 38%, transparent);
+    outline-offset: 2px;
+}
+
+.nx-chat-widget button:disabled {
+    cursor: wait;
+    opacity: .65;
+}
+
+/* Responsive layout */
 @media (max-width: 480px) {
     .nx-chat-widget {
         right: 14px;
@@ -212,5 +287,32 @@
     .nx-chat-panel {
         right: -2px;
         height: min(75vh, 570px);
+        min-height: min(390px, calc(100vh - 140px));
+    }
+
+    .nx-chat-head {
+        padding: 13px 12px;
+    }
+
+    .nx-chat-brand {
+        gap: 8px;
+    }
+
+    .nx-chat-brand strong {
+        font-size: 15px;
+    }
+
+    .nx-chat-brand small {
+        font-size: 10px;
+    }
+
+    .nx-chat-head-actions {
+        gap: 5px;
+    }
+
+    .nx-chat-head-actions button {
+        height: 31px;
+        padding: 0 7px;
+        font-size: 10px;
     }
 }

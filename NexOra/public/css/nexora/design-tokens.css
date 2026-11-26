@@ -1,59 +1,59 @@
 :root {
     /* Brand */
-    --nx-primary: #315c4d;
-    --nx-primary-hover: #274b3f;
-    --nx-primary-active: #203d34;
-    --nx-secondary: #6f806e;
-    --nx-accent: #c58a62;
-    --nx-accent-strong: #9a5b32; /* accent used as TEXT (5.0:1 on --nx-bg) */
-    --nx-accent-soft: #e6c9b3; /* accent on dark sidebar */
-    --nx-sand: #f3ede4; /* was referenced in layout.css but never defined */
+    --nx-primary: var(--color-primary);
+    --nx-primary-hover: var(--color-primary-hover);
+    --nx-primary-active: var(--color-primary-active);
+    --nx-secondary: var(--color-secondary);
+    --nx-accent: var(--color-accent);
+    --nx-accent-strong: var(--color-accent);
+    --nx-accent-soft: var(--color-accent-soft);
+    --nx-sand: var(--color-background);
 
     /* Surfaces */
-    --nx-bg: #f5f7f3;
-    --nx-surface: #f8faf7;
-    --nx-card: #ffffff;
-    --nx-sidebar: #203d34;
+    --nx-bg: var(--color-background);
+    --nx-surface: var(--color-surface);
+    --nx-card: var(--color-surface);
+    --nx-sidebar: var(--color-primary-dark);
 
     /* Text */
-    --nx-text: #1d2924;
-    --nx-text-secondary: #53615a;
-    --nx-text-muted: #66726b; /* was #7f8b84 (3.3:1) -> 4.7:1 on --nx-bg */
+    --nx-text: var(--color-text);
+    --nx-text-secondary: var(--color-text-muted);
+    --nx-text-muted: var(--color-text-muted);
 
     /* Borders */
-    --nx-border: #e2e8e2;
-    --nx-divider: #e9eee9;
-    --nx-border-strong: #c9d4cc;
+    --nx-border: var(--color-border);
+    --nx-divider: color-mix(in srgb, var(--color-border) 72%, var(--color-surface));
+    --nx-border-strong: color-mix(in srgb, var(--color-border) 72%, var(--color-text-muted));
 
     /* Semantic: success */
-    --nx-success-bg: #eaf6ef;
-    --nx-success-text: #145c3a;
-    --nx-success-border: #bce2c9;
-    --nx-success-icon: #16794c;
+    --nx-success-bg: var(--color-success-bg);
+    --nx-success-text: var(--color-success);
+    --nx-success-border: color-mix(in srgb, var(--color-success) 24%, var(--color-surface));
+    --nx-success-icon: var(--color-success);
 
     /* Semantic: warning */
-    --nx-warning-bg: #fff6e5;
-    --nx-warning-text: #754c05;
-    --nx-warning-border: #f0d79e;
-    --nx-warning-icon: #9a6508;
+    --nx-warning-bg: var(--color-warning-bg);
+    --nx-warning-text: var(--color-text);
+    --nx-warning-border: color-mix(in srgb, var(--color-warning) 24%, var(--color-surface));
+    --nx-warning-icon: var(--color-warning);
 
     /* Semantic: danger */
-    --nx-danger-bg: #fdedec;
-    --nx-danger-text: #912018;
-    --nx-danger-border: #f5c2be;
-    --nx-danger-icon: #b42318;
+    --nx-danger-bg: var(--color-danger-bg);
+    --nx-danger-text: var(--color-danger);
+    --nx-danger-border: color-mix(in srgb, var(--color-danger) 24%, var(--color-surface));
+    --nx-danger-icon: var(--color-danger);
 
     /* Semantic: info */
-    --nx-info-bg: #edf5fc;
-    --nx-info-text: #195a91;
-    --nx-info-border: #c5ddf2;
-    --nx-info-icon: #1d6fb8;
+    --nx-info-bg: var(--color-info-bg);
+    --nx-info-text: var(--color-info);
+    --nx-info-border: color-mix(in srgb, var(--color-info) 24%, var(--color-surface));
+    --nx-info-icon: var(--color-info);
 
     /* Semantic: disabled */
-    --nx-disabled-bg: #f0f2ef;
-    --nx-disabled-text: #657169;
-    --nx-disabled-border: #d9deda;
-    --nx-disabled-icon: #87928b;
+    --nx-disabled-bg: color-mix(in srgb, var(--color-border) 40%, var(--color-surface));
+    --nx-disabled-text: var(--color-text-muted);
+    --nx-disabled-border: var(--color-border);
+    --nx-disabled-icon: var(--color-text-muted);
 
     /* Spacing: 4px base */
     --nx-space-1: 4px;
@@ -77,9 +77,9 @@
     --nx-radius-pill: 999px;
 
     /* Shadows */
-    --nx-shadow-1: 0 1px 2px rgba(29, 41, 36, 0.05);
-    --nx-shadow-2: 0 4px 12px rgba(29, 41, 36, 0.07);
-    --nx-shadow-3: 0 12px 32px rgba(29, 41, 36, 0.12);
+    --nx-shadow-1: 0 1px 2px color-mix(in srgb, var(--color-text) 5%, transparent);
+    --nx-shadow-2: 0 4px 12px color-mix(in srgb, var(--color-text) 7%, transparent);
+    --nx-shadow-3: 0 12px 32px color-mix(in srgb, var(--color-text) 12%, transparent);
 
     /* Layout */
     --nx-public-container: 1200px;
@@ -93,7 +93,7 @@
     --nx-control-height: 44px;
     --nx-control-height-sm: 36px;
     --nx-control-height-lg: 52px;
-    --nx-focus-ring: 0 0 0 3px rgba(49, 92, 77, 0.22);
+    --nx-focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
 
     /* Motion */
     --nx-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -102,17 +102,17 @@
     --nx-duration-surface: 200ms;
 
     /* Sidebar (on --nx-sidebar) */
-    --nx-sidebar-text: rgb(248 250 247 / 0.78); /* 7.5:1 */
-    --nx-sidebar-text-muted: rgb(248 250 247 / 0.62); /* 5.4:1 (was .45 = 3.6:1) */
-    --nx-sidebar-hover: rgb(255 255 255 / 0.08);
-    --nx-sidebar-active: rgb(255 255 255 / 0.14);
-    --nx-sidebar-line: rgb(255 255 255 / 0.1);
+    --nx-sidebar-text: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    --nx-sidebar-text-muted: color-mix(in srgb, var(--color-surface) 62%, transparent);
+    --nx-sidebar-hover: color-mix(in srgb, var(--color-surface) 8%, transparent);
+    --nx-sidebar-active: color-mix(in srgb, var(--color-surface) 14%, transparent);
+    --nx-sidebar-line: color-mix(in srgb, var(--color-surface) 10%, transparent);
 
     /* Data-viz (read by public/js/pages/admin-dashboard.js) */
-    --nx-chart-gmv: var(--nx-primary);
+    --nx-chart-gmv: #27865B;
     --nx-chart-commission: var(--nx-accent);
-    --nx-chart-completed: var(--nx-primary);
-    --nx-chart-confirmed: var(--nx-secondary);
+    --nx-chart-completed: #27865B;
+    --nx-chart-confirmed: #71A184;
     --nx-chart-pending: var(--nx-accent);
     --nx-chart-cancelled: var(--nx-danger-icon);
     --nx-chart-fallback: var(--nx-disabled-icon);

@@ -78,7 +78,7 @@
     height: 8px;
     border-radius: 50%;
     background: var(--nx-primary);
-    box-shadow: 0 0 0 4px rgba(49, 92, 77, .10);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
 /* =========================================================
@@ -149,8 +149,8 @@
 }
 
 .nx-admin-bookings .nx-booking-stat__icon--total {
-    background: #edf2ee;
-    color: var(--nx-primary);
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
 }
 
 .nx-admin-bookings .nx-booking-stat__icon--pending {
@@ -386,8 +386,8 @@
     height: 30px;
     flex-shrink: 0;
     border-radius: 50%;
-    background: #edf2ee;
-    color: var(--nx-primary);
+    background: var(--color-background);
+    color: var(--color-text);
     font-size: 11px;
     font-weight: 750;
 }
@@ -420,8 +420,8 @@
     height: 25px;
     flex-shrink: 0;
     border-radius: 7px;
-    background: #edf2ee;
-    color: var(--nx-primary);
+    background: var(--color-background);
+    color: var(--color-text-muted);
 }
 
 .nx-admin-bookings .nx-booking-location__icon svg {
@@ -784,8 +784,8 @@
     z-index: auto;
     border-color: var(--nx-primary);
     background: var(--nx-primary);
-    color: #fff;
-    box-shadow: 0 3px 8px rgba(49, 92, 77, .17);
+    color: var(--color-surface);
+    box-shadow: 0 3px 8px color-mix(in srgb, var(--color-primary) 17%, transparent);
 }
 
 .nx-admin-bookings .nx-bookings-pagination__links .page-item.disabled .page-link {
@@ -984,4 +984,15 @@
 .nx-bookings-pagination .page-item:first-child,
 .nx-bookings-pagination .page-item:last-child {
     display: none !important;
+}
+/* Use the same design variables as Payments pagination */
+.nx-admin-bookings {
+    --payments-primary: var(--nx-primary, var(--color-primary));
+    --payments-primary-hover: var(--nx-primary-hover, var(--color-primary-hover));
+    --payments-bg: var(--nx-bg, var(--color-background));
+    --payments-card: var(--nx-card, var(--color-surface));
+    --payments-text: var(--nx-text, var(--color-text));
+    --payments-secondary: var(--nx-text-secondary, var(--color-text-muted));
+    --payments-muted: var(--nx-text-muted, var(--color-text-muted));
+    --payments-border: var(--nx-border, var(--color-border));
 }

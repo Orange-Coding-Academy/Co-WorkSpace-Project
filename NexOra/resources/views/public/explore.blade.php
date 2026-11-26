@@ -43,31 +43,13 @@
                 </div>
             </div>
 
-            <div class="nx-explore__visual" aria-hidden="true">
-                <div class="nx-explore__visual-glow"></div>
-                <div class="nx-explore__visual-ring nx-explore__visual-ring--one"></div>
-                <div class="nx-explore__visual-ring nx-explore__visual-ring--two"></div>
-
-                <div class="nx-explore__visual-window">
-                    <div class="nx-explore__window-top">
-                        <i></i><i></i><i></i>
-                        <span>NEXORA / YOUR SPACE</span>
-                    </div>
-
-                    <div class="nx-explore__window-scene">
-                        <div class="nx-explore__scene-sun"></div>
-                        <div class="nx-explore__scene-wall"></div>
-                        <div class="nx-explore__scene-shelf"></div>
-                        <div class="nx-explore__scene-table"></div>
-                        <div class="nx-explore__scene-leg nx-explore__scene-leg--left"></div>
-                        <div class="nx-explore__scene-leg nx-explore__scene-leg--right"></div>
-                        <div class="nx-explore__scene-chair"></div>
-                        <div class="nx-explore__scene-plant">
-                            <i></i><i></i><i></i>
-                        </div>
-                        <div class="nx-explore__scene-floor"></div>
-                    </div>
-                </div>
+            <div class="nx-explore__visual">
+                <img
+                    class="nx-explore__visual-image"
+                    src="{{ asset('images/nexora/workspace-lounge-01.jpg') }}"
+                    alt="Bright coworking lounge with city views and comfortable seating"
+                    fetchpriority="high"
+                >
 
                 <div class="nx-explore__floating-note">
                     <span>✦</span>
@@ -77,7 +59,6 @@
                     </div>
                 </div>
 
-                <span class="nx-explore__visual-index">01 <b>/</b> 04</span>
             </div>
         </section>
 
@@ -231,11 +212,12 @@
 
                         @empty
 
-                            <div class="nx-room-card__placeholder">
-                                <span>✳</span>
-                                <strong>Your next workspace</strong>
-                                <small>Room photography coming soon</small>
-                            </div>
+                            <img
+                                src="{{ asset('images/nexora/room-boardroom.jpg') }}"
+                                class="nx-room-card__image is-active"
+                                alt="{{ $room->name }} at NexOra"
+                                loading="lazy"
+                            >
 
                         @endforelse
 

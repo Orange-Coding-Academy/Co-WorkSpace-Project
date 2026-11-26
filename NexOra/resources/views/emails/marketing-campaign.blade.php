@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ $workspaceName }}</title>
 </head>
-<body style="font-family: Inter, Arial, Helvetica, sans-serif; direction: ltr; padding: 25px; margin: 0; background: #F5F7F3; color: #1D2924; font-size: 15px; line-height: 1.6;">
+<body style="font-family: Inter, Arial, Helvetica, sans-serif; direction: ltr; padding: 25px; margin: 0; background: #F5F5F5; color: #1D2924; font-size: 15px; line-height: 1.6;">
 
     <h2 style="margin: 0 0 12px; color: #203D34; font-family: Manrope, Arial, Helvetica, sans-serif; font-size: 22px; font-weight: 800;">Hello!</h2>
 

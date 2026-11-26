@@ -15,14 +15,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     {{-- Auth pages only: this file is NOT loaded by layouts/app.blade.php --}}
-<link href="{{ asset('css/nexora/auth.css') }}" rel="stylesheet">
+<link href="{{ asset('css/design-system.css') }}?v=20261125-green3" rel="stylesheet">
+<link href="{{ asset('css/nexora/auth.css') }}?v=20261124-ui" rel="stylesheet">
 </head>
 <body class="nx-page-content">
     <div id="app" class="nx-auth">
         <aside class="nx-auth__brand" aria-label="NexOra">
             <a class="nx-auth__logo" href="{{ url('/') }}">
-                <svg viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="6"/><rect class="door" x="17" y="11" width="7" height="18" rx="1"/></svg>
-                {{ config('app.name', 'NexOra') }}
+                <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="11"/><path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11"/></svg>
+                {{ config('NexOra', 'NexOra') }}
             </a>
             <div>
                 <h2>Find your space. <em>Make your next move.</em></h2>

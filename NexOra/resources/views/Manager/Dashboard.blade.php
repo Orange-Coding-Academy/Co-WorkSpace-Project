@@ -6,7 +6,7 @@
 @section('page-title', 'Dashboard')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/manager-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/manager-dashboard.css') }}?v=20261124-ui1">
 @endpush
 
 @section('content')
@@ -516,5 +516,5 @@
         };
     </script>
 
-    <script src="{{ asset('js/pages/manager-dashboard.js') }}"></script>
+    <script src="{{ asset('js/pages/manager-dashboard.js') }}?v=20261125-chart-green1"></script>
 @endpush

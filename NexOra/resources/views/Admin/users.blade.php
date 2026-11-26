@@ -23,149 +23,7 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* NexOra | Admin Manage Users — page-scoped styling */
-        .nx-page-content {
-            --nx-primary: #315C4D;
-            --nx-primary-hover: #274B3F;
-            --nx-text: #1D2924;
-            --nx-muted: #66766D;
-            --nx-border: #E2E8E2;
-            --nx-bg: #F5F7F3;
-            background: var(--nx-bg);
-            color: var(--nx-text);
-            font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
-            min-height: 100%;
-        }
-        .nx-page-content .container { max-width: 1220px; }
-        .nx-page-content h2, .nx-page-content h5 {
-            font-family: 'Manrope', 'Noto Sans Arabic', sans-serif;
-            color: #152A23;
-            letter-spacing: -.025em;
-        }
-        .nx-page-content h2 { font-size: clamp(1.55rem, 2.8vw, 2rem); }
-        .nx-page-content .text-muted { color: var(--nx-muted) !important; }
-        .nx-page-content .card {
-            background: #fff;
-            border: 1px solid var(--nx-border) !important;
-            border-radius: 18px;
-            box-shadow: 0 5px 24px rgba(21,42,35,.045) !important;
-            overflow: hidden;
-        }
-        .nx-page-content .card-body { padding: clamp(18px, 2.5vw, 28px); }
-        .nx-page-content .form-label {
-            color: #34483D;
-            font-weight: 650;
-            font-size: .83rem;
-            margin-bottom: 8px;
-        }
-        .nx-page-content .form-control, .nx-page-content .form-select {
-            min-height: 45px;
-            border: 1px solid #D5DFD6;
-            border-radius: 11px;
-            background-color: #fff;
-            color: var(--nx-text);
-            font-size: .88rem;
-            box-shadow: none;
-        }
-        .nx-page-content .form-control::placeholder { color: #89958D; }
-        .nx-page-content .form-control:focus, .nx-page-content .form-select:focus {
-            border-color: var(--nx-primary);
-            box-shadow: 0 0 0 3px rgba(49,92,77,.13);
-        }
-        .nx-page-content .btn {
-            border-radius: 999px;
-            min-height: 42px;
-            padding: 9px 19px;
-            font-family: 'Manrope', 'Noto Sans Arabic', sans-serif;
-            font-size: .85rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color .2s, border-color .2s, color .2s, transform .2s;
-        }
-        .nx-page-content .btn:hover:not(:disabled) { transform: translateY(-1px); }
-        .nx-page-content .btn:focus-visible { outline: 2px solid #C58A62; outline-offset: 3px; }
-        .nx-page-content .btn-primary {
-            background: var(--nx-primary);
-            border-color: var(--nx-primary);
-            color: #fff;
-        }
-        .nx-page-content .btn-primary:hover { background: var(--nx-primary-hover); border-color: var(--nx-primary-hover); color: #fff; }
-        .nx-page-content .btn-outline-secondary, .nx-page-content .btn-outline-primary {
-            color: var(--nx-primary);
-            border-color: #C9D7CD;
-            background: #fff;
-        }
-        .nx-page-content .btn-outline-secondary:hover, .nx-page-content .btn-outline-primary:hover {
-            color: #fff;
-            background: var(--nx-primary);
-            border-color: var(--nx-primary);
-        }
-        .nx-page-content .btn-outline-danger {
-            color: #A92C29;
-            border-color: #EBC7C4;
-            background: #FFF9F8;
-        }
-        .nx-page-content .btn-outline-danger:hover:not(:disabled) {
-            background: #B42318;
-            border-color: #B42318;
-            color: #fff;
-        }
-        .nx-page-content .btn:disabled { opacity: .48; cursor: not-allowed; }
-        .nx-page-content .btn-sm { min-height: 35px; padding: 6px 14px; font-size: .79rem; }
-        .nx-page-content .table-responsive { border: 1px solid #E9EEE9; border-radius: 13px; }
-        .nx-page-content .table { margin-bottom: 0; color: var(--nx-text); font-size: .88rem; }
-        .nx-page-content .table > :not(caption) > * > * {
-            padding: 16px 17px;
-            border-bottom-color: #EDF1ED;
-            vertical-align: middle;
-        }
-        .nx-page-content .table thead th {
-            background: #F6F9F5;
-            color: #53615A;
-            text-transform: uppercase;
-            font-size: .73rem;
-            letter-spacing: .055em;
-            font-weight: 750;
-            white-space: nowrap;
-        }
-        .nx-page-content .table tbody tr:hover > * { background: #FAFCF9; }
-        .nx-page-content .table tbody tr:last-child td { border-bottom: 0; }
-        .nx-page-content .rounded-circle.bg-primary-subtle {
-            background: #E7EEE7 !important;
-            color: #315C4D !important;
-            flex-shrink: 0;
-        }
-        .nx-page-content .badge {
-            border-radius: 999px;
-            padding: 7px 11px;
-            font-size: .74rem;
-            font-weight: 700;
-            letter-spacing: .01em;
-        }
-        .nx-page-content .badge.bg-info-subtle { background: #E7EEE7 !important; color: #315C4D !important; }
-        .nx-page-content .badge.bg-success-subtle { background: #E8F5EC !important; color: #17643E !important; }
-        .nx-page-content .badge.bg-danger-subtle { background: #FDECEA !important; color: #A52B26 !important; }
-        .nx-page-content .pagination { gap: 5px; flex-wrap: wrap; }
-        .nx-page-content .page-link {
-            color: var(--nx-primary);
-            border: 1px solid #DCE6DC;
-            border-radius: 9px !important;
-            min-width: 36px;
-            text-align: center;
-        }
-        .nx-page-content .page-link:hover { background: #EAF0EA; color: #203D34; }
-        .nx-page-content .page-item.active .page-link { background: var(--nx-primary); border-color: var(--nx-primary); color: #fff; }
-        .nx-page-content .page-link:focus { box-shadow: 0 0 0 3px rgba(49,92,77,.15); }
-        @media (max-width: 767px) {
-            .nx-page-content .container { padding-inline: 14px; }
-            .nx-page-content .card-body { padding: 18px; }
-            .nx-page-content .table { min-width: 720px; }
-            .nx-page-content .d-flex.gap-2 { flex-wrap: wrap; }
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/pages/design-refactor-shared-09.css') }}">
 @endpush
 
 @section('content')
@@ -280,7 +138,6 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
 
                                     <div>
                                         <div class="fw-semibold">{{ $user->name }}</div>
-                                        <small class="text-muted">User ID: {{ $user->id }}</small>
                                     </div>
                                 </div>
                             </td>
@@ -339,9 +196,95 @@ Route::get('usershow/{id}', [UserController::class, 'show'])->name('admin.users.
             </div>
 
             <!-- Pagination will be added here using Blade -->
-          <div class="d-flex justify-content-center mt-3">
-                 {{ $users->links('pagination::bootstrap-5') }}
-         </div>
+         {{-- Custom Pagination --}}
+@if($users->hasPages())
+    @php
+        $users->withQueryString();
+
+        $currentPage = $users->currentPage();
+        $lastPage = $users->lastPage();
+
+        $windowStart = max(1, $currentPage - 1);
+        $windowEnd = min($lastPage, $currentPage + 1);
+    @endphp
+
+    <div class="payments-pagination">
+
+        <div class="pagination-summary">
+            Page {{ $currentPage }} of {{ $lastPage }}
+        </div>
+
+        <nav aria-label="Users pagination">
+            <ul class="pager">
+
+                {{-- Previous --}}
+                <li>
+                    @if($users->onFirstPage())
+                        <span class="pager-link is-disabled">‹</span>
+                    @else
+                        <a class="pager-link"
+                           href="{{ $users->previousPageUrl() }}">‹</a>
+                    @endif
+                </li>
+
+                {{-- First page --}}
+                @if($windowStart > 1)
+                    <li>
+                        <a class="pager-link" href="{{ $users->url(1) }}">1</a>
+                    </li>
+
+                    @if($windowStart > 2)
+                        <li>
+                            <span class="pager-link is-disabled">…</span>
+                        </li>
+                    @endif
+                @endif
+
+                {{-- Page numbers --}}
+                @foreach(range($windowStart, $windowEnd) as $page)
+                    <li>
+                        @if($page === $currentPage)
+                            <span class="pager-link is-active">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a class="pager-link" href="{{ $users->url($page) }}">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    </li>
+                @endforeach
+
+                {{-- Last page --}}
+                @if($windowEnd < $lastPage)
+                    @if($windowEnd < $lastPage - 1)
+                        <li>
+                            <span class="pager-link is-disabled">…</span>
+                        </li>
+                    @endif
+
+                    <li>
+                        <a class="pager-link" href="{{ $users->url($lastPage) }}">
+                            {{ $lastPage }}
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Next --}}
+                <li>
+                    @if($users->hasMorePages())
+                        <a class="pager-link"
+                           href="{{ $users->nextPageUrl() }}">›</a>
+                    @else
+                        <span class="pager-link is-disabled">›</span>
+                    @endif
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+@endif
 
         </div>
     </div>

@@ -15,6 +15,10 @@
 
     <div class="nx-sidebar__brand">
         <a href="{{ $nxHomeUrl }}" class="nx-sidebar__logo">
+            <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                <rect x="1" y="1" width="38" height="38" rx="11" />
+                <path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11" />
+            </svg>
             NexOra
         </a>
         <span class="nx-sidebar__subtitle">Admin Panel</span>

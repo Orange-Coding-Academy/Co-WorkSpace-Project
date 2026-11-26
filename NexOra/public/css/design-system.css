@@ -1,0 +1,1055 @@
+:root {
+    --color-primary: #27865B;
+    --color-primary-dark: #121212;
+    --color-primary-hover: #176B48;
+    --color-secondary: #1C1C1C;
+    --color-accent: #D9A441;
+    --color-accent-soft: #E8F3ED;
+
+    --color-background: #F5F5F5;
+    --color-surface: #FFFFFF;
+
+    --color-text: #171717;
+    --color-text-muted: #737373;
+
+    --color-border: #E5E5E5;
+
+    --color-success: #176B48;
+    --color-success-bg: #E8F3ED;
+
+    --color-warning: #D9A441;
+    --color-warning-bg: color-mix(in srgb, var(--color-warning) 16%, var(--color-surface));
+    --color-warning-ink: #171717;
+    --color-rating: #D9A441;
+
+    --color-info: #315C85;
+    --color-info-bg: #EAF1F8;
+
+    --color-danger: #B91C1C;
+    --color-danger-bg: color-mix(in srgb, var(--color-danger) 12%, var(--color-surface));
+
+    /* Shared legacy aliases keep existing pages on the same source of truth. */
+    --color-primary-active: var(--color-primary-hover);
+    --nx-primary: var(--color-primary);
+    --nx-primary-hover: var(--color-primary-hover);
+    --nx-primary-active: var(--color-primary-active);
+    --nx-secondary: var(--color-secondary);
+    --nx-accent: var(--color-accent);
+    --nx-accent-strong: var(--color-accent);
+    --nx-accent-soft: var(--color-accent-soft);
+    --nx-sand: var(--color-background);
+    --nx-bg: var(--color-background);
+    --nx-surface: var(--color-surface);
+    --nx-card: var(--color-surface);
+    --nx-sidebar: var(--color-primary-dark);
+    --nx-text: var(--color-text);
+    --nx-text-secondary: var(--color-text-muted);
+    --nx-text-muted: var(--color-text-muted);
+    --nx-border: var(--color-border);
+    --nx-divider: color-mix(in srgb, var(--color-border) 72%, var(--color-surface));
+    --nx-border-strong: color-mix(in srgb, var(--color-border) 72%, var(--color-text-muted));
+
+    --nx-success-bg: var(--color-success-bg);
+    --nx-success-text: var(--color-success);
+    --nx-success-icon: var(--color-success);
+    --nx-success-border: color-mix(in srgb, var(--color-success) 24%, var(--color-surface));
+    --nx-warning-bg: var(--color-warning-bg);
+    --nx-warning-text: var(--color-warning-ink);
+    --nx-warning-icon: var(--color-warning);
+    --nx-warning-border: color-mix(in srgb, var(--color-warning) 24%, var(--color-surface));
+    --nx-danger-bg: var(--color-danger-bg);
+    --nx-danger-text: var(--color-danger);
+    --nx-danger-icon: var(--color-danger);
+    --nx-danger-border: color-mix(in srgb, var(--color-danger) 24%, var(--color-surface));
+    --nx-info-bg: var(--color-info-bg);
+    --nx-info-text: var(--color-info);
+    --nx-info-icon: var(--color-info);
+    --nx-info-border: color-mix(in srgb, var(--color-info) 24%, var(--color-surface));
+
+    --nx-font-heading: "Manrope", "Noto Sans Arabic", system-ui, sans-serif;
+    --nx-font-body: "Inter", "Noto Sans Arabic", system-ui, sans-serif;
+    --nx-ease: cubic-bezier(.2, .7, .2, 1);
+
+    --bs-body-font-family: var(--nx-font-body);
+    --bs-body-color: var(--color-text);
+    --bs-body-color-rgb: 23, 23, 23;
+    --bs-body-bg: var(--color-background);
+    --bs-body-bg-rgb: 245, 245, 245;
+    --bs-primary: var(--color-primary);
+    --bs-primary-rgb: 39, 134, 91;
+    --bs-secondary: var(--color-secondary);
+    --bs-secondary-rgb: 28, 28, 28;
+    --bs-success: var(--color-success);
+    --bs-success-rgb: 23, 107, 72;
+    --bs-info: var(--color-info);
+    --bs-info-rgb: 49, 92, 133;
+    --bs-warning: var(--color-warning);
+    --bs-warning-rgb: 217, 164, 65;
+    --bs-danger: var(--color-danger);
+    --bs-danger-rgb: 185, 28, 28;
+    --bs-light: var(--color-surface);
+    --bs-light-rgb: 255, 255, 255;
+    --bs-dark: var(--color-primary-dark);
+    --bs-dark-rgb: 18, 18, 18;
+    --bs-secondary-color: var(--color-text-muted);
+    --bs-border-color: var(--color-border);
+    --bs-link-color: var(--color-primary);
+    --bs-link-color-rgb: 39, 134, 91;
+    --bs-link-hover-color: var(--color-primary-hover);
+    --bs-link-hover-color-rgb: 23, 107, 72;
+    --bs-focus-ring-color: color-mix(in srgb, var(--color-primary) 24%, transparent);
+
+    --nx-space-1: 4px;
+    --nx-space-2: 8px;
+    --nx-space-3: 12px;
+    --nx-space-4: 16px;
+    --nx-space-5: 20px;
+    --nx-space-6: 24px;
+    --nx-space-8: 32px;
+    --nx-space-10: 40px;
+    --nx-radius-sm: 8px;
+    --nx-radius-md: 12px;
+    --nx-radius-lg: 16px;
+    --nx-radius-pill: 999px;
+    --nx-shadow-1: 0 1px 2px color-mix(in srgb, var(--color-text) 5%, transparent);
+    --nx-shadow-2: 0 4px 12px color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+/* Keep legacy page-level Bootstrap RGB overrides aligned with the shared palette. */
+body .nx-page-content {
+    --bs-body-color: var(--color-text) !important;
+    --bs-body-color-rgb: 23, 23, 23 !important;
+    --bs-body-bg: var(--color-background) !important;
+    --bs-body-bg-rgb: 245, 245, 245 !important;
+    --bs-primary: var(--color-primary) !important;
+    --bs-primary-rgb: 39, 134, 91 !important;
+    --bs-secondary: var(--color-secondary) !important;
+    --bs-secondary-rgb: 28, 28, 28 !important;
+    --bs-success: var(--color-success) !important;
+    --bs-success-rgb: 23, 107, 72 !important;
+    --bs-info: var(--color-info) !important;
+    --bs-info-rgb: 49, 92, 133 !important;
+    --bs-warning: var(--color-warning) !important;
+    --bs-warning-rgb: 217, 164, 65 !important;
+    --bs-danger: var(--color-danger) !important;
+    --bs-danger-rgb: 185, 28, 28 !important;
+    --bs-link-color: var(--color-primary) !important;
+    --bs-link-color-rgb: 39, 134, 91 !important;
+    --bs-link-hover-color: var(--color-primary-hover) !important;
+    --bs-link-hover-color-rgb: 23, 107, 72 !important;
+}
+
+html {
+    color-scheme: light;
+}
+
+body {
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--nx-font-body);
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+    color: var(--color-text);
+    font-family: var(--nx-font-heading);
+}
+
+:where(a) {
+    color: var(--color-secondary);
+}
+
+:where(a:hover) {
+    color: var(--color-primary);
+}
+
+:where(:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+:where(.btn-primary, .btn-dark, .btn-info, .nx-button--primary) {
+    --bs-btn-color: var(--color-surface);
+    --bs-btn-bg: var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
+    --bs-btn-hover-color: var(--color-surface);
+    --bs-btn-hover-bg: var(--nx-primary-hover);
+    --bs-btn-hover-border-color: var(--nx-primary-hover);
+}
+
+:where(.btn-secondary, .nx-button--secondary) {
+    --bs-btn-color: var(--color-surface);
+    --bs-btn-bg: var(--color-secondary);
+    --bs-btn-border-color: var(--color-secondary);
+}
+
+:where(.btn-success, .badge-success, .text-success) {
+    --bs-btn-bg: var(--color-success);
+    --bs-btn-border-color: var(--color-success);
+    color: var(--color-success);
+}
+
+:where(.btn-warning, .badge-warning, .text-warning) {
+    --bs-btn-bg: var(--color-warning);
+    --bs-btn-border-color: var(--color-warning);
+    --bs-btn-color: var(--color-warning-ink);
+    color: var(--color-warning-ink);
+}
+
+:where(.btn-danger, .badge-danger, .text-danger) {
+    --bs-btn-bg: var(--color-danger);
+    --bs-btn-border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+:where(.btn-info, .badge-info, .text-info) {
+    color: var(--color-info);
+}
+
+:where(.card, .modal-content, .dropdown-menu, .list-group-item) {
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+:where(.form-control, .form-select, .input-group-text) {
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+:where(.form-control, .form-select) {
+    background-color: var(--color-surface);
+}
+
+:where(.form-control:focus, .form-select:focus) {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--color-secondary) 20%, transparent);
+}
+
+:where(.table) {
+    --bs-table-color: var(--color-text);
+    --bs-table-border-color: var(--color-border);
+}
+
+:where(.table thead th) {
+    color: var(--color-text-muted);
+}
+
+:where(.alert-success) {
+    --bs-alert-color: var(--color-success);
+    --bs-alert-bg: var(--color-success-bg);
+}
+
+:where(.alert-warning) {
+    --bs-alert-color: var(--color-warning-ink);
+    --bs-alert-bg: var(--color-warning-bg);
+}
+
+:where(.alert-info) {
+    --bs-alert-color: var(--color-info);
+    --bs-alert-bg: var(--color-info-bg);
+}
+
+:where(.alert-danger) {
+    --bs-alert-color: var(--color-danger);
+    --bs-alert-bg: var(--color-danger-bg);
+}
+
+/* Replace page-local copies of the old palette with the shared tokens. */
+.nx-page-content {
+    --nx-primary: var(--color-primary) !important;
+    --nx-primary-hover: var(--color-primary-hover) !important;
+    --nx-primary-active: var(--color-primary-active) !important;
+    --nx-secondary: var(--color-secondary) !important;
+    --nx-accent: var(--color-accent) !important;
+    --nx-accent-soft: var(--color-accent-soft) !important;
+    --nx-bg: var(--color-background) !important;
+    --nx-surface: var(--color-surface) !important;
+    --nx-card: var(--color-surface) !important;
+    --nx-sidebar: var(--color-primary-dark) !important;
+    --nx-text: var(--color-text) !important;
+    --nx-text-secondary: var(--color-text-muted) !important;
+    --nx-text-muted: var(--color-text-muted) !important;
+    --nx-border: var(--color-border) !important;
+    --nx-divider: color-mix(in srgb, var(--color-border) 72%, var(--color-surface)) !important;
+    --nx-border-strong: color-mix(in srgb, var(--color-border) 72%, var(--color-text-muted)) !important;
+    --forest: var(--color-primary-dark) !important;
+    --cream: var(--color-background) !important;
+    --paper: var(--color-background) !important;
+    --orange: var(--color-primary) !important;
+    --orange-hover: var(--color-accent-soft) !important;
+    --ink: var(--color-text) !important;
+    --muted: var(--color-text-muted) !important;
+    --line: var(--color-border) !important;
+    --bs-body-color-rgb: 23, 23, 23 !important;
+    --bs-body-bg-rgb: 245, 245, 245 !important;
+    --bs-primary-rgb: 32, 32, 32 !important;
+    --bs-secondary-rgb: 28, 28, 28 !important;
+    --bs-success-rgb: 86, 86, 86 !important;
+    --bs-info-rgb: 86, 86, 86 !important;
+    --bs-warning-rgb: 217, 164, 65 !important;
+    --bs-danger-rgb: 185, 28, 28 !important;
+    --bs-light-rgb: 255, 255, 255 !important;
+    --bs-dark-rgb: 18, 18, 18 !important;
+    --bs-link-color-rgb: 32, 32, 32 !important;
+    --bs-link-hover-color-rgb: 53, 53, 53 !important;
+}
+
+.nx-dashboard,
+.nx-page,
+.nx-shell-body {
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+#nxDashboard .nx-dashboard__sidebar {
+    background: var(--color-primary-dark);
+    color: var(--color-surface);
+}
+
+#nxDashboard .nx-sidebar__link.is-active {
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+#nxDashboard .nx-sidebar__link:not(.is-active):hover,
+#nxDashboard .nx-sidebar__logout-btn:hover {
+    background: color-mix(in srgb, var(--color-surface) 10%, transparent);
+}
+
+.nx-topbar,
+.nx-dashboard-panel,
+.nx-kpi-card:not(.nx-kpi-card--lead),
+.nx-surface {
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--nx-shadow-1);
+}
+
+.nx-kpi-card--lead {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+.nx-kpi-card--lead .nx-kpi-card__icon {
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
+}
+
+.nx-kpi-card--lead .nx-kpi-card__label,
+.nx-kpi-card--lead .nx-kpi-card__description,
+.nx-kpi-card--lead .nx-kpi-card__value small {
+    color: var(--color-text-muted);
+}
+
+.nx-kpi-card--lead .nx-kpi-card__value {
+    color: var(--color-text);
+}
+
+.nx-dashboard__main {
+    width: 100%;
+    max-width: 1560px;
+    padding: clamp(16px, 1.6vw, 24px);
+}
+
+.nx-page-content {
+    width: 100%;
+    min-width: 0;
+}
+
+.nx-page-header {
+    margin-block-end: 24px;
+}
+
+.nx-dashboard-grid,
+.nx-grid {
+    gap: clamp(16px, 1.6vw, 24px);
+}
+
+.nx-dashboard-panel,
+.nx-card {
+    border-radius: var(--nx-radius-lg);
+}
+
+.nx-page-content :where(.btn-primary, .btn-dark, .btn-info) {
+    --bs-btn-color: var(--color-surface) !important;
+    --bs-btn-bg: var(--color-primary) !important;
+    --bs-btn-border-color: var(--color-primary) !important;
+    --bs-btn-hover-color: var(--color-surface) !important;
+    --bs-btn-hover-bg: var(--color-primary-hover) !important;
+    --bs-btn-hover-border-color: var(--color-primary-hover) !important;
+}
+
+.nx-page-content :where(.btn-secondary, .btn-light) {
+    --bs-btn-color: var(--color-text) !important;
+    --bs-btn-bg: var(--color-surface) !important;
+    --bs-btn-border-color: var(--color-border) !important;
+}
+
+.nx-page-content :where(.card, .modal-content, .dropdown-menu, .list-group-item) {
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nx-page-content :where(.form-control, .form-select, .table) {
+    color: var(--color-text);
+}
+
+.nx-page-content :where(.form-control, .form-select) {
+    border-color: var(--color-border);
+    background-color: var(--color-surface);
+}
+
+@media (max-width: 767px) {
+    .nx-dashboard__main {
+        padding: 14px;
+    }
+
+    .nx-dashboard-grid,
+    .nx-grid {
+        gap: 16px;
+    }
+}
+
+/* One NexOra mark is shared across public, account, and dashboard layouts. */
+.nx-brand-mark,
+.logo-mark.nx-brand-mark {
+    display: block;
+    width: 30px;
+    height: 30px;
+    flex: none;
+}
+
+.nx-brand-mark > rect:first-child {
+    fill: var(--color-primary);
+    stroke: none;
+}
+
+.nx-brand-mark .nx-brand-mark__glyph {
+    fill: none;
+    stroke: var(--color-surface);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.nx-sidebar__logo {
+    display: inline-flex;
+    width: max-content;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar .navbar-brand,
+.nx-room__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nx-sidebar__logo::after {
+    display: none !important;
+    content: none !important;
+}
+
+.nx-room__brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: none;
+}
+
+/* Keep status feedback readable while the rest of the interface uses green. */
+.nx-page-content .nx-modal-result.success {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+    border-color: var(--color-success) !important;
+}
+
+.nx-page-content .nx-modal-result.error {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content .nx-modal-result.info {
+    color: var(--color-info) !important;
+    background: var(--color-info-bg) !important;
+    border-color: var(--color-info) !important;
+}
+
+.nx-page-content :where(
+    .nx-marketing-heading-icon,
+    .directory-count,
+    .initial,
+    .room-media,
+    .ws-no-image,
+    .workspace-directory-link,
+    .facility-options label:has(input:checked),
+    .delete-modal-icon,
+    .bk-empty-icon,
+    .empty-icon,
+    .modal-cancel
+) {
+    color: var(--color-primary) !important;
+    background: var(--color-accent-soft) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content :where(.bk-alert-success, .mm-alert-success, .pf-alert-success, .success-message, .ws-success) {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+    border-color: var(--color-success) !important;
+}
+
+.nx-page-content :where(.bk-alert-error, .mm-alert-error, .pf-alert-error, .payment-error, .ws-error) {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content :where(.pending, .status.pending, .bk-badge.pending, .mm-status.pending, .badge-pending, .badge-hidden) {
+    color: var(--color-warning-ink) !important;
+    background: var(--color-warning-bg) !important;
+    border-color: var(--color-warning) !important;
+}
+
+.nx-page-content .badge.bg-warning {
+    color: var(--color-warning-ink) !important;
+    background-color: var(--color-warning-bg) !important;
+}
+
+.nx-page-content .badge.bg-primary {
+    color: var(--color-primary-hover) !important;
+    background-color: var(--color-accent-soft) !important;
+}
+
+.nx-page-content .badge.bg-info {
+    color: var(--color-info) !important;
+    background-color: var(--color-info-bg) !important;
+}
+
+.badge.bg-primary {
+    color: var(--color-primary-hover) !important;
+    background-color: var(--color-accent-soft) !important;
+    border-color: var(--color-border) !important;
+}
+
+.badge.bg-info {
+    color: var(--color-info) !important;
+    background-color: var(--color-info-bg) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .alert-warning {
+    --bs-alert-color: var(--color-warning-ink);
+    --bs-alert-bg: var(--color-warning-bg);
+}
+
+.nx-page-content .alert-info,
+.nx-page-content .alert-primary {
+    --bs-alert-color: var(--color-primary-hover);
+    --bs-alert-bg: var(--color-info-bg);
+    --bs-alert-border-color: var(--color-info-bg);
+}
+
+.nx-page-content .progress {
+    background-color: var(--color-background);
+}
+
+.nx-page-content :where(.badge-visible, .bk-badge.confirmed, .bk-badge.paid, .bk-badge.completed, .mm-status, .status.active) {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+    border-color: var(--color-success) !important;
+}
+
+.nx-page-content :where(.bk-badge.cancelled, .bk-badge.failed, .mm-status.cancelled, .mm-status.expired, .bk-cancel, .mm-btn-cancel:hover) {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content .bk-badge.expired {
+    color: var(--color-text-muted) !important;
+    background: var(--color-background) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .page .error {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content .rounded-circle.bg-primary-subtle {
+    color: var(--color-primary) !important;
+    background: var(--color-accent-soft) !important;
+}
+
+.nx-page-content .badge.bg-info-subtle {
+    color: var(--color-info) !important;
+    background: var(--color-info-bg) !important;
+}
+
+.nx-page-content .badge.bg-success-subtle {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+}
+
+.nx-page-content .badge.bg-danger-subtle {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+}
+
+.nx-page-content .nx-bookings-page .bk-alert-success,
+.nx-page-content .nx-bookings-page .bk-alert-error {
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .nx-bookings-page .bk-cancel-note {
+    color: var(--color-warning) !important;
+    background: var(--color-warning-bg) !important;
+    border-color: var(--color-warning) !important;
+}
+
+.nx-page-content .nx-room-card__facilities span {
+    color: var(--color-primary) !important;
+    background: var(--color-accent-soft) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .nx-explore__field input,
+.nx-page-content .nx-explore__field select {
+    color: var(--color-text) !important;
+    background: var(--color-surface) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .nx-explore__field input:focus,
+.nx-page-content .nx-explore__field select:focus {
+    border-color: var(--color-primary) !important;
+    background: var(--color-surface) !important;
+}
+
+.nx-page-content.nx-workspace-ui :where(.error, .ws-error, .ws-add-errors) {
+    color: var(--color-danger) !important;
+    background: var(--color-danger-bg) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content.nx-workspace-ui :where(.empty, .ws-empty) {
+    color: var(--color-text-muted);
+    background: var(--color-surface) !important;
+    border-color: var(--color-border);
+}
+
+.nx-page-content.nx-workspace-ui .ws-close {
+    color: var(--color-primary) !important;
+    background: var(--color-accent-soft) !important;
+}
+
+.nx-page-content .bk-view {
+    color: var(--color-primary) !important;
+    background: var(--color-accent-soft) !important;
+    border-color: var(--color-border) !important;
+}
+
+.nx-page-content .bk-view:hover {
+    color: var(--color-surface) !important;
+    background: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+}
+
+.nx-page-content .ws-page .ws-btn-delete {
+    color: var(--color-surface) !important;
+    background: var(--color-danger) !important;
+    border-color: var(--color-danger) !important;
+}
+
+.nx-page-content .ws-page .ws-badge {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+}
+
+.nx-page-content .ws-page .ws-badge.is-inactive {
+    color: var(--color-text-muted) !important;
+    background: var(--color-background) !important;
+}
+
+.nx-page-content .btn-outline-danger {
+    --bs-btn-color: var(--color-danger);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(--color-danger);
+    --bs-btn-hover-color: var(--color-surface);
+    --bs-btn-hover-bg: var(--color-danger);
+    --bs-btn-hover-border-color: var(--color-danger);
+}
+
+/* Pending badges need to outrank the generic "active" status rule above. */
+.nx-page-content .pending,
+.nx-page-content .status.pending,
+.nx-page-content .bk-badge.pending,
+.nx-page-content .mm-status.pending,
+.nx-page-content .badge-pending,
+.nx-page-content .badge-hidden {
+    color: var(--color-warning) !important;
+    background: var(--color-warning-bg) !important;
+    border-color: var(--color-warning) !important;
+}
+
+/* The AI workspace uses the available width without oversized section gaps. */
+.nx-page-content.nx-manager-ai {
+    --nx-ai-primary: var(--color-primary);
+    --nx-ai-primary-hover: var(--color-primary-hover);
+    --nx-ai-deep: var(--color-primary-dark);
+    --nx-ai-accent: var(--color-primary);
+    --nx-ai-bg: var(--color-background);
+    --nx-ai-card: var(--color-surface);
+    --nx-ai-surface: var(--color-surface);
+    --nx-ai-text: var(--color-text);
+    --nx-ai-muted: var(--color-text-muted);
+    --nx-ai-secondary: var(--color-text-muted);
+    --nx-ai-border: var(--color-border);
+    --nx-ai-divider: var(--color-border);
+    padding: 0 0 24px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-container {
+    max-width: 1440px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-header {
+    min-height: 160px;
+    padding: 28px 34px;
+    margin-bottom: 28px;
+    border-radius: 18px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-header-icon {
+    width: 124px;
+    height: 124px;
+    flex-basis: 124px;
+    margin-right: 12px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-orbit-two {
+    width: 124px;
+    height: 124px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-section,
+.nx-page-content.nx-manager-ai .nx-marketing-section {
+    margin-bottom: 28px;
+}
+
+.nx-page-content.nx-manager-ai .nx-section-heading {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+    .nx-page-content.nx-manager-ai .nx-ai-header {
+        min-height: 138px;
+        padding: 22px;
+        margin-bottom: 22px;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-ai-header-icon {
+        display: none;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-ai-section,
+    .nx-page-content.nx-manager-ai .nx-marketing-section {
+        margin-bottom: 22px;
+    }
+}
+
+/* Shared, compact table treatment. Hover adds a subtle cue without moving content. */
+.nx-page-content .table {
+    font-size: 13px;
+}
+
+.nx-page-content .table > :not(caption) > * > * {
+    padding: 8px 12px;
+}
+
+.nx-page-content .table tbody tr > * {
+    transition: background-color 140ms ease;
+}
+
+.nx-page-content .table tbody tr:hover > * {
+    background-color: var(--color-background);
+}
+
+.nx-page-content .table thead th {
+    font-size: 11px;
+    letter-spacing: .045em;
+}
+
+.nx-admin-dashboard .nx-table th,
+.nx-manager-dashboard .nx-table th {
+    padding: 8px 12px;
+}
+
+.nx-admin-dashboard .nx-table td,
+.nx-manager-dashboard .nx-table td {
+    height: auto;
+    padding: 8px 12px;
+}
+
+.nx-admin-dashboard .nx-table tbody tr:hover,
+.nx-manager-dashboard .nx-table tbody tr:hover {
+    background: var(--color-background);
+}
+
+.nx-admin-dashboard .nx-table tbody tr[aria-selected="true"],
+.nx-manager-dashboard .nx-table tbody tr[aria-selected="true"] {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+}
+
+/* Review ratings use gold; success green remains reserved for status. */
+.nx-page-content .rating,
+.nx-page-content .rating-stars,
+.nx-page-content .review-stars,
+.nx-page-content .rating-options label,
+.nx-page-content .star-rating {
+    color: var(--color-rating);
+}
+
+.nx-page-content .rating-options input:checked ~ label,
+.nx-page-content .rating-options label:hover,
+.nx-page-content .rating-options label:hover ~ label {
+    color: var(--color-rating);
+}
+
+.nx-page-content .nx-review-stars span {
+    color: var(--color-border);
+}
+
+.nx-page-content .nx-review-stars span.is-filled {
+    color: var(--color-rating);
+}
+
+@media (max-width: 767px) {
+    .nx-page-content .table > :not(caption) > * > * {
+        padding: 8px 10px;
+    }
+}
+
+/* Manager AI: reduce blank space and give conversation and campaign tools a clear hierarchy. */
+.nx-page-content.nx-manager-ai .nx-ai-container {
+    max-width: 1320px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-header {
+    min-height: 154px;
+    padding: 26px 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: linear-gradient(115deg, #121212, #1C1C1C);
+    box-shadow: none;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-header::before,
+.nx-page-content.nx-manager-ai .nx-ai-header::after {
+    display: none;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-eyebrow {
+    color: var(--color-accent-soft);
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-eyebrow-dot {
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-header-icon {
+    width: 104px;
+    height: 104px;
+    flex-basis: 104px;
+    margin-right: 4px;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-orbit {
+    border-color: color-mix(in srgb, var(--color-surface) 16%, transparent);
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-icon-core {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: var(--color-primary);
+    box-shadow: none;
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-section,
+.nx-page-content.nx-manager-ai .nx-marketing-section {
+    margin-bottom: 24px;
+}
+
+.nx-page-content.nx-manager-ai .nx-section-heading {
+    margin-bottom: 12px;
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-card,
+.nx-page-content.nx-manager-ai .nx-marketing-card {
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    background: var(--color-surface);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--color-primary-dark) 5%, transparent);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-topbar {
+    min-height: 64px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-avatar,
+.nx-page-content.nx-manager-ai .nx-message-avatar {
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-messages {
+    min-height: 0;
+    max-height: min(420px, 54vh);
+    padding: 16px;
+    background: var(--color-surface);
+    scrollbar-color: var(--color-border) transparent;
+    scrollbar-width: thin;
+}
+
+.nx-page-content.nx-manager-ai .nx-message.ai {
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+.nx-page-content.nx-manager-ai .nx-message.user {
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-composer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-input-wrap textarea,
+.nx-page-content.nx-manager-ai .nx-form-group .form-control,
+.nx-page-content.nx-manager-ai .nx-form-group .form-select {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nx-page-content.nx-manager-ai .nx-send-btn,
+.nx-page-content.nx-manager-ai .nx-generate-btn,
+.nx-page-content.nx-manager-ai .nx-approve-btn,
+.nx-page-content.nx-manager-ai .nx-modal-confirm {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-send-btn:hover,
+.nx-page-content.nx-manager-ai .nx-generate-btn:hover,
+.nx-page-content.nx-manager-ai .nx-approve-btn:hover,
+.nx-page-content.nx-manager-ai .nx-modal-confirm:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+}
+
+.nx-page-content.nx-manager-ai .nx-chat-suggestions {
+    padding: 0 16px 14px;
+    background: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-suggestion {
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nx-page-content.nx-manager-ai .nx-suggestion:hover {
+    border-color: var(--color-primary);
+    background: var(--color-accent-soft);
+}
+
+.nx-page-content.nx-manager-ai .nx-suggestion-icon {
+    color: var(--color-primary-hover);
+}
+
+.nx-page-content.nx-manager-ai .nx-marketing-card {
+    padding: 18px;
+}
+
+.nx-page-content.nx-manager-ai .nx-marketing-intro {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-background);
+}
+
+.nx-page-content.nx-manager-ai .nx-marketing-intro-icon {
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
+}
+
+.nx-page-content.nx-manager-ai .nx-marketing-grid {
+    gap: 16px;
+}
+
+.nx-page-content.nx-manager-ai .nx-marketing-setup,
+.nx-page-content.nx-manager-ai .nx-marketing-editor {
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+}
+
+.nx-page-content.nx-manager-ai .nx-editor-panel {
+    border-color: var(--color-border);
+    background: var(--color-background);
+}
+
+.nx-page-content.nx-manager-ai .nx-modal {
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nx-page-content.nx-manager-ai .nx-ai-footer {
+    margin-top: 16px;
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 767px) {
+    .nx-page-content.nx-manager-ai .nx-ai-header {
+        min-height: 132px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-chat-messages {
+        min-height: 0;
+        max-height: min(420px, 54vh);
+        padding: 12px;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-marketing-card {
+        padding: 12px;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-marketing-setup,
+    .nx-page-content.nx-manager-ai .nx-marketing-editor {
+        padding: 12px;
+    }
+}

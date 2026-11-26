@@ -1,0 +1,28 @@
+
+    .review-label {
+        color: var(--color-text-muted);
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .review-value {
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .review-rating {
+        color: var(--color-rating);
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .review-comment {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 10px;
+        padding: 18px;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        min-height: 80px;
+    }

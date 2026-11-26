@@ -13,18 +13,20 @@ use Illuminate\Support\Facades\Auth;
 class ManagerMembershipPlanController extends Controller
 {
     // List plans belonging to the logged-in manager.
-    public function index()
-    {
-        $plans = MembershipPlan::with('workspace')
-            ->whereHas('workspace', function ($query) {
-                $query->where('manager_id', Auth::id());
-            })
-            ->withCount('memberships')
-            ->latest()
-            ->paginate(10);
+  public function index()
+{
+    $plans = MembershipPlan::with('workspace')
+        ->whereHas('workspace', function ($query) {
+            $query->where('manager_id', Auth::id());
+        })
+        ->withCount('memberships')
+        ->latest()
+        ->paginate(5);
 
-        return view('Manager.MembershipPlans.index', compact('plans'));
-    }
+    $workspaces = Workspace::where('manager_id', Auth::id())->get();
+
+    return view('Manager.MembershipPlans.index', compact('plans', 'workspaces'));
+}
 
     // Show create form.
     public function create()

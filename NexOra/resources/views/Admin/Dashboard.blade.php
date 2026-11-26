@@ -55,66 +55,11 @@
                     ])
                 </form>
 
-                
+      
 
             </div>
         </section>
 
-        <section class="nx-alert-strip" aria-labelledby="alertsTitle">
-            <h2 class="nx-sr-only" id="alertsTitle">Platform alerts</h2>
-
-            <div class="nx-alert-list">
-
-                @forelse ($alerts as $alert)
-                    @php
-                        $alertLevel = in_array(
-                            $alert['priority'] ?? null,
-                            ['success', 'warning', 'danger', 'info'],
-                            true,
-                        )
-                            ? $alert['priority']
-                            : 'warning';
-
-                        $alertIcons = [
-                            'success' => 'check-circle',
-                            'warning' => 'alert-triangle',
-                            'danger' => 'x-circle',
-                            'info' => 'info',
-                        ];
-                    @endphp
-
-                    <div class="nx-alert nx-alert--{{ $alertLevel }}">
-
-                        <div class="nx-alert__icon">
-                            @include('layouts.dashboard.partials.ui-icon', [
-                                'name' => $alertIcons[$alertLevel],
-                            ])
-                        </div>
-
-                        <div class="nx-alert__content">
-                            <p class="nx-alert__title">{{ $alert['title'] }}</p>
-                            <p class="nx-alert__text">{{ $alert['description'] }}</p>
-                        </div>
-
-                        <span class="nx-alert__count" title="Pending items">{{ $alert['count'] }}</span>
-
-                    </div>
-
-                @empty
-
-                    <div class="nx-alert-empty">
-                        @include('layouts.dashboard.partials.ui-icon', ['name' => 'check-circle'])
-
-                        <div>
-                            <strong>All clear</strong>
-                            <span>There are no pending actions requiring attention.</span>
-                        </div>
-                    </div>
-                @endforelse
-
-            </div>
-
-        </section>
 
         <section class="nx-kpi-grid">
 
@@ -457,5 +402,5 @@
             };
         </script>
 
-        <script src="{{ asset('js/pages/admin-dashboard.js') }}"></script>
+        <script src="{{ asset('js/pages/admin-dashboard.js') }}?v=20261125-chart-green1"></script>
     @endpush

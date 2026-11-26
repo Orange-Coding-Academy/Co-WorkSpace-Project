@@ -16,15 +16,15 @@
    ========================================================================== */
 
 .nx-payments {
-    --payments-primary: var(--nx-primary, #315c4d);
-    --payments-primary-hover: var(--nx-primary-hover, #274b3f);
-    --payments-bg: var(--nx-bg, #f5f7f3);
-    --payments-card: var(--nx-card, #fff);
-    --payments-text: var(--nx-text, #1d2924);
-    --payments-secondary: var(--nx-text-secondary, #53615a);
-    --payments-muted: var(--nx-text-muted, #66726b);
-    --payments-border: var(--nx-border, #e2e8e2);
-    --payments-shadow: var(--nx-shadow-1, 0 1px 2px rgba(29, 41, 36, .05));
+    --payments-primary: var(--nx-primary, var(--color-primary));
+    --payments-primary-hover: var(--nx-primary-hover, var(--color-primary-hover));
+    --payments-bg: var(--nx-bg, var(--color-background));
+    --payments-card: var(--nx-card, var(--color-surface));
+    --payments-text: var(--nx-text, var(--color-text));
+    --payments-secondary: var(--nx-text-secondary, var(--color-text-muted));
+    --payments-muted: var(--nx-text-muted, var(--color-text-muted));
+    --payments-border: var(--nx-border, var(--color-border));
+    --payments-shadow: var(--nx-shadow-1, 0 1px 2px color-mix(in srgb, var(--color-text) 5%, transparent));
 
     box-sizing: border-box;
     width: 100%;
@@ -65,7 +65,7 @@
 .payments-eyebrow {
     display: block;
     margin-bottom: 7px;
-    color: var(--nx-secondary, #6f806e);
+    color: var(--nx-secondary, var(--color-secondary));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .12em;
@@ -138,23 +138,23 @@
 }
 
 .revenue-icon {
-    color: var(--payments-primary);
-    background: #eaf1ec;
+    color: var(--color-primary-hover);
+    background: var(--color-accent-soft);
 }
 
 .success-icon {
-    color: var(--nx-success-text, #145c3a);
-    background: var(--nx-success-bg, #eaf6ef);
+    color: var(--nx-success-text, var(--color-success));
+    background: var(--nx-success-bg, var(--color-success-bg));
 }
 
 .warning-icon {
-    color: var(--nx-warning-text, #754c05);
-    background: var(--nx-warning-bg, #fff6e5);
+    color: var(--nx-warning-text, var(--color-warning));
+    background: var(--nx-warning-bg, var(--color-warning-bg));
 }
 
 .danger-icon {
-    color: var(--nx-danger-text, #912018);
-    background: var(--nx-danger-bg, #fdedec);
+    color: var(--nx-danger-text, var(--color-danger));
+    background: var(--nx-danger-bg, var(--color-danger-bg));
 }
 
 .kpi-value {
@@ -234,7 +234,7 @@
     padding: 0 12px;
     color: var(--payments-text);
     background: var(--payments-card);
-    border: 1px solid var(--nx-border-strong, #c9d4cc);
+    border: 1px solid var(--nx-border-strong, var(--color-border));
     border-radius: 9px;
     outline: none;
     font: inherit;
@@ -244,7 +244,7 @@
 .filter-field input:focus,
 .filter-field select:focus {
     border-color: var(--payments-primary);
-    box-shadow: var(--nx-focus-ring, 0 0 0 3px rgba(49, 92, 77, .22));
+    box-shadow: var(--nx-focus-ring, 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent));
 }
 
 .payments-btn {
@@ -263,12 +263,12 @@
 }
 
 .payments-btn-primary {
-    color: #fff;
+    color: var(--color-surface);
     background: var(--payments-primary);
 }
 
 .payments-btn-primary:hover {
-    color: #fff;
+    color: var(--color-surface);
     background: var(--payments-primary-hover);
 }
 
@@ -281,7 +281,7 @@
 .payments-btn-light:hover {
     color: var(--payments-primary);
     background: var(--payments-bg);
-    border-color: var(--nx-border-strong, #c9d4cc);
+    border-color: var(--nx-border-strong, var(--color-border));
 }
 
 /* ==========================================================================
@@ -368,7 +368,7 @@
 
 .payments-table td {
     padding: 15px;
-    border-bottom: 1px solid var(--nx-divider, #e9eee9);
+    border-bottom: 1px solid var(--nx-divider, var(--color-border));
 }
 
 .payments-table tbody tr:last-child td {
@@ -376,7 +376,7 @@
 }
 
 .payments-table tbody tr:hover {
-    background: #f8faf7;
+    background: var(--color-surface);
 }
 
 .payment-reference {
@@ -437,21 +437,21 @@
 }
 
 .status-paid {
-    color: var(--nx-success-text, #145c3a);
-    background: var(--nx-success-bg, #eaf6ef);
-    border-color: var(--nx-success-border, #bce2c9);
+    color: var(--nx-success-text, var(--color-success));
+    background: var(--nx-success-bg, var(--color-success-bg));
+    border-color: var(--nx-success-border, var(--color-success-bg));
 }
 
 .status-pending {
-    color: var(--nx-warning-text, #754c05);
-    background: var(--nx-warning-bg, #fff6e5);
-    border-color: var(--nx-warning-border, #f0d79e);
+    color: var(--nx-warning-text, var(--color-warning));
+    background: var(--nx-warning-bg, var(--color-warning-bg));
+    border-color: var(--nx-warning-border, var(--color-warning-bg));
 }
 
 .status-failed {
-    color: var(--nx-danger-text, #912018);
-    background: var(--nx-danger-bg, #fdedec);
-    border-color: var(--nx-danger-border, #f5c2be);
+    color: var(--nx-danger-text, var(--color-danger));
+    background: var(--nx-danger-bg, var(--color-danger-bg));
+    border-color: var(--nx-danger-border, var(--color-danger-bg));
 }
 
 .view-payment-btn {
@@ -468,7 +468,7 @@
 }
 
 .view-payment-btn:hover {
-    color: #fff;
+    color: var(--color-surface);
     background: var(--payments-primary);
     border-color: var(--payments-primary);
 }
@@ -545,14 +545,14 @@ a.pager-link:hover {
 }
 
 .pager-link.is-active {
-    color: #fff;
+    color: var(--color-surface);
     background: var(--payments-primary);
     border-color: var(--payments-primary);
 }
 
 .pager-link.is-disabled {
-    color: var(--nx-disabled-text, #657169);
-    background: var(--nx-disabled-bg, #f0f2ef);
+    color: var(--nx-disabled-text, var(--color-text-muted));
+    background: var(--nx-disabled-bg, var(--color-background));
     cursor: default;
 }
 
@@ -564,7 +564,7 @@ a.pager-link:hover {
     position: fixed;
     inset: 0;
     z-index: 2000;
-    background: rgba(29, 41, 36, .45);
+    background: color-mix(in srgb, var(--color-text) 45%, transparent);
     opacity: 0;
     transition: opacity .22s ease;
 }
@@ -583,10 +583,10 @@ a.pager-link:hover {
     max-height: min(88vh, 720px);
     flex-direction: column;
     overflow: hidden;
-    background: var(--nx-card, #fff);
-    border: 1px solid var(--nx-border, #e2e8e2);
+    background: var(--nx-card, var(--color-surface));
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 18px;
-    box-shadow: 0 24px 60px rgba(29, 41, 36, .28);
+    box-shadow: 0 24px 60px color-mix(in srgb, var(--color-text) 28%, transparent);
     outline: none;
     opacity: 0;
     visibility: hidden;
@@ -607,19 +607,19 @@ a.pager-link:hover {
     justify-content: space-between;
     gap: 16px;
     padding: 24px;
-    border-bottom: 1px solid var(--nx-border, #e2e8e2);
+    border-bottom: 1px solid var(--nx-border, var(--color-border));
 }
 
 .pay-modal__title {
     margin: 0;
-    color: var(--nx-text, #1d2924);
+    color: var(--nx-text, var(--color-text));
     font-size: 19px;
     font-weight: 700;
 }
 
 .pay-modal__subtitle {
     margin: 5px 0 0;
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-size: 13px;
 }
 
@@ -631,9 +631,9 @@ a.pager-link:hover {
     align-items: center;
     justify-content: center;
     padding: 0;
-    color: var(--nx-text-secondary, #53615a);
+    color: var(--nx-text-secondary, var(--color-text-muted));
     background: transparent;
-    border: 1px solid var(--nx-border, #e2e8e2);
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 8px;
     font-size: 22px;
     line-height: 1;
@@ -641,8 +641,8 @@ a.pager-link:hover {
 }
 
 .pay-modal__close:hover {
-    color: var(--nx-text, #1d2924);
-    background: var(--nx-bg, #f5f7f3);
+    color: var(--nx-text, var(--color-text));
+    background: var(--nx-bg, var(--color-background));
 }
 
 .pay-modal__body {
@@ -662,7 +662,7 @@ body.payment-panel-open {
     align-items: center;
     justify-content: center;
     gap: 12px;
-    color: var(--nx-text-secondary, #53615a);
+    color: var(--nx-text-secondary, var(--color-text-muted));
     text-align: center;
 }
 
@@ -673,8 +673,8 @@ body.payment-panel-open {
 .payment-spinner {
     width: 28px;
     height: 28px;
-    border: 3px solid var(--nx-border, #e2e8e2);
-    border-top-color: var(--nx-primary, #315c4d);
+    border: 3px solid var(--nx-border, var(--color-border));
+    border-top-color: var(--nx-primary, var(--color-primary));
     border-radius: 50%;
     animation: payment-spin .7s linear infinite;
 }
@@ -686,8 +686,8 @@ body.payment-panel-open {
 .payment-error {
     padding: 16px;
     border-radius: 10px;
-    color: #9f3030;
-    background: #fff0f0;
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
 }
 
 .payment-chart-container {
@@ -786,7 +786,7 @@ body.payment-panel-open {
    ========================================================================== */
 
 .pay-modal__body {
-    color: var(--nx-text, #1d2924);
+    color: var(--nx-text, var(--color-text));
     font-family: var(--nx-font-body, 'Inter', sans-serif);
     font-size: 14px;
     line-height: 1.5;
@@ -805,7 +805,7 @@ body.payment-panel-open {
 .pay-modal__body h5,
 .pay-modal__body h6 {
     margin: 0 0 10px;
-    color: var(--nx-text, #1d2924);
+    color: var(--nx-text, var(--color-text));
     font-family: var(--nx-font-heading, 'Manrope', sans-serif);
     font-weight: 800;
 }
@@ -828,7 +828,7 @@ body.payment-panel-open {
 }
 
 .pay-modal__body dt {
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-size: 12px;
     font-weight: 600;
 }
@@ -848,7 +848,7 @@ body.payment-panel-open {
 .pay-modal__body th,
 .pay-modal__body td {
     padding: 10px 0;
-    border-bottom: 1px solid var(--nx-divider, #e9eee9);
+    border-bottom: 1px solid var(--nx-divider, var(--color-border));
     text-align: left;
     vertical-align: top;
     overflow-wrap: anywhere;
@@ -856,7 +856,7 @@ body.payment-panel-open {
 
 .pay-modal__body th {
     width: 38%;
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-size: 12px;
     font-weight: 600;
 }
@@ -878,8 +878,8 @@ body.payment-panel-open {
 .pay-modal__body section {
     margin-bottom: 14px;
     padding: 14px 16px;
-    background: var(--nx-card, #fff);
-    border: 1px solid var(--nx-border, #e2e8e2);
+    background: var(--nx-card, var(--color-surface));
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 12px;
 }
 
@@ -893,7 +893,7 @@ body.payment-panel-open {
     justify-content: space-between;
     gap: 12px;
     padding: 10px 16px;
-    border-bottom: 1px solid var(--nx-divider, #e9eee9);
+    border-bottom: 1px solid var(--nx-divider, var(--color-border));
 }
 
 .pay-modal__body .list-group-item:last-child {
@@ -907,31 +907,31 @@ body.payment-panel-open {
     border-radius: 999px;
     font-size: 11px;
     font-weight: 700;
-    color: var(--nx-text-secondary, #53615a);
-    background: var(--nx-bg, #f5f7f3);
+    color: var(--nx-text-secondary, var(--color-text-muted));
+    background: var(--nx-bg, var(--color-background));
 }
 
 .pay-modal__body .bg-success,
 .pay-modal__body .text-bg-success {
-    color: var(--nx-success-text, #145c3a);
-    background: var(--nx-success-bg, #eaf6ef);
+    color: var(--nx-success-text, var(--color-success));
+    background: var(--nx-success-bg, var(--color-success-bg));
 }
 
 .pay-modal__body .bg-warning,
 .pay-modal__body .text-bg-warning {
-    color: var(--nx-warning-text, #754c05);
-    background: var(--nx-warning-bg, #fff6e5);
+    color: var(--nx-warning-text, var(--color-warning));
+    background: var(--nx-warning-bg, var(--color-warning-bg));
 }
 
 .pay-modal__body .bg-danger,
 .pay-modal__body .text-bg-danger {
-    color: var(--nx-danger-text, #912018);
-    background: var(--nx-danger-bg, #fdedec);
+    color: var(--nx-danger-text, var(--color-danger));
+    background: var(--nx-danger-bg, var(--color-danger-bg));
 }
 
 .pay-modal__body .text-muted,
 .pay-modal__body small {
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
 }
 
 .pay-modal__body .fw-bold,
@@ -942,7 +942,7 @@ body.payment-panel-open {
 .pay-modal__body hr {
     margin: 16px 0;
     border: 0;
-    border-top: 1px solid var(--nx-divider, #e9eee9);
+    border-top: 1px solid var(--nx-divider, var(--color-border));
 }
 
 .pay-modal__body pre,
@@ -958,7 +958,7 @@ body.payment-panel-open {
    ========================================================================== */
 
 .pay-modal__header {
-    background: var(--nx-bg, #f5f7f3);
+    background: var(--nx-bg, var(--color-background));
 }
 
 .pay-modal__body .pd-summary {
@@ -968,15 +968,15 @@ body.payment-panel-open {
     gap: 16px;
     margin-bottom: 20px;
     padding: 18px 20px;
-    background: var(--nx-bg, #f5f7f3);
-    border: 1px solid var(--nx-border, #e2e8e2);
+    background: var(--nx-bg, var(--color-background));
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 14px;
 }
 
 .pay-modal__body .pd-label {
     display: block;
     margin-bottom: 4px;
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .08em;
@@ -984,7 +984,7 @@ body.payment-panel-open {
 }
 
 .pay-modal__body .pd-amount {
-    color: var(--nx-text, #1d2924);
+    color: var(--nx-text, var(--color-text));
     font-family: var(--nx-font-heading, 'Manrope', sans-serif);
     font-size: 28px;
     font-weight: 800;
@@ -994,7 +994,7 @@ body.payment-panel-open {
 
 .pay-modal__body .pd-amount small {
     margin-left: 4px;
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0;
@@ -1002,7 +1002,7 @@ body.payment-panel-open {
 
 .pay-modal__body .pd-title {
     margin: 0 0 8px;
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-family: var(--nx-font-body, 'Inter', sans-serif);
     font-size: 11px;
     font-weight: 700;
@@ -1013,7 +1013,7 @@ body.payment-panel-open {
 .pay-modal__body .pd-grid {
     display: block;
     margin: 0 0 20px;
-    border: 1px solid var(--nx-border, #e2e8e2);
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 12px;
     overflow: hidden;
 }
@@ -1024,7 +1024,7 @@ body.payment-panel-open {
     gap: 14px;
     align-items: center;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--nx-divider, #e9eee9);
+    border-bottom: 1px solid var(--nx-divider, var(--color-border));
 }
 
 .pay-modal__body .pd-row:last-child {
@@ -1032,14 +1032,14 @@ body.payment-panel-open {
 }
 
 .pay-modal__body .pd-row dt {
-    color: var(--nx-text-secondary, #53615a);
+    color: var(--nx-text-secondary, var(--color-text-muted));
     font-size: 13px;
     font-weight: 600;
 }
 
 .pay-modal__body .pd-row dd {
     margin: 0;
-    color: var(--nx-text, #1d2924);
+    color: var(--nx-text, var(--color-text));
     font-size: 13px;
     font-weight: 600;
     overflow-wrap: anywhere;
@@ -1057,9 +1057,9 @@ body.payment-panel-open {
 .pay-id {
     min-width: 0;
     padding: 5px 9px;
-    color: var(--nx-text, #1d2924);
-    background: var(--nx-bg, #f5f7f3);
-    border: 1px solid var(--nx-border, #e2e8e2);
+    color: var(--nx-text, var(--color-text));
+    background: var(--nx-bg, var(--color-background));
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 8px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 12px;
@@ -1071,9 +1071,9 @@ body.payment-panel-open {
 .pay-copy {
     flex: 0 0 auto;
     padding: 5px 10px;
-    color: var(--nx-primary, #315c4d);
+    color: var(--nx-primary, var(--color-primary));
     background: transparent;
-    border: 1px solid var(--nx-border, #e2e8e2);
+    border: 1px solid var(--nx-border, var(--color-border));
     border-radius: 8px;
     font-size: 11px;
     font-weight: 700;
@@ -1081,13 +1081,13 @@ body.payment-panel-open {
 }
 
 .pay-copy:hover {
-    color: #fff;
-    background: var(--nx-primary, #315c4d);
-    border-color: var(--nx-primary, #315c4d);
+    color: var(--color-surface);
+    background: var(--nx-primary, var(--color-primary));
+    border-color: var(--nx-primary, var(--color-primary));
 }
 
 .pay-na {
-    color: var(--nx-text-muted, #66726b);
+    color: var(--nx-text-muted, var(--color-text-muted));
     font-weight: 500;
 }
 
@@ -1100,4 +1100,24 @@ body.payment-panel-open {
     .pay-modal__body .pd-amount {
         font-size: 24px;
     }
+}
+/* Bookings pagination alignment */
+.nx-admin-bookings .payments-pagination {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    direction: ltr !important;
+    justify-content: initial !important;
+    align-items: center;
+    width: 100%;
+}
+
+.nx-admin-bookings .pagination-summary {
+    justify-self: start !important;
+    text-align: left !important;
+    margin: 0 !important;
+}
+
+.nx-admin-bookings .payments-pagination nav {
+    justify-self: end !important;
+    margin: 0 !important;
 }

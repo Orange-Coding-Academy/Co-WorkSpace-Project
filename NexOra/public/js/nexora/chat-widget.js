@@ -16,9 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
     function addMessage(role, content) {
         const node = document.createElement('div');
         node.className = `nx-chat-message ${role}`;
-        node.textContent = content;
+        node.textContent = typeof content === 'string' ? content : '';
         messages.appendChild(node);
         messages.scrollTop = messages.scrollHeight;
+    }
+
+    async function readResponse(response, fallbackMessage) {
+        const body = await response.text();
+        let data;
+
+        try {
+            data = body ? JSON.parse(body) : {};
+        } catch {
+            if ([401, 419].includes(response.status)) {
+                throw new Error('Your session has expired. Sign in again and retry.');
+            }
+            throw new Error(fallbackMessage);
+        }
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || fallbackMessage);
+        }
+
+        return data;
     }
 
     function openChat() {
@@ -30,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeChat() {
         panel.hidden = true;
         launcher.setAttribute('aria-expanded', 'false');
+        launcher.focus({ preventScroll: true });
     }
 
     launcher.addEventListener('click', () => {
@@ -40,6 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
         const history = JSON.parse(widget.dataset.history || '[]');
+        if (history.length) {
+            messages.querySelector('[data-chat-welcome]')?.remove();
+        }
 
         history.forEach(item => {
             if (
@@ -62,9 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
         addMessage('user', message);
         input.value = '';
         input.disabled = send.disabled = true;
+        clear.disabled = true;
+        widget.querySelectorAll('#nx-chat-suggestions button')
+            .forEach(button => { button.disabled = true; });
 
         const typing = document.createElement('div');
         typing.className = 'nx-chat-typing';
+        typing.setAttribute('role', 'status');
         typing.textContent = 'NEXORA AI is thinking...';
         messages.appendChild(typing);
 
@@ -79,53 +107,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ message })
             });
 
-            const data = await response.json();
-
-            if (!response.ok || !data.success) {
-                throw new Error(data.message || 'Unable to get a response.');
-            }
-
-            addMessage('assistant', data.answer);
+            const data = await readResponse(response, 'The assistant could not respond right now. Please try again.');
+            addMessage(
+                'assistant',
+                typeof data.answer === 'string' ? data.answer : 'I could not create a response. Please try again.'
+            );
 
         } catch (error) {
-            addMessage('assistant', error.message);
+            addMessage('assistant', error.message || 'The assistant could not respond right now. Please try again.');
 
         } finally {
             typing.remove();
             input.disabled = send.disabled = false;
+            clear.disabled = false;
+            widget.querySelectorAll('#nx-chat-suggestions button')
+                .forEach(button => { button.disabled = false; });
             input.focus();
         }
     });
+clear.addEventListener('click', async () => {
 
-    clear.addEventListener('click', async () => {
-        if (!confirm('Clear this conversation?')) return;
+    clear.disabled = true;
 
-        clear.disabled = true;
-
-        try {
-            const response = await fetch(widget.dataset.clearUrl, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': csrf
-                }
-            });
-
-            const data = await response.json();
-
-            if (!response.ok || !data.success) {
-                throw new Error('Could not clear conversation.');
+    try {
+        const response = await fetch(widget.dataset.clearUrl, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrf
             }
+        });
 
-            messages.replaceChildren();
+        await readResponse(response, 'Could not clear conversation.');
 
-            addMessage(
-                'assistant',
-                'Hello! Your conversation has been cleared. How can I help you?'
-            );
+        messages.replaceChildren();
 
-        } catch (error) {
-            alert(error.message);
+        addMessage(
+            'assistant',
+            'Hello! Your conversation has been cleared. How can I help you?'
+        );
+
+    }catch (error) {
+            addMessage('assistant', error.message || 'Could not clear conversation.');
 
         } finally {
             clear.disabled = false;
@@ -139,4 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.requestSubmit();
             });
         });
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !panel.hidden) closeChat();
+    });
 });

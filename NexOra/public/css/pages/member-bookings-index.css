@@ -1,0 +1,646 @@
+
+/* =========================================================
+   NEXORA — MEMBER BOOKINGS
+   Organized page styles
+========================================================= */
+
+/* 1. Page foundation
+--------------------------------------------------------- */
+
+.nx-page-content {
+    --nx-primary: var(--color-primary);
+    --nx-primary-hover: var(--color-primary-hover);
+    --nx-primary-dark: var(--color-primary-dark);
+    --nx-accent: var(--color-accent);
+    --nx-accent-soft: var(--color-accent-soft);
+    --nx-bg: var(--color-background);
+    --nx-surface: var(--color-surface);
+    --nx-text: var(--color-text);
+    --nx-muted: var(--color-text-muted);
+    --nx-border: var(--color-border);
+
+    min-height: 100vh;
+    padding: 28px 0 60px;
+    background:
+        radial-gradient(
+            circle at 8% 5%,
+            color-mix(in srgb, var(--nx-accent) 10%, transparent),
+            transparent 28%
+        ),
+        var(--nx-bg);
+    color: var(--nx-text);
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.nx-page-content .container {
+    max-width: 1240px;
+}
+
+.nx-page-content h1,
+.nx-page-content h2,
+.nx-page-content h3,
+.nx-page-content h4,
+.nx-page-content h5 {
+    color: var(--nx-text);
+    font-family: 'Manrope', 'Noto Sans Arabic', sans-serif;
+    letter-spacing: -0.035em;
+}
+
+/* 2. Page heading
+--------------------------------------------------------- */
+
+.nx-page-content .d-flex.justify-content-between {
+    margin-bottom: 30px !important;
+}
+
+
+.nx-page-content h3 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: clamp(25px, 3vw, 32px);
+    font-weight: 800;
+}
+
+.nx-page-content h3::after {
+    content: "";
+    display: block;
+    width: 42px;
+    height: 3px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: var(--nx-accent);
+}
+
+.nx-page-content .d-flex.justify-content-between p {
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* 3. Alerts
+--------------------------------------------------------- */
+
+.nx-page-content .alert {
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nx-page-content .alert-success {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border-color: var(--color-success-bg);
+}
+
+.nx-page-content .alert-danger {
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    border-color: var(--color-danger-bg);
+}
+
+/* 4. Booking tabs
+--------------------------------------------------------- */
+
+.nx-page-content .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px !important;
+    padding: 7px;
+    border: 1px solid var(--nx-border);
+    border-radius: 14px;
+    background: var(--nx-surface);
+}
+
+.nx-page-content .nav-tabs .nav-item {
+    margin: 0;
+}
+
+.nx-page-content .nav-tabs .nav-link {
+    padding: 10px 19px;
+    border: 0;
+    border-radius: 9px;
+    color: var(--nx-muted);
+    font-size: 13px;
+    font-weight: 700;
+    transition: all .25s ease;
+}
+
+.nx-page-content .nav-tabs .nav-link:hover {
+    color: var(--nx-primary);
+    background: color-mix(in srgb, var(--nx-primary) 7%, transparent);
+}
+
+.nx-page-content .nav-tabs .nav-link.active {
+    color: var(--color-background);
+    background: var(--nx-primary);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--nx-primary) 20%, transparent);
+}
+
+/* 5. Filters
+--------------------------------------------------------- */
+
+.nx-page-content form.card {
+    margin-bottom: 26px !important;
+    padding: 22px 24px;
+    border: 1px solid var(--nx-border);
+    border-radius: 16px;
+    background: var(--nx-surface);
+    box-shadow: 0 5px 18px color-mix(in srgb, var(--nx-text) 4%, transparent);
+}
+
+.nx-page-content .form-label {
+    margin-bottom: 8px;
+    color: var(--nx-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-page-content .form-control,
+.nx-page-content .form-select {
+    min-height: 44px;
+    border: 1px solid var(--nx-border);
+    border-radius: 10px;
+    background-color: var(--nx-bg);
+    color: var(--nx-text);
+    font-size: 13px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.nx-page-content .form-control:focus,
+.nx-page-content .form-select:focus {
+    border-color: var(--nx-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--nx-primary) 13%, transparent);
+}
+
+.nx-page-content .form-control:hover,
+.nx-page-content .form-select:hover {
+    border-color: color-mix(in srgb, var(--nx-primary) 45%, var(--nx-border));
+}
+
+/* Filter buttons */
+
+.nx-page-content .btn {
+    min-height: 44px;
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all .25s ease;
+}
+
+.nx-page-content .btn-primary {
+    border-color: var(--nx-primary);
+    background: var(--nx-primary);
+    color: var(--color-background);
+}
+
+.nx-page-content .btn-primary:hover {
+    border-color: var(--nx-primary-hover);
+    background: var(--nx-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--nx-primary) 18%, transparent);
+}
+
+.nx-page-content .btn-outline-secondary {
+    border-color: var(--nx-border);
+    background: transparent;
+    color: var(--nx-muted);
+}
+
+.nx-page-content .btn-outline-secondary:hover {
+    border-color: var(--nx-primary);
+    background: color-mix(in srgb, var(--nx-primary) 7%, transparent);
+    color: var(--nx-primary);
+}
+
+/* 6. Bookings card
+--------------------------------------------------------- */
+
+.nx-page-content > .container > .card {
+    overflow: hidden;
+    border: 1px solid var(--nx-border) !important;
+    border-radius: 18px;
+    background: var(--nx-surface);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--nx-text) 6%, transparent) !important;
+}
+
+.nx-page-content > .container > .card > .card-body {
+    padding: 24px;
+}
+
+/* 7. Bookings table
+--------------------------------------------------------- */
+
+.nx-page-content .table-responsive {
+    overflow-x: auto;
+    border: 1px solid var(--nx-border);
+    border-radius: 13px;
+}
+
+.nx-page-content .table {
+    min-width: 760px;
+    margin-bottom: 0;
+    color: var(--nx-text);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.nx-page-content .table thead th {
+    padding: 16px 15px;
+    border-bottom: 1px solid var(--nx-border);
+    background: color-mix(in srgb, var(--nx-primary) 6%, var(--nx-surface));
+    color: var(--nx-muted);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.nx-page-content .table tbody td {
+    padding: 17px 15px;
+    border-bottom: 1px solid var(--nx-border);
+    background: transparent;
+    color: var(--nx-text);
+    white-space: nowrap;
+}
+
+.nx-page-content .table tbody tr {
+    transition: background-color .2s ease;
+}
+
+.nx-page-content .table tbody tr:hover td {
+    background: color-mix(in srgb, var(--nx-primary) 4%, var(--nx-surface));
+}
+
+.nx-page-content .table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* 8. Booking status badges
+--------------------------------------------------------- */
+
+.nx-page-content .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 82px;
+    padding: 7px 12px;
+    border: 1px solid transparent;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .01em;
+}
+
+.nx-page-content .badge.bg-success {
+    border-color: var(--color-success-bg);
+    background: var(--color-success-bg) !important;
+    color: var(--color-success) !important;
+}
+
+.nx-page-content .badge.bg-warning {
+    border-color: var(--color-warning-bg);
+    background: var(--color-warning-bg) !important;
+    color: var(--color-warning) !important;
+}
+
+.nx-page-content .badge.bg-danger {
+    border-color: var(--color-danger-bg);
+    background: var(--color-danger-bg) !important;
+    color: var(--color-danger) !important;
+}
+
+.nx-page-content .badge.bg-secondary {
+    border-color: var(--nx-border);
+    background: color-mix(in srgb, var(--nx-muted) 10%, transparent) !important;
+    color: var(--nx-muted) !important;
+}
+
+/* 9. Booking action buttons
+--------------------------------------------------------- */
+
+.nx-booking-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+}
+
+.nx-booking-actions form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.nx-action-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .22s ease;
+}
+
+/* View */
+
+.nx-action-view {
+    border-color: color-mix(in srgb, var(--nx-accent) 35%, transparent);
+    background: color-mix(in srgb, var(--nx-accent) 12%, transparent);
+    color: var(--nx-accent);
+}
+
+.nx-action-view:hover {
+    border-color: var(--nx-accent);
+    background: var(--nx-accent);
+    color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Cancel */
+
+.nx-action-cancel {
+    border-color: color-mix(in srgb, var(--color-danger) 25%, transparent);
+    background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+    color: var(--color-danger);
+}
+
+.nx-action-cancel:hover {
+    border-color: var(--color-danger);
+    background: var(--color-danger);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Checkout — keep the original background */
+
+.nx-checkout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 7px 12px;
+    border: 1px solid var(--nx-accent);
+    border-radius: 8px;
+    background: var(--color-primary-hover);
+    color: var(--nx-accent) !important;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 3px 9px color-mix(in srgb, var(--nx-accent) 12%, transparent);
+    transition: all .25s ease;
+}
+
+.nx-checkout-btn i {
+    color: var(--color-accent);
+}
+
+.nx-checkout-btn:hover {
+    border-color: var(--nx-accent);
+    background: var(--color-primary-dark);
+    color: var(--nx-accent) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 13px color-mix(in srgb, var(--nx-accent) 20%, transparent);
+}
+
+.nx-checkout-arrow {
+    font-size: 12px;
+    transition: transform .2s ease;
+}
+
+.nx-checkout-btn:hover .nx-checkout-arrow {
+    transform: translate(2px, -2px);
+}
+
+/* 10. Empty bookings state
+--------------------------------------------------------- */
+
+.nx-page-content .table tbody td.text-center {
+    padding: 55px 20px !important;
+    white-space: normal;
+}
+
+.nx-page-content .table tbody td.text-center h5 {
+    margin-bottom: 9px;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.nx-page-content .table tbody td.text-center p {
+    margin-bottom: 0;
+    color: var(--nx-muted);
+    font-size: 13px;
+}
+
+/* 11. Pagination
+--------------------------------------------------------- */
+
+.nx-page-content .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 26px 0 4px;
+}
+
+.nx-page-content .pagination .page-item {
+    margin: 0;
+}
+
+.nx-page-content .pagination .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--nx-border);
+    border-radius: 10px !important;
+    background: var(--nx-surface);
+    color: var(--nx-muted);
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: none;
+    transition: all .2s ease;
+}
+
+.nx-page-content .pagination .page-link:hover {
+    border-color: var(--nx-primary);
+    background: color-mix(in srgb, var(--nx-primary) 7%, var(--nx-surface));
+    color: var(--nx-primary);
+}
+
+.nx-page-content .pagination .page-item.active .page-link {
+    border-color: var(--nx-primary);
+    background: var(--nx-primary);
+    color: var(--color-background);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--nx-primary) 20%, transparent);
+}
+
+.nx-page-content .pagination .page-item.disabled .page-link {
+    background: var(--nx-bg);
+    color: var(--nx-muted);
+    opacity: .45;
+}
+
+/* 12. Responsive
+--------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .nx-page-content {
+        padding-top: 20px;
+    }
+
+    .nx-page-content > .container > .card > .card-body {
+        padding: 14px;
+    }
+
+    .nx-page-content form.card {
+        padding: 17px;
+    }
+
+    .nx-page-content .nav-tabs {
+        gap: 5px;
+    }
+
+    .nx-page-content .nav-tabs .nav-link {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .nx-page-content .d-flex.justify-content-between {
+        align-items: flex-start !important;
+    }
+
+    .nx-booking-actions {
+        gap: 6px;
+    }
+
+    .nx-checkout-btn {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nx-page-content h3 {
+        font-size: 25px;
+    }
+
+    .nx-page-content .pagination .page-link {
+        min-width: 36px;
+        height: 36px;
+    }
+}
+
+/* ==============================
+   Bookings Pagination
+================================ */
+
+.payments-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 4px 4px;
+    margin-top: 18px;
+    border-top: 1px solid var(--color-border, #e8e8e8);
+}
+
+.pagination-summary {
+    color: var(--color-text-muted, #888);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.payments-pagination nav {
+    margin-left: auto;
+}
+
+.payments-pagination .pager {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.payments-pagination .pager-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--color-border, #e5e5e5);
+    border-radius: 9px;
+    background: var(--color-surface, #fff);
+    color: var(--color-text, #333);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.payments-pagination a.pager-link:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.025);
+    transform: translateY(-2px);
+}
+
+.payments-pagination .pager-link.is-active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.payments-pagination .pager-link.is-disabled {
+    color: #b8b8b8;
+    background: #f7f7f7;
+    border-color: #ededed;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .payments-pagination {
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .payments-pagination nav {
+        margin-left: 0;
+    }
+
+    .payments-pagination .pager {
+        gap: 5px;
+    }
+
+    .payments-pagination .pager-link {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+        font-size: 12px;
+    }
+}

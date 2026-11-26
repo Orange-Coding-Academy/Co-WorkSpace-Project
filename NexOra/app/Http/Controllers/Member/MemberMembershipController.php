@@ -17,8 +17,8 @@ class MemberMembershipController extends Controller
     ->get();
 
         $availablePlans = MembershipPlan::where('is_active', true)
-            ->with('workspace')
-            ->get();
+            ->with('workspace')->paginate(3)
+            ;
 
         return view('Member.memberships', compact('memberships', 'availablePlans'));
     }

@@ -78,7 +78,7 @@ class BookingController extends Controller
                 $query->whereDate('start_date_time', $date);
             })
 
-            ->paginate(10);
+            ->paginate(5);
 
         $workspaces = Workspace::where('manager_id', $managerId)->get();
 

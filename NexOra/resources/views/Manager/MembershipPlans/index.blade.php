@@ -1,207 +1,89 @@
+
 @extends('layouts.dashboard')
 
 @section('dashboard-role', 'manager')
 
-@section('title') Membership Plans @endsection
-@section('page-title') Membership Plans @endsection
+@section('title')
+    Membership Plans
+@endsection
+
+@section('page-title')
+    Membership Plans
+@endsection
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* ===== NexOra visual skin (tokens mirror welcome.blade.php) ===== */
-        .nx-page-content{
-            --nx-primary: #315C4D; --nx-primary-hover: #274B3F; --nx-primary-active: #203D34;
-            --nx-secondary: #6F806E; --nx-accent: #C58A62; --nx-accent-soft: #E6C9B3; --nx-deep: #152A23; --nx-sand: #EEE7DE;
-            --nx-bg: #F5F7F3; --nx-surface: #F8FAF7; --nx-card: #FFFFFF; --nx-sidebar: #203D34;
-            --nx-text: #1D2924; --nx-text-secondary: #53615A; --nx-text-muted: #7F8B84;
-            --nx-border: #E2E8E2; --nx-divider: #E9EEE9; --nx-border-strong: #C9D4CC;
-            --nx-font-heading: 'Manrope', 'Noto Sans Arabic', system-ui, sans-serif;
-            --nx-font-body: 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
-            --nx-ease: cubic-bezier(.2, .7, .2, 1);
-            --bs-body-font-family: var(--nx-font-body);
-            --bs-body-color: #1D2924; --bs-body-color-rgb: 29, 41, 36; --bs-body-bg: #F5F7F3; --bs-body-bg-rgb: 245, 247, 243;
-            --bs-primary: #315C4D; --bs-primary-rgb: 49, 92, 77; --bs-secondary: #6F806E; --bs-secondary-rgb: 111, 128, 110;
-            --bs-info: #315C4D; --bs-info-rgb: 49, 92, 77; --bs-light: #F8FAF7; --bs-light-rgb: 248, 250, 247; --bs-dark: #1D2924; --bs-dark-rgb: 29, 41, 36;
-            --bs-secondary-color: #53615A; --bs-secondary-bg: #EEF2ED; --bs-tertiary-bg: #F8FAF7;
-            --bs-link-color: #315C4D; --bs-link-color-rgb: 49, 92, 77; --bs-link-hover-color: #203D34; --bs-link-hover-color-rgb: 32, 61, 52;
-            --bs-border-color: #E2E8E2; --bs-border-radius: 12px; --bs-border-radius-sm: 8px; --bs-border-radius-lg: 16px; --bs-border-radius-xl: 24px;
-            --bs-focus-ring-color: rgba(49, 92, 77, .22);
-        }
-        :where(.nx-page-content){ background-color: var(--nx-bg); color: var(--nx-text); }
-        .nx-page-content{ font-family: var(--nx-font-body); -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
-        .nx-page-content :where(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .navbar-brand, .card-title, .modal-title){ font-family: var(--nx-font-heading); letter-spacing: -0.02em; color: inherit; }
-        .nx-page-content :where(a){ color: var(--nx-primary); }
-        .nx-page-content :where(a:hover){ color: var(--nx-primary-active); }
-        .nx-page-content :focus-visible{ outline: 2px solid var(--nx-accent); outline-offset: 2px; }
-        .nx-page-content .text-muted, .nx-page-content .text-secondary{ color: var(--nx-text-secondary) !important; }
-        .nx-page-content .bg-light{ background-color: var(--nx-surface) !important; }
-        .nx-page-content .bg-white{ background-color: var(--nx-card) !important; }
-        .nx-page-content .bg-dark{ background-color: var(--nx-sidebar) !important; }
-        .nx-page-content .shadow-sm{ box-shadow: 0 1px 2px rgba(29, 41, 36, .05) !important; }
-        .nx-page-content .shadow{ box-shadow: 0 4px 12px rgba(29, 41, 36, .07) !important; }
-        .nx-page-content .shadow-lg{ box-shadow: 0 12px 32px rgba(29, 41, 36, .12) !important; }
 
-        /* Navbar */
-        .nx-page-content .navbar{ min-height: 72px; border-bottom: 1px solid var(--nx-border); }
-        .nx-page-content .navbar .navbar-brand{ font-weight: 800; font-size: 21px; letter-spacing: -.03em; color: var(--nx-text); }
-        .nx-page-content .navbar .nav-link{ font-size: 14px; font-weight: 500; color: var(--nx-text-secondary); min-height: 44px; display: flex; align-items: center; }
-        .nx-page-content .navbar .nav-link:hover, .nx-page-content .navbar .nav-link.active{ color: var(--nx-text); }
-        .nx-page-content .navbar-toggler{ border-color: var(--nx-border-strong); border-radius: 999px; min-height: 44px; }
-        .nx-page-content .navbar-toggler:focus{ box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); }
-        .nx-page-content .dropdown-menu{ border: 1px solid var(--nx-border); border-radius: 12px; padding: 6px; box-shadow: 0 4px 12px rgba(29, 41, 36, .07); font-size: 14px; }
-        .nx-page-content .dropdown-item{ border-radius: 8px; min-height: 40px; display: flex; align-items: center; color: var(--nx-text); }
-        .nx-page-content .dropdown-item:hover, .nx-page-content .dropdown-item:focus{ background: var(--nx-surface); color: var(--nx-text); }
-        .nx-page-content .dropdown-item.active, .nx-page-content .dropdown-item:active{ background: var(--nx-primary); color: #fff; }
+    <link rel="stylesheet" href="{{ asset('css/pages/design-refactor-shared-16.css') }}">
+@endpush
 
-        /* Buttons — landing pill language, 44px professional controls */
-        .nx-page-content .btn{
-            --bs-btn-padding-x: 20px; --bs-btn-padding-y: 9px; --bs-btn-font-size: 14px; --bs-btn-font-weight: 700;
-            --bs-btn-border-radius: 999px; --bs-btn-focus-box-shadow: 0 0 0 3px rgba(49, 92, 77, .22);
-            min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            font-family: var(--nx-font-heading); letter-spacing: -.005em;
-            transition: background-color .3s var(--nx-ease), color .3s var(--nx-ease), border-color .3s var(--nx-ease), transform .3s var(--nx-ease);
-        }
-        .nx-page-content .btn:active{ transform: scale(.98); }
-        .nx-page-content .btn-sm{ --bs-btn-padding-x: 14px; --bs-btn-padding-y: 6px; --bs-btn-font-size: 13px; min-height: 36px; }
-        .nx-page-content .btn-lg{ --bs-btn-padding-x: 24px; --bs-btn-font-size: 15px; min-height: 52px; }
-        .nx-page-content .btn-close{ min-height: 0; border-radius: 8px; }
-        .nx-page-content .btn-link{ min-height: auto; }
-        .nx-page-content .btn-primary, .nx-page-content .btn-info, .nx-page-content .btn-dark{ --bs-btn-color: #F5F7F3; --bs-btn-bg: #315C4D; --bs-btn-border-color: #315C4D; --bs-btn-hover-color: #F5F7F3; --bs-btn-hover-bg: #274B3F; --bs-btn-hover-border-color: #274B3F; --bs-btn-active-color: #F5F7F3; --bs-btn-active-bg: #203D34; --bs-btn-active-border-color: #203D34; --bs-btn-disabled-bg: #315C4D; --bs-btn-disabled-border-color: #315C4D; --bs-btn-disabled-color: #F5F7F3; }
-        .nx-page-content .btn-secondary, .nx-page-content .btn-light{ --bs-btn-color: #203D34; --bs-btn-bg: #EDF2EC; --bs-btn-border-color: #DCE6DC; --bs-btn-hover-color: #203D34; --bs-btn-hover-bg: #E3EBE2; --bs-btn-hover-border-color: #C9D4CC; --bs-btn-active-color: #203D34; --bs-btn-active-bg: #DCE6DC; --bs-btn-active-border-color: #C9D4CC; }
-        .nx-page-content .btn-warning{ --bs-btn-color: #152A23; --bs-btn-bg: #C58A62; --bs-btn-border-color: #C58A62; --bs-btn-hover-color: #152A23; --bs-btn-hover-bg: #D49A72; --bs-btn-hover-border-color: #D49A72; --bs-btn-active-bg: #B97C55; --bs-btn-active-border-color: #B97C55; }
-        .nx-page-content .btn-success{ --bs-btn-bg: #16794C; --bs-btn-border-color: #16794C; --bs-btn-hover-bg: #145C3A; --bs-btn-hover-border-color: #145C3A; --bs-btn-active-bg: #145C3A; }
-        .nx-page-content .btn-danger{ --bs-btn-bg: #B42318; --bs-btn-border-color: #B42318; --bs-btn-hover-bg: #912018; --bs-btn-hover-border-color: #912018; --bs-btn-active-bg: #912018; }
-        .nx-page-content .btn-outline-primary, .nx-page-content .btn-outline-secondary, .nx-page-content .btn-outline-dark, .nx-page-content .btn-outline-info, .nx-page-content .btn-outline-light{ --bs-btn-color: #1D2924; --bs-btn-bg: transparent; --bs-btn-border-color: #C9D4CC; --bs-btn-hover-color: #F5F7F3; --bs-btn-hover-bg: #315C4D; --bs-btn-hover-border-color: #315C4D; --bs-btn-active-color: #F5F7F3; --bs-btn-active-bg: #203D34; --bs-btn-active-border-color: #203D34; }
-        .nx-page-content .btn-outline-warning{ --bs-btn-color: #754C05; --bs-btn-border-color: #F0D79E; --bs-btn-hover-color: #152A23; --bs-btn-hover-bg: #C58A62; --bs-btn-hover-border-color: #C58A62; }
-        .nx-page-content .btn-outline-success{ --bs-btn-color: #145C3A; --bs-btn-border-color: #BCE2C9; --bs-btn-hover-bg: #16794C; --bs-btn-hover-border-color: #16794C; }
-        .nx-page-content .btn-outline-danger{ --bs-btn-color: #912018; --bs-btn-border-color: #F5C2BE; --bs-btn-hover-bg: #B42318; --bs-btn-hover-border-color: #B42318; }
-
-        /* Forms */
-        .nx-page-content .form-control, .nx-page-content .form-select{ min-height: 44px; border: 1px solid var(--nx-border-strong); border-radius: 12px; background-color: var(--nx-card); color: var(--nx-text); font-size: 14px; transition: border-color .2s var(--nx-ease), box-shadow .2s var(--nx-ease); }
-        .nx-page-content .form-control-sm, .nx-page-content .form-select-sm{ min-height: 36px; border-radius: 8px; }
-        .nx-page-content textarea.form-control{ min-height: 104px; }
-        .nx-page-content .form-control::placeholder{ color: var(--nx-text-muted); }
-        .nx-page-content .form-control:hover:not(:disabled):not(.is-invalid), .nx-page-content .form-select:hover:not(:disabled):not(.is-invalid){ border-color: var(--nx-secondary); }
-        .nx-page-content .form-control:focus, .nx-page-content .form-select:focus, .nx-page-content .form-check-input:focus{ border-color: var(--nx-primary); box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); }
-        .nx-page-content .form-control:disabled, .nx-page-content .form-select:disabled, .nx-page-content .form-control[readonly]{ background-color: #F0F2EF; color: #657169; }
-        .nx-page-content .form-control.is-invalid, .nx-page-content .form-select.is-invalid{ border-color: #B42318; }
-        .nx-page-content .invalid-feedback, .nx-page-content .text-danger{ color: #912018 !important; }
-        .nx-page-content .form-label, .nx-page-content .col-form-label{ font-size: 13px; font-weight: 600; color: var(--nx-text); }
-        .nx-page-content .form-text{ color: var(--nx-text-muted); font-size: 12px; }
-        .nx-page-content .form-check-input:checked{ background-color: var(--nx-primary); border-color: var(--nx-primary); }
-        .nx-page-content .input-group-text{ border-color: var(--nx-border-strong); background: var(--nx-surface); color: var(--nx-text-secondary); border-radius: 12px; }
-
-        /* Cards */
-        .nx-page-content .card{ --bs-card-border-color: var(--nx-border); --bs-card-border-radius: 16px; --bs-card-inner-border-radius: 15px; --bs-card-cap-bg: var(--nx-surface); background-color: var(--nx-card); box-shadow: 0 1px 2px rgba(29, 41, 36, .05); color: var(--nx-text); }
-        .nx-page-content .card-header{ font-family: var(--nx-font-heading); font-weight: 700; border-bottom-color: var(--nx-divider); padding: 16px 24px; }
-        .nx-page-content .card-body{ padding: 24px; }
-        .nx-page-content .card-footer{ border-top-color: var(--nx-divider); padding: 16px 24px; }
-        .nx-page-content .list-group{ --bs-list-group-border-color: var(--nx-border); --bs-list-group-border-radius: 12px; --bs-list-group-active-bg: var(--nx-primary); --bs-list-group-active-border-color: var(--nx-primary); }
-
-        /* Tables — safe horizontal containment */
-        .nx-page-content .table-responsive{ border-radius: 16px; -webkit-overflow-scrolling: touch; }
-        .nx-page-content .table{ --bs-table-color: var(--nx-text); --bs-table-bg: transparent; --bs-table-border-color: var(--nx-divider); --bs-table-striped-bg: rgba(49, 92, 77, .03); --bs-table-hover-bg: var(--nx-surface); font-size: 14px; vertical-align: middle; }
-        .nx-page-content .table > :not(caption) > * > *{ padding: 14px 16px; }
-        .nx-page-content .table thead th, .nx-page-content .table > thead > tr > th{ background: var(--nx-surface); color: var(--nx-text-secondary); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; border-bottom-color: var(--nx-border); }
-        .nx-page-content .table-light{ --bs-table-bg: var(--nx-surface); --bs-table-color: var(--nx-text-secondary); --bs-table-border-color: var(--nx-border); }
-        .nx-page-content .table-dark{ --bs-table-bg: var(--nx-sidebar); --bs-table-color: #F5F7F3; --bs-table-border-color: rgba(255, 255, 255, .12); }
-        .nx-page-content .table-dark th, .nx-page-content .table thead.table-dark th{ background: var(--nx-sidebar); color: #F5F7F3; }
-
-        /* Badges & alerts — semantic distinctions preserved */
-        .nx-page-content .badge{ border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; letter-spacing: 0; font-family: var(--nx-font-body); }
-        .nx-page-content .badge.bg-success{ background-color: #EAF6EF !important; color: #145C3A !important; box-shadow: inset 0 0 0 1px #BCE2C9; }
-        .nx-page-content .badge.bg-warning{ background-color: #FFF6E5 !important; color: #754C05 !important; box-shadow: inset 0 0 0 1px #F0D79E; }
-        .nx-page-content .badge.bg-danger{ background-color: #FDEDEC !important; color: #912018 !important; box-shadow: inset 0 0 0 1px #F5C2BE; }
-        .nx-page-content .badge.bg-info, .nx-page-content .badge.bg-primary{ background-color: #E7EEE7 !important; color: #203D34 !important; box-shadow: inset 0 0 0 1px #C9D4CC; }
-        .nx-page-content .badge.bg-secondary, .nx-page-content .badge.bg-light, .nx-page-content .badge.bg-dark{ background-color: #F0F2EF !important; color: #53615A !important; box-shadow: inset 0 0 0 1px #D9DEDA; }
-        .nx-page-content .alert{ border-radius: 12px; font-size: 14px; padding: 14px 16px; }
-        .nx-page-content .alert-success{ --bs-alert-color: #145C3A; --bs-alert-bg: #EAF6EF; --bs-alert-border-color: #BCE2C9; }
-        .nx-page-content .alert-warning{ --bs-alert-color: #754C05; --bs-alert-bg: #FFF6E5; --bs-alert-border-color: #F0D79E; }
-        .nx-page-content .alert-danger{ --bs-alert-color: #912018; --bs-alert-bg: #FDEDEC; --bs-alert-border-color: #F5C2BE; }
-        .nx-page-content .alert-info, .nx-page-content .alert-primary{ --bs-alert-color: #203D34; --bs-alert-bg: #EDF2EC; --bs-alert-border-color: #C9D4CC; }
-
-        /* Modals, pagination, nav tabs */
-        .nx-page-content .modal-content{ border: 1px solid var(--nx-border); border-radius: 16px; box-shadow: 0 12px 32px rgba(29, 41, 36, .12); }
-        .nx-page-content .modal-header{ border-bottom-color: var(--nx-divider); padding: 20px 24px; }
-        .nx-page-content .modal-footer{ border-top-color: var(--nx-divider); padding: 16px 24px; }
-        .modal-backdrop { --bs-backdrop-bg: #101B16; }
-        .nx-page-content .pagination{ --bs-pagination-color: var(--nx-text-secondary); --bs-pagination-border-color: var(--nx-border); --bs-pagination-hover-color: var(--nx-text); --bs-pagination-hover-bg: var(--nx-surface); --bs-pagination-active-bg: var(--nx-primary); --bs-pagination-active-border-color: var(--nx-primary); --bs-pagination-focus-box-shadow: 0 0 0 3px rgba(49, 92, 77, .22); flex-wrap: wrap; gap: 6px; }
-        .nx-page-content .pagination .page-link{ border-radius: 8px !important; min-width: 36px; text-align: center; }
-        .nx-page-content .nav-tabs{ --bs-nav-tabs-border-color: var(--nx-border); --bs-nav-tabs-link-active-color: var(--nx-primary); }
-        .nx-page-content .nav-pills{ --bs-nav-pills-border-radius: 999px; --bs-nav-pills-link-active-bg: var(--nx-primary); }
-        .nx-page-content .nav-link{ color: var(--nx-text-secondary); }
-        .nx-page-content .nav-link:hover{ color: var(--nx-text); }
-        .nx-page-content .progress{ background-color: #E8EDE8; border-radius: 999px; }
-        .nx-page-content .progress-bar{ background-color: var(--nx-primary); }
-
-        /* Responsive containment */
-        .nx-page-content img, .nx-page-content video{ max-width: 100%; }
-        @media (max-width: 767px) {
-            .nx-page-content .card-body{ padding: 18px; }
-            .nx-page-content .table-responsive > .table, .nx-page-content .table-responsive table{ min-width: 640px; }
-            .nx-page-content .container, .nx-page-content .container-fluid{ padding-inline: 16px; }
-            .nx-page-content .d-flex.justify-content-between{ flex-wrap: wrap; gap: 12px; }
-        }
-        /* Create Plan button — always readable */
-.nx-page-content .btn-primary {
-    color: #FFFFFF !important;
-    background-color: #315C4D !important;
-    border-color: #315C4D !important;
-    opacity: 1 !important;
-}
-
-.nx-page-content .btn-primary:hover {
-    color: #FFFFFF !important;
-    background-color: #274B3F !important;
-    border-color: #274B3F !important;
-}
-/* Compact page top spacing */
-.nx-page-content > .container-fluid {
-    padding-top: 5px !important;
-}
-
-.nx-page-content .container-fluid > .d-flex.justify-content-between {
-    margin-bottom: 16px !important;
-}
-    </style>
+@push('page-overrides')
+    <link rel="stylesheet" href="{{ asset('css/pages/manager-membershipplans-index.css') }}?v=20261126-ui1">
 @endpush
 
 @section('content')
-<div class="nx-page-content bg-light">
-<div class="container-fluid py-4">
+<div class="nx-page-content nx-membership-page">
+    <div class="mp-container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="fw-bold mb-1">Membership Plans</h3>
-            <p class="text-muted mb-0">Manage your workspace membership offers.</p>
+        
+{{-- Page Header --}}
+<header class="mp-hero">
+
+    <div class="mp-hero-content">
+        <div class="mp-hero-eyebrow">
+            <span class="mp-hero-eyebrow-dot"></span>
+            WORKSPACE MEMBERSHIPS
         </div>
 
-        <a href="{{ route('manager.membership-plans.create') }}" class="btn btn-primary">
-            + Create Plan
-        </a>
+        <h1>Membership Plans</h1>
+
+        <p>
+            Create and manage membership offers for your workspace.
+            Keep track of subscribers, pricing, and plan activity.
+        </p>
     </div>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <div class="mp-hero-icon" aria-hidden="true">
+        <div class="mp-hero-orbit mp-hero-orbit-one"></div>
+        <div class="mp-hero-orbit mp-hero-orbit-two"></div>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <div class="mp-hero-icon-core">
+            <span>♛</span>
         </div>
-    @endif
+    </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table align-middle">
+</header>
+
+<button type="button" class="mp-create-btn" id="openCreatePlan">
+    + Create Plan
+</button>
+        {{-- Success Message --}}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Validation Errors --}}
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- Membership Plans Table --}}
+        <div class="mp-card">
+            <div class="mp-table-wrap">
+                <table class="mp-table">
                     <thead>
                         <tr>
                             <th>Plan</th>
@@ -217,54 +99,100 @@
                     <tbody>
                         @forelse($plans as $plan)
                             <tr>
-                                <td><strong>{{ $plan->plan_name }}</strong></td>
-                                <td>{{ $plan->workspace->name }}</td>
-                                <td>{{ number_format($plan->price, 2) }}</td>
-                                <td>
+                                <td data-label="Plan">
+                                    <strong>{{ $plan->plan_name }}</strong>
+                                </td>
+
+                                <td data-label="Workspace">
+                                    {{ $plan->workspace?->name ?? 'N/A' }}
+                                </td>
+
+                                <td data-label="Price">
+                                    {{ number_format($plan->price, 2) }}
+                                    <span>JOD</span>
+                                </td>
+
+                                <td data-label="Duration">
                                     {{ ucfirst($plan->duration_type) }}
                                     ({{ $plan->duration_days }} days)
                                 </td>
-                                <td>{{ $plan->memberships_count }}</td>
 
-                                <td>
+                                <td data-label="Subscribers">
+                                    {{ $plan->memberships_count }}
+                                </td>
+
+                                <td data-label="Status">
                                     @if($plan->is_active)
-                                        <span class="badge bg-success">Active</span>
+                                        <span class="mp-status mp-status-active">
+                                            Active
+                                        </span>
                                     @else
-                                        <span class="badge bg-secondary">Inactive</span>
+                                        <span class="mp-status mp-status-inactive">
+                                            Inactive
+                                        </span>
                                     @endif
                                 </td>
 
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{ route('manager.membership-plans.show', $plan->id) }}"
-                                           class="btn btn-sm btn-outline-primary">
+                                <td data-label="Actions">
+                                    <div class="mp-actions">
+
+                                        {{-- View --}}
+                                        <button
+                                            type="button"
+                                            class="mp-action-btn mp-view-btn nx-plan-view"
+                                            data-plan-name="{{ $plan->plan_name }}"
+                                            data-workspace="{{ $plan->workspace?->name ?? 'N/A' }}"
+                                            data-price="{{ number_format((float) $plan->price, 2) }}"
+                                            data-duration="{{ ucfirst($plan->duration_type) }} ({{ $plan->duration_days }} days)"
+                                            data-subscribers="{{ $plan->memberships_count }}"
+                                            data-status="{{ $plan->is_active ? 'Active' : 'Inactive' }}"
+                                            data-description="{{ $plan->description ?: 'No description provided.' }}"
+                                            data-edit-url="{{ route('manager.membership-plans.edit', $plan->id) }}"
+                                            data-subscribers-url="{{ route('manager.membership-plans.subscribers', $plan->id) }}"
+                                            aria-haspopup="dialog">
                                             View
-                                        </a>
+                                        </button>
 
-                                        <a href="{{ route('manager.membership-plans.edit', $plan->id) }}"
-                                           class="btn btn-sm btn-outline-secondary">
-                                            Edit
-                                        </a>
+                                       <button
+    type="button"
+    class="mp-action-btn mp-edit-btn nx-plan-edit"
+    data-id="{{ $plan->id }}"
+    data-update-url="{{ route('manager.membership-plans.update', $plan->id) }}"
+    data-workspace-id="{{ $plan->workspace_id }}"
+    data-name="{{ $plan->plan_name }}"
+    data-duration-type="{{ $plan->duration_type }}"
+    data-duration-days="{{ $plan->duration_days }}"
+    data-price="{{ $plan->price }}"
+    data-description="{{ $plan->description }}"
+    data-active="{{ $plan->is_active }}">
+    Edit
+</button>
 
-                                        <form action="{{ route('manager.membership-plans.status', $plan->id) }}"
-                                              method="POST">
+                                        {{-- Activate / Deactivate --}}
+                                        <form
+                                            action="{{ route('manager.membership-plans.status', $plan->id) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
 
-                                            <input type="hidden" name="is_active"
-                                                   value="{{ $plan->is_active ? 0 : 1 }}">
+                                            <input
+                                                type="hidden"
+                                                name="is_active"
+                                                value="{{ $plan->is_active ? 0 : 1 }}">
 
-                                            <button type="submit"
-                                                    class="btn btn-sm {{ $plan->is_active ? 'btn-outline-danger' : 'btn-outline-success' }}">
+                                            <button
+                                                type="submit"
+                                                class="mp-action-btn {{ $plan->is_active ? 'mp-deactivate-btn' : 'mp-activate-btn' }}">
                                                 {{ $plan->is_active ? 'Deactivate' : 'Activate' }}
                                             </button>
                                         </form>
+
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-5">
+                                <td colspan="7" class="mp-empty-state">
                                     No membership plans found.
                                 </td>
                             </tr>
@@ -273,10 +201,462 @@
                 </table>
             </div>
 
-            {{ $plans->links('pagination::bootstrap-5') }}
+            {{-- Pagination --}}
+            @if($plans->hasPages())
+                <div class="bk-pagination">
+
+                    <div class="bk-pagination-summary">
+                        Showing
+                        <strong>{{ $plans->firstItem() ?? 0 }}</strong>
+                        to
+                        <strong>{{ $plans->lastItem() ?? 0 }}</strong>
+                        of
+                        <strong>{{ $plans->total() }}</strong>
+                        plans
+                    </div>
+
+                    <div class="bk-pager">
+
+                        {{-- Previous --}}
+                        @if($plans->onFirstPage())
+                            <span class="bk-pager-link is-disabled">
+                                Previous
+                            </span>
+                        @else
+                            <a href="{{ $plans->withQueryString()->previousPageUrl() }}"
+                               class="bk-pager-link">
+                                Previous
+                            </a>
+                        @endif
+
+                        @php
+                            $currentPage = $plans->currentPage();
+                            $lastPage = $plans->lastPage();
+
+                            $windowStart = max(1, $currentPage - 2);
+                            $windowEnd = min($lastPage, $currentPage + 2);
+                        @endphp
+
+                        {{-- First Page --}}
+                        @if($windowStart > 1)
+                            <a href="{{ $plans->withQueryString()->url(1) }}"
+                               class="bk-pager-link">
+                                1
+                            </a>
+
+                            @if($windowStart > 2)
+                                <span class="bk-pager-link is-disabled">
+                                    ...
+                                </span>
+                            @endif
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @for($page = $windowStart; $page <= $windowEnd; $page++)
+                            @if($page == $currentPage)
+                                <span class="bk-pager-link is-active">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $plans->withQueryString()->url($page) }}"
+                                   class="bk-pager-link">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endfor
+
+                        {{-- Last Page --}}
+                        @if($windowEnd < $lastPage)
+                            @if($windowEnd < $lastPage - 1)
+                                <span class="bk-pager-link is-disabled">
+                                    ...
+                                </span>
+                            @endif
+
+                            <a href="{{ $plans->withQueryString()->url($lastPage) }}"
+                               class="bk-pager-link">
+                                {{ $lastPage }}
+                            </a>
+                        @endif
+
+                        {{-- Next --}}
+                        @if($plans->hasMorePages())
+                            <a href="{{ $plans->withQueryString()->nextPageUrl() }}"
+                               class="bk-pager-link">
+                                Next
+                            </a>
+                        @else
+                            <span class="bk-pager-link is-disabled">
+                                Next
+                            </span>
+                        @endif
+
+                    </div>
+                </div>
+            @endif
         </div>
+{{-- Create / Edit Membership Plan Dialog --}}
+<dialog class="mp-plan-dialog mp-form-dialog" id="membershipFormDialog">
+
+    <div class="mp-plan-dialog__header">
+        <div>
+            <span class="mp-plan-dialog__eyebrow">WORKSPACE MEMBERSHIPS</span>
+            <h2 id="membershipFormTitle">Create Membership Plan</h2>
+        </div>
+
+        <button type="button"
+                class="mp-plan-dialog__close"
+                id="closeMembershipForm"
+                aria-label="Close">
+            ×
+        </button>
     </div>
 
-</div>
+    <form id="membershipPlanForm"
+          action="{{ route('manager.membership-plans.store') }}"
+          method="POST">
+
+        @csrf
+
+        <input type="hidden" name="_method" id="membershipFormMethod" value="POST">
+
+        <div class="mp-form-body">
+
+            <div class="mb-3">
+                <label class="form-label">Workspace</label>
+
+                <select name="workspace_id" id="formWorkspace" class="form-select" required>
+                    <option value="">Select workspace</option>
+
+                    @foreach($workspaces as $workspace)
+                        <option value="{{ $workspace->id }}">
+                            {{ $workspace->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('workspace_id')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Plan Name</label>
+                <input type="text"
+                       name="plan_name"
+                       id="formPlanName"
+                       class="form-control"
+                       placeholder="e.g. Premium Monthly"
+                       required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Duration Type</label>
+
+                    <select name="duration_type"
+                            id="formDurationType"
+                            class="form-select"
+                            required>
+                        <option value="">Select duration</option>
+                        @foreach(['weekly', 'monthly', 'yearly', 'custom'] as $type)
+                            <option value="{{ $type }}">{{ ucfirst($type) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Duration (Days)</label>
+
+                    <input type="number"
+                           name="duration_days"
+                           id="formDurationDays"
+                           class="form-control"
+                           min="1"
+                           required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+
+                <input type="number"
+                       name="price"
+                       id="formPrice"
+                       class="form-control"
+                       min="0"
+                       step="0.01"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+
+                <textarea name="description"
+                          id="formDescription"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Describe what this membership offers..."></textarea>
+            </div>
+
+            <div class="form-check mb-4">
+                <input type="hidden" name="is_active" value="0">
+
+                <input type="checkbox"
+                       name="is_active"
+                       value="1"
+                       class="form-check-input"
+                       id="formIsActive"
+                       checked>
+
+                <label class="form-check-label" for="formIsActive">
+                    Activate this plan
+                </label>
+            </div>
+
+        </div>
+
+        <div class="mp-form-actions">
+            <button type="submit" class="btn btn-primary" id="membershipSubmitButton">
+                Create Plan
+            </button>
+
+            <button type="button"
+                    class="btn btn-light"
+                    id="cancelMembershipForm">
+                Cancel
+            </button>
+        </div>
+
+    </form>
+</dialog>
+        {{-- Membership Plan Details Dialog --}}
+        <dialog class="mp-plan-dialog"
+                id="membershipPlanDialog"
+                aria-labelledby="mpPlanTitle">
+
+            <div class="mp-plan-dialog__header">
+                <div>
+                    <span class="mp-plan-dialog__eyebrow">
+                        MEMBERSHIP PLAN
+                    </span>
+
+                    <h2 id="mpPlanTitle">Plan details</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="mp-plan-dialog__close"
+                    id="closePlanDialog"
+                    aria-label="Close plan details">
+                    ×
+                </button>
+            </div>
+
+            <div class="mp-plan-dialog__summary">
+                <div>
+                    <span>Price</span>
+                    <strong>
+                        <span id="mpPlanPrice"></span> JOD
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Duration</span>
+                    <strong id="mpPlanDuration"></strong>
+                </div>
+
+                <div>
+                    <span>Subscribers</span>
+                    <strong id="mpPlanSubscribers"></strong>
+                </div>
+            </div>
+
+            <dl class="mp-plan-dialog__details">
+                <div>
+                    <dt>Workspace</dt>
+                    <dd id="mpPlanWorkspace"></dd>
+                </div>
+
+                <div>
+                    <dt>Status</dt>
+                    <dd id="mpPlanStatus"
+                        class="mp-plan-dialog__status"></dd>
+                </div>
+
+                <div class="mp-plan-dialog__description">
+                    <dt>About this plan</dt>
+                    <dd id="mpPlanDescription"></dd>
+                </div>
+            </dl>
+
+            <div class="mp-plan-dialog__actions">
+                <a class="btn btn-outline-secondary"
+                   id="mpPlanSubscribersLink"
+                   href="#">
+                    View subscribers
+                </a>
+
+                <a class="btn btn-primary"
+                   id="mpPlanEditLink"
+                   href="#">
+                    Edit plan
+                </a>
+            </div>
+
+        </dialog>
+
+    </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Create / Edit Form
+    const formDialog = document.getElementById('membershipFormDialog');
+    const membershipForm = document.getElementById('membershipPlanForm');
+
+    const createButton = document.getElementById('openCreatePlan');
+    const closeFormButton = document.getElementById('closeMembershipForm');
+    const cancelFormButton = document.getElementById('cancelMembershipForm');
+
+    const formTitle = document.getElementById('membershipFormTitle');
+    const formMethod = document.getElementById('membershipFormMethod');
+    const submitButton = document.getElementById('membershipSubmitButton');
+
+    const storeUrl = @json(route('manager.membership-plans.store'));
+
+    // Open Create Form
+    createButton.addEventListener('click', () => {
+        membershipForm.reset();
+
+        membershipForm.action = storeUrl;
+        formMethod.value = 'POST';
+
+        formTitle.textContent = 'Create Membership Plan';
+        submitButton.textContent = 'Create Plan';
+
+        document.getElementById('formIsActive').checked = true;
+
+        formDialog.showModal();
+    });
+
+    // Open Edit Form
+    document.querySelectorAll('.nx-plan-edit').forEach(button => {
+        button.addEventListener('click', () => {
+
+            membershipForm.reset();
+
+            membershipForm.action = button.dataset.updateUrl;
+            formMethod.value = 'PUT';
+
+            document.getElementById('formWorkspace').value =
+                button.dataset.workspaceId;
+
+            document.getElementById('formPlanName').value =
+                button.dataset.name;
+
+            document.getElementById('formDurationType').value =
+                button.dataset.durationType;
+
+            document.getElementById('formDurationDays').value =
+                button.dataset.durationDays;
+
+            document.getElementById('formPrice').value =
+                button.dataset.price;
+
+            document.getElementById('formDescription').value =
+                button.dataset.description || '';
+
+            document.getElementById('formIsActive').checked =
+                button.dataset.active === '1';
+
+            formTitle.textContent = 'Edit Membership Plan';
+            submitButton.textContent = 'Save Changes';
+
+            formDialog.showModal();
+        });
+    });
+
+    // Close Form
+    closeFormButton.addEventListener('click', () => {
+        formDialog.close();
+    });
+
+    cancelFormButton.addEventListener('click', () => {
+        formDialog.close();
+    });
+
+    formDialog.addEventListener('click', event => {
+        if (event.target === formDialog) {
+            formDialog.close();
+        }
+    });
+
+
+    // View Plan Details (Existing Functionality)
+    const dialog = document.getElementById('membershipPlanDialog');
+    const closeButton = document.getElementById('closePlanDialog');
+
+    if (!dialog || !closeButton) return;
+
+    const fields = {
+        title: document.getElementById('mpPlanTitle'),
+        price: document.getElementById('mpPlanPrice'),
+        duration: document.getElementById('mpPlanDuration'),
+        subscribers: document.getElementById('mpPlanSubscribers'),
+        workspace: document.getElementById('mpPlanWorkspace'),
+        status: document.getElementById('mpPlanStatus'),
+        description: document.getElementById('mpPlanDescription'),
+        editLink: document.getElementById('mpPlanEditLink'),
+        subscribersLink: document.getElementById('mpPlanSubscribersLink')
+    };
+
+    document.querySelectorAll('.nx-plan-view').forEach(button => {
+        button.addEventListener('click', () => {
+
+            fields.title.textContent = button.dataset.planName || 'Plan details';
+            fields.price.textContent = button.dataset.price || '0.00';
+            fields.duration.textContent = button.dataset.duration || 'Not set';
+            fields.subscribers.textContent = button.dataset.subscribers || '0';
+            fields.workspace.textContent = button.dataset.workspace || 'N/A';
+
+            fields.status.textContent = button.dataset.status || 'Unknown';
+
+            fields.status.classList.toggle(
+                'is-active',
+                button.dataset.status === 'Active'
+            );
+
+            fields.status.classList.toggle(
+                'is-inactive',
+                button.dataset.status !== 'Active'
+            );
+
+            fields.description.textContent =
+                button.dataset.description || 'No description provided.';
+
+            fields.editLink.href = button.dataset.editUrl || '#';
+            fields.subscribersLink.href = button.dataset.subscribersUrl || '#';
+
+            dialog.showModal();
+        });
+    });
+
+    closeButton.addEventListener('click', () => {
+        dialog.close();
+    });
+
+    dialog.addEventListener('click', event => {
+        if (event.target === dialog) {
+            dialog.close();
+        }
+    });
+
+});
+
+</script>
+@endpush
