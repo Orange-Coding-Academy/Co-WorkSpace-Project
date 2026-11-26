@@ -21,7 +21,9 @@ class MarketingCampaignMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Special Updates from ' . $this->workspaceName)
-            ->view('emails.marketing-campaign');
+        return $this
+            ->subject($this->subject ?: 'Special Updates from ' . $this->workspaceName)
+            ->view('emails.marketing-campaign-ai')
+            ->text('emails.marketing-campaign-text');
     }
 }

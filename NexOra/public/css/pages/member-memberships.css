@@ -1,0 +1,966 @@
+
+/* =========================
+   MEMBERSHIPS PAGE
+========================= */
+
+.nx-page-content {
+    --mm-forest: var(--color-primary-dark);
+    --mm-deep: var(--color-primary-dark);
+    --mm-green: var(--color-primary);
+    --mm-orange: var(--color-primary);
+    --mm-cream: var(--color-background);
+    --mm-white: var(--color-surface);
+    --mm-text: var(--color-text);
+    --mm-muted: var(--color-text-muted);
+    --mm-border: var(--color-border);
+
+    color: var(--mm-text);
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+    padding: 4px 0 35px;
+}
+
+.nx-page-content,
+.nx-page-content * {
+    box-sizing: border-box;
+}
+
+.nx-page-content .container {
+    width: 100%;
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 22px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.mm-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    min-height: 210px;
+    padding: 37px 43px;
+    margin-bottom: 30px;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 88% 20%, color-mix(in srgb, var(--color-danger) 20%, transparent), transparent 25%),
+        linear-gradient(115deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 65%, var(--color-primary) 100%);
+    color: var(--color-surface);
+    box-shadow: 0 14px 35px color-mix(in srgb, var(--color-primary) 13%, transparent);
+}
+
+.mm-hero::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    right: 16%;
+    top: -175px;
+    border: 1px solid color-mix(in srgb, var(--color-surface) 12%, transparent);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 28px color-mix(in srgb, var(--color-surface) 2.5%, transparent),
+        0 0 0 58px color-mix(in srgb, var(--color-surface) 2.5%, transparent);
+    pointer-events: none;
+}
+
+.mm-hero::after {
+    content: "N";
+    position: absolute;
+    right: 48px;
+    bottom: -85px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 260px;
+    line-height: 1;
+    font-weight: 800;
+    color: color-mix(in srgb, var(--color-surface) 4.5%, transparent);
+    pointer-events: none;
+}
+
+.mm-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 590px;
+}
+
+.mm-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 15px;
+
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #e5b94f !important;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.mm-eyebrow::before {
+    content: "";
+    display: block;
+    width: 24px;
+    height: 2px;
+    flex-shrink: 0;
+    background: #e5b94f !important;
+}
+.mm-hero h1 {
+    margin: 0 0 11px;
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(29px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+}
+
+.mm-hero p {
+    max-width: 480px;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.mm-hero-decoration {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 115px;
+    height: 115px;
+    flex-shrink: 0;
+    border: 1px solid color-mix(in srgb, var(--color-surface) 22%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color-surface) 7%, transparent);
+    backdrop-filter: blur(8px);
+}
+
+.mm-hero-decoration span:first-child {
+    color: var(--mm-green);
+    font-size: 34px;
+    line-height: 1;
+}
+
+.mm-hero-decoration span:last-child {
+    margin-top: 8px;
+    color: color-mix(in srgb, var(--mm-green) 75%, transparent);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.mm-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    animation: mmSlide .35s ease both;
+}
+
+.mm-alert-success {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border: 1px solid color-mix(in srgb, var(--color-success) 24%, white);
+}
+
+.mm-alert-error {
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 24%, white);
+}
+
+.mm-alert-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* =========================
+   SECTION HEADINGS
+========================= */
+
+.mm-section {
+    margin-bottom: 35px;
+}
+
+.mm-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+.mm-heading-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.mm-heading-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 13px;
+
+    color: var(--color-accent)!important;
+    background: var(--mm-deep)!important;
+
+    font-size: 18px;
+}
+
+.mm-section-heading h2 {
+    margin: 0 0 4px;
+    color: var(--mm-deep);
+    font-family: 'Manrope', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -.6px;
+}
+
+.mm-section-heading p {
+    margin: 0;
+    color: var(--mm-green)!important;
+    font-size: 12px;
+}
+
+.mm-section-count {
+    padding: 7px 12px;
+    border: 1px solid var(--mm-border);
+    border-radius: 30px;
+    background: var(--color-surface);
+    color: var(--mm-green);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* =========================
+   MY MEMBERSHIPS CARDS
+========================= */
+
+.mm-membership-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.mm-membership-card {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    padding: 23px;
+    border: 1px solid var(--color-accent);
+    border-radius: 17px;
+    background: var(--color-surface);
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--color-text) 2.5%, transparent);
+    transition: transform .25s ease, box-shadow .25s ease;
+    animation: mmSlide .45s ease both;
+}
+
+.mm-membership-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 13px 28px color-mix(in srgb, var(--color-text) 7.5%, transparent);
+}
+
+.mm-membership-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-accent);
+    opacity: .8;
+}
+
+.mm-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.mm-card-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--color-text-muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.mm-card-top h3 {
+    margin: 0;
+    color: var(--mm-deep);
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.mm-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    padding: 7px 11px;
+    border-radius: 30px;
+    background: var(--color-success-bg);
+    color: var(--color-success);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.mm-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.mm-status.pending {
+    background: var(--color-warning-bg);
+    color: var(--color-warning-ink);
+}
+
+.mm-status.cancelled,
+.mm-status.expired {
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.mm-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin: 18px 0;
+}
+
+.mm-card-price strong {
+    color: var(--mm-forest);
+    font-family: 'Manrope', sans-serif;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.mm-card-price span {
+    color: var(--mm-muted);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.mm-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px 15px;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.mm-info {
+    min-width: 0;
+}
+
+.mm-info span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.mm-info strong {
+    display: block;
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.mm-card-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+/* =========================
+   AVAILABLE PLANS SECTION
+========================= */
+
+.mm-plans-section {
+    padding: 25px;
+    border: 1px solid var(--color-accent);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-danger) 7%, transparent), transparent 30%),
+        var(--color-accent);
+}
+
+.mm-plans-section .mm-heading-mark {
+    color: var(--color-surface);
+    background: var(--mm-forest);
+}
+
+.mm-plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+/* =========================
+   INDIVIDUAL PLAN CARDS
+========================= */
+
+.mm-plan-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 21px;
+    border: 1px solid var(--color-success);
+    border-radius: 15px;
+    background: var(--color-surface);
+    transition: transform .25s ease, box-shadow .25s ease;
+    animation: mmSlide .5s ease both;
+}
+
+.mm-plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 27px color-mix(in srgb, var(--color-primary-dark) 9%, transparent);
+}
+
+.mm-plan-card:nth-child(2) {
+    animation-delay: .07s;
+}
+
+.mm-plan-card:nth-child(3) {
+    animation-delay: .14s;
+}
+
+.mm-plan-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.mm-plan-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+    color: var(--color-accent)!important;
+    background: var(--color-accent-soft);
+    font-size: 17px;
+}
+
+.mm-plan-available {
+    color: var(--color-accent);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
+
+.mm-plan-card h3 {
+    margin: 0 0 8px;
+    color: var(--mm-deep);
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.mm-plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 18px;
+}
+
+.mm-plan-price strong {
+    color: var(--mm-forest);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1.3px;
+}
+
+.mm-plan-price span {
+    color: var(--mm-muted);
+    font-size: 11px;
+}
+
+.mm-plan-divider {
+    height: 1px;
+    margin-bottom: 16px;
+    background: var(--color-primary);
+}
+
+.mm-plan-info {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.mm-plan-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mm-plan-info span {
+    color: var(--color-text-muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.mm-plan-info strong {
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.mm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 43px;
+    padding: 11px 16px;
+    border: 1px solid var(--color-accent);
+    border-radius: 9px;
+    background: var(--color-accent);
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.mm-btn:hover {
+    background: var(--color-accent)!important;
+    border-color: var(--color-accent)!important;
+    color: var(--color-surface);
+    text-decoration: none;
+    transform: translateY(-2px);
+    filter: brightness(.92);
+}
+
+.mm-btn:active {
+    transform: scale(.98);
+}
+
+/* Cancel button */
+
+.mm-btn-cancel {
+    width: auto;
+    min-height: 37px;
+    padding: 9px 15px;
+    border-color: var(--color-danger);
+    background: var(--color-surface);
+    color: var(--color-danger);
+    font-size: 10px;
+}
+
+.mm-btn-cancel:hover {
+    border-color: var(--color-danger);
+    background: var(--color-danger);
+    color: var(--color-surface);
+}
+
+/* Back button */
+
+.mm-btn-back {
+    width: auto;
+    min-height: 42px;
+    padding: 11px 20px;
+    border-color: var(--color-background);
+    background: transparent;
+    color: var(--mm-forest);
+}
+
+.mm-btn-back:hover {
+    border-color: var(--mm-forest);
+    background: var(--mm-forest);
+    color: var(--color-surface);
+}
+
+/* =========================
+   EMPTY STATES
+========================= */
+
+.mm-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 38px 20px;
+    border: 1px dashed var(--color-primary);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--color-surface) 65%, transparent);
+    text-align: center;
+}
+
+.mm-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 13px;
+    border-radius: 16px;
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 22px;
+}
+
+.mm-empty h3 {
+    margin: 0 0 6px;
+    color: var(--mm-deep);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.mm-empty p {
+    margin: 0;
+    color: var(--mm-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.mm-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.mm-pagination nav {
+    display: flex;
+    justify-content: center;
+}
+
+.mm-pagination .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 0;
+}
+
+.mm-pagination .page-link {
+    min-width: 36px;
+    text-align: center;
+    border: 1px solid var(--mm-border);
+    border-radius: 7px !important;
+    background: var(--color-surface);
+    color: var(--color-accent);
+    font-size: 12px;
+    box-shadow: none;
+}
+
+.mm-pagination .page-link:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+}
+
+.mm-pagination .page-item.active .page-link {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-surface);
+}
+
+.mm-pagination .page-item.disabled .page-link {
+    color: var(--mm-muted);
+    opacity: .5;
+}
+
+/* =========================
+   FOOTER ACTION
+========================= */
+
+.mm-footer {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 25px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes mmSlide {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+    .mm-plans-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mm-membership-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .nx-page-content .container {
+        padding: 0 13px;
+    }
+
+    .mm-hero {
+        min-height: 190px;
+        padding: 27px 22px;
+        margin-bottom: 24px;
+        border-radius: 17px;
+    }
+
+    .mm-hero h1 {
+        font-size: 30px;
+    }
+
+    .mm-hero p {
+        font-size: 12px;
+    }
+
+    .mm-hero-decoration {
+        width: 70px;
+        height: 70px;
+    }
+
+    .mm-hero-decoration span:first-child {
+        font-size: 24px;
+    }
+
+    .mm-hero-decoration span:last-child {
+        font-size: 7px;
+    }
+
+    .mm-hero::after {
+        right: 15px;
+        font-size: 170px;
+    }
+
+    .mm-section {
+        margin-bottom: 25px;
+    }
+
+    .mm-section-heading {
+        align-items: center;
+    }
+
+    .mm-section-heading h2 {
+        font-size: 17px;
+    }
+
+    .mm-heading-mark {
+        width: 37px;
+        height: 37px;
+    }
+
+    .mm-membership-card {
+        padding: 18px;
+    }
+
+    .mm-plans-section {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .mm-plans-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mm-info-grid {
+        gap: 14px 10px;
+    }
+
+    .mm-card-top h3 {
+        font-size: 16px;
+    }
+
+    .mm-footer .mm-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 380px) {
+    .mm-hero-decoration {
+        display: none;
+    }
+
+    .mm-section-count {
+        font-size: 9px;
+    }
+
+    .mm-card-top {
+        flex-direction: column;
+    }
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .nx-page-content *,
+    .nx-page-content *::before,
+    .nx-page-content *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* =========================
+   MEMBERSHIP PAGINATION
+========================= */
+
+.mm-pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-top: 22px;
+}
+
+.mm-pagination .pagination-summary {
+    color: var(--mm-muted);
+    font-size: 12px;
+}
+
+.mm-pagination .pager {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.mm-pagination .pager li {
+    margin: 0;
+    padding: 0;
+}
+
+.mm-pagination .pager-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:30px;
+    height:30px;
+    border: 1px solid var(--mm-border);
+    border-radius: 11px;
+    background: var(--color-surface);
+    color: var(--mm-text);
+    font-size: 15px;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+
+/* Current page */
+.mm-pagination .pager-link.is-active {
+    border-color: var(--color-success);
+    background: var(--color-success);
+    color: #fff;
+}
+
+/* Hover */
+.mm-pagination a.pager-link:hover {
+    border-color: var(--color-success);
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+/* Disabled arrows */
+.mm-pagination .pager-link.is-disabled {
+    background: var(--color-background);
+    color: var(--mm-muted);
+    opacity: .75;
+    cursor: not-allowed;
+}
+
+/* Keep current page visible */
+.mm-pagination .pager-link.is-active {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@media (max-width: 600px) {
+    .mm-pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .mm-pagination .pager-link {
+        width: 40px;
+        height: 40px;
+    }
+}

@@ -1,0 +1,988 @@
+/* Shared interface corrections for member, manager and admin pages. */
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content {
+    --ai-green: #176b48;
+    --ai-green-light: #27865b;
+    --ai-copper: #d9a441;
+    --ai-copper-light: #f1d28c;
+    --ai-cream: #f5f5f5;
+    --ai-text: #171717;
+    --ai-muted: #62686d;
+    --ai-border: #e3e5e7;
+    --bs-primary-rgb: 39, 134, 91 !important;
+    --bs-success-rgb: 23, 107, 72 !important;
+    --bs-info-rgb: 49, 92, 133 !important;
+    --bs-link-color-rgb: 39, 134, 91 !important;
+    --bs-link-hover-color-rgb: 23, 107, 72 !important;
+    color: #171717;
+    min-width: 0;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    .card,
+    .panel,
+    .room-card,
+    .membership-card,
+    .membership-plan-card,
+    .booking-card,
+    .profile-card,
+    .pf-panel,
+    .pf-side-panel,
+    .nx-card
+) {
+    color: #171717;
+    border-color: #e3e5e7;
+    box-shadow: 0 4px 16px rgb(18 18 18 / 5%);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+    select,
+    textarea,
+    .form-control
+) {
+    background-color: #fff;
+    color: #171717;
+    border-color: #d7dadd;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+    select,
+    textarea,
+    .form-control
+)::placeholder {
+    color: #73777c;
+    opacity: 1;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+    select,
+    textarea,
+    .form-control
+):focus {
+    border-color: #27865b;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgb(39 134 91 / 13%);
+}
+
+/* Keep large selectable surfaces neutral. */
+body.nx-member-body .nx-page-content :is(.equipment-option, .room-details > div, .private-note) {
+    color: #252525;
+    border-color: #e0e2e4;
+    background: #fff;
+}
+
+body.nx-member-body .nx-page-content .equipment-option:hover {
+    transform: none;
+    border-color: #adb4b8;
+    background: #f7f8f8;
+}
+
+body.nx-member-body .nx-page-content .equipment-option:has(input:checked) {
+    border-color: #27865b;
+    background: #f1f2f2;
+    box-shadow: inset 0 0 0 1px rgb(39 134 91 / 15%);
+}
+
+body.nx-member-body .nx-page-content .field > label,
+body.nx-member-body .nx-page-content .form-section-label,
+body.nx-member-body .nx-page-content .intro-label {
+    color: #303438;
+}
+
+body.nx-member-body .nx-page-content .field input[type="number"] {
+    background: #fff;
+    color: #171717;
+    border-color: #d7dadd;
+}
+
+body.nx-member-body .nx-page-content .field input[type="number"]:hover {
+    background: #fff;
+    border-color: #adb4b8;
+}
+
+body.nx-member-body .nx-page-content .form-section-label span {
+    color: #176b48;
+    background: var(--color-accent-soft);
+}
+
+body.nx-member-body .nx-page-content .panel-heading {
+    border-bottom-color: #e5e5e5;
+}
+
+body.nx-member-body .nx-page-content .ai-answer {
+    color: #252525;
+    border-color: #e3e5e7;
+    background: #fff;
+}
+
+body.nx-member-body .nx-page-content .room-book-unavailable {
+    color: #555b60;
+    border-color: #e3e5e7;
+    background: #f5f6f6;
+}
+
+body.nx-member-body .nx-page-content .hero {
+    color: #fff;
+    background:
+        radial-gradient(ellipse at 80% 15%, rgb(217 164 65 / 14%), transparent 36%),
+        linear-gradient(120deg, #121212 0%, #252525 75%, #292721 100%);
+}
+
+body.nx-member-body .nx-page-content .pf-hero,
+body.nx-member-body .nx-page-content .pf-membership-card {
+    background:
+        radial-gradient(circle at 92% 10%, rgb(217 164 65 / 12%), transparent 30%),
+        linear-gradient(120deg, #121212 0%, #252525 100%);
+}
+
+body.nx-member-body .nx-page-content :is(.pf-photo-row, .pf-panel-heading, .pf-actions, .pf-account-detail) {
+    border-color: #e3e5e7;
+}
+
+body.nx-member-body .nx-page-content :is(.pf-avatar, .pf-photo-preview) {
+    background: #f1f2f2;
+    color: #555b60;
+}
+
+body.nx-member-body .nx-page-content :is(.pf-heading-icon, .pf-side-title span) {
+    background: var(--color-accent-soft);
+    color: #176b48;
+}
+
+body.nx-member-body .nx-page-content .pf-field label {
+    color: #303438;
+}
+
+body.nx-member-body .nx-page-content .pf-security-note {
+    color: #4d5357;
+    background: #f5f6f6;
+}
+
+body.nx-member-body .nx-page-content .pf-btn-primary:hover {
+    border-color: #121212;
+    background: #121212;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+body.nx-member-body .nx-page-content .pf-btn-secondary:hover {
+    border-color: #d7dadd;
+    background: #f3f4f4;
+    color: #171717;
+    transform: translateY(-1px);
+}
+
+body.nx-member-body .nx-page-content .pf-upload-btn:hover {
+    color: #176b48;
+    border-color: #c9cdd0;
+    background: #f1f2f2;
+}
+
+body.nx-shell-body .nx-page-content .avatar {
+    background: #f1f2f2;
+    color: #303438;
+}
+
+body.nx-shell-body .nx-page-content .upload-btn:hover,
+body.nx-shell-body .nx-page-content .upload-btn:focus-visible {
+    border-color: #c9cdd0;
+    background: #f1f2f2;
+    color: #176b48;
+}
+
+body.nx-shell-body .nx-page-content .success-message {
+    color: var(--color-success);
+    border-color: color-mix(in srgb, var(--color-success) 24%, white);
+    background: var(--color-success-bg);
+}
+
+body.nx-shell-body .nx-page-content .btn-outline:hover {
+    color: #171717;
+    border-color: #c9cdd0;
+    background: #f3f4f4;
+}
+
+body.nx-member-body .nx-page-content .hero-kicker,
+body.nx-member-body .nx-page-content .hero h1 span {
+    color: #f1d28c;
+}
+
+body.nx-member-body .nx-page-content .orbit-core {
+    color: #171717;
+    background: linear-gradient(145deg, #f1d28c, #d9a441);
+}
+
+body.nx-member-body .nx-page-content .private-note {
+    background: #fff;
+}
+
+body.nx-member-body .nx-page-content .mm-hero {
+    background:
+        radial-gradient(circle at 88% 20%, rgb(217 164 65 / 12%), transparent 28%),
+        linear-gradient(115deg, #121212 0%, #242424 72%, #2b2924 100%);
+}
+
+body.nx-member-body .nx-page-content .mm-eyebrow,
+body.nx-member-body .nx-page-content .mm-eyebrow::before {
+    color: #f1d28c;
+    background-color: #d9a441;
+}
+
+body.nx-member-body .nx-page-content .mm-eyebrow::before {
+    content: "";
+}
+
+body.nx-member-body .nx-page-content :is(.mm-alert-success, .alert-success, .alert.alert-success) {
+    color: #176b48;
+    border-color: color-mix(in srgb, var(--color-success) 24%, white);
+    background: var(--color-success-bg);
+}
+
+body.nx-member-body .nx-page-content :is(.mm-alert-error, .alert-danger, .alert.alert-danger) {
+    color: #a61b1b;
+    border-color: #f0caca;
+    background: #fff1f1;
+}
+
+body.nx-member-body .nx-page-content :is(.mm-heading-mark, .mm-plan-icon, .mm-empty-icon, .empty-icon) {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+body.nx-member-body .nx-page-content .mm-status {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+}
+
+body.nx-member-body .nx-page-content .mm-status.pending {
+    color: #765714;
+    background: #fff5dc;
+}
+
+body.nx-member-body .nx-page-content :is(.mm-status.cancelled, .mm-status.expired) {
+    color: #a61b1b;
+    background: #fff1f1;
+}
+
+body.nx-member-body .nx-page-content .mm-plan-divider {
+    background: #e5e5e5;
+}
+
+body.nx-member-body .nx-page-content .mm-empty {
+    border-color: #d7dadd;
+    background: #fff;
+}
+
+body.nx-member-body .nx-page-content .mm-btn:hover {
+    color: #fff;
+    border-color: #121212;
+    background: #121212;
+}
+
+body.nx-member-body .nx-page-content .pf-membership-link:hover {
+    color: #fff;
+    background: #121212;
+    transform: translateY(-1px);
+}
+
+body.nx-member-body .nx-page-content .nx-checkout-btn:hover {
+    color: #fff !important;
+    border-color: #121212;
+    background: #121212;
+}
+
+body.nx-member-body .nx-page-content .nx-card-link:hover {
+    color: #121212;
+}
+
+body.nx-member-body .nx-page-content .suggestion:hover {
+    color: #171717;
+    border-color: #b9bec1;
+    background: #f3f4f4;
+}
+
+body.nx-member-body .nx-page-content :is(.btn-outline-primary:hover, .btn-outline:hover) {
+    color: #171717;
+    border-color: #c9cdd0;
+    background: #f3f4f4;
+}
+
+body.nx-member-body .nx-page-content .badge.bg-info,
+body.nx-member-body .nx-page-content .badge.bg-primary {
+    color: var(--color-primary-hover) !important;
+    background-color: var(--color-accent-soft) !important;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .badge.bg-info {
+    color: var(--color-info) !important;
+    background-color: var(--color-info-bg) !important;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .badge.bg-primary {
+    color: var(--color-primary-hover) !important;
+    background-color: var(--color-accent-soft) !important;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(.btn-primary, .btn-info, .nx-button--primary) {
+    color: #fff !important;
+    border-color: var(--color-primary) !important;
+    background-color: var(--color-primary) !important;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(.btn-primary, .btn-info, .nx-button--primary):hover,
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(.btn-primary, .btn-info, .nx-button--primary):focus-visible {
+    color: #fff !important;
+    border-color: var(--color-primary-hover) !important;
+    background-color: var(--color-primary-hover) !important;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .pagination .page-item:not(.active) .page-link:hover {
+    color: #25292c !important;
+    border-color: #d7dadd !important;
+    background: #f1f2f2 !important;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content table tbody tr:hover > * {
+    color: inherit;
+    background: #f1f2f2 !important;
+}
+
+body.nx-shell-body .nx-admin-users .table tbody tr:hover > * {
+    color: inherit;
+    background: #f1f2f2 !important;
+}
+
+body.nx-shell-body .nx-admin-users .badge.bg-info-subtle,
+body.nx-shell-body .nx-admin-users .badge.bg-info-subtle {
+    color: var(--color-info) !important;
+    background: var(--color-info-bg) !important;
+}
+
+body.nx-shell-body .nx-admin-users .badge.bg-success-subtle {
+    color: var(--color-success) !important;
+    background: var(--color-success-bg) !important;
+}
+
+body.nx-shell-body .nx-page-content .table thead th {
+    color: var(--color-text-muted);
+    border-bottom-color: var(--color-border);
+    background: var(--color-background);
+}
+
+body.nx-shell-body .nx-page-content .rounded-circle.bg-primary-subtle {
+    color: var(--color-primary-hover) !important;
+    background: var(--color-accent-soft) !important;
+}
+
+body.nx-shell-body .nx-page-content .badge-visible {
+    color: var(--color-success);
+    background: var(--color-success-bg);
+}
+
+body.nx-shell-body .nx-page-content .badge-hidden {
+    color: var(--color-warning-ink);
+    background: var(--color-warning-bg);
+}
+
+body.nx-member-body .nx-page-content .pf-alert-success {
+    color: var(--color-success);
+    border-color: color-mix(in srgb, var(--color-success) 24%, white);
+    background: var(--color-success-bg);
+}
+
+body.nx-shell-body .nx-admin-users .badge.bg-danger-subtle {
+    color: #a61b1b !important;
+    background: #fff1f1 !important;
+}
+
+body.nx-member-body .nx-page-content .dropdown-item.active,
+body.nx-member-body .nx-page-content .dropdown-item:active {
+    color: #171717;
+    background: #f0f1f1;
+}
+
+body.nx-member-body .nx-page-content .progress {
+    background-color: #e8ece9;
+}
+
+body.nx-member-body .nx-page-content .progress-bar {
+    background-color: var(--color-primary);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .progress {
+    background-color: #e8ece9;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .progress-bar {
+    background-color: var(--color-primary);
+}
+
+.nx-ai-results-jump[hidden] {
+    display: none;
+}
+
+body.nx-member-body .nx-page-content .private-note span,
+body.nx-member-body .nx-page-content .intro-label::before {
+    color: #b58120;
+    background-color: #d9a441;
+}
+
+/* Alerts should never use the same color for their text and their background. */
+body.nx-member-body .nx-page-content .pf-alert-success,
+body.nx-shell-body .nx-page-content .pf-alert-success {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+body.nx-member-body .nx-page-content .pf-alert-error,
+body.nx-shell-body .nx-page-content .pf-alert-error {
+    color: #a61b1b;
+    border-color: #f0caca;
+    background: #fff1f1;
+}
+
+/* Keep hover states readable and compact across the authenticated UI. */
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    button,
+    .btn,
+    [role="button"],
+    .nx-btn,
+    .pf-btn,
+    .submit-btn,
+    .room-book-btn
+) {
+    transition: color .16s ease, background-color .16s ease, border-color .16s ease,
+        box-shadow .16s ease, transform .16s ease;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    button,
+    .btn,
+    [role="button"],
+    .nx-btn,
+    .pf-btn,
+    .submit-btn,
+    .room-book-btn
+):hover:not(:disabled) {
+    filter: brightness(.96);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    .card,
+    .panel,
+    .room-card,
+    .membership-card,
+    .membership-plan-card,
+    .booking-card,
+    .profile-card,
+    .pf-panel,
+    .pf-side-panel,
+    .nx-card
+):hover {
+    transform: none;
+    box-shadow: 0 5px 18px rgb(18 18 18 / 7%);
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+    .table-responsive,
+    .table-scroll,
+    .table-wrapper
+) {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+}
+
+/* Booking and membership screens: neutral icon tiles, compact cards, clear status. */
+body.nx-member-body .nx-page-content :is(
+    .nx-bd-tile-icon,
+    .nx-co-tile-icon,
+    .nx-bd-ref,
+    .nx-co-ref
+) {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+body.nx-member-body .nx-page-content :is(.nx-bd-status, .nx-bd-card, .nx-co-card) {
+    border-color: #e3e5e7;
+}
+
+body.nx-member-body .nx-page-content .nx-bd .nx-bd-section {
+    padding: 18px 20px;
+}
+
+body.nx-member-body .nx-page-content .nx-bd .row.g-4 {
+    --bs-gutter-y: 1.15rem;
+}
+
+body.nx-member-body .nx-page-content .nx-bd-summary-head,
+body.nx-member-body .nx-page-content .nx-co-summary-head {
+    background: #171717;
+}
+
+body.nx-member-body .nx-page-content .mm-plans-section {
+    padding: 22px;
+    border-color: #e3e5e7;
+    background: #fff;
+    color: #25292c;
+    box-shadow: 0 4px 16px rgb(18 18 18 / 5%);
+}
+
+body.nx-member-body .nx-page-content .mm-plans-section .mm-heading-mark,
+body.nx-member-body .nx-page-content :is(.mm-plan-icon, .mm-empty-icon) {
+    color: #4d5357;
+    background: #f1f2f2;
+}
+
+body.nx-member-body .nx-page-content .mm-plan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgb(18 18 18 / 8%);
+}
+
+body.nx-member-body .nx-page-content .mm-plans-section .mm-section-heading h2 {
+    color: #25292c;
+}
+
+body.nx-member-body .nx-page-content .mm-plans-section .mm-section-heading p {
+    color: #646b70;
+}
+
+body.nx-member-body .nx-page-content .mm-plan-info strong,
+body.nx-member-body .nx-page-content .mm-info strong,
+body.nx-member-body .nx-page-content .mm-card-price strong {
+    color: #25292c;
+}
+
+body.nx-member-body .nx-page-content .mm-plan-divider,
+body.nx-member-body .nx-page-content .mm-card-top,
+body.nx-member-body .nx-page-content .mm-info-grid,
+body.nx-member-body .nx-page-content .mm-card-action {
+    border-color: #e3e5e7;
+}
+
+body.nx-member-body .nx-page-content .nx-bd-pay .btn-primary,
+body.nx-member-body .nx-page-content .nx-co .btn-primary,
+body.nx-member-body .nx-room__book-button {
+    border-color: #252525;
+    background: #252525;
+    color: #fff;
+    box-shadow: 0 4px 12px rgb(18 18 18 / 12%);
+}
+
+body.nx-member-body .nx-page-content .nx-bd-pay .btn-primary:hover,
+body.nx-member-body .nx-page-content .nx-co .btn-primary:hover,
+body.nx-member-body .nx-room__book-button:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgb(18 18 18 / 18%);
+}
+
+body.nx-member-body .nx-room__booking-card {
+    border-color: rgb(255 255 255 / 12%);
+    background:
+        radial-gradient(circle at 100% 0%, rgb(217 164 65 / 12%), transparent 32%),
+        linear-gradient(135deg, #121212, #262626);
+    box-shadow: 0 18px 38px rgb(18 18 18 / 20%);
+}
+
+body.nx-room-page .nx-room__booking-card {
+    border-color: rgb(255 255 255 / 12%);
+    background:
+        radial-gradient(circle at 100% 0%, rgb(217 164 65 / 12%), transparent 32%),
+        linear-gradient(135deg, #121212, #262626);
+    box-shadow: 0 18px 38px rgb(18 18 18 / 20%);
+}
+
+body.nx-room-page .nx-room__book-button {
+    min-height: 52px;
+    border-color: #252525;
+    background: #252525;
+    color: #fff;
+}
+
+body.nx-room-page .nx-room__book-button:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+body.nx-room-page .nx-room__button-arrow {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    font-size: 19px;
+    line-height: 1;
+}
+
+body.nx-member-body .nx-room__button-arrow {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    font-size: 19px;
+    line-height: 1;
+}
+
+body.nx-member-body .nx-checkout-btn {
+    min-height: 40px;
+    gap: 8px;
+    border-color: #252525;
+    background: #252525;
+    color: #fff !important;
+}
+
+body.nx-member-body .nx-checkout-arrow,
+body.nx-member-body .nx-page-content .nx-inline-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    font-size: 18px;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+body.nx-member-body .nx-checkout-btn:hover {
+    border-color: #111;
+    background: #111;
+    color: #fff !important;
+}
+
+body.nx-member-body .nx-nav__link {
+    white-space: nowrap;
+}
+
+body.nx-member-body .nx-account summary.nx-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    list-style: none;
+}
+
+body.nx-member-body .nx-account summary.nx-nav__link::-webkit-details-marker {
+    display: none;
+}
+
+body.nx-member-body .nx-account summary.nx-nav__link::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Manager booking details should sit on a neutral dim layer, not a green screen. */
+.nx-shell-body .nx-bookings-page .bk-modal {
+    background: rgb(18 18 18 / 66%);
+    backdrop-filter: blur(4px);
+}
+
+.nx-shell-body .nx-bookings-page .bk-modal-content {
+    border-color: #e3e5e7;
+    background: #fff;
+    box-shadow: 0 24px 70px rgb(0 0 0 / 28%);
+}
+
+.nx-shell-body .nx-bookings-page .bk-detail-row {
+    border-color: #e3e5e7;
+}
+
+.nx-shell-body .nx-bookings-page .bk-detail-row strong {
+    color: #25292c;
+}
+
+.nx-shell-body .nx-bookings-page .bk-close,
+.nx-shell-body .nx-bookings-page .bk-modal-btn-secondary {
+    color: #303438;
+    border-color: #e0e2e4;
+    background: #f1f2f2;
+}
+
+.nx-shell-body .nx-bookings-page .bk-view,
+.nx-shell-body .nx-bookings-page .bk-view:hover {
+    color: #303438;
+    border-color: #dfe2e4;
+    background: #f1f2f2;
+    box-shadow: none;
+}
+
+.nx-shell-body .nx-bookings-page .bk-close:hover,
+.nx-shell-body .nx-bookings-page .bk-modal-btn-secondary:hover {
+    color: #171717;
+    border-color: #c9cdd0;
+    background: #e7e9ea;
+    transform: none;
+}
+
+.nx-shell-body .nx-bookings-page .bk-cancel-note {
+    color: #684f19;
+    border-color: #ead9ae;
+    background: #fff7e5;
+}
+
+/* Admin and manager icons use quiet neutral tiles; chart colors remain semantic. */
+.nx-shell-body .nx-page-content :is(
+    .nx-kpi-card__icon,
+    .nx-panel-icon,
+    .nx-booking-stat__icon--total,
+    .nx-review-stat__icon--total,
+    .nx-booking-stat__icon--confirmed,
+    .nx-review-stat__icon--approved,
+    .revenue-icon,
+    .bk-header-icon,
+    .bk-section-icon,
+    .nx-bookings-empty__icon,
+    .nx-review-workspace__icon,
+    .nx-review-empty__icon
+) {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+.nx-shell-body .nx-admin-dashboard :is(.nx-kpi-card__icon, .nx-panel-icon) {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+.nx-shell-body .nx-bookings-page :is(.bk-header-icon, .bk-section-icon) {
+    color: #4d5357;
+    border-color: #e3e5e7;
+    background: #f1f2f2;
+}
+
+/* Keep labels and numbers on their own rows; pagination controls never interleave. */
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content nav[role="navigation"] {
+    width: 100%;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content nav[role="navigation"] > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center !important;
+    gap: 8px;
+    width: 100%;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content nav[role="navigation"] > div:first-child > div:first-child {
+    flex: 0 0 100%;
+    text-align: center;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content nav[role="navigation"] > div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center !important;
+    gap: 8px;
+    width: 100%;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content nav[role="navigation"] > div:last-child > div:first-child {
+    flex: 0 0 100%;
+    margin: 0 0 4px;
+    text-align: center;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .pagination {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .pagination .page-item {
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+:is(body.nx-member-body, body.nx-shell-body) .nx-page-content .pagination .page-link {
+    display: inline-flex;
+    min-width: 40px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 11px;
+    line-height: 1;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.nx-shell-body .nx-page-content .directory-pagination,
+.nx-shell-body .nx-page-content .payments-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.nx-shell-body .nx-page-content :is(
+    .directory-pagination > p,
+    .payments-pagination .pagination-summary
+) {
+    flex: 0 0 100%;
+    margin: 0;
+    text-align: center;
+}
+
+.nx-shell-body .nx-page-content :is(.pagination-controls, .payments-pagination nav .pagination) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.nx-shell-body .nx-page-content .pagination-controls .page-button {
+    display: inline-flex;
+    min-width: 40px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.nx-shell-body .nx-admin-bookings .nx-bookings-pagination__links nav > div:first-child,
+.nx-shell-body .nx-admin-reviews .nx-reviews-pagination__links nav > div:first-child {
+    flex: 0 0 100%;
+    justify-content: center !important;
+    text-align: center;
+}
+
+/* Larger, stable arrows; the account arrow remains aligned beside the name. */
+.nx-shell-body .nx-topbar__user {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.nx-shell-body .nx-topbar__user-info {
+    min-width: 0;
+}
+
+.nx-shell-body .nx-topbar__user-info strong {
+    display: block;
+    white-space: nowrap;
+}
+
+.nx-shell-body .nx-topbar__user-chevron {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    align-self: center;
+    transform: none !important;
+}
+
+.nx-page-content :is(.mm-btn, .pf-btn, .nx-card-link) > span,
+.nx-page-content :is(.nx-checkout-arrow, .book-arrow, .nx-room__button-arrow) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.nx-page-content :is(.mm-btn, .pf-btn, .nx-card-link) {
+    align-items: center;
+    gap: 9px;
+}
+
+.profile-photo-preview-status {
+    display: block;
+    margin-top: 7px;
+    color: #555b60;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.nx-ai-results-jump {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    margin: 14px 0 4px;
+    padding: 10px 17px;
+    border: 1px solid var(--color-primary);
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+    transition: background-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.nx-ai-results-jump:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgb(18 18 18 / 15%);
+}
+
+#roomsList {
+    scroll-margin-top: 24px;
+}
+
+@media (max-width: 767px) {
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content {
+        width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+        .form-grid,
+        .pf-form-grid,
+        .room-details
+    ) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+        .actions,
+        .pf-actions,
+        .form-footer
+    ) {
+        flex-wrap: wrap;
+    }
+
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content :is(
+        .actions,
+        .pf-actions
+    ) > :is(button, .btn, .pf-btn) {
+        min-width: 0;
+    }
+
+    .nx-ai-results-jump {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content *,
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content *::before,
+    :is(body.nx-member-body, body.nx-shell-body) .nx-page-content *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}

@@ -11,14 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking reminder</title>
 </head>
-<body style="margin:0; padding:0; background:#F5F7F3; font-family:Manrope, Inter, Arial, Helvetica, sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F7F3; padding:24px 0;">
+<body style="margin:0; padding:0; background:#F5F5F5; font-family:Manrope, Inter, Arial, Helvetica, sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F5F5; padding:24px 0;">
     <tr>
         <td align="center">
             <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px; width:100%; background:#ffffff; border-radius:16px; overflow:hidden; border:1px solid #E2E8E2;">
 
                 <tr>
-                    <td style="background:#203D34; padding:24px; text-align:center;">
+                    <td style="background:#121212; padding:24px; text-align:center;">
                         <span style="color:#ffffff; font-size:22px; font-weight:800; letter-spacing:-0.5px;">NexOra</span>
                     </td>
                 </tr>
@@ -36,7 +36,7 @@
 
                 <tr>
                     <td style="padding:20px 32px;">
-                        <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8FAF7; border-radius:10px; border:1px solid #E2E8E2;">
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background:#F1F2F2; border-radius:10px; border:1px solid #E2E8E2;">
                             <tr>
                                 <td style="padding:16px 20px; border-bottom:1px solid #E2E8E2;">
                                     <div style="color:#7F8B84; font-size:12px; text-transform:uppercase;">Room</div>
@@ -68,14 +68,14 @@
                 <tr>
                     <td align="center" style="padding:8px 32px 28px;">
                         <a href="{{  route('dashboard') }}"
-                           style="display:inline-block; background:#315C4D; color:#ffffff; text-decoration:none; padding:12px 28px; border-radius:999px; font-size:15px; font-weight:bold;">
+                           style="display:inline-block; background:#121212; color:#ffffff; text-decoration:none; padding:12px 28px; border-radius:999px; font-size:15px; font-weight:bold;">
                             View my bookings
                         </a>
                     </td>
                 </tr>
 
                 <tr>
-                    <td style="padding:20px 32px; background:#F8FAF7; text-align:center; color:#7F8B84; font-size:12px; line-height:1.6;">
+                    <td style="padding:20px 32px; background:#F1F2F2; text-align:center; color:#7F8B84; font-size:12px; line-height:1.6;">
                         You are receiving this email because you made a booking on NexOra.<br>
                         &copy; {{ date('Y') }} NexOra
                     </td>

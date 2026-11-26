@@ -115,15 +115,15 @@
 
         var data = window.adminDashboardData || {};
 
-        var cGmv = "#2563EB";
-        var cCommission = "#0EA5E9";
+        var cGmv = token("--nx-chart-gmv", "#27865B");
+        var cCommission = token("--nx-chart-commission", "#D9A441");
 
         Chart.defaults.font.family = token(
             "--nx-font-body",
             "Inter, sans-serif",
         );
         Chart.defaults.font.size = 12;
-        Chart.defaults.color = token("--nx-text-secondary", "#53615a");
+        Chart.defaults.color = token("--nx-text-secondary", "#737373");
 
         // ------------------------------
         // REVENUE CHART
@@ -150,7 +150,7 @@
                             label: "Booking GMV",
                             data: revenue.bookingGMV,
                             borderColor: cGmv,
-                            backgroundColor: withAlpha(cGmv, 0.1),
+                            backgroundColor: withAlpha("#202020", 0.08),
                             borderWidth: 3,
                             pointRadius: 3,
                             pointHoverRadius: 6,
@@ -243,13 +243,13 @@
         var statusValues = Object.values(statuses);
 
         var statusColors = {
-            completed: "#22C55E",
-            confirmed: "#06B6D4",
-            pending: "#F59E0B",
-            cancelled: "#F43F5E",
+            completed: token("--nx-chart-completed", "#27865B"),
+            confirmed: token("--nx-chart-confirmed", "#71A184"),
+            pending: token("--color-warning", "#D9A441"),
+            cancelled: token("--color-danger", "#B91C1C"),
         };
 
-        var fallbackColor = "#94A3B8";
+        var fallbackColor = token("--color-text-muted", "#737373");
 
         if (
             bookingCanvas &&
@@ -347,7 +347,7 @@
                             ctx.textBaseline = "middle";
 
                             ctx.font = "700 28px Inter, sans-serif";
-                            ctx.fillStyle = "#053631";
+                            ctx.fillStyle = token("--color-text", "#171717");
 
                             ctx.fillText(
                                 totalBookings.toLocaleString(),
@@ -356,7 +356,7 @@
                             );
 
                             ctx.font = "500 11px Inter, sans-serif";
-                            ctx.fillStyle = "#94A3B8";
+                            ctx.fillStyle = token("--color-text-muted", "#737373");
 
                             ctx.fillText(
                                 "Total Bookings",

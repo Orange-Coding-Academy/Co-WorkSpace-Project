@@ -1,0 +1,923 @@
+
+/* =========================================================
+   NEXORA — AI CONCIERGE
+========================================================= */
+
+.nx-page-content {
+    --ai-green: var(--color-primary-hover);
+    --ai-green-light: var(--color-primary);
+    --ai-deep: var(--color-primary-dark);
+    --ai-copper: var(--color-accent);
+    --ai-copper-light: var(--color-accent);
+    --ai-cream: var(--color-background);
+    --ai-white: var(--color-surface);
+    --ai-text: var(--color-text);
+    --ai-muted: var(--color-text-muted);
+    --ai-border: var(--color-border);
+
+    min-height: 100%;
+    padding: 0;
+    background: var(--ai-cream);
+    color: var(--ai-text);
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.nx-page-content *,
+.nx-page-content *::before,
+.nx-page-content *::after {
+    box-sizing: border-box;
+}
+
+.nx-page-content .page {
+    width: min(1160px, calc(100% - 52px));
+    margin: 0 auto;
+    padding: 28px 0 55px;
+}
+
+/* ===================== HERO ===================== */
+
+.nx-page-content .hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1.25fr .75fr;
+    align-items: center;
+    min-height: 270px;
+    padding: 40px 46px;
+    margin-bottom: 23px;
+    overflow: hidden;
+    border-radius: 23px;
+    color: var(--color-surface);
+    background:
+        radial-gradient(ellipse at 80% 15%, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 35%),
+        linear-gradient(120deg, var(--color-primary-dark) 0%, var(--color-primary-dark) 58%, var(--color-primary) 100%);
+    box-shadow: 0 15px 40px color-mix(in srgb, var(--color-primary) 13%, transparent);
+}
+
+.nx-page-content .hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 410px;
+    height: 410px;
+    right: -130px;
+    top: -190px;
+    border: 1px solid color-mix(in srgb, var(--color-surface) 12%, transparent);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 35px color-mix(in srgb, var(--color-surface) 2.5%, transparent),
+        0 0 0 75px color-mix(in srgb, var(--color-surface) 2%, transparent);
+}
+
+.nx-page-content .hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 260px;
+    height: 260px;
+    right: 17%;
+    bottom: -205px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+    border-radius: 50%;
+}
+
+.nx-page-content .hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.nx-page-content .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 19px;
+    color: var(--ai-copper-light);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+}
+
+.nx-page-content .hero-kicker::before {
+    content: "";
+    width: 23px;
+    height: 1px;
+    background: var(--ai-copper);
+}
+
+.nx-page-content .hero h1 {
+    max-width: 570px;
+    margin: 0 0 13px;
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(30px, 4vw, 43px);
+    font-weight: 800;
+    line-height: 1.13;
+    letter-spacing: -1.8px;
+}
+
+.nx-page-content .hero h1 span {
+    color: var(--color-primary) !important;
+}
+
+.nx-page-content .hero p {
+    max-width: 490px;
+    margin: 0;
+    color: color-mix(in srgb, var(--color-surface) 72%, transparent);
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.nx-page-content .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 175px;
+}
+
+.nx-page-content .orbit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 164px;
+    height: 164px;
+    border: 3px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 13%, transparent), transparent 68%);
+}
+
+.nx-page-content .orbit::before,
+.nx-page-content .orbit::after {
+    content: "";
+    position: absolute;
+    border: 3px solid color-mix(in srgb, var(--color-surface) 13%, transparent);
+    border-radius: 50%;
+}
+
+.nx-page-content .orbit::before {
+    inset: 15px;
+}
+
+.nx-page-content .orbit::after {
+    inset: -17px;
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--color-accent) 24%, transparent);
+    animation: nx-orbit 28s linear infinite;
+}
+
+.nx-page-content .orbit-core {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
+    border-radius: 24px;
+    background: linear-gradient(145deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-primary)!important;
+    font-size: 30px;
+    box-shadow: 0 10px 35px color-mix(in srgb, var(--color-text) 20%, transparent);
+    transform: rotate(-8deg);
+}
+
+.nx-page-content .orbit-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ai-copper-light);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+.nx-page-content .orbit-dot.one {
+    top: 8px;
+    right: 35px;
+}
+
+.nx-page-content .orbit-dot.two {
+    bottom: 21px;
+    left: 3px;
+}
+
+@keyframes nx-orbit {
+    to { transform: rotate(360deg); }
+}
+
+/* ===================== INTRO STRIP ===================== */
+
+.nx-page-content .intro-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 4px;
+    margin: 0 0 15px;
+}
+
+.nx-page-content .intro-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ai-green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.nx-page-content .intro-label::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ai-copper);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.nx-page-content .intro-note {
+    color: var(--color-accent);
+    font-size: 11px;
+}
+
+/* ===================== MAIN PANEL ===================== */
+
+.nx-page-content .panel {
+    position: relative;
+    padding: 30px 34px 28px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+    border-radius: 20px;
+    background: var(--color-surface);
+    box-shadow: 0 8px 30px color-mix(in srgb, var(--color-text) 4.5%, transparent);
+}
+
+.nx-page-content .panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 22px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--color-primary);
+}
+
+.nx-page-content .panel-heading h2 {
+    margin: 0 0 6px;
+    color: var(--color-primary);
+    font-family: 'Manrope', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -.7px;
+}
+
+.nx-page-content .panel-heading p {
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.nx-page-content .private-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    padding: 8px 11px;
+    border: 1px solid var(--color-border);
+    border-radius: 30px;
+    background: var(--color-accent-soft);
+    color: var(--color-primary)!important;
+    font-size: 10px;
+    font-weight: 700;
+}
+.private-note span{
+    background-color: white !important;
+}
+/* ===================== FORM ===================== */
+
+.nx-page-content .form-section-label {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 0 0 17px;
+    color: var(--ai-deep);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.nx-page-content .form-section-label span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 8px;
+    background: var(--color-accent-soft);
+    color: var(--ai-green);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.nx-page-content .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 18px;
+}
+
+.nx-page-content .field {
+    min-width: 0;
+    margin-bottom: 24px;
+}
+
+.nx-page-content .field > label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--color-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-page-content .field input[type="number"] {
+    width: 100%;
+    height: 51px;
+    padding: 0 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    outline: none;
+    background: var(--color-surface);
+    color: var(--ai-text);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .25s ease;
+}
+
+.nx-page-content .field input[type="number"]:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+}
+
+.nx-page-content .field input[type="number"]:focus {
+    border-color: var(--ai-green-light);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 9%, transparent);
+}
+
+.nx-page-content .field input::placeholder {
+    color: var(--color-text-muted);
+    font-weight: 400;
+}
+
+/* ===================== EQUIPMENT ===================== */
+
+.nx-page-content .equipment-area {
+    margin-top: 1px;
+    margin-bottom: 23px;
+}
+
+.nx-page-content .equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 10px;
+}
+
+.nx-page-content .equipment-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 55px;
+    padding: 11px 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: border-color .22s ease, background .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+
+.nx-page-content .equipment-option:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    background: #f5f8f6;
+    color: var(--color-text);
+}
+
+.nx-page-content .equipment-option:has(input:checked) {
+    border-color: var(--ai-green-light);
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.nx-page-content .equipment-option input {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    margin: 0;
+    accent-color: var(--ai-green);
+    cursor: pointer;
+}
+
+.nx-page-content .equipment-option label {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.nx-page-content .equipment-option:has(input:checked) label {
+    color: var(--ai-deep);
+}
+
+.nx-page-content .equipment-help {
+    margin: 12px 0 0;
+    color: var(--color-text-muted);
+    font-size: 11px;
+}
+
+/* ===================== FORM FOOTER ===================== */
+
+.nx-page-content .form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-primary);
+}
+
+.nx-page-content .form-footer-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.nx-page-content .form-footer-note strong {
+    color: var(--ai-green);
+}
+
+.nx-page-content .form-footer-note span{
+    color: var(--color-accent)!important;
+}
+
+.nx-page-content .submit-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 245px;
+    min-height: 51px;
+    padding: 13px 22px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(115deg,var(--color-primary),var(--color-primary-dark));
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 7px 17px color-mix(in srgb, var(--color-primary-dark) 16%, transparent);
+    transition: .25s ease;
+}
+
+.nx-page-content .submit-btn::after {
+    content: "↗";
+    color: var(--ai-copper-light);
+    font-size: 17px;
+    transition: transform .25s ease;
+}
+
+.nx-page-content .submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: linear-gradient(115deg,var(--color-primary-hover),var(--color-primary-dark));
+    box-shadow: 0 11px 24px color-mix(in srgb, var(--color-primary-dark) 23%, transparent);
+}
+
+.nx-page-content .submit-btn:hover:not(:disabled)::after {
+    transform: translate(3px,-3px);
+}
+
+.nx-page-content .submit-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+/* ===================== LOADING ===================== */
+
+.nx-page-content #loading {
+    display: none;
+    margin-top: 20px;
+    padding: 22px;
+    border: 1px solid var(--color-border);
+    border-radius: 13px;
+    background: var(--color-background);
+    text-align: center;
+}
+
+.nx-page-content .loading-orbit {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    margin: 0 auto 12px;
+    border: 2px solid var(--color-primary);
+    border-top-color: var(--ai-green);
+    border-right-color: var(--ai-copper);
+    border-radius: 50%;
+    animation: nx-spin .8s linear infinite;
+}
+
+@keyframes nx-spin {
+    to { transform: rotate(360deg); }
+}
+
+.nx-page-content #loading p {
+    margin: 0;
+    color: var(--ai-green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ===================== ERROR ===================== */
+
+.nx-page-content .error {
+    display: none;
+    margin-top: 18px;
+    padding: 14px 17px;
+    border: 1px solid color-mix(in srgb, var(--color-danger) 24%, white);
+    border-radius: 11px;
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+/* ===================== RESULTS ===================== */
+
+.nx-page-content #results {
+    display: none;
+    margin-top: 28px;
+    animation: nx-result-in .4s ease both;
+}
+
+@keyframes nx-result-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.nx-page-content .results-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.nx-page-content .results-heading h2 {
+    margin: 0;
+    color: var(--ai-deep);
+    font-family: 'Manrope',sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.nx-page-content .results-heading .heading-line {
+    height: 1px;
+    flex: 1;
+    background: var(--color-border);
+}
+
+.nx-page-content .results-heading .result-tag {
+    color: var(--ai-copper);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.nx-page-content .ai-answer {
+    position: relative;
+    padding: 24px 26px;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--ai-copper);
+    border-radius: 13px;
+    background:
+        radial-gradient(circle at 100% 0,color-mix(in srgb, var(--color-accent) 8%, transparent),transparent 34%),
+        var(--color-surface);
+    color: var(--color-text);
+    font-size: 13px;
+    line-height: 1.95;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.nx-page-content .ai-answer::before {
+    content: "NEXORA INTELLIGENCE";
+    display: block;
+    margin-bottom: 10px;
+    color: var(--ai-green);
+    font-family: 'Manrope',sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+}
+
+/* ===================== ROOM CARDS ===================== */
+
+.nx-page-content #roomsList {
+    display: grid;
+    gap: 13px;
+}
+
+.nx-page-content .room-card {
+    position: relative;
+    padding: 22px 24px;
+    overflow: hidden;
+    border: 1px solid var(--color-primary);
+    border-radius: 14px;
+    background: var(--color-surface);
+    box-shadow: 0 3px 13px color-mix(in srgb, var(--color-text) 2.5%, transparent);
+    transition: .25s ease;
+}
+
+.nx-page-content .room-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--ai-copper);
+}
+
+.nx-page-content .room-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--color-text) 6.5%, transparent);
+}
+
+.nx-page-content .room-card h3 {
+    margin: 0 0 7px;
+    color: var(--ai-deep);
+    font-family: 'Manrope',sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.nx-page-content .room-card > p {
+    margin: 0;
+    color: var(--ai-muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.nx-page-content .room-card > p strong {
+    color: var(--color-text);
+}
+
+.nx-page-content .room-details {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 9px;
+    margin-top: 17px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+.nx-page-content .room-details > div {
+    min-width: 0;
+    padding: 11px 12px;
+    border-radius: 9px;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.nx-page-content .room-details strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--color-text-muted);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.nx-page-content #roomsList > p {
+    padding: 22px;
+    border: 1px dashed var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+    color: var(--ai-muted);
+    font-size: 12px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* ===================== BOOK ROOM BUTTON ===================== */
+
+.nx-page-content .room-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 17px;
+    padding-top: 15px;
+    border-top: 1px solid var(--color-border);
+}
+
+.nx-page-content .room-book-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 190px;
+    min-height: 43px;
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: linear-gradient(115deg, var(--color-primary), var(--color-primary-dark));
+    color: var(--color-surface);
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    text-decoration: none;
+    box-shadow: 0 5px 14px color-mix(in srgb, var(--color-primary-dark) 13%, transparent);
+    transition: .25s ease;
+}
+
+.nx-page-content .room-book-btn .book-arrow {
+    color: var(--ai-copper-light);
+    font-size: 16px;
+    transition: transform .25s ease;
+}
+
+.nx-page-content .room-book-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(115deg, var(--color-primary-hover), var(--color-primary-dark));
+    color: var(--color-surface);
+    box-shadow: 0 9px 20px color-mix(in srgb, var(--color-primary-dark) 20%, transparent);
+}
+
+.nx-page-content .room-book-btn:hover .book-arrow {
+    transform: translateX(4px);
+}
+
+.nx-page-content .room-book-btn:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    outline-offset: 3px;
+}
+
+.nx-page-content .room-book-unavailable {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
+    background: var(--color-background);
+    color: var(--color-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+@media(max-width: 850px) {
+    .nx-page-content .page {
+        width: min(100% - 36px,720px);
+    }
+
+    .nx-page-content .hero {
+        grid-template-columns: 1fr .45fr;
+        padding: 34px;
+    }
+
+    .nx-page-content .hero-visual {
+        transform: scale(.85);
+    }
+
+    .nx-page-content .panel {
+        padding: 26px;
+    }
+
+    .nx-page-content .equipment-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+@media(max-width: 600px) {
+    .nx-page-content .page {
+        width: calc(100% - 26px);
+        padding: 19px 0 38px;
+    }
+
+    .nx-page-content .hero {
+        display: block;
+        min-height: auto;
+        padding: 27px 23px;
+        margin-bottom: 18px;
+        border-radius: 17px;
+    }
+
+    .nx-page-content .hero h1 {
+        max-width: 95%;
+        font-size: 30px;
+    }
+
+    .nx-page-content .hero p {
+        font-size: 12px;
+    }
+
+    .nx-page-content .hero-visual {
+        display: none;
+    }
+
+    .nx-page-content .intro-note {
+        display: none;
+    }
+
+    .nx-page-content .panel {
+        padding: 22px 17px;
+        border-radius: 15px;
+    }
+
+    .nx-page-content .panel-heading {
+        flex-direction: column;
+        gap: 12px;
+        padding-bottom: 17px;
+        margin-bottom: 19px;
+    }
+
+    .nx-page-content .panel-heading h2 {
+        font-size: 19px;
+    }
+
+    .nx-page-content .form-grid,
+    .nx-page-content .equipment-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .nx-page-content .field {
+        margin-bottom: 18px;
+    }
+
+    .nx-page-content .equipment-option {
+        min-height: 49px;
+    }
+
+    .nx-page-content .form-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .nx-page-content .submit-btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .nx-page-content .room-details {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .nx-page-content .room-card {
+        padding: 19px 17px;
+    }
+
+    .nx-page-content .room-card-footer {
+        justify-content: stretch;
+    }
+
+    .nx-page-content .room-book-btn {
+        width: 100%;
+    }
+
+    .nx-page-content .ai-answer {
+        padding: 19px;
+    }
+
+    .nx-page-content .results-heading h2 {
+        font-size: 17px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .nx-page-content *,
+    .nx-page-content *::before,
+    .nx-page-content *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}

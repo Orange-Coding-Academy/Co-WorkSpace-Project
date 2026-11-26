@@ -1,0 +1,1236 @@
+/* =========================================================
+   NEXORA — MANAGER WORKSPACE DETAILS
+========================================================= */
+
+.nx-workspace-details {
+    --ws-bg: var(--color-background);
+    --ws-card: var(--color-surface);
+    --ws-primary: var(--color-primary);
+    --ws-primary-hover: var(--color-primary-hover);
+    --ws-deep: var(--color-primary-dark);
+    --ws-accent: var(--color-accent);
+    --ws-text: var(--color-text);
+    --ws-muted: var(--color-text-muted);
+    --ws-border: var(--color-border);
+
+    color: var(--ws-text);
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+}
+
+.nx-workspace-details *,
+.nx-workspace-details *::before,
+.nx-workspace-details *::after {
+    box-sizing: border-box;
+}
+
+.nx-workspace-details .ws-page {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 18px 22px 30px;
+    color: var(--ws-text);
+}
+
+/* =========================================================
+   BREADCRUMB & BACK
+========================================================= */
+
+.nx-workspace-details .ws-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 12px;
+    color: var(--ws-muted);
+    font-size: 12px;
+}
+
+.nx-workspace-details .ws-breadcrumb a {
+    color: var(--ws-primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.nx-workspace-details .ws-breadcrumb strong {
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 8px 13px;
+    border: 1px solid var(--ws-border);
+    border-radius: 9px;
+    background: var(--ws-card);
+    color: var(--ws-text);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.nx-workspace-details .ws-back-link:hover {
+    border-color: var(--ws-primary);
+    color: var(--ws-primary);
+    transform: translateX(-3px);
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.nx-workspace-details .ws-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 16px;
+    margin-bottom: 15px;
+    border-radius: 11px;
+    font-size: 13px;
+}
+
+.nx-workspace-details .ws-success {
+    border: 1px solid color-mix(in srgb, var(--color-success) 35%, transparent);
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.nx-workspace-details .ws-success::before {
+    content: "✓";
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.nx-workspace-details .ws-error {
+    border: 1px solid color-mix(in srgb, var(--color-danger) 35%, transparent);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.nx-workspace-details .ws-error::before {
+    content: "!";
+    font-size: 17px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   WORKSPACE OVERVIEW
+========================================================= */
+
+.nx-workspace-details .ws-overview {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr);
+    gap: 25px;
+    align-items: center;
+    padding: 25px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    border: 1px solid var(--ws-border);
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 90% 10%,
+            color-mix(in srgb, var(--ws-accent) 10%, transparent),
+            transparent 32%),
+        var(--ws-card);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .09);
+}
+
+.nx-workspace-details .ws-overview::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -110px;
+    bottom: -140px;
+    border: 1px solid color-mix(in srgb, var(--ws-accent) 20%, transparent);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.nx-workspace-details .ws-overview-copy,
+.nx-workspace-details .ws-gallery {
+    position: relative;
+    z-index: 1;
+}
+
+.nx-workspace-details .ws-overview h1 {
+    margin: 0 0 10px;
+    color: var(--ws-text);
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(25px, 3vw, 36px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    overflow-wrap: anywhere;
+}
+
+.nx-workspace-details .ws-overview-copy > p {
+    margin: 0 0 18px;
+    color: var(--ws-accent)!important;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.nx-workspace-details .ws-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.nx-workspace-details .ws-info-item {
+    padding: 12px;
+    border: 1px solid var(--ws-accent);
+    border-radius: 11px;
+    background: color-mix(in srgb, var(--ws-bg) 75%, transparent);
+    color: var(--ws-primary)!important;
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-info-item strong {
+    display: block;
+    margin-top: 5px;
+    color: var(--ws-text);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.nx-workspace-details .ws-facilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 0;
+    margin: 16px 0 0;
+    list-style: none;
+}
+
+.nx-workspace-details .ws-facilities li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--ws-primary);
+    border-radius: 8px;
+    background: var(--ws-bg);
+    color: var(--ws-muted);
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-facilities li::before {
+    content: "✓";
+    color: var(--ws-primary);
+    font-weight: 800;
+}
+
+/* =========================================================
+   WORKSPACE GALLERY
+========================================================= */
+
+.nx-workspace-details .ws-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin: 0;
+}
+
+.nx-workspace-details .ws-gallery img {
+    display: block;
+    width: 100%;
+    height: 115px;
+    border: 1px solid var(--ws-primary);
+    border-radius: 11px;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.nx-workspace-details .ws-gallery img:first-child {
+    grid-column: 1 / -1;
+    height: 215px;
+}
+
+.nx-workspace-details .ws-gallery img:hover {
+    transform: scale(1.025);
+}
+
+/* =========================================================
+   ROOMS HEADER
+========================================================= */
+
+.nx-workspace-details .ws-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 15px;
+}
+
+.nx-workspace-details .ws-rooms-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: var(--ws-text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.nx-workspace-details .ws-rooms-title::before {
+    content: "▦";
+    display: grid;
+    width: 35px;
+    height: 35px;
+    place-items: center;
+    border: 1px solid var(--ws-border);
+    border-radius: 10px;
+    background: var(--ws-card);
+    color: var(--ws-primary);
+    font-size: 19px;
+}
+
+.nx-workspace-details .ws-room-count {
+    display: grid;
+    min-width: 27px;
+    height: 27px;
+    padding: 0 7px;
+    place-items: center;
+    border-radius: 8px;
+    background: var(--ws-primary);
+    color: white;
+    font-size: 11px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.nx-workspace-details .ws-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 15px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.nx-workspace-details .ws-btn-primary {
+    border-color: var(--ws-primary);
+    background: var(--ws-primary);
+    color: white;
+}
+
+.nx-workspace-details .ws-btn-primary:hover {
+    border-color: var(--ws-primary-hover);
+    background: var(--ws-primary-hover);
+    transform: translateY(-2px);
+}
+
+.nx-workspace-details .ws-btn-edit {
+    border-color: var(--ws-border);
+    background: var(--ws-bg);
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-btn-edit:hover {
+    border-color: var(--ws-primary);
+    color: var(--ws-primary);
+}
+
+.nx-workspace-details .ws-btn-delete {
+    border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.nx-workspace-details .ws-btn-delete:hover {
+    background: var(--color-danger);
+    color: white;
+}
+
+/* =========================================================
+   ROOM GRID & CARDS
+========================================================= */
+
+.nx-workspace-details .ws-room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 265px), 1fr));
+    gap: 17px;
+}
+
+.nx-workspace-details .ws-room-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--ws-accent)!important;
+    border-radius: 15px;
+    background: var(--ws-card);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .07);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.nx-workspace-details .ws-room-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ws-primary);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, .13);
+}
+
+.nx-workspace-details .room-gallery,
+.nx-workspace-details .ws-no-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--ws-deep);
+}
+
+.nx-workspace-details .room-gallery-track {
+    width: 100%;
+    height: 100%;
+}
+
+.nx-workspace-details .room-gallery-image {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nx-workspace-details .room-gallery-image.active {
+    display: block;
+}
+
+.nx-workspace-details .ws-no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ws-muted);
+    font-size: 12px;
+}
+
+.nx-workspace-details .ws-no-image::before {
+    content: "▧";
+    margin-right: 8px;
+    font-size: 23px;
+}
+
+.nx-workspace-details .gallery-arrow {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+    background: rgba(0,0,0,.48);
+    color: white;
+    font-size: 21px;
+    cursor: pointer;
+    z-index: 2;
+    transition: .2s ease;
+}
+
+.nx-workspace-details .gallery-arrow:hover {
+    background: var(--ws-primary);
+}
+
+.nx-workspace-details .gallery-arrow.prev {
+    left: 10px;
+}
+
+.nx-workspace-details .gallery-arrow.next {
+    right: 10px;
+}
+
+.nx-workspace-details .gallery-counter {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 5px 9px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px;
+    background: rgba(0,0,0,.55);
+    color: white;
+    font-size: 10px;
+}
+
+.nx-workspace-details .ws-room-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.nx-workspace-details .ws-room-content h3 {
+    margin: 10px 0 12px !important;
+    color: var(--ws-text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.nx-workspace-details .ws-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    padding: 5px 10px;
+    border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
+    border-radius: 20px;
+    background: var(--color-success-bg);
+    color: var(--color-success);
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.nx-workspace-details .ws-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.nx-workspace-details .ws-badge.is-inactive {
+    border-color: var(--ws-border);
+    background: var(--ws-bg);
+    color: var(--ws-muted);
+}
+
+.nx-workspace-details .ws-room-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 0;
+    margin: 0;
+    border-bottom: 1px solid var(--ws-border);
+    color: var(--ws-muted);
+    font-size: 11px;
+}
+.nx-workspace-details .ws-room-meta span{
+    color: var(--color-accent);
+}
+.fac{
+    color: var(--color-primary)!important;
+}
+
+.nx-workspace-details .ws-room-meta strong {
+    color: var(--ws-text);
+    font-size: 12px;
+    font-weight: 750;
+    text-align: right;
+}
+
+.nx-workspace-details .ws-room-content small {
+    display: block;
+    margin-top: 12px;
+    color: var(--ws-muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.nx-workspace-details .ws-room-content small strong {
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-room-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.nx-workspace-details .ws-room-actions form {
+    display: flex;
+    flex: 1;
+}
+
+.nx-workspace-details .ws-room-actions button {
+    flex: 1;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.nx-workspace-details .ws-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 210px;
+    padding: 25px;
+    border: 1px dashed var(--ws-border);
+    border-radius: 15px;
+    background: var(--ws-card);
+    text-align: center;
+}
+
+.nx-workspace-details .ws-empty::before {
+    content: "▦";
+    display: grid;
+    width: 55px;
+    height: 55px;
+    margin-bottom: 12px;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--ws-bg);
+    color: var(--ws-primary);
+    font-size: 28px;
+}
+
+.nx-workspace-details .ws-empty h3 {
+    margin: 0 0 7px;
+    color: var(--ws-text);
+    font-size: 17px;
+}
+
+.nx-workspace-details .ws-empty p {
+    margin: 0 0 15px;
+    color: var(--ws-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.nx-workspace-details .ws-modal,
+.nx-workspace-details .ws-modal-content,
+.nx-workspace-details .custom-delete-modal,
+.nx-workspace-details .ws-add-room {
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    background: rgba(0,0,0,.68);
+    backdrop-filter: blur(5px);
+}
+
+.nx-workspace-details .ws-modal.show {
+    display: flex;
+}
+
+.nx-workspace-details .ws-modal-content {
+    width: 100%;
+    max-width: 570px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 23px;
+    border: 1px solid var(--ws-border);
+    border-radius: 17px;
+    background: var(--ws-card);
+    box-shadow: 0 25px 70px rgba(0,0,0,.3);
+}
+
+.nx-workspace-details .ws-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.nx-workspace-details .ws-modal-header h2 {
+    margin: 0;
+    color: var(--ws-text);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.nx-workspace-details .ws-close {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--ws-border);
+    border-radius: 9px;
+    background: var(--ws-bg);
+    color: var(--ws-text);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-form-group {
+    margin-bottom: 15px;
+}
+
+.nx-workspace-details .ws-form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--ws-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-workspace-details .ws-form-group input,
+.nx-workspace-details .ws-form-group select,
+.nx-workspace-details .ws-form-group textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--ws-border);
+    border-radius: 9px;
+    outline: none;
+    background: var(--ws-bg);
+    color: var(--ws-text);
+    font: inherit;
+    font-size: 12px;
+}
+
+.nx-workspace-details .ws-form-group input:focus,
+.nx-workspace-details .ws-form-group select:focus,
+.nx-workspace-details .ws-form-group textarea:focus {
+    border-color: var(--ws-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ws-primary) 13%, transparent);
+}
+
+.nx-workspace-details .ws-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.nx-workspace-details .ws-existing-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+}
+
+.nx-workspace-details .ws-existing-image {
+    padding: 8px;
+    border: 1px solid var(--ws-border);
+    border-radius: 10px;
+    background: var(--ws-bg);
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-existing-image img {
+    width: 100%;
+    height: 85px;
+    margin-bottom: 7px;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+.nx-workspace-details .ws-existing-image label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    color: var(--ws-muted);
+}
+
+/* =========================================================
+   ADD ROOM DIALOG
+========================================================= */
+
+.nx-workspace-details .ws-add-room {
+    width: min(680px, calc(100% - 24px));
+    max-width: none;
+    max-height: 90dvh;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--ws-border);
+    border-radius: 18px;
+    background: var(--ws-card);
+    color: var(--ws-text);
+    box-shadow: 0 25px 75px rgba(0,0,0,.35);
+}
+
+.nx-workspace-details .ws-add-room::backdrop {
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(5px);
+}
+
+.nx-workspace-details .ws-add-room[open],
+.nx-workspace-details .ws-add-room > form {
+    display: flex;
+    flex-direction: column;
+}
+
+.nx-workspace-details .ws-add-room > form {
+    min-height: 0;
+}
+
+.nx-workspace-details .ws-add-header,
+.nx-workspace-details .ws-add-actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 22px;
+}
+
+.nx-workspace-details .ws-add-header {
+    background: var(--ws-deep);
+    color: white;
+}
+
+.nx-workspace-details .ws-add-header h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.nx-workspace-details .ws-add-header p {
+    margin: 4px 0 0;
+    color: rgba(255,255,255,.7);
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-add-close {
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 9px;
+    background: rgba(255,255,255,.1);
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-add-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 20px 22px;
+    overflow-y: auto;
+}
+
+.nx-workspace-details .ws-add-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.nx-workspace-details .ws-add-fields .ws-form-group {
+    margin: 0;
+}
+
+.nx-workspace-details .ws-add-wide {
+    grid-column: 1 / -1;
+}
+
+.nx-workspace-details .ws-add-muted,
+.nx-workspace-details .ws-add-fields small {
+    color: var(--ws-muted);
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-facility-picker {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.nx-workspace-details .ws-facility-picker legend {
+    margin-bottom: 8px;
+    color: var(--ws-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-workspace-details .ws-facility-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.nx-workspace-details .ws-facility-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 37px;
+    padding: 6px 10px;
+    border: 1px solid var(--ws-border);
+    border-radius: 8px;
+    background: var(--ws-bg);
+    color: var(--ws-muted);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-facility-option:has(:checked) {
+    border-color: var(--ws-primary);
+    background: color-mix(in srgb, var(--ws-primary) 10%, var(--ws-card));
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-facility-option input {
+    accent-color: var(--ws-primary);
+}
+
+.nx-workspace-details .ws-add-photos {
+    margin-top: 18px;
+}
+
+.nx-workspace-details .ws-photo-label {
+    margin: 0 0 8px;
+    color: var(--ws-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-workspace-details .ws-add-dropzone {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px dashed var(--ws-border);
+    border-radius: 11px;
+    background: var(--ws-bg);
+}
+
+.nx-workspace-details .ws-upload-icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--ws-primary) 12%, var(--ws-card));
+    color: var(--ws-primary);
+    font-size: 22px;
+}
+
+.nx-workspace-details .ws-upload-copy strong {
+    color: var(--ws-text);
+    font-size: 11px;
+}
+
+.nx-workspace-details .ws-upload-copy p {
+    margin: 4px 0 0;
+    color: var(--ws-muted);
+    font-size: 10px;
+}
+
+.nx-workspace-details .ws-file-picker {
+    position: relative;
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--ws-primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-file-picker input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-add-previews {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 9px;
+    padding: 0;
+    margin: 10px 0 0;
+    list-style: none;
+}
+
+.nx-workspace-details .ws-add-preview {
+    position: relative;
+}
+
+.nx-workspace-details .ws-add-preview img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--ws-border);
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.nx-workspace-details .ws-add-remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 26px;
+    height: 26px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-danger);
+    color: white;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-add-cover-label {
+    display: inline-block;
+    margin-top: 4px;
+    color: var(--ws-primary);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nx-workspace-details .ws-add-actions {
+    justify-content: flex-end;
+    border-top: 1px solid var(--ws-border);
+}
+
+.nx-workspace-details .ws-add-save,
+.nx-workspace-details .ws-add-cancel {
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 1px solid var(--ws-border);
+    border-radius: 9px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.nx-workspace-details .ws-add-save {
+    border-color: var(--ws-primary);
+    background: var(--ws-primary);
+    color: white;
+}
+
+.nx-workspace-details .ws-add-save:hover {
+    background: var(--ws-primary-hover);
+}
+
+.nx-workspace-details .ws-add-cancel {
+    background: var(--ws-bg);
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .ws-add-errors {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 9px;
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+    font-size: 11px;
+}
+
+/* =========================================================
+   DELETE MODAL
+========================================================= */
+
+.nx-workspace-details .custom-delete-modal {
+    width: 410px;
+    max-width: calc(100% - 28px);
+    padding: 25px;
+    border: 1px solid var(--ws-border);
+    border-radius: 18px;
+    background: var(--ws-card);
+    color: var(--ws-text);
+    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+}
+
+.nx-workspace-details .custom-delete-modal::backdrop {
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(5px);
+}
+
+.nx-workspace-details .delete-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nx-workspace-details .delete-modal-icon {
+    display: grid;
+    width: 55px;
+    height: 55px;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.nx-workspace-details .delete-modal-header button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--ws-border);
+    border-radius: 8px;
+    background: var(--ws-bg);
+    color: var(--ws-muted);
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.nx-workspace-details .custom-delete-modal h3 {
+    margin: 18px 0 8px;
+    color: var(--ws-text);
+    font-size: 20px;
+}
+
+.nx-workspace-details .custom-delete-modal p {
+    margin: 0;
+    color: var(--ws-muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.nx-workspace-details .delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 23px;
+}
+
+.nx-workspace-details .delete-modal-actions button {
+    min-height: 39px;
+    padding: 8px 15px;
+    border: 1px solid var(--ws-border);
+    border-radius: 9px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.nx-workspace-details .modal-cancel {
+    background: var(--ws-bg);
+    color: var(--ws-text);
+}
+
+.nx-workspace-details .modal-delete {
+    border-color: var(--color-danger);
+    background: var(--color-danger);
+    color: white;
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.nx-workspace-details :focus-visible {
+    outline: 2px solid var(--ws-primary);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+    .nx-workspace-details .ws-overview {
+        grid-template-columns: 1fr;
+    }
+
+    .nx-workspace-details .ws-gallery {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .nx-workspace-details .ws-gallery img:first-child {
+        grid-column: auto;
+        height: 130px;
+    }
+
+    .nx-workspace-details .ws-gallery img {
+        height: 130px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nx-workspace-details .ws-page {
+        padding: 12px 10px 24px;
+    }
+
+    .nx-workspace-details .ws-overview {
+        padding: 17px;
+        gap: 17px;
+        margin-bottom: 20px;
+    }
+
+    .nx-workspace-details .ws-overview h1 {
+        font-size: 25px;
+    }
+
+    .nx-workspace-details .ws-info {
+        gap: 8px;
+    }
+
+    .nx-workspace-details .ws-info-item {
+        padding: 10px;
+    }
+
+    .nx-workspace-details .ws-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nx-workspace-details .ws-gallery img:first-child {
+        grid-column: 1 / -1;
+        height: 175px;
+    }
+
+    .nx-workspace-details .ws-gallery img {
+        height: 105px;
+    }
+
+    .nx-workspace-details .ws-section-header {
+        align-items: center;
+    }
+
+    .nx-workspace-details .ws-rooms-title {
+        font-size: 18px;
+    }
+
+    .nx-workspace-details .ws-room-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .nx-workspace-details .ws-room-card:only-child {
+        display: flex;
+    }
+
+    .nx-workspace-details .ws-add-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .nx-workspace-details .ws-add-wide {
+        grid-column: auto;
+    }
+
+    .nx-workspace-details .ws-add-dropzone {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .nx-workspace-details .ws-file-picker {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nx-workspace-details *,
+    .nx-workspace-details *::before,
+    .nx-workspace-details *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

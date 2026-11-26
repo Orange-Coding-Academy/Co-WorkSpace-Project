@@ -5,21 +5,21 @@
 ========================================= */
 
 .nx-explore {
-    --ex-green: #285746;
-    --ex-deep: #193D32;
-    --ex-green-light: #E8F0E8;
-    --ex-sage: #A9BEA9;
-    --ex-accent: #C77D55;
-    --ex-accent-dark: #AD633D;
-    --ex-accent-light: #F8EAE0;
-    --ex-bg: #F5F7F3;
-    --ex-border: #E2E8E2;
-    --ex-text: #263A32;
-    --ex-muted: #77847B;
+    --ex-green: var(--color-primary);
+    --ex-deep: var(--color-text);
+    --ex-green-light: var(--color-accent-soft);
+    --ex-sage: var(--color-primary);
+    --ex-accent: var(--color-primary);
+    --ex-accent-dark: var(--color-primary-hover);
+    --ex-accent-light: var(--color-accent-soft);
+    --ex-bg: var(--color-background);
+    --ex-border: var(--color-border);
+    --ex-text: var(--color-text);
+    --ex-muted: var(--color-text-muted);
 
     background: var(--ex-bg);
     color: var(--ex-text);
-    padding: 28px 22px 65px;
+    padding: 24px 22px 50px;
     font-family: 'Inter', sans-serif;
 }
 
@@ -41,21 +41,19 @@
 ========================================= */
 
 .nx-explore__hero {
-    min-height: 340px;
+    min-height: 330px;
     display: grid;
     grid-template-columns: 1.05fr .95fr;
     gap: 25px;
     align-items: center;
-    padding: 35px 48px;
+    padding: 35px 38px;
     overflow: hidden;
     position: relative;
     isolation: isolate;
-    border-radius: 22px;
-    background:
-        radial-gradient(circle at 82% 18%, rgba(199,125,85,.20), transparent 27%),
-        radial-gradient(circle at 12% 100%, rgba(169,190,169,.20), transparent 35%),
-        linear-gradient(120deg, #193D32 0%, #285746 58%, #3D705B 100%);
-    color: white;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: var(--color-surface);
+    color: var(--color-text);
 }
 
 .nx-explore__hero::before {
@@ -66,7 +64,7 @@
     height: 280px;
     right: 35%;
     top: -190px;
-    border: 1px solid rgba(255,255,255,.13);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 13%, transparent);
     border-radius: 50%;
 }
 
@@ -88,7 +86,7 @@
 }
 
 .nx-explore__eyebrow {
-    color: #D5E5D9;
+    color: var(--color-primary);
     letter-spacing: 2px;
 }
 
@@ -96,13 +94,13 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #E5A47E;
-    box-shadow: 0 0 12px rgba(229,164,126,.65);
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 16%, transparent);
 }
 
 .nx-explore__hero h1 {
     margin: 16px 0 12px;
-    color: white;
+    color: var(--color-text);
     font-family: 'Manrope', sans-serif;
     font-size: clamp(34px, 4vw, 48px);
     line-height: 1.12;
@@ -111,14 +109,14 @@
 }
 
 .nx-explore__hero h1 em {
-    color: #E9B18E;
+    color: var(--color-primary);
     font-style: normal;
 }
 
 .nx-explore__hero-copy > p {
     max-width: 430px;
     margin: 0;
-    color: rgba(255,255,255,.78);
+    color: var(--color-text-muted);
     font-size: 13px;
     line-height: 1.8;
 }
@@ -130,16 +128,18 @@
     margin-top: 20px;
     padding: 11px 18px;
     border-radius: 8px;
-    background: #E5A47E;
-    color: #263A32;
+  
+        background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-surface);
     font-size: 12px;
     font-weight: 800;
     transition: .25s ease;
 }
 
 .nx-explore__hero-link:hover {
-    background: #F1C09F;
-    color: #193D32;
+    background: var(--color-accent);
+    color: var(--color-surface);
     transform: translateY(-2px);
 }
 
@@ -152,13 +152,13 @@
     align-items: center;
     gap: 9px;
     margin-top: 22px;
-    color: rgba(255,255,255,.68);
+    color: var(--color-text-muted);
     font-size: 11px;
     font-weight: 600;
 }
 
 .nx-explore__hero-foot span {
-    color: #E9B18E;
+    color: var(--color-primary);
     font-size: 18px;
 }
 
@@ -167,11 +167,21 @@
 ========================================= */
 
 .nx-explore__visual {
-    min-height: 275px;
+    min-height: 260px;
+    height: 100%;
     max-height: 310px;
     position: relative;
-    display: grid;
-    place-items: center;
+    overflow: hidden;
+    border-radius: 14px;
+    background: var(--color-background);
+}
+
+.nx-explore__visual-image {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .nx-explore__visual-glow {
@@ -179,12 +189,12 @@
     width: 280px;
     height: 280px;
     border-radius: 50%;
-    background: rgba(199,125,85,.22);
+    background: color-mix(in srgb, var(--color-danger) 22%, transparent);
 }
 
 .nx-explore__visual-ring {
     position: absolute;
-    border: 1px solid rgba(255,255,255,.17);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 17%, transparent);
     border-radius: 50%;
 }
 
@@ -204,10 +214,10 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    border: 5px solid rgba(255,255,255,.25);
+    border: 5px solid color-mix(in srgb, var(--color-surface) 25%, transparent);
     border-radius: 14px;
-    background: #F4EEE2;
-    box-shadow: 0 22px 45px rgba(0,0,0,.22);
+    background: var(--color-accent);
+    box-shadow: 0 22px 45px color-mix(in srgb, var(--color-text) 22%, transparent);
     transform: rotate(2deg);
 }
 
@@ -217,19 +227,19 @@
     align-items: center;
     gap: 5px;
     padding: 0 11px;
-    background: #E9E2D5;
+    background: var(--color-accent);
 }
 
 .nx-explore__window-top i {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #C4CFC4;
+    background: var(--color-border);
 }
 
 .nx-explore__window-top span {
     margin-left: auto;
-    color: #496457;
+    color: var(--color-primary);
     font-size: 7px;
     font-weight: 800;
     letter-spacing: .14em;
@@ -239,7 +249,7 @@
     height: 220px;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(120deg,#E9E1D1 0 58%,#C6D3C7 58%);
+    background: linear-gradient(120deg,var(--color-accent) 0 58%,var(--color-primary) 58%);
 }
 
 .nx-explore__scene-sun {
@@ -249,7 +259,7 @@
     right: 47px;
     top: 25px;
     border-radius: 50%;
-    background: #E9A77E;
+    background: var(--color-danger);
 }
 
 .nx-explore__scene-wall {
@@ -258,8 +268,8 @@
     top: 0;
     width: 35%;
     height: 70%;
-    background: rgba(255,255,255,.25);
-    border-left: 9px solid rgba(255,255,255,.35);
+    background: color-mix(in srgb, var(--color-surface) 25%, transparent);
+    border-left: 9px solid color-mix(in srgb, var(--color-surface) 35%, transparent);
 }
 
 .nx-explore__scene-shelf {
@@ -268,8 +278,8 @@
     top: 34%;
     width: 22%;
     height: 7px;
-    background: #8C9C8D;
-    box-shadow: 0 34px 0 #8C9C8D;
+    background: var(--color-text-muted);
+    box-shadow: 0 34px 0 var(--color-text-muted);
 }
 
 .nx-explore__scene-table {
@@ -279,7 +289,7 @@
     bottom: 28%;
     height: 13px;
     border-radius: 50%;
-    background: #986E50;
+    background: var(--color-accent);
 }
 
 .nx-explore__scene-leg {
@@ -287,7 +297,7 @@
     bottom: 10%;
     width: 7px;
     height: 22%;
-    background: #766653;
+    background: var(--color-accent);
 }
 
 .nx-explore__scene-leg--left {
@@ -305,7 +315,7 @@
     right: 22%;
     bottom: 10%;
     border-radius: 19px 19px 8px 8px;
-    background: #567365;
+    background: var(--color-primary);
 }
 
 .nx-explore__scene-plant {
@@ -314,7 +324,7 @@
     bottom: 10%;
     width: 34px;
     height: 48px;
-    border-bottom: 15px solid #B77E5B;
+    border-bottom: 15px solid var(--color-danger);
     border-radius: 0 0 7px 7px;
 }
 
@@ -325,7 +335,7 @@
     width: 10px;
     height: 28px;
     border-radius: 100% 0 100% 0;
-    background: #527B62;
+    background: var(--color-primary);
     transform: rotate(-28deg);
 }
 
@@ -347,21 +357,22 @@
     right: 0;
     bottom: 0;
     height: 10%;
-    background: #B6A58B;
+    background: var(--color-accent);
 }
 
 .nx-explore__floating-note {
     position: absolute;
     z-index: 2;
-    right: 0;
-    bottom: 12px;
+    right: 14px;
+    bottom: 14px;
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 11px 14px;
     border-radius: 9px;
-    background: #FFFAF1;
-    box-shadow: 0 12px 30px rgba(0,0,0,.16);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-text) 16%, transparent);
 }
 
 .nx-explore__floating-note > span {
@@ -389,13 +400,13 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    color: rgba(255,255,255,.8);
+    color: var(--color-text-muted);
     font-size: 9px;
     letter-spacing: .12em;
 }
 
 .nx-explore__visual-index b {
-    color: #E9B18E;
+    color: var(--color-primary);
 }
 
 /* =========================================
@@ -406,10 +417,10 @@
     margin-top: 23px;
     padding: 26px 30px;
     border: 1px solid var(--ex-border);
-    border-top: 3px solid var(--ex-sage);
+    border-top: 1px solid var(--ex-border);
     border-radius: 16px;
     background: white;
-    box-shadow: 0 10px 30px rgba(35,65,48,.055);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--color-primary) 5.5%, transparent);
 }
 
 .nx-explore__search-heading {
@@ -422,7 +433,7 @@
 .nx-explore__search-heading h2,
 .nx-explore__results-heading h2 {
     margin: 7px 0 5px;
-    color: #234B3B;
+    color: var(--color-text);
     font-family: 'Manrope', sans-serif;
     font-size: 25px;
     font-weight: 800;
@@ -461,7 +472,7 @@
 .nx-explore__field label {
     display: block;
     margin-bottom: 7px;
-    color: #425C4D;
+    color: var(--color-primary);
     font-size: 10px;
     font-weight: 700;
 }
@@ -472,24 +483,24 @@
     height: 42px;
     min-width: 0;
     padding: 0 11px;
-    border: 1px solid #DFE7DD;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     outline: none;
-    background: #FAFBF8;
-    color: #30483B;
+    background: var(--color-surface);
+    color: var(--color-text);
     font: 500 11px 'Inter', sans-serif;
     transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 .nx-explore__field input:focus,
 .nx-explore__field select:focus {
-    border-color: #638D72;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(99,141,114,.13);
+    border-color: var(--color-primary);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 13%, transparent);
 }
 
 .nx-explore__field input::placeholder {
-    color: #A5AEA7;
+    color: var(--color-text-muted);
 }
 
 /* =========================================
@@ -519,25 +530,25 @@
     background: var(--ex-accent);
     border-color: var(--ex-accent);
     color: white;
-    box-shadow: 0 5px 13px rgba(199,125,85,.20);
+    box-shadow: 0 5px 13px color-mix(in srgb, var(--color-danger) 20%, transparent);
 }
 
 .nx-explore__button--primary:hover {
     background: var(--ex-accent-dark);
     border-color: var(--ex-accent-dark);
     color: white;
-    box-shadow: 0 8px 18px rgba(173,99,61,.25);
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--color-danger) 25%, transparent);
 }
 
 .nx-explore__button--outline {
-    border-color: #DCE5DC;
+    border-color: var(--color-primary);
     background: white;
     color: var(--ex-green);
 }
 
 .nx-explore__button--outline:hover {
     border-color: var(--ex-green);
-    background: #F6F9F5;
+    background: var(--color-primary);
 }
 
 /* =========================================
@@ -545,7 +556,7 @@
 ========================================= */
 
 .nx-explore__results {
-    margin-top: 43px;
+    margin-top: 34px;
     scroll-margin-top: 30px;
     transition: opacity .2s ease;
 }
@@ -570,22 +581,22 @@
 .nx-explore__count {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     padding: 11px 16px;
-    border: 1px solid #DCE8DC;
+    border: 2px solid var(--nx-accent);
     border-radius: 11px;
-    background: #E9F0E9;
+    background: var(--color-surface);
 }
 
 .nx-explore__count strong {
-    color: var(--ex-green);
+    color: var(--color-primary);
     font: 800 27px 'Manrope', sans-serif;
     line-height: 1;
 }
 
 .nx-explore__count span {
     margin-top: 6px;
-    color: #718477;
+    color: var(--color-primary);
     font-size: 8px;
     font-weight: 800;
     letter-spacing: .12em;
@@ -601,24 +612,24 @@
     min-height: 300px;
     overflow: hidden;
     margin-bottom: 18px;
-    border: 1px solid #E4E9E2;
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     background: white;
-    box-shadow: 0 7px 24px rgba(34,65,48,.055);
+    box-shadow: 0 7px 24px color-mix(in srgb, var(--color-primary) 5.5%, transparent);
     transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 
 .nx-room-card:hover {
-    transform: translateY(-4px);
-    border-color: #C5D7C8;
-    box-shadow: 0 15px 34px rgba(34,65,48,.11);
+    transform: translateY(-2px);
+    border-color: var(--color-border);
+    box-shadow: 0 15px 34px color-mix(in srgb, var(--color-primary) 11%, transparent);
 }
 
 .nx-room-card__media {
     min-height: 300px;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg,#E0E8DF,#CBD8CC);
+    background: var(--color-background);
 }
 
 .nx-room-card__image {
@@ -648,8 +659,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #597365;
-    background: linear-gradient(140deg,#E7EEE5,#C9D8CA);
+    color: var(--color-text);
+    background: var(--color-background);
 }
 
 .nx-room-card__placeholder > span {
@@ -664,7 +675,7 @@
 
 .nx-room-card__placeholder small {
     margin-top: 5px;
-    color: #7C8C80;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
@@ -674,7 +685,7 @@
     left: 17px;
     padding: 7px 9px;
     border-radius: 4px;
-    background: rgba(40,87,70,.88);
+    background: color-mix(in srgb, var(--color-primary-dark) 78%, transparent);
     color: white;
     font-size: 8px;
     font-weight: 800;
@@ -690,7 +701,7 @@
     gap: 8px;
     padding: 5px;
     border-radius: 7px;
-    background: rgba(255,255,255,.95);
+    background: color-mix(in srgb, var(--color-surface) 95%, transparent);
 }
 
 .nx-room-card__gallery-controls button {
@@ -698,20 +709,20 @@
     height: 25px;
     border: 0;
     border-radius: 5px;
-    background: #EDF2EC;
-    color: var(--ex-green);
+    background: var(--color-primary);
+    color: var(--color-surface);
     font-size: 19px;
     cursor: pointer;
 }
 
 .nx-room-card__gallery-controls span {
-    color: #69766D;
+    color: var(--color-text-muted);
     font-size: 9px;
 }
 
 .nx-room-card__gallery-controls i {
     margin: 0 3px;
-    color: #A2ACA4;
+    color: var(--color-text-muted);
     font-style: normal;
 }
 
@@ -729,7 +740,7 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    color: #63836B;
+    color: var(--nx-accent);
     font-size: 10px;
     font-weight: 700;
 }
@@ -738,12 +749,12 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--ex-accent);
+    background: var(--nx-accent);
 }
 
 .nx-room-card__body h3 {
     margin: 12px 0 13px;
-    color: #263F33;
+    color: var(--color-primary);
     font: 800 22px/1.2 'Manrope', sans-serif;
     letter-spacing: -.035em;
 }
@@ -752,7 +763,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 17px;
-    color: #718077;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
@@ -763,7 +774,7 @@
 }
 
 .nx-room-card__details i {
-    color: #B87955;
+    color: var(--color-danger);
     font-size: 14px;
     font-style: normal;
 }
@@ -777,18 +788,18 @@
 
 .nx-room-card__facilities span {
     padding: 6px 9px;
-    border: 1px solid #E0E9DF;
+    border: 1px solid var(--color-border);
     border-radius: 6px;
-    background: #EDF3ED;
-    color: #496B54;
+    background: var(--color-accent-soft);
+    color: var(--color-primary);
     font-size: 9px;
     font-weight: 600;
 }
 
 .nx-room-card__facilities .nx-room-card__more {
-    border-color: #F0DFD3;
+    border-color: var(--color-border);
     background: var(--ex-accent-light);
-    color: #A86443;
+    color: var(--color-primary);
 }
 
 .nx-room-card__footer {
@@ -813,7 +824,7 @@
 
 .nx-room-card__price span,
 .nx-room-card__price-note {
-    color: #829087;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
@@ -822,7 +833,7 @@
     gap: 9px;
     margin-top: 15px;
     padding-top: 14px;
-    border-top: 1px solid #EDF0EC;
+    border-top: 1px solid var(--color-surface);
 }
 
 .nx-room-card__actions .nx-explore__button {
@@ -839,10 +850,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 60px 22px;
-    border: 1px dashed #CBD9CA;
+    padding: 36px 22px;
+    border: 1px dashed var(--color-border);
     border-radius: 16px;
-    background: #FBFAF5;
+    background: var(--color-surface);
     text-align: center;
 }
 
@@ -867,7 +878,7 @@
 .nx-explore__empty p {
     max-width: 390px;
     margin: 0 0 19px;
-    color: #87928A;
+    color: var(--color-text-muted);
     font-size: 12px;
     line-height: 1.7;
 }
@@ -883,18 +894,18 @@
     gap: 18px;
     margin-top: 28px;
     padding: 16px 19px;
-    border: 1px solid #E5EAE4;
+    border: 1px solid var(--color-border);
     border-radius: 11px;
     background: white;
 }
 
 .nx-explore__pagination-summary {
-    color: #89948C;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
 .nx-explore__pagination-summary strong {
-    color: #4E5D54;
+    color: var(--color-text);
 }
 
 .nx-explore__pagination-links {
@@ -910,25 +921,26 @@
     align-items: center;
     justify-content: center;
     padding: 0 10px;
-    border: 1px solid #DFE7DD;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     background: white;
-    color: #42634F;
+    color: var(--color-primary);
     font-size: 10px;
     font-weight: 700;
     transition: .2s ease;
 }
 
 .nx-page-number:hover {
-    border-color: #9DB9A1;
-    background: #E9F0E9;
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
 }
 
 .nx-page-number.is-current {
     border-color: var(--ex-green);
     background: var(--ex-green);
     color: white;
-    box-shadow: 0 4px 10px rgba(40,87,70,.18);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--color-primary) 18%, transparent);
 }
 
 /* =========================================
@@ -967,7 +979,7 @@
 
 @media (max-width: 760px) {
     .nx-explore {
-        padding: 18px 14px 50px;
+        padding: 16px 14px 38px;
     }
 
     .nx-explore__hero {
@@ -1061,4 +1073,302 @@
         transition-duration: .01ms !important;
         animation-duration: .01ms !important;
     }
+}
+
+/* =========================================
+   NEXORA EXPLORE — VISUAL POLISH
+   ========================================= */
+
+/* FILTERS SECTION */
+.nx-explore__search {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 12px 35px color-mix(
+        in srgb,
+        var(--color-primary) 7%,
+        transparent
+    );
+    transition: box-shadow .3s ease, border-color .3s ease;
+}
+
+.nx-explore__search:hover {
+    border-color: color-mix(
+        in srgb,
+        var(--color-primary) 35%,
+        var(--color-border)
+    );
+    box-shadow: 0 16px 38px color-mix(
+        in srgb,
+        var(--color-primary) 10%,
+        transparent
+    );
+}
+
+/* Each filter field */
+.nx-explore__field {
+    padding: 13px;
+    border: 1px solid var(--color-border);
+    border-radius: 11px;
+    background: var(--color-background);
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.nx-explore__field:hover {
+    transform: translateY(-3px);
+    border-color: var(--nx-accent);
+    background: var(--color-surface);
+    box-shadow: 0 7px 18px color-mix(
+        in srgb,
+        var(--color-primary) 9%,
+        transparent
+    );
+}
+
+.nx-explore__field label {
+    margin-bottom: 9px;
+    color: var(--color-text);
+    font-size: 11px;
+    letter-spacing: .01em;
+}
+
+.nx-explore__field input,
+.nx-explore__field select {
+    height: 40px;
+    border-color: transparent;
+    background: var(--color-surface);
+    border-radius: 7px;
+}
+
+.nx-explore__field input:focus,
+.nx-explore__field select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(
+        in srgb,
+        var(--color-primary) 12%,
+        transparent
+    );
+}
+
+/* ROOM CARDS */
+.nx-room-card {
+    border: 1px solid var(--color-border);
+    border-radius: 17px;
+    background: var(--color-surface);
+    box-shadow: 0 5px 18px color-mix(
+        in srgb,
+        var(--color-text) 4%,
+        transparent
+    );
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.nx-room-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(
+        in srgb,
+        var(--color-primary) 45%,
+        var(--color-border)
+    );
+    box-shadow: 0 16px 35px color-mix(
+        in srgb,
+        var(--color-primary) 11%,
+        transparent
+    );
+}
+
+.nx-room-card__media {
+    background: var(--color-background);
+}
+
+.nx-room-card__image {
+    transition:
+        opacity .4s ease,
+        transform .8s cubic-bezier(.2, .7, .2, 1);
+}
+
+.nx-room-card:hover .nx-room-card__image.is-active {
+    transform: scale(1.055);
+}
+
+/* ROOM DETAILS */
+.nx-room-card__body {
+    background: var(--color-surface);
+}
+
+.nx-room-card__body h3 {
+    transition: color .25s ease;
+}
+
+.nx-room-card:hover .nx-room-card__body h3 {
+    color: var(--color-primary);
+}
+
+.nx-room-card__facilities span {
+    border-color: color-mix(
+        in srgb,
+        var(--color-primary) 15%,
+        var(--color-border)
+    );
+    background: color-mix(
+        in srgb,
+        var(--color-primary) 7%,
+        var(--color-surface)
+    );
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.nx-room-card__facilities span:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    background: color-mix(
+        in srgb,
+        var(--color-primary) 13%,
+        var(--color-surface)
+    );
+}
+
+/* PRICE */
+.nx-room-card__price strong {
+    color: var(--color-primary);
+}
+
+.nx-room-card__footer {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 15px;
+}
+
+/* BOOK BUTTON — MATCH NEXORA GREEN THEME */
+.nx-room-card__actions .nx-explore__button--primary {
+    min-height: 44px;
+    border: 1px solid var(--color-primary);
+    border-radius: 9px;
+    background: var(--color-primary);
+    color: var(--color-surface);
+    box-shadow: 0 5px 14px color-mix(
+        in srgb,
+        var(--color-primary) 20%,
+        transparent
+    );
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    transition:
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+}
+
+.nx-room-card__actions .nx-explore__button--primary:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+    color: var(--color-surface);
+    box-shadow: 0 9px 21px color-mix(
+        in srgb,
+        var(--color-primary) 28%,
+        transparent
+    );
+}
+
+.nx-room-card__actions .nx-explore__button--primary span {
+    display: inline-block;
+    transition: transform .25s ease;
+}
+
+.nx-room-card__actions .nx-explore__button--primary:hover span {
+    transform: translateX(4px);
+}
+
+/* PAGINATION */
+.nx-explore__pagination {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 5px 18px color-mix(
+        in srgb,
+        var(--color-text) 4%,
+        transparent
+    );
+}
+
+.nx-page-number {
+    background: var(--color-surface);
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease;
+}
+
+.nx-page-number:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.nx-page-number.is-current {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-surface);
+}
+
+/* MOBILE TOUCH */
+@media (max-width: 760px) {
+    .nx-explore__field {
+        padding: 10px;
+    }
+
+    .nx-room-card:hover {
+        transform: none;
+    }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+    .nx-explore__search,
+    .nx-explore__field,
+    .nx-room-card,
+    .nx-room-card__image,
+    .nx-explore__button,
+    .nx-page-number {
+        transition: none !important;
+    }
+
+    .nx-explore__field:hover,
+    .nx-room-card:hover,
+    .nx-page-number:hover {
+        transform: none;
+    }
+}
+/* Explore & Book buttons */
+.nx-explore__search .nx-explore__button,
+.nx-room-card__actions .nx-explore__button--primary {
+    background: var(--nx-accent);
+    border: 1px solid var(--nx-accent);
+    color: #fff;
+    box-shadow: 0 4px 12px color-mix(
+        in srgb,
+        var(--nx-accent) 22%,
+        transparent
+    );
+    transition: all 0.25s ease;
+}
+
+.nx-explore__search .nx-explore__button:hover,
+.nx-room-card__actions .nx-explore__button--primary:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    transform: translateY(-2px);
 }

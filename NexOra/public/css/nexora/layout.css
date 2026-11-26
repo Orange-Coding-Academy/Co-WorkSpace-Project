@@ -13,7 +13,7 @@
 }
 .nx-dashboard__sidebar {
     background: var(--nx-sidebar);
-    color: #f8faf7;
+    color: var(--color-surface);
     width: var(--nx-sidebar-width);
 }
 .nx-dashboard__main {
@@ -110,7 +110,7 @@ body {
     border-bottom: 1px solid var(--nx-sidebar-line);
 }
 .nx-sidebar__logo {
-    color: #fff;
+    color: var(--color-surface);
     font: 800 21px/1.2 var(--nx-font-heading);
     letter-spacing: -0.03em;
     text-decoration: none;
@@ -170,13 +170,13 @@ body {
 }
 .nx-sidebar__link:hover {
     background: var(--nx-sidebar-hover);
-    color: #fff;
+    color: var(--color-surface);
 }
 /* An inset bar on a pill shape renders as a clipped crescent, so the active
    state uses fill + a tinted icon instead (no RTL override needed). */
 .nx-sidebar__link.is-active {
     background: var(--nx-sidebar-active);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-sidebar__link.is-active :is(svg, i) {
     color: var(--nx-accent-soft);
@@ -222,7 +222,7 @@ body {
 }
 .nx-sidebar__logout-btn:hover {
     background: var(--nx-sidebar-hover);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-sidebar__logout-btn:focus-visible {
     outline: 2px solid var(--nx-accent);
@@ -238,7 +238,7 @@ body {
     padding: var(--nx-space-3) var(--nx-space-4);
     border-radius: var(--nx-radius-pill);
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
     font: 700 14px/1 var(--nx-font-heading);
     text-decoration: none;
     transform: translateY(-200%);
@@ -257,7 +257,7 @@ body {
     justify-content: space-between;
     gap: var(--nx-space-4);
     padding: 0 var(--nx-space-8);
-    background: rgba(245, 247, 243, 0.92);
+    background: color-mix(in srgb, var(--color-background) 92%, transparent);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
 }
@@ -413,6 +413,30 @@ body {
     }
 }
 
+@media (max-width: 380px) {
+    .nx-topbar {
+        gap: 8px;
+        padding-inline: 10px;
+    }
+
+    .nx-topbar__left,
+    .nx-topbar__right {
+        gap: 8px;
+    }
+
+    .nx-topbar__breadcrumb > span,
+    .nx-topbar__breadcrumb > svg {
+        display: none;
+    }
+
+    .nx-topbar__breadcrumb strong {
+        max-width: 108px;
+        overflow: visible;
+        font-size: 12px;
+        text-overflow: clip;
+    }
+}
+
 
 
 
@@ -443,4 +467,17 @@ body {
 
 .nx-topbar__user--link:hover {
     opacity: 0.85;
+}
+
+.nx-topbar__user-chevron {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    color: var(--nx-text-muted);
+    transition: transform 160ms ease, color 160ms ease;
+}
+
+.nx-topbar__user--link:hover .nx-topbar__user-chevron {
+    color: var(--nx-primary);
+    transform: translateX(2px);
 }

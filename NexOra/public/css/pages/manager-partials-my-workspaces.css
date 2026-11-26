@@ -1,0 +1,698 @@
+
+/* =========================================================
+   NEXORA — MANAGER WORKSPACES
+   Uses the same visual style as Manager AI
+========================================================= */
+
+.nx-manager-workspaces {
+    --nx-ws-primary: var(--nx-primary, var(--color-primary));
+    --nx-ws-primary-hover: var(--nx-primary-hover, var(--color-primary-hover));
+    --nx-ws-deep: var(--nx-sidebar, var(--color-primary-dark));
+    --nx-ws-accent: var(--nx-accent, var(--color-accent));
+    --nx-ws-bg: var(--nx-bg, var(--color-background));
+    --nx-ws-card: var(--nx-card, var(--color-surface));
+    --nx-ws-text: var(--nx-text, var(--color-text));
+    --nx-ws-muted: var(--nx-text-muted, var(--color-text-muted));
+    --nx-ws-border: var(--nx-border, var(--color-border));
+
+    width: 100%;
+    padding: 8px 0 36px;
+    color: var(--nx-ws-text);
+    font-family: var(--nx-font-body, "Inter", sans-serif);
+}
+
+.nx-manager-workspaces *,
+.nx-manager-workspaces *::before,
+.nx-manager-workspaces *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   HERO — Same Manager AI Header
+========================================================= */
+
+.nx-manager-workspaces .nx-ai-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 150px;
+    padding: 20px 30px;
+    margin-bottom: 22px;
+
+    overflow: hidden;
+    isolation: isolate;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 8%,
+        transparent
+    );
+    border-radius: 22px;
+ background:
+        radial-gradient(
+            circle at 82% 25%,
+            color-mix(in srgb, var(--nx-ws-accent) 8%, transparent),
+            transparent 24%
+        ),
+        linear-gradient(
+            115deg,
+            var(--nx-ws-deep) 0%,
+            #171717 65%,
+            #202020 100%
+        ) !important;
+
+    box-shadow: 0 12px 30px color-mix(
+        in srgb,
+        var(--color-primary-dark) 12%,
+        transparent
+    );
+}
+
+.nx-manager-workspaces .nx-ai-header::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    right: 8%;
+    top: -210px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 12%,
+        transparent
+    );
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.nx-manager-workspaces .nx-ai-header::after {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: 17%;
+    bottom: -190px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 12%,
+        transparent
+    );
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.nx-manager-workspaces .nx-ai-header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.nx-manager-workspaces .nx-ai-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+
+    color: var(--color-primary) !important;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.nx-manager-workspaces .nx-ai-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--nx-ws-primary);
+    box-shadow: 0 0 0 4px color-mix(
+        in srgb,
+        var(--color-accent) 13%,
+        transparent
+    );
+}
+
+.nx-manager-workspaces .nx-ai-header h1 {
+    margin: 0 0 9px;
+    color: var(--color-surface);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+}
+
+.nx-manager-workspaces .nx-ai-header p {
+    max-width: 590px;
+    margin: 0;
+    color: color-mix(
+        in srgb,
+        var(--color-accent) 75%,
+        transparent
+    );
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* Hero icon */
+
+.nx-manager-workspaces .nx-ai-header-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 145px;
+    height: 145px;
+    flex: 0 0 145px;
+    margin-right: 35px;
+}
+
+.nx-manager-workspaces .nx-ai-icon-core {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 38%,
+        transparent
+    );
+    border-radius: 24px;
+
+    background:
+       var( --nx-ws-primary) 
+      
+    ;
+
+    color: var(--nx-accent);
+    font-size: 38px;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 10px 35px color-mix(
+        in srgb,
+        var(--color-text) 12%,
+        transparent
+    );
+
+    animation: nx-ws-float 4s ease-in-out infinite;
+}
+
+.nx-manager-workspaces .nx-ai-orbit {
+    position: absolute;
+    border: 3px solid color-mix(
+        in srgb,
+        var(--color-primary) 20%,
+        transparent
+    );
+    border-radius: 50%;
+}
+
+.nx-manager-workspaces .nx-ai-orbit-one {
+    width: 112px;
+    height: 112px;
+    animation: nx-ws-rotate 16s linear infinite;
+}
+
+.nx-manager-workspaces .nx-ai-orbit-two {
+    width: 145px;
+    height: 145px;
+    border-style: dashed;
+    opacity: .7;
+    animation: nx-ws-rotate 24s linear infinite reverse;
+}
+
+/* =========================================================
+   WORKSPACES TOOLBAR
+========================================================= */
+
+.nx-manager-workspaces .nx-workspaces-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.nx-manager-workspaces .workspace-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    min-height: 39px;
+    padding: 0 15px;
+
+    border: 1px solid var(--nx-ws-border);
+    border-radius: 999px;
+
+    background: var(--nx-ws-card);
+    color: var(--nx-ws-text);
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nx-manager-workspaces .nx-workspaces-toolbar .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 39px;
+    padding: 0 17px;
+
+    border: 1px solid var(--nx-ws-primary);
+    border-radius: 10px;
+
+    background: var(--nx-ws-primary);
+    color: var(--color-surface);
+
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: background .2s ease, transform .2s ease;
+}
+
+.nx-manager-workspaces .nx-workspaces-toolbar .button:hover {
+    background: var(--nx-ws-primary-hover);
+    border-color: var(--nx-ws-primary-hover);
+    color: var(--color-surface);
+    transform: translateY(-2px);
+}
+
+.nx-manager-workspaces .nx-workspaces-toolbar .button span {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* =========================================================
+   WORKSPACES GRID
+========================================================= */
+
+.nx-manager-workspaces .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    width: 100%;
+}
+
+/* =========================================================
+   WORKSPACE CARD
+========================================================= */
+
+.nx-manager-workspaces .card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+
+    border: 1px solid var(--nx-ws-accent)!important;
+    border-radius: 17px;
+
+    background: var(--nx-ws-card)!important;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.05);
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        border-color .22s ease;
+}
+
+.nx-manager-workspaces .card:hover {
+    transform: translateY(-4px);
+
+    border-color: var(--nx-ws-accent);
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.14),
+        0 4px 10px rgba(0, 0, 0, 0.06)!important;
+}
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.nx-manager-workspaces .card .media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        var(--color-primary-dark),
+        var(--color-primary)
+    );
+}
+
+.nx-manager-workspaces .card .media > span {
+    position: absolute;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 30%,
+        transparent
+    );
+    border-radius: 17px;
+
+    background: color-mix(
+        in srgb,
+        var(--color-surface) 12%,
+        transparent
+    );
+
+    color: var(--color-surface);
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.nx-manager-workspaces .card .media img {
+    position: relative;
+    z-index: 2;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform .35s ease;
+}
+
+.nx-manager-workspaces .card:hover .media img {
+    transform: scale(1.04);
+}
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.nx-manager-workspaces .card .content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 20px;
+}
+
+.nx-manager-workspaces .card .content h2 {
+    margin: 0 0 8px;
+
+    color: var(--nx-ws-text);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.nx-manager-workspaces .card .location {
+    margin: 0 0 15px;
+
+    color: var(--nx-ws-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.nx-manager-workspaces .card .status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 27px;
+    padding: 5px 11px;
+    margin-bottom: 17px;
+
+    border: 1px solid var(--nx-ws-border);
+    border-radius: 999px;
+
+    background: var(--color-background);
+    color: var(--nx-ws-muted);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nx-manager-workspaces .card .status.pending {
+    border-color: #f0dfb7;
+    background: #fff8e9;
+    color: #a36e12;
+}
+
+.nx-manager-workspaces .card .status.active {
+    border-color: #cce8d7;
+    background: #edf8f1;
+    color: #27804c;
+}
+
+/* =========================================================
+   VIEW DETAILS
+========================================================= */
+
+.nx-manager-workspaces .card .detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    width: 100%;
+    margin-top: auto;
+    padding-top: 13px;
+
+    border-top: 1px solid var(--nx-ws-border);
+
+    color: var(--nx-ws-primary-hover);
+    font-size: 12px;
+    font-weight: 750;
+    text-decoration: none;
+
+    transition: gap .2s ease, color .2s ease;
+}
+
+.nx-manager-workspaces .card .detail:hover {
+    gap: 13px;
+    color: var(--nx-ws-primary);
+}
+
+.nx-manager-workspaces .card .detail span {
+    font-size: 17px;
+    line-height: 1;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.nx-manager-workspaces .empty {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 220px;
+    padding: 30px;
+
+    border: 1px dashed var(--nx-ws-border);
+    border-radius: 17px;
+
+    background: var(--nx-ws-card);
+    text-align: center;
+}
+
+.nx-manager-workspaces .empty h2 {
+    margin: 0 0 9px;
+    color: var(--nx-ws-text);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.nx-manager-workspaces .empty p {
+    margin: 0;
+    color: var(--nx-ws-muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes nx-ws-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes nx-ws-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+    .nx-manager-workspaces .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nx-manager-workspaces .nx-ai-header-icon {
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nx-manager-workspaces {
+        padding-top: 4px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header {
+        min-height: 165px;
+        padding: 27px 23px;
+        margin-bottom: 20px;
+        border-radius: 17px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header h1 {
+        font-size: 31px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header p {
+        max-width: 470px;
+        font-size: 12px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header-icon {
+        width: 90px;
+        height: 90px;
+        flex-basis: 90px;
+        margin-right: 0;
+    }
+
+    .nx-manager-workspaces .nx-ai-icon-core {
+        width: 57px;
+        height: 57px;
+        border-radius: 18px;
+        font-size: 29px;
+    }
+
+    .nx-manager-workspaces .nx-ai-orbit-one {
+        width: 77px;
+        height: 77px;
+    }
+
+    .nx-manager-workspaces .nx-ai-orbit-two {
+        width: 95px;
+        height: 95px;
+    }
+
+    .nx-manager-workspaces .grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .nx-manager-workspaces .card .media {
+        height: 210px;
+    }
+}
+
+@media (max-width: 520px) {
+    .nx-manager-workspaces .nx-ai-header {
+        min-height: 145px;
+        padding: 24px 19px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header-icon {
+        width: 65px;
+        height: 65px;
+        flex-basis: 65px;
+    }
+
+    .nx-manager-workspaces .nx-ai-icon-core {
+        width: 47px;
+        height: 47px;
+        border-radius: 14px;
+        font-size: 24px;
+    }
+
+    .nx-manager-workspaces .nx-ai-orbit-one {
+        width: 62px;
+        height: 62px;
+    }
+
+    .nx-manager-workspaces .nx-ai-orbit-two {
+        width: 72px;
+        height: 72px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header h1 {
+        font-size: 27px;
+    }
+
+    .nx-manager-workspaces .nx-ai-header p {
+        font-size: 11px;
+    }
+
+    .nx-manager-workspaces .nx-ai-eyebrow {
+        font-size: 8px;
+        letter-spacing: 1.3px;
+    }
+
+    .nx-manager-workspaces .nx-workspaces-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .nx-manager-workspaces .card .media {
+        height: 185px;
+    }
+
+    .nx-manager-workspaces .card .content {
+        padding: 17px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nx-manager-workspaces *,
+    .nx-manager-workspaces *::before,
+    .nx-manager-workspaces *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

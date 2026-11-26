@@ -139,20 +139,29 @@
 }
 /* Lead cards: the platform's money numbers get visual priority */
 .nx-kpi-card--lead {
-    background: var(--nx-primary);
-    border-color: var(--nx-primary);
+    position: relative;
+    overflow: hidden;
+    background: var(--nx-surface);
+    border-color: var(--nx-border);
+}
+.nx-kpi-card--lead::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: var(--color-primary);
+    content: "";
 }
 .nx-kpi-card--lead .nx-kpi-card__icon {
-    background: rgb(255 255 255 / 0.14);
-    color: #fff;
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
 }
 .nx-kpi-card--lead .nx-kpi-card__label,
 .nx-kpi-card--lead .nx-kpi-card__description,
 .nx-kpi-card--lead .nx-kpi-card__value small {
-    color: rgb(255 255 255 / 0.82);
+    color: var(--nx-text-secondary);
 }
 .nx-kpi-card--lead .nx-kpi-card__value {
-    color: #fff;
+    color: var(--color-primary-hover);
 }
 
 /* ---------- Dashboard grids ---------- */
@@ -423,7 +432,7 @@
     width: 36px;
     height: 36px;
     border-radius: var(--nx-radius-md);
-    background: rgb(255 255 255 / 0.7);
+    background: color-mix(in srgb, var(--color-surface) 70%, transparent);
 }
 .nx-alert__icon :is(i, svg) {
     width: 18px;
@@ -441,7 +450,7 @@
     height: 32px;
     padding-inline: var(--nx-space-2);
     border-radius: var(--nx-radius-pill);
-    background: rgb(255 255 255 / 0.7);
+    background: color-mix(in srgb, var(--color-surface) 70%, transparent);
     font-size: var(--nx-text-label);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -544,7 +553,7 @@
     font: 700 13px var(--nx-font-heading);
 }
 .nx-review-rating {
-    color: var(--nx-accent-strong);
+    color: var(--color-rating);
     font-size: var(--nx-text-label);
     font-weight: 600;
     white-space: nowrap;

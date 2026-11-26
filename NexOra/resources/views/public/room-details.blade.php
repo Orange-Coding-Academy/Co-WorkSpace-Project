@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $room->name }} | NexOra</title>
-    <meta name="theme-color" content="#172e27">
+    <meta name="theme-color" content="#121212">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/pages/room-details.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/room-details.css') }}?v=20261125-ui1">
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v=20261125-green3">
+    <link rel="stylesheet" href="{{ asset('css/nexora/role-polish.css') }}?v=20261125-ui6">
     <script src="{{ asset('js/pages/room-details.js') }}" defer></script>
 </head>
 <body class="nx-room-page">
@@ -21,7 +23,10 @@
 
         <nav class="nx-room__nav">
             <a href="{{ route('explore') }}" class="nx-room__brand">
-                <span class="nx-room__brand-mark">N</span>
+                <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <rect x="1" y="1" width="38" height="38" rx="11" />
+                    <path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11" />
+                </svg>
                 <span>NEXORA</span>
             </a>
 

@@ -1,0 +1,1078 @@
+
+/* =========================================================
+   NEXORA — MANAGER MEMBERSHIP PLANS
+   Hero inspired by Manager AI
+   Premium membership table
+========================================================= */
+
+.nx-membership-page {
+    --mp-primary: var(--color-primary);
+    --mp-primary-dark: var(--color-primary-dark);
+    --mp-accent: var(--color-accent);
+    --mp-bg: var(--color-background);
+    --mp-surface: var(--color-surface);
+    --mp-text: var(--color-text);
+    --mp-muted: var(--color-text-muted);
+    --mp-border: var(--color-border);
+
+    width: 100%;
+    padding: 8px 0 36px;
+    color: var(--mp-text);
+    font-family: var(--nx-font-body, "Inter", sans-serif);
+}
+
+.nx-membership-page *,
+.nx-membership-page *::before,
+.nx-membership-page *::after {
+    box-sizing: border-box;
+}
+
+.nx-membership-page a {
+    text-decoration: none;
+}
+
+.nx-membership-page button,
+.nx-membership-page input {
+    font: inherit;
+}
+
+.mp-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HERO — SAME VISUAL STYLE AS MANAGER AI
+========================================================= */
+
+.mp-hero {
+    position: relative;
+    display: flex;
+    height: 150px;
+    align-items: center;
+    justify-content: space-between;
+    padding:95px 30px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    isolation: isolate;
+
+     border: 1px solid #252525;
+    border-radius: 16px;
+
+    background: #080808 !important;
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.mp-hero::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    right: 8%;
+    top: -210px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 12%,
+        transparent
+    );
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.mp-hero::after {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: 17%;
+    bottom: -190px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 12%,
+        transparent
+    );
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.mp-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.mp-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+    color: var(--color-primary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.mp-hero-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px color-mix(
+        in srgb,
+        var(--color-accent) 13%,
+        transparent
+    );
+}
+
+.mp-hero h1 {
+    margin: 0 0 9px;
+    color: var(--color-surface);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: clamp(30px, 4vw, 42px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+}
+
+.mp-hero p {
+    max-width: 590px;
+    margin: 0 0 19px;
+    color: color-mix(
+        in srgb,
+        var(--color-accent) 78%,
+        transparent
+    );
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+
+/* Create Plan Button */
+
+.mp-create-btn {
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 39px;
+    padding: 8px 15px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-primary) 35%,
+        transparent
+    );
+    border-radius: 10px;
+    background: var(--color-primary);
+    color: var(--color-surface)!important;
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 0 5px 15px color-mix(
+        in srgb,
+        var(--color-text) 12%,
+        transparent
+    );
+    transition: .2s ease;
+}
+
+.mp-create-btn:hover {
+  
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px color-mix(
+        in srgb,
+        var(--color-text) 15%,
+        transparent
+    );
+}
+
+.mp-create-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    border-radius: 6px;
+    background: var(--color-accent-soft);
+    color: var(--color-primary-dark);
+    font-size: 17px;
+    line-height: 1;
+}
+
+
+/* Hero Icon */
+
+.mp-hero-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 145px;
+    height: 145px;
+    flex: 0 0 145px;
+    margin-right: 35px;
+}
+
+.mp-hero-icon-core {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 38%,
+        transparent
+    );
+    border-radius: 24px;
+    background: color-mix(
+        in srgb,
+        var(--color-accent) 12%,
+        transparent
+    );
+    color: var(--color-accent);
+    font-size: 39px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 35px color-mix(
+        in srgb,
+        var(--color-text) 12%,
+        transparent
+    );
+    animation: mp-float 4s ease-in-out infinite;
+}
+
+.mp-hero-orbit {
+    position: absolute;
+    border: 3px solid color-mix(
+        in srgb,
+        var(--color-accent) 25%,
+        transparent
+    );
+    border-radius: 50%;
+}
+
+.mp-hero-orbit-one {
+    width: 112px;
+    height: 112px;
+    animation: mp-rotate 16s linear infinite;
+}
+
+.mp-hero-orbit-two {
+    width: 145px;
+    height: 145px;
+    border-style: dashed;
+    opacity: .7;
+    animation: mp-rotate 24s linear infinite reverse;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.nx-membership-page .alert {
+    padding: 13px 16px;
+    margin-bottom: 18px;
+    border-radius: 11px;
+    font-size: 12px;
+}
+
+.nx-membership-page .alert ul {
+    padding-left: 18px;
+}
+
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.mp-card {
+    overflow: hidden;
+    border: 1px solid var(--mp-border);
+    border-radius: 17px;
+    background: var(--mp-surface);
+    box-shadow: 0 5px 22px color-mix(
+        in srgb,
+        var(--color-text) 5%,
+        transparent
+    );
+}
+
+.mp-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.mp-table {
+    width: 100%;
+    min-width: 850px;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--mp-text);
+}
+
+.mp-table thead {
+    background: linear-gradient(
+        110deg,
+        color-mix(in srgb, var(--color-primary) 7%, var(--mp-surface)),
+        color-mix(in srgb, var(--color-accent) 8%, var(--mp-surface))
+    );
+}
+
+.mp-table thead th {
+    padding: 17px 18px;
+    border-bottom: 1px solid var(--mp-border);
+    color: var(--mp-muted);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.mp-table tbody td {
+    padding: 17px 18px;
+    border-bottom: 1px solid color-mix(
+        in srgb,
+        var(--mp-border) 75%,
+        transparent
+    );
+    color: var(--mp-text);
+    font-size: 12px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.mp-table tbody tr {
+    transition: background .18s ease;
+}
+
+.mp-table tbody tr:hover {
+    background: color-mix(
+        in srgb,
+        var(--color-primary) 3%,
+        var(--mp-surface)
+    );
+}
+
+.mp-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.mp-table tbody td strong {
+    color: var(--mp-text);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.mp-table tbody td > span:not(.mp-status) {
+    color: var(--mp-muted);
+    font-size: 10px;
+}
+
+.mp-empty-state {
+    height: 150px;
+    color: var(--mp-muted) !important;
+    text-align: center;
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.mp-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 27px;
+    padding: 5px 11px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.mp-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.mp-status-active {
+    border-color: color-mix(
+        in srgb,
+        var(--color-success) 20%,
+        transparent
+    );
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.mp-status-active::before {
+    background: var(--color-success);
+}
+
+.mp-status-inactive {
+    border-color: var(--mp-border);
+    background: var(--color-background);
+    color: var(--mp-muted);
+}
+
+.mp-status-inactive::before {
+    background: var(--mp-muted);
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.mp-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.mp-actions form {
+    margin: 0;
+}
+
+.mp-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 31px;
+    padding: 6px 10px;
+    border: 1px solid var(--mp-border);
+    border-radius: 8px;
+    background: var(--mp-surface);
+    color: var(--mp-text);
+    font-size: 10px;
+    font-weight: 750;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: .18s ease;
+}
+
+.mp-view-btn {
+    border-color: color-mix(
+        in srgb,
+        var(--color-primary) 25%,
+        var(--mp-border)
+    );
+    background: color-mix(
+        in srgb,
+        var(--color-primary) 6%,
+        var(--mp-surface)
+    );
+    color: var(--color-primary);
+}
+
+.mp-view-btn:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.mp-edit-btn {
+    border-color: color-mix(
+        in srgb,
+        var(--color-accent) 50%,
+        var(--mp-border)
+    );
+    background: color-mix(
+        in srgb,
+        var(--color-accent) 10%,
+        var(--mp-surface)
+    );
+    color: var(--color-primary-dark);
+}
+
+.mp-edit-btn:hover {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-primary-dark);
+}
+
+.mp-deactivate-btn {
+    border-color: color-mix(
+        in srgb,
+        var(--color-danger) 30%,
+        var(--mp-border)
+    );
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.mp-deactivate-btn:hover {
+    border-color: var(--color-danger);
+    background: var(--color-danger);
+    color: #fff;
+}
+
+.mp-activate-btn {
+    border-color: color-mix(
+        in srgb,
+        var(--color-success) 30%,
+        var(--mp-border)
+    );
+    background: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.mp-activate-btn:hover {
+    border-color: var(--color-success);
+    background: var(--color-success);
+    color: #fff;
+}
+
+.mp-action-btn:focus-visible,
+.mp-create-btn:focus-visible {
+    outline: 3px solid color-mix(
+        in srgb,
+        var(--color-primary) 22%,
+        transparent
+    );
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   PAGINATION — BOOKINGS STYLE
+========================================================= */
+
+.nx-membership-page .bk-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 17px 20px;
+    border-top: 1px solid var(--mp-border);
+    background: var(--mp-surface);
+}
+
+.nx-membership-page .bk-pagination-summary {
+    color: var(--mp-muted);
+    font-size: 11px;
+}
+
+.nx-membership-page .bk-pagination-summary strong {
+    color: var(--mp-text);
+    font-weight: 800;
+}
+
+.nx-membership-page .bk-pager {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.nx-membership-page .bk-pager-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--mp-border);
+    border-radius: 8px;
+    background: var(--mp-surface);
+    color: var(--mp-text);
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .18s ease;
+}
+
+.nx-membership-page .bk-pager-link:hover:not(.is-disabled):not(.is-active) {
+    border-color: var(--color-primary);
+    background: color-mix(
+        in srgb,
+        var(--color-primary) 6%,
+        var(--mp-surface)
+    );
+    color: var(--color-primary);
+}
+
+.nx-membership-page .bk-pager-link.is-active {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-surface);
+    box-shadow: 0 3px 9px color-mix(
+        in srgb,
+        var(--color-primary) 18%,
+        transparent
+    );
+}
+
+.nx-membership-page .bk-pager-link.is-disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   PLAN DETAILS DIALOG
+========================================================= */
+
+.mp-plan-dialog {
+    width: min(560px, calc(100% - 30px));
+    max-width: 560px;
+    max-height: calc(100% - 30px);
+    padding: 0;
+    overflow: auto;
+    border: 1px solid var(--mp-border);
+    border-radius: 19px;
+    background: var(--mp-surface);
+    color: var(--mp-text);
+    box-shadow: 0 25px 80px rgb(0 0 0 / 22%);
+}
+
+.mp-plan-dialog::backdrop {
+    background: rgb(15 20 25 / 62%);
+    backdrop-filter: blur(5px);
+}
+
+.mp-plan-dialog[open] {
+    animation: mp-dialog-in .22s ease both;
+}
+
+.mp-plan-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 23px 25px;
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            color-mix(in srgb, var(--color-accent) 17%, transparent),
+            transparent 35%
+        ),
+        linear-gradient(
+            115deg,
+            var(--color-primary-dark),
+            var(--color-primary)
+        );
+}
+
+.mp-plan-dialog__eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--color-accent);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.mp-plan-dialog__header h2 {
+    margin: 0;
+    color: var(--color-surface);
+    font-family: var(--nx-font-heading, "Manrope", sans-serif);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.mp-plan-dialog__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 auto;
+    border: 1px solid color-mix(
+        in srgb,
+        var(--color-surface) 30%,
+        transparent
+    );
+    border-radius: 9px;
+    background: color-mix(
+        in srgb,
+        var(--color-surface) 10%,
+        transparent
+    );
+    color: var(--color-surface);
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.mp-plan-dialog__close:hover {
+    background: color-mix(
+        in srgb,
+        var(--color-surface) 22%,
+        transparent
+    );
+}
+
+.mp-plan-dialog__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--mp-border);
+}
+
+.mp-plan-dialog__summary > div {
+    min-width: 0;
+    padding: 13px 12px;
+    border: 1px solid var(--mp-border);
+    border-radius: 11px;
+    background: var(--color-background);
+}
+
+.mp-plan-dialog__summary span {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--mp-muted);
+    font-size: 10px;
+}
+
+.mp-plan-dialog__summary strong {
+    display: block;
+    color: var(--mp-text);
+    font-size: 13px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.mp-plan-dialog__details {
+    display: grid;
+    gap: 0;
+    padding: 8px 24px;
+    margin: 0;
+}
+
+.mp-plan-dialog__details > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--mp-border);
+}
+
+.mp-plan-dialog__details dt {
+    color: var(--mp-muted);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mp-plan-dialog__details dd {
+    margin: 0;
+    color: var(--mp-text);
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.mp-plan-dialog__details .mp-plan-dialog__description {
+    display: block;
+    border-bottom: 0;
+}
+
+.mp-plan-dialog__description dd {
+    margin-top: 8px;
+    color: var(--mp-muted);
+    font-weight: 500;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.mp-plan-dialog__status.is-active {
+    color: var(--color-success);
+}
+
+.mp-plan-dialog__status.is-inactive {
+    color: var(--mp-muted);
+}
+
+.mp-plan-dialog__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 17px 24px 22px;
+    border-top: 1px solid var(--mp-border);
+}
+
+.mp-plan-dialog__actions .btn {
+    min-height: 38px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.mp-plan-dialog__actions .btn-primary {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+}
+
+.mp-plan-dialog__actions .btn-primary:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes mp-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes mp-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes mp-dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+    .mp-hero-icon {
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nx-membership-page {
+        padding-top: 4px;
+    }
+
+    .mp-hero {
+        min-height: 165px;
+        padding: 27px 23px;
+        margin-bottom: 25px;
+        border-radius: 17px;
+    }
+
+    .mp-hero h1 {
+        font-size: 31px;
+    }
+
+    .mp-hero p {
+        max-width: 470px;
+        font-size: 12px;
+    }
+
+    .mp-hero-icon {
+        width: 90px;
+        height: 90px;
+        flex-basis: 90px;
+        margin-right: 0;
+    }
+
+    .mp-hero-icon-core {
+        width: 57px;
+        height: 57px;
+        border-radius: 18px;
+        font-size: 29px;
+    }
+
+    .mp-hero-orbit-one {
+        width: 77px;
+        height: 77px;
+    }
+
+    .mp-hero-orbit-two {
+        width: 95px;
+        height: 95px;
+    }
+
+    .mp-table thead th {
+        padding: 14px;
+    }
+
+    .mp-table tbody td {
+        padding: 14px;
+    }
+
+    .nx-membership-page .bk-pagination {
+        align-items: flex-start;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 520px) {
+    .mp-hero {
+        padding: 24px 19px;
+    }
+
+    .mp-hero-icon {
+        width: 65px;
+        height: 65px;
+        flex-basis: 65px;
+    }
+
+    .mp-hero-icon-core {
+        width: 47px;
+        height: 47px;
+        border-radius: 14px;
+        font-size: 24px;
+    }
+
+    .mp-hero-orbit-one {
+        width: 62px;
+        height: 62px;
+    }
+
+    .mp-hero-orbit-two {
+        width: 72px;
+        height: 72px;
+    }
+
+    .mp-hero h1 {
+        font-size: 25px;
+        letter-spacing: -.8px;
+    }
+
+    .mp-hero p {
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .mp-hero-eyebrow {
+        font-size: 8px;
+        letter-spacing: 1.3px;
+    }
+
+    .mp-create-btn {
+        min-height: 35px;
+        padding: 7px 11px;
+        font-size: 10px;
+    }
+
+    .mp-card {
+        border-radius: 13px;
+    }
+
+    .nx-membership-page .bk-pagination {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nx-membership-page .bk-pager {
+        width: 100%;
+    }
+
+    .mp-plan-dialog__summary {
+        grid-template-columns: 1fr;
+    }
+
+    .mp-plan-dialog__actions {
+        flex-direction: column-reverse;
+    }
+
+    .mp-plan-dialog__actions .btn {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mp-hero *,
+    .mp-hero *::before,
+    .mp-hero *::after,
+    .mp-plan-dialog {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+/* Create / Edit Dialog - Match View Dialog */
+.mp-form-dialog {
+    width: min(620px, calc(100% - 30px));
+    max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 26px;
+    color: inherit;
+}
+
+/* Form fields */
+.mp-form-dialog .mp-form-body {
+    padding-top: 20px;
+}
+
+.mp-form-dialog .form-label,
+.mp-form-dialog .form-check-label {
+    color: inherit;
+    font-weight: 500;
+}
+
+.mp-form-dialog .form-control,
+.mp-form-dialog .form-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 14px;
+    color: inherit;
+    background: transparent;
+    border: 1px solid var(--border-color, #333);
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.mp-form-dialog textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.mp-form-dialog .form-control:focus,
+.mp-form-dialog .form-select:focus {
+    border-color: var(--color-accent, #b99a5b);
+    box-shadow: 0 0 0 2px rgba(185, 154, 91, 0.12);
+}
+
+.mp-form-dialog .form-select option {
+    background: #101010;
+    color: #fff;
+}
+
+/* Form buttons */
+.mp-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    margin-top: 10px;
+    border-top: 1px solid #292929;
+}
+
+.mp-form-actions .btn {
+    min-height: 42px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+}

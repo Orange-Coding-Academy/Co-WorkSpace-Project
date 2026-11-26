@@ -94,7 +94,7 @@ class PaymentController extends Controller
 
         $payments = $paymentsQuery
             ->latest()
-            ->paginate($filters['per_page'] ?? 15)
+            ->paginate($filters['per_page'] ?? 5)
             ->withQueryString();
 
         return view('Admin.indexPayment', compact(

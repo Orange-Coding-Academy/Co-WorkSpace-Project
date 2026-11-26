@@ -29,6 +29,9 @@
 .nx-manager-dashboard .nx-page-header__copy {
     min-width: 0;
 }
+.nx-manager-dashboard .nx-page-header__copy p{
+    color: var(--nx-accent);
+}
 
 .nx-manager-dashboard .nx-page-header h1 {
     margin: 2px 0 var(--nx-space-1);
@@ -396,7 +399,7 @@
     align-items: center;
     gap: 5px;
     flex: none;
-    color: var(--nx-accent-strong);
+    color: var(--color-rating);
     font-size: var(--nx-text-label);
     font-weight: 700;
     font-variant-numeric: tabular-nums;
@@ -405,8 +408,8 @@
 .nx-manager-dashboard .nx-review-rating :is(i, svg) {
     width: 14px;
     height: 14px;
-    fill: var(--nx-accent);
-    stroke: var(--nx-accent-strong);
+    fill: var(--color-rating);
+    stroke: var(--color-rating);
 }
 
 .nx-manager-dashboard .nx-review-comment {

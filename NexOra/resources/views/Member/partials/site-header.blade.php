@@ -7,7 +7,13 @@
 
 <header class="nx-site-header {{ $nxSolid ? 'is-solid is-forced' : '' }}" id="siteHeader">
     <div class="nx-wrap nx-site-header__inner">
-        <a href="{{ url('/') }}" class="nx-logo">NexOra</a>
+        <a href="{{ url('/') }}" class="nx-logo" aria-label="NexOra home">
+            <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                <rect x="1" y="1" width="38" height="38" rx="11" />
+                <path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11" />
+            </svg>
+            NexOra
+        </a>
 
         <nav class="nx-nav" aria-label="Primary">
             <ul class="nx-nav__list">

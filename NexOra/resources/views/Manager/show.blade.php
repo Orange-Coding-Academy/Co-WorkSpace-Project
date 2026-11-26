@@ -11,35 +11,7 @@
 
 <div class="modal-body p-4">
 
-<style>
-    .review-label {
-        color: #7F8B84;
-        font-size: 13px;
-        margin-bottom: 5px;
-    }
-
-    .review-value {
-        font-weight: 600;
-        margin-bottom: 20px;
-    }
-
-    .review-rating {
-        color: #e9a526;
-        font-size: 24px;
-        font-weight: 700;
-    }
-
-    .review-comment {
-        background: #F8FAF7;
-        border: 1px solid #E9EEE9;
-        border-radius: 10px;
-        padding: 18px;
-        line-height: 1.7;
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-        min-height: 80px;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/pages/design-refactor-shared-20.css') }}?v=20261124-ui1">
 
 <h6 class="fw-bold mb-3">Customer Information</h6>
 

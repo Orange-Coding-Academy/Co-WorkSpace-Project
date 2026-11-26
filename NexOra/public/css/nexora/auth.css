@@ -9,30 +9,30 @@
 
 .nx-auth {
     /* Brand */
-    --nx-primary: #315c4d;
-    --nx-primary-dark: #203d34;
-    --nx-primary-hover: #274b3f;
+    --nx-primary: var(--color-primary);
+    --nx-primary-dark: var(--color-primary-dark);
+    --nx-primary-hover: var(--color-primary-hover);
 
     /* Surfaces */
-    --nx-sidebar: #203d34;
-    --nx-bg: #f5f7f3;
-    --nx-soft: #f8faf7;
-    --nx-card: #ffffff;
+    --nx-sidebar: var(--color-primary-dark);
+    --nx-bg: var(--color-background);
+    --nx-soft: var(--color-surface);
+    --nx-card: var(--color-surface);
 
     /* Text */
-    --nx-text: #1d2924;
-    --nx-text-secondary: #53615a;
-    --nx-muted: #7f8b84;
+    --nx-text: var(--color-text);
+    --nx-text-secondary: var(--color-text-muted);
+    --nx-muted: var(--color-text-muted);
 
     /* Borders */
-    --nx-line: #e2e8e2;
-    --nx-border-strong: #c9d4cc;
+    --nx-line: var(--color-border);
+    --nx-border-strong: var(--color-border);
 
     /* Accent and validation */
-    --nx-accent: #c58a62;
-    --nx-accent-soft: #f8f0ea;
-    --nx-danger: #b42318;
-    --nx-success: #16794c;
+    --nx-accent: var(--color-accent);
+    --nx-accent-soft: var(--color-accent-soft);
+    --nx-danger: var(--color-danger);
+    --nx-success: var(--color-success);
 
     /* Fonts */
     --nx-font-heading: 'Manrope', sans-serif;
@@ -58,7 +58,7 @@
     position: relative;
     min-width: 0;
     background: var(--nx-sidebar);
-    color: #f5f7f3;
+    color: var(--color-background);
     padding: 40px 42px;
     display: flex;
     flex-direction: column;
@@ -74,11 +74,11 @@
     height: 360px;
     right: -180px;
     bottom: -180px;
-    border: 1px solid rgba(255, 255, 255, .09);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 9%, transparent);
     border-radius: 50%;
     box-shadow:
-        0 0 0 35px rgba(255, 255, 255, .025),
-        0 0 0 70px rgba(255, 255, 255, .02);
+        0 0 0 35px color-mix(in srgb, var(--color-surface) 2.5%, transparent),
+        0 0 0 70px color-mix(in srgb, var(--color-surface) 2%, transparent);
     pointer-events: none;
 }
 
@@ -89,14 +89,14 @@
     align-items: center;
     gap: 10px;
     width: fit-content;
-    color: #fff;
+    color: var(--color-primary);
     text-decoration: none;
     font: 800 22px/1 var(--nx-font-heading);
     letter-spacing: -.03em;
 }
 
 .nx-auth__logo:hover {
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-auth__logo svg {
@@ -124,7 +124,7 @@
 .nx-auth__brand h2 {
     max-width: 14ch;
     margin: 0;
-    color: #fff;
+    color: var(--color-surface);
     font: 800 clamp(30px, 3vw, 44px)/1.08 var(--nx-font-heading);
     letter-spacing: -.04em;
 }
@@ -132,7 +132,7 @@
 .nx-auth__brand h2 em {
     display: block;
     margin-top: 5px;
-    color: #e6c3a9;
+    color: var(--color-accent);
     font-style: normal;
     font-weight: 400;
 }
@@ -140,7 +140,7 @@
 .nx-auth__brand p {
     max-width: 38ch;
     margin: 18px 0 0;
-    color: rgba(245, 247, 243, .78);
+    color: color-mix(in srgb, var(--color-background) 78%, transparent);
     font-size: 15px;
     line-height: 1.75;
 }
@@ -151,7 +151,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid rgba(255, 255, 255, .15);
+    border-top: 1px solid color-mix(in srgb, var(--color-surface) 15%, transparent);
 }
 
 .nx-auth__roles li {
@@ -159,15 +159,15 @@
     align-items: flex-start;
     gap: 16px;
     padding: 16px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, .15);
-    color: rgba(245, 247, 243, .82);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-surface) 15%, transparent);
+    color: color-mix(in srgb, var(--color-background) 82%, transparent);
     font-size: 14px;
     line-height: 1.6;
 }
 
 .nx-auth__roles strong {
     min-width: 92px;
-    color: #fff;
+    color: var(--color-surface);
     font-family: var(--nx-font-heading);
     font-weight: 700;
 }
@@ -199,7 +199,7 @@
 }
 
 .nx-auth__bar .navbar-toggler:focus {
-    box-shadow: 0 0 0 3px rgba(49, 92, 77, .15);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
 }
 
 .nx-auth__bar .navbar-toggler-icon {
@@ -248,7 +248,7 @@
     padding: 8px;
     border: 1px solid var(--nx-line);
     border-radius: 12px;
-    box-shadow: 0 12px 30px rgba(21, 42, 35, .1);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-primary-dark) 10%, transparent);
 }
 
 .nx-auth__bar .dropdown-item {
@@ -346,7 +346,7 @@
     background: var(--nx-card);
     border: 1px solid var(--nx-line);
     border-radius: 18px;
-    box-shadow: 0 18px 50px rgba(21, 42, 35, .08);
+    box-shadow: 0 18px 50px color-mix(in srgb, var(--color-primary-dark) 8%, transparent);
 }
 
 .nx-form__badge {
@@ -357,7 +357,7 @@
     margin-bottom: 22px;
     border-radius: 14px;
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-form__badge svg {
@@ -428,9 +428,9 @@
     width: 100%;
     min-height: 46px;
     padding: 11px 13px;
-    border: 1px solid #d5ded7;
+    border: 1px solid var(--color-border);
     border-radius: 10px;
-    background-color: #fbfcfb;
+    background-color: var(--color-surface);
     color: var(--nx-text);
     font-family: var(--nx-font-body);
     font-size: 14px;
@@ -444,15 +444,15 @@
 }
 
 .nx-auth__body .form-control::placeholder {
-    color: #9aa59e;
+    color: var(--color-text-muted);
 }
 
 .nx-auth__body .form-control:focus,
 .nx-auth__body .form-select:focus {
     border-color: var(--nx-primary);
-    background-color: #fff;
+    background-color: var(--color-surface);
     color: var(--nx-text);
-    box-shadow: 0 0 0 3px rgba(49, 92, 77, .14);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 14%, transparent);
     outline: none;
 }
 
@@ -464,7 +464,7 @@
 
 .nx-auth__body .form-control.is-invalid:focus,
 .nx-auth__body .form-select.is-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(180, 35, 24, .12);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 12%, transparent);
 }
 
 .nx-auth__body .invalid-feedback {
@@ -495,7 +495,7 @@
 
 .nx-auth__body .form-check-input:focus {
     border-color: var(--nx-primary);
-    box-shadow: 0 0 0 3px rgba(49, 92, 77, .14);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 14%, transparent);
 }
 
 .nx-auth__body .form-check-label {
@@ -527,7 +527,7 @@
     border: 1px solid var(--nx-primary);
     border-radius: 10px;
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
     font-family: var(--nx-font-body);
     font-size: 14px;
     font-weight: 700;
@@ -541,7 +541,7 @@
 .nx-submit:focus-visible {
     border-color: var(--nx-primary-dark);
     background: var(--nx-primary-dark);
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-auth__body .btn-primary:active,
@@ -561,7 +561,7 @@
     padding: 10px 20px;
     border: 1px solid var(--nx-border-strong);
     border-radius: 10px;
-    background: #fff;
+    background: var(--color-surface);
     color: var(--nx-primary-dark);
     font-size: 13px;
     font-weight: 700;
@@ -645,14 +645,14 @@
     overflow: hidden;
     border: 1px solid var(--nx-line);
     border-radius: 18px;
-    background: #fff;
-    box-shadow: 0 18px 50px rgba(21, 42, 35, .08);
+    background: var(--color-surface);
+    box-shadow: 0 18px 50px color-mix(in srgb, var(--color-primary-dark) 8%, transparent);
 }
 
 .nx-wizard__head {
     padding: 24px 28px 18px;
     border-bottom: 1px solid var(--nx-line);
-    background: #fff;
+    background: var(--color-surface);
 }
 
 .nx-wizard__head h1 {
@@ -675,7 +675,7 @@
     min-height: 0;
     overflow-y: auto;
     padding: 24px 28px;
-    scrollbar-color: #c9d4cc transparent;
+    scrollbar-color: var(--color-border) transparent;
     scrollbar-width: thin;
 }
 
@@ -747,7 +747,7 @@
     height: 27px;
     border: 1px solid var(--nx-line);
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-surface);
     color: var(--nx-muted);
     font-size: 11px;
 }
@@ -767,13 +767,13 @@
 .nx-steps li.is-active span {
     border-color: var(--nx-primary);
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-steps li.is-done span {
     border-color: var(--nx-primary);
-    background: #e3ece6;
-    color: var(--nx-primary);
+    background: var(--color-accent-soft);
+    color: var(--nx-primary-dark);
 }
 
 .nx-steps li.is-done::after {
@@ -807,24 +807,24 @@
     padding: 15px;
     border: 1px solid var(--nx-line);
     border-radius: 12px;
-    background: #fff;
+    background: var(--color-surface);
     cursor: pointer;
     transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
 }
 
 .nx-choice:hover {
-    border-color: #aabbb0;
-    background: #fcfdfb;
+    border-color: var(--nx-primary);
+    background: var(--color-accent-soft);
 }
 
 .nx-choice:has(input:checked) {
     border-color: var(--nx-primary);
-    background: #f4f8f4;
+    background: var(--color-accent-soft);
     box-shadow: inset 0 0 0 1px var(--nx-primary);
 }
 
 .nx-choice:has(input:focus-visible) {
-    outline: 3px solid rgba(49, 92, 77, .15);
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
     outline-offset: 2px;
 }
 
@@ -869,7 +869,7 @@
 }
 
 .nx-chip:hover {
-    border-color: #aabbb0;
+    border-color: var(--color-border);
 }
 
 .nx-chip input {
@@ -879,7 +879,7 @@
 
 .nx-chip:has(input:checked) {
     border-color: var(--nx-primary);
-    background: #edf4ef;
+    background: var(--color-accent-soft);
     color: var(--nx-primary-dark);
     font-weight: 600;
 }
@@ -897,7 +897,7 @@
     padding: 8px 14px;
     border: 1px solid var(--nx-border-strong);
     border-radius: 999px;
-    background: #fff;
+    background: var(--color-surface);
     color: var(--nx-primary-dark);
     font-size: 12px;
     font-weight: 700;
@@ -911,7 +911,7 @@
 .nx-tab.is-active {
     border-color: var(--nx-primary);
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-tab--add {
@@ -923,7 +923,7 @@
     padding: 18px;
     border: 1px solid var(--nx-line);
     border-radius: 12px;
-    background: #fcfdfb;
+    background: var(--color-surface);
 }
 
 .nx-room__bar {
@@ -942,9 +942,9 @@
 
 .nx-btn-remove {
     padding: 7px 12px;
-    border: 1px solid #f5c2be;
+    border: 1px solid var(--color-danger-bg);
     border-radius: 7px;
-    background: #fdedec;
+    background: var(--color-danger-bg);
     color: var(--nx-danger);
     font-size: 12px;
     font-weight: 700;
@@ -952,7 +952,7 @@
 }
 
 .nx-btn-remove:hover {
-    background: #fbdedb;
+    background: var(--color-danger);
 }
 
 /* ===================== RESPONSIVE ===================== */

@@ -30,7 +30,7 @@
 }
 .nx-btn--primary {
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-btn--primary:hover:not(:disabled) {
     background: var(--nx-primary-hover);
@@ -39,12 +39,13 @@
     background: var(--nx-primary-active);
 }
 .nx-btn--secondary {
-    background: #edf2ec;
-    color: var(--nx-primary-active);
-    border-color: #dce6dc;
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border);
 }
 .nx-btn--secondary:hover:not(:disabled) {
-    background: #e3ebe2;
+    background: var(--color-background);
+    color: var(--color-text);
 }
 .nx-btn--outline {
     background: var(--nx-card);
@@ -64,11 +65,11 @@
     color: var(--nx-text);
 }
 .nx-btn--danger {
-    background: #b42318;
-    color: #fff;
+    background: var(--color-danger);
+    color: var(--color-surface);
 }
 .nx-btn--danger:hover:not(:disabled) {
-    background: #912018;
+    background: var(--color-danger);
 }
 .nx-btn--link {
     min-height: auto;
@@ -201,7 +202,7 @@ textarea.nx-control {
     height: 22px;
     padding: 2px;
     border-radius: var(--nx-radius-pill);
-    background: #aab5ad;
+    background: var(--color-border);
     transition: background var(--nx-duration-standard);
 }
 .nx-switch__thumb {
@@ -209,7 +210,7 @@ textarea.nx-control {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-surface);
     transition: transform var(--nx-duration-standard) var(--nx-ease);
 }
 .nx-switch input:checked + .nx-switch__track {
@@ -397,17 +398,18 @@ textarea.nx-control {
     white-space: nowrap;
 }
 .nx-table td {
-    height: 56px;
-    padding: 12px 16px;
+    height: auto;
+    padding: 8px 12px;
     border-top: 1px solid var(--nx-divider);
     color: var(--nx-text);
     vertical-align: middle;
 }
 .nx-table tbody tr:hover {
-    background: #f8faf7;
+    background: var(--color-background);
 }
 .nx-table tbody tr[aria-selected="true"] {
-    background: #edf4ee;
+    background: var(--color-accent-soft);
+    color: var(--color-text);
 }
 
 /* Navigation */
@@ -418,7 +420,7 @@ textarea.nx-control {
     min-height: 44px;
     padding: 0 14px;
     border-radius: var(--nx-radius-sm);
-    color: rgba(248, 250, 247, 0.82);
+    color: color-mix(in srgb, var(--color-surface) 82%, transparent);
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -427,13 +429,13 @@ textarea.nx-control {
         color var(--nx-duration-standard);
 }
 .nx-nav-link:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 8%, transparent);
 }
 .nx-nav-link[aria-current="page"] {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.14);
-    box-shadow: inset 3px 0 0 #d7e5d9;
+    color: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--color-primary);
 }
 .nx-breadcrumbs {
     display: flex;
@@ -455,7 +457,7 @@ textarea.nx-control {
     display: grid;
     place-items: center;
     padding: 16px;
-    background: rgba(16, 27, 22, 0.48);
+    background: color-mix(in srgb, var(--color-primary) 48%, transparent);
 }
 .nx-modal {
     width: min(480px, calc(100vw - 32px));
@@ -494,7 +496,7 @@ textarea.nx-control {
     height: 8px;
     overflow: hidden;
     border-radius: var(--nx-radius-pill);
-    background: #e8ede8;
+    background: var(--color-background);
 }
 .nx-progress__bar {
     height: 100%;
@@ -505,7 +507,7 @@ textarea.nx-control {
 .nx-skeleton {
     position: relative;
     overflow: hidden;
-    background: #e9eee9;
+    background: var(--color-border);
     border-radius: var(--nx-radius-sm);
 }
 .nx-skeleton::after {
@@ -516,7 +518,7 @@ textarea.nx-control {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.55),
+        color-mix(in srgb, var(--color-surface) 55%, transparent),
         transparent
     );
     animation: nx-shimmer 1.4s infinite;
@@ -534,7 +536,7 @@ textarea.nx-control {
     height: 40px;
     overflow: hidden;
     border-radius: 50%;
-    background: #e7eee7;
+    background: var(--color-primary);
     color: var(--nx-primary-active);
     font-size: 13px;
     font-weight: 600;
@@ -559,8 +561,8 @@ textarea.nx-control {
 .nx-tooltip {
     padding: 5px 8px;
     border-radius: 6px;
-    background: #1d2924;
-    color: #fff;
+    background: var(--color-text);
+    color: var(--color-surface);
     font-size: 12px;
 }
 .nx-divider {
@@ -650,7 +652,7 @@ textarea.nx-control {
 .nx-pagination__item[aria-current="page"] {
     border-color: var(--nx-primary);
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-pagination__item:disabled,
 .nx-pagination__item[aria-disabled="true"] {
@@ -698,7 +700,7 @@ textarea.nx-control {
 }
 .nx-calendar button[aria-pressed="true"] {
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-calendar button:disabled {
     color: var(--nx-disabled-text);
@@ -737,7 +739,7 @@ textarea.nx-control {
     font-weight: 600;
 }
 .nx-rating__star {
-    color: #a56a19;
+    color: var(--color-accent);
 }
 .nx-spinner {
     display: inline-block;
@@ -772,7 +774,7 @@ textarea.nx-control {
 }
 
 [dir="rtl"] .nx-nav-link[aria-current="page"] {
-    box-shadow: inset -3px 0 0 #d7e5d9;
+    box-shadow: inset -3px 0 0 var(--color-primary);
 }
 [dir="rtl"] .nx-switch input:checked + .nx-switch__track .nx-switch__thumb {
     transform: translateX(-18px);

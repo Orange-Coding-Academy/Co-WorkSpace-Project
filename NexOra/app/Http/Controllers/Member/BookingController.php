@@ -78,7 +78,7 @@ class BookingController extends Controller
             'end_date_time' => $end,
             'total_price' => $total,
             'status' => 'pending',
-            'payment_expires_at' => now()->addHours(8),
+            'payment_expires_at' => now()->addHours(1),
         ]);
 
         // Redirect to existing checkout page

@@ -222,7 +222,7 @@
 }
 .nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__icon {
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__label,
 .nx-admin-dashboard .nx-kpi-card--lead .nx-kpi-card__description,
@@ -334,7 +334,7 @@
 /* Cycle through four existing semantic tints so rows are distinguishable */
 .nx-admin-dashboard tbody tr:nth-child(4n + 1) .nx-avatar--sm {
     background: var(--nx-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 .nx-admin-dashboard tbody tr:nth-child(4n + 2) .nx-avatar--sm {
     background: var(--nx-info-bg);

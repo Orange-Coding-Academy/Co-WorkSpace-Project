@@ -7,7 +7,8 @@
 
 @push('styles')
     @include('layouts.dashboard.partials.app-compat-styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/admin-bookings.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-bookings.css') }}?v=20261125-ui1">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-payments.css') }}?v={{ @filemtime(public_path('css/pages/admin-payments.css')) }}">
 @endpush
 
 @section('content')
@@ -290,18 +291,97 @@
 
             </div>
 
-            {{-- Pagination --}}
-            @if($bookings->hasPages())
+{{-- Pagination --}}
+@if($bookings->hasPages())
+    @php
+        $bookings->withQueryString();
 
-                <div class="nx-bookings-pagination">
+        $currentPage = $bookings->currentPage();
+        $lastPage = $bookings->lastPage();
 
-                    <div class="nx-bookings-pagination__links">
-                        {{ $bookings->onEachSide(1)->links('pagination::bootstrap-5') }}
-                    </div>
+        $windowStart = max(1, $currentPage - 1);
+        $windowEnd = min($lastPage, $currentPage + 1);
+    @endphp
 
-                </div>
+    <div class="payments-pagination">
 
-            @endif
+        <div class="pagination-summary">
+            Page {{ $currentPage }} of {{ $lastPage }}
+        </div>
+
+        <nav aria-label="Pagination">
+            <ul class="pager">
+
+                {{-- Previous --}}
+                <li>
+                    @if($bookings->onFirstPage())
+                        <span class="pager-link is-disabled">‹</span>
+                    @else
+                        <a class="pager-link"
+                           href="{{ $bookings->previousPageUrl() }}">‹</a>
+                    @endif
+                </li>
+
+                {{-- First page --}}
+                @if($windowStart > 1)
+                    <li>
+                        <a class="pager-link"
+                           href="{{ $bookings->url(1) }}">1</a>
+                    </li>
+
+                    @if($windowStart > 2)
+                        <li><span class="pager-link is-disabled">…</span></li>
+                    @endif
+                @endif
+
+                {{-- Page numbers --}}
+                @foreach(range($windowStart, $windowEnd) as $page)
+                    <li>
+                        @if($page === $currentPage)
+                            <span class="pager-link is-active">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a class="pager-link"
+                               href="{{ $bookings->url($page) }}">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    </li>
+                @endforeach
+
+                {{-- Last page --}}
+                @if($windowEnd < $lastPage)
+
+                    @if($windowEnd < $lastPage - 1)
+                        <li>
+                            <span class="pager-link is-disabled">…</span>
+                        </li>
+                    @endif
+
+                    <li>
+                        <a class="pager-link"
+                           href="{{ $bookings->url($lastPage) }}">
+                            {{ $lastPage }}
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Next --}}
+                <li>
+                    @if($bookings->hasMorePages())
+                        <a class="pager-link"
+                           href="{{ $bookings->nextPageUrl() }}">›</a>
+                    @else
+                        <span class="pager-link is-disabled">›</span>
+                    @endif
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+@endif
+
 
         </section>
 

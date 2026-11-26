@@ -8,14 +8,27 @@ use Illuminate\Http\Request;
 
 class MemberReviewController extends Controller
 {
-    public function index(){
-        $member=auth()->user();
-       // $member = \App\Models\User::where('role', 'member')->firstOrFail();
-        $reviews=$member->reviews()->get();
-        return view('member.reviews', compact('member', 'reviews'));
+    public function index()
+{
+    $member = auth()->user();
 
-    }
+    // Get member reviews
+    $reviews = $member->reviews()
+        ->with('workspace')
+        ->get();
 
+    // Get workspaces with completed bookings for this member
+    $workspaces = \App\Models\Workspace::whereHas('bookings', function ($query) use ($member) {
+        $query->where('user_id', $member->id)
+              ->where('status', 'completed');
+    })->get();
+
+    return view('member.reviews', compact(
+        'member',
+        'reviews',
+        'workspaces'
+    ));
+}
     public function createreview()
 {
     $member = auth()->user();

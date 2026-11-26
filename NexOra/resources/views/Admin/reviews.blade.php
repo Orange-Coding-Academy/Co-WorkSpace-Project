@@ -7,7 +7,9 @@
 
 @push('styles')
     @include('layouts.dashboard.partials.app-compat-styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/admin-reviews.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/pages/admin-reviews.css') }}?v=20261125-ui2">
+      <link rel="stylesheet" href="{{ asset('css/pages/admin-payments.css') }}?v={{ @filemtime(public_path('css/pages/admin-payments.css')) }}">
+
 @endpush
 
 @section('content')
@@ -365,18 +367,66 @@
 
             </div>
 
-            {{-- Pagination --}}
-            @if($reviews->hasPages())
+           
+{{-- Pagination --}}
 
-               
-                    <div class="nx-reviews-pagination__links">
-                        {{ $reviews->onEachSide(1)->links('pagination::bootstrap-5') }}
-                    </div>
+@if($reviews->hasPages())
+    @php
+        $reviews->withQueryString();
+        $currentPage = $reviews->currentPage();
+        $lastPage = $reviews->lastPage();
+        $windowStart = max(1, $currentPage - 1);
+        $windowEnd = min($lastPage, $currentPage + 1);
+    @endphp
 
-                </div>
+  <div class="payments-pagination">
 
-            @endif
+  <div class="pagination-summary">Page {{ $currentPage }} of {{ $lastPage }}</div>
+    <nav aria-label="Reviews pagination">
+            <ul class="pager">
+                <li>
+                    @if($reviews->onFirstPage())
+                        <span class="pager-link is-disabled" aria-disabled="true">‹</span>
+                    @else
+                        <a class="pager-link" href="{{ $reviews->previousPageUrl() }}" rel="prev">‹</a>
+                    @endif
+                </li>
 
+                @if($windowStart > 1)
+                    <li><a class="pager-link" href="{{ $reviews->url(1) }}">1</a></li>
+                    @if($windowStart > 2)
+                        <li><span class="pager-link is-disabled">…</span></li>
+                    @endif
+                @endif
+
+                @foreach(range($windowStart, $windowEnd) as $page)
+                    <li>
+                        @if($page === $currentPage)
+                            <span class="pager-link is-active" aria-current="page">{{ $page }}</span>
+                        @else
+                            <a class="pager-link" href="{{ $reviews->url($page) }}">{{ $page }}</a>
+                        @endif
+                    </li>
+                @endforeach
+
+                @if($windowEnd < $lastPage)
+                    @if($windowEnd < $lastPage - 1)
+                        <li><span class="pager-link is-disabled">…</span></li>
+                    @endif
+                    <li><a class="pager-link" href="{{ $reviews->url($lastPage) }}">{{ $lastPage }}</a></li>
+                @endif
+
+                <li>
+                    @if($reviews->hasMorePages())
+                        <a class="pager-link" href="{{ $reviews->nextPageUrl() }}" rel="next">›</a>
+                    @else
+                        <span class="pager-link is-disabled" aria-disabled="true">›</span>
+                    @endif
+                </li>
+            </ul>
+        </nav>
+    </div>
+@endif
         </section>
 
     </div>

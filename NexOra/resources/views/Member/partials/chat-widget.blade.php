@@ -6,34 +6,35 @@
      data-history="{{ e(json_encode(session('nexora_chat_' . auth()->id(), []), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) }}">
 
     <button class="nx-chat-launcher" id="nx-chat-launcher"
-            type="button" aria-label="Open AI chat" aria-expanded="false">
+            type="button" aria-label="Open AI chat" aria-expanded="false"
+            aria-controls="nx-chat-panel">
         <span class="nx-chat-launcher-icon">✦</span>
         <span>Ask NexOra AI</span>
     </button>
 
-    <section class="nx-chat-panel" id="nx-chat-panel"
-             aria-label="NexOra AI Assistant" hidden>
+        <section class="nx-chat-panel" id="nx-chat-panel"
+                 role="dialog" aria-labelledby="nx-chat-title" hidden>
 
         <header class="nx-chat-head">
             <div class="nx-chat-brand">
                 <span class="nx-chat-brand-icon">✦</span>
                 <div>
-                    <strong>NEXORA AI</strong>
+                    <strong id="nx-chat-title">NEXORA AI</strong>
                     <small>Your personal coworking assistant</small>
                 </div>
             </div>
 
             <div class="nx-chat-head-actions">
-                <button type="button" id="nx-chat-clear">↻</button>
-                <button type="button" id="nx-chat-close">×</button>
+                <button type="button" id="nx-chat-clear" aria-label="Clear conversation">↻ Clear</button>
+                <button type="button" id="nx-chat-close" aria-label="Close chat">× Close</button>
             </div>
         </header>
 
-        <main class="nx-chat-messages" id="nx-chat-messages">
-            <div class="nx-chat-message assistant">
-                I'm your NEXORA AI Assistant. Ask me about workspaces,
-                rooms, prices, bookings, payments or memberships.
-            </div>
+        <main class="nx-chat-messages" id="nx-chat-messages"
+              role="log" aria-live="polite" aria-relevant="additions text">
+         <div class="nx-chat-message assistant" data-chat-welcome>
+    I'm your NEXORA AI Assistant. Ask me about workspaces, rooms, prices, bookings, payments or memberships.
+</div>
         </main>
 
         <div class="nx-chat-suggestions" id="nx-chat-suggestions">
@@ -46,9 +47,9 @@
             <input type="text" id="nx-chat-input"
                    maxlength="2000"
                    placeholder="Ask NEXORA anything..."
-                   autocomplete="off" required>
+                   autocomplete="off" aria-label="Message NexOra AI" required>
 
-            <button type="submit" id="nx-chat-send">➤</button>
+            <button type="submit" id="nx-chat-send" aria-label="Send message">Send</button>
         </form>
     </section>
 </div>

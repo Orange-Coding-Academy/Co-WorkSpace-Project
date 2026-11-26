@@ -6,18 +6,18 @@
 ========================================================= */
 
 .nx-manager-ai {
-    --nx-ai-primary: var(--nx-primary, #315c4d);
-    --nx-ai-primary-hover: var(--nx-primary-hover, #274b3f);
-    --nx-ai-deep: var(--nx-sidebar, #203d34);
-    --nx-ai-accent: var(--nx-accent, #c58a62);
-    --nx-ai-bg: var(--nx-bg, #f5f7f3);
-    --nx-ai-card: var(--nx-card, #fff);
-    --nx-ai-surface: var(--nx-surface, #f8faf7);
-    --nx-ai-text: var(--nx-text, #1d2924);
-    --nx-ai-muted: var(--nx-text-muted, #7f8b84);
-    --nx-ai-secondary: var(--nx-text-secondary, #53615a);
-    --nx-ai-border: var(--nx-border, #e2e8e2);
-    --nx-ai-divider: var(--nx-divider, #e9eee9);
+    --nx-ai-primary: var(--nx-primary, var(--color-primary));
+    --nx-ai-primary-hover: var(--nx-primary-hover, var(--color-primary-hover));
+    --nx-ai-deep: var(--nx-sidebar, var(--color-primary-dark));
+    --nx-ai-accent: var(--nx-accent, var(--color-accent));
+    --nx-ai-bg: var(--nx-bg, var(--color-background));
+    --nx-ai-card: var(--nx-card, var(--color-surface));
+    --nx-ai-surface: var(--nx-surface, var(--color-surface));
+    --nx-ai-text: var(--nx-text, var(--color-text));
+    --nx-ai-muted: var(--nx-text-muted, var(--color-text-muted));
+    --nx-ai-secondary: var(--nx-text-secondary, var(--color-text-muted));
+    --nx-ai-border: var(--nx-border, var(--color-border));
+    --nx-ai-divider: var(--nx-divider, var(--color-border));
 
     width: 100%;
     color: var(--nx-ai-text);
@@ -46,7 +46,7 @@
 .nx-manager-ai input:focus-visible,
 .nx-manager-ai textarea:focus-visible,
 .nx-manager-ai select:focus-visible {
-    outline: 3px solid rgba(49, 92, 77, .2);
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
     outline-offset: 3px;
 }
 
@@ -71,12 +71,12 @@
     margin-bottom: 42px;
     overflow: hidden;
     isolation: isolate;
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 8%, transparent);
     border-radius: 22px;
     background:
-        radial-gradient(circle at 82% 25%, rgba(197,138,98,.2), transparent 24%),
-        linear-gradient(115deg, #203d34 0%, #315c4d 65%, #426e5c 100%);
-    box-shadow: 0 12px 30px rgba(32,61,52,.12);
+        radial-gradient(circle at 82% 25%, color-mix(in srgb, var(--color-accent) 20%, transparent), transparent 24%),
+        linear-gradient(115deg, var(--color-primary-dark) 0%, var(--color-primary) 65%, var(--color-primary) 100%);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-primary-dark) 12%, transparent);
 }
 
 .nx-ai-header::before {
@@ -86,7 +86,7 @@
     height: 340px;
     right: 8%;
     top: -210px;
-    border: 1px solid rgba(255,255,255,.12);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 12%, transparent);
     border-radius: 50%;
     z-index: -1;
 }
@@ -98,7 +98,7 @@
     height: 240px;
     right: 17%;
     bottom: -190px;
-    border: 1px solid rgba(255,255,255,.12);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 12%, transparent);
     border-radius: 50%;
     z-index: -1;
 }
@@ -114,7 +114,7 @@
     align-items: center;
     gap: 9px;
     margin-bottom: 14px;
-    color: #d8e7dd;
+    color: var(--color-primary)!important;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -124,13 +124,13 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #d9b18f;
-    box-shadow: 0 0 0 4px rgba(217,177,143,.13);
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 13%, transparent);
 }
 
 .nx-ai-header h1 {
     margin: 0 0 9px;
-    color: #fff;
+    color: var(--color-surface);
     font-family: var(--nx-font-heading, "Manrope", sans-serif);
     font-size: clamp(30px, 4vw, 42px);
     font-weight: 800;
@@ -141,7 +141,7 @@
 .nx-ai-header p {
     max-width: 590px;
     margin: 0;
-    color: rgba(255,255,255,.75);
+    color: color-mix(in srgb, var(--color-accent) 75%, transparent);
     font-size: 14px;
     line-height: 1.8;
 }
@@ -165,19 +165,19 @@
     justify-content: center;
     width: 76px;
     height: 76px;
-    border: 1px solid rgba(255,255,255,.38);
+    border: 1px solid color-mix(in srgb, var(--color-surface) 38%, transparent);
     border-radius: 24px;
-    background: rgba(255,255,255,.12);
-    color: #f4d4b7;
+    background: color-mix(in srgb, var(--nx-ai-accent) 12%, transparent);
+    color: var(--nx-accent);
     font-size: 38px;
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 35px rgba(0,0,0,.12);
+    box-shadow: 0 10px 35px color-mix(in srgb, var(--color-text) 12%, transparent);
     animation: nx-ai-float 4s ease-in-out infinite;
 }
 
 .nx-ai-orbit {
     position: absolute;
-    border: 1px solid rgba(255,255,255,.2);
+    border: 3px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
     border-radius: 50%;
 }
 
@@ -233,7 +233,7 @@
 
 .nx-section-heading p {
     margin: 0;
-    color: var(--nx-ai-muted);
+    color: var(--nx-accent);
     font-size: 13px;
     line-height: 1.7;
 }
@@ -257,8 +257,8 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #279866;
-    box-shadow: 0 0 0 4px rgba(39,152,102,.1);
+    background: var(--color-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
 .nx-marketing-heading-icon {
@@ -267,10 +267,10 @@
     justify-content: center;
     width: 46px;
     height: 46px;
-    border: 1px solid #ead8c9;
+    border: 1px solid var(--color-border);
     border-radius: 14px;
-    background: #f8eee7;
-    color: #a66c45;
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
     font-size: 25px;
 }
 
@@ -284,7 +284,7 @@
     border: 1px solid var(--nx-ai-border);
     border-radius: 20px;
     background: var(--nx-ai-card);
-    box-shadow: 0 4px 18px rgba(29,41,36,.045);
+    box-shadow: 0 4px 18px color-mix(in srgb, var(--color-text) 4.5%, transparent);
 }
 
 .nx-chat-topbar {
@@ -294,7 +294,7 @@
     gap: 15px;
     padding: 19px 24px;
     border-bottom: 1px solid var(--nx-ai-divider);
-    background: linear-gradient(100deg, #fff, #fafcf9);
+    background: linear-gradient(100deg, var(--color-surface), var(--color-primary));
 }
 
 .nx-chat-profile {
@@ -312,10 +312,14 @@
     width: 42px;
     height: 42px;
     border-radius: 14px;
-    background: linear-gradient(140deg, #315c4d, #203d34);
-    color: #f4d4b7;
+    background: linear-gradient(140deg, var(--color-accent), var(--color-accent));
+    color: var(--color-accent);
     font-size: 22px;
-    box-shadow: 0 4px 10px rgba(49,92,77,.15);
+    box-shadow: 0 4px 10px color-mix(in srgb, var(--color-accent) 15%, transparent);
+}
+.nx-chat-avatar,.nx-message-avatar{
+    background-color: var(--color-accent-soft)!important;
+    color: var(--color-accent)!important;
 }
 
 .nx-chat-profile strong {
@@ -328,7 +332,7 @@
 
 .nx-chat-profile > div:last-child span {
     display: block;
-    color: var(--nx-ai-muted);
+    color: var(--color-accent);
     font-size: 11px;
 }
 
@@ -351,8 +355,8 @@
     overflow-y: auto;
     scroll-behavior: smooth;
     background:
-        radial-gradient(circle at 100% 0%, rgba(49,92,77,.025), transparent 35%),
-        #fff;
+        radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-primary) 2.5%, transparent), transparent 35%),
+        var(--color-surface);
 }
 
 .nx-message-row {
@@ -386,21 +390,34 @@
     overflow-wrap: anywhere;
 }
 
+.nx-page-content.nx-manager-ai .nx-message > p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.nx-page-content.nx-manager-ai .nx-message > p + p {
+    margin-top: 8px !important;
+}
+
 .nx-message.ai {
     border: 1px solid var(--nx-ai-border);
-    background: #f7faf6;
-    color: var(--nx-ai-text);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+.nx-message.ai:has(p) {
+    white-space: normal;
 }
 
 .nx-message.user {
     border-radius: 15px 4px 15px 15px;
     background: var(--nx-ai-primary);
-    color: #fff;
+    color: var(--color-surface);
 }
 
 .nx-message-time {
     margin: 7px 0 0 3px;
-    color: #a0aaa3;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
@@ -434,7 +451,7 @@
 .nx-chat-composer {
     padding: 17px 24px 10px;
     border-top: 1px solid var(--nx-ai-divider);
-    background: #fff;
+    background: var(--color-surface);
 }
 
 .nx-chat-input-wrap {
@@ -444,14 +461,14 @@
     padding: 7px 8px 7px 15px;
     border: 1px solid var(--nx-ai-border);
     border-radius: 15px;
-    background: #fafcf9;
+    background: var(--color-surface);
     transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
 .nx-chat-input-wrap:focus-within {
     border-color: var(--nx-ai-primary);
-    background: #fff;
-    box-shadow: 0 0 0 4px rgba(49,92,77,.08);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
 .nx-chat-input-wrap textarea {
@@ -470,7 +487,7 @@
 }
 
 .nx-chat-input-wrap textarea::placeholder {
-    color: #9ba69f;
+    color: var(--color-text-muted);
 }
 
 .nx-send-btn {
@@ -484,7 +501,7 @@
     border: 0;
     border-radius: 11px;
     background: var(--nx-ai-primary);
-    color: #fff;
+    color: var(--color-surface);
     font-size: 12px;
     font-weight: 700;
     transition: background .2s ease, transform .2s ease;
@@ -511,7 +528,7 @@
     align-items: center;
     gap: 7px;
     padding: 8px 2px 0;
-    color: #9aa49d;
+    color: var(--color-text-muted);
     font-size: 10px;
 }
 
@@ -529,7 +546,7 @@
 
 .nx-chat-suggestions {
     padding: 13px 24px 21px;
-    background: #fff;
+    background: var(--color-surface);
 }
 
 .nx-suggestions-heading {
@@ -537,7 +554,7 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 12px;
-    color: #98a29b;
+    color: var(--color-text-muted);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 1.5px;
@@ -563,7 +580,7 @@
     padding: 8px 13px;
     border: 1px solid var(--nx-ai-border);
     border-radius: 9px;
-    background: #fff;
+    background: var(--color-surface);
     color: var(--nx-ai-secondary);
     font-size: 11px;
     font-weight: 600;
@@ -571,9 +588,9 @@
 }
 
 .nx-suggestion:hover {
-    border-color: #b7cbbd;
-    background: #f4f8f3;
-    color: var(--nx-ai-primary);
+    border-color: var(--color-primary);
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
     transform: translateY(-2px);
 }
 
@@ -592,7 +609,7 @@
     border: 1px solid var(--nx-ai-border);
     border-radius: 20px;
     background: var(--nx-ai-card);
-    box-shadow: 0 4px 18px rgba(29,41,36,.045);
+    box-shadow: 0 4px 18px color-mix(in srgb, var(--color-text) 4.5%, transparent);
 }
 
 .nx-marketing-intro {
@@ -601,10 +618,10 @@
     gap: 14px;
     padding: 18px 20px;
     margin-bottom: 27px;
-    border: 1px solid #e8e4d9;
+    border: 1px solid var(--color-accent);
     border-radius: 14px;
     background:
-        linear-gradient(105deg, #f8f7f0 0%, #fbf9f5 100%);
+        linear-gradient(105deg, var(--color-accent) 0%, var(--color-accent) 100%);
 }
 
 .nx-marketing-intro-icon {
@@ -615,8 +632,8 @@
     width: 44px;
     height: 44px;
     border-radius: 13px;
-    background: #e9eee5;
-    color: var(--nx-ai-primary);
+    background: var(--color-primary);
+    color: var(--color-accent)!important;
     font-size: 23px;
 }
 
@@ -630,7 +647,7 @@
 
 .nx-marketing-intro p {
     margin: 0;
-    color: var(--nx-ai-muted);
+    color: var(--color-accent);
     font-size: 11px;
     line-height: 1.7;
 }
@@ -639,6 +656,7 @@
     display: grid;
     grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
     gap: 25px;
+    align-items: start;
 }
 
 .nx-marketing-setup,
@@ -660,10 +678,10 @@
     flex: 0 0 auto;
     width: 34px;
     height: 34px;
-    border: 1px solid #dce7dd;
+    border: 1px solid var(--color-border);
     border-radius: 10px;
-    background: #eff5ef;
-    color: var(--nx-ai-primary);
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
     font-size: 11px;
     font-weight: 800;
 }
@@ -677,7 +695,7 @@
 
 .nx-marketing-step p {
     margin: 0;
-    color: var(--nx-ai-muted);
+    color: var(--color-accent);
     font-size: 10px;
     line-height: 1.6;
 }
@@ -695,7 +713,7 @@
 }
 
 .nx-required {
-    color: #bd594c;
+    color: var(--color-danger);
 }
 
 .nx-manager-ai .form-control,
@@ -705,7 +723,7 @@
     padding: 11px 13px;
     border: 1px solid var(--nx-ai-border);
     border-radius: 10px;
-    background-color: #fff;
+    background-color: var(--color-surface);
     color: var(--nx-ai-text);
     font-size: 12px;
     box-shadow: none;
@@ -714,18 +732,18 @@
 
 .nx-manager-ai .form-control:hover,
 .nx-manager-ai .form-select:hover {
-    border-color: #b7cbbd;
+    border-color: var(--color-primary);
 }
 
 .nx-manager-ai .form-control:focus,
 .nx-manager-ai .form-select:focus {
     border-color: var(--nx-ai-primary);
     outline: 0;
-    box-shadow: 0 0 0 4px rgba(49,92,77,.08);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
 .nx-manager-ai .form-control::placeholder {
-    color: #a2aca5;
+    color: var(--color-text-muted);
 }
 
 .nx-manager-ai textarea.form-control {
@@ -740,7 +758,7 @@
 .nx-field-hint {
     display: block;
     margin-top: 7px;
-    color: #98a29b;
+    color: var(--color-accent);
     font-size: 10px;
     line-height: 1.6;
 }
@@ -758,17 +776,17 @@
     padding: 11px 17px;
     border: 0;
     border-radius: 11px;
-    background: linear-gradient(110deg, #315c4d, #274b3f);
-    color: #fff;
+    background: linear-gradient(110deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-surface);
     font-size: 12px;
     font-weight: 750;
-    box-shadow: 0 5px 13px rgba(49,92,77,.14);
+    box-shadow: 0 5px 13px color-mix(in srgb, var(--color-primary) 14%, transparent);
     transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
 
 .nx-generate-btn:hover:not(:disabled) {
-    background: linear-gradient(110deg, #274b3f, #203d34);
-    box-shadow: 0 8px 17px rgba(49,92,77,.2);
+    background: linear-gradient(110deg, var(--color-primary-hover), var(--color-primary-dark));
+    box-shadow: 0 8px 17px color-mix(in srgb, var(--color-primary) 20%, transparent);
     transform: translateY(-2px);
 }
 
@@ -780,7 +798,7 @@
 }
 
 .nx-btn-sparkle {
-    color: #eac29f;
+    color: var(--color-accent);
     font-size: 17px;
 }
 
@@ -791,7 +809,7 @@
     overflow: hidden;
     border: 1px solid var(--nx-ai-border);
     border-radius: 13px;
-    background: #fff;
+    background: var(--color-surface);
 }
 
 .nx-editor-toolbar {
@@ -801,7 +819,7 @@
     gap: 10px;
     padding: 12px 14px;
     border-bottom: 1px solid var(--nx-ai-divider);
-    background: #f8faf7;
+    background: var(--color-surface);
 }
 
 .nx-editor-label {
@@ -818,15 +836,15 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #c58a62;
+    background: var(--color-accent);
 }
 
 .nx-editor-badge {
     padding: 5px 9px;
-    border: 1px solid #dce8dd;
+    border: 1px solid var(--color-accent-soft);
     border-radius: 999px;
-    background: #edf5ee;
-    color: #38674d;
+    background: var(--color-accent-soft);
+    color: var(--color-primary);
     font-size: 9px;
     font-weight: 700;
 }
@@ -841,7 +859,7 @@
 }
 
 .nx-manager-ai .nx-marketing-content {
-    min-height: 240px;
+    min-height: 180px;
 }
 
 .nx-editor-footer {
@@ -851,8 +869,8 @@
     padding: 12px 15px;
     margin-top: 5px;
     border-top: 1px solid var(--nx-ai-divider);
-    background: #fafcf9;
-    color: var(--nx-ai-muted);
+    background: var(--color-surface);
+    color: var(--color-primary);
     font-size: 10px;
 }
 
@@ -873,19 +891,19 @@
     min-height: 47px;
     margin-top: 15px;
     padding: 11px 17px;
-    border: 1px solid #dce8df;
+    border: 1px solid var(--color-primary);
     border-radius: 11px;
-    background: #edf5ef;
-    color: #245b3e;
+    background: var(--color-primary);
+    color: var(--color-surface);
     font-size: 12px;
     font-weight: 750;
     transition: all .2s ease;
 }
 
 .nx-approve-btn:hover:not(:disabled) {
-    border-color: #b7d2bf;
-    background: #e2efe5;
-    box-shadow: 0 5px 13px rgba(36,91,62,.08);
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+    box-shadow: 0 5px 13px color-mix(in srgb, var(--color-primary) 8%, transparent);
     transform: translateY(-2px);
 }
 
@@ -896,8 +914,8 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #d5e8da;
-    color: #245b3e;
+    background: color-mix(in srgb, var(--color-surface) 20%, transparent);
+    color: var(--color-surface);
     font-size: 12px;
 }
 
@@ -920,29 +938,29 @@
 }
 
 .nx-marketing-message.success {
-    border-color: #bce2c9;
-    background: #eaf6ef;
-    color: #145c3a;
+    border-color: var(--color-success-bg);
+    background: var(--color-success-bg);
+    color: var(--color-success);
 }
 
 .nx-marketing-message.error {
-    border-color: #f5c2be;
-    background: #fdedec;
-    color: #912018;
+    border-color: var(--color-danger-bg);
+    background: var(--color-danger-bg);
+    color: var(--color-danger);
 }
 
 .nx-marketing-message.info {
-    border-color: #c5ddf2;
-    background: #edf5fc;
-    color: #195a91;
+    border-color: var(--color-info-bg);
+    background: var(--color-info-bg);
+    color: var(--color-info);
 }
 
 .nx-loading-spinner {
     display: inline-block;
     width: 15px;
     height: 15px;
-    border: 2px solid rgba(255,255,255,.35);
-    border-top-color: #fff;
+    border: 2px solid color-mix(in srgb, var(--color-surface) 35%, transparent);
+    border-top-color: var(--color-surface);
     border-radius: 50%;
     animation: nx-ai-spin .7s linear infinite;
 }
@@ -958,7 +976,7 @@
     justify-content: center;
     gap: 8px;
     padding-top: 8px;
-    color: #9aa49d;
+    color: var(--color-text-muted);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: .4px;
@@ -1169,7 +1187,8 @@
     }
 
     .nx-chat-status {
-        font-size: 0;
+        font-size: 10px;
+        white-space: nowrap;
     }
 
     .nx-chat-status span {
@@ -1200,13 +1219,13 @@
     }
 
     .nx-send-btn {
-        min-width: 43px;
-        width: 43px;
-        padding: 0;
+        min-width: 78px;
+        width: auto;
+        padding: 0 10px;
     }
 
     .nx-send-btn span {
-        display: none;
+        display: inline;
     }
 
     .nx-send-btn svg {
@@ -1245,6 +1264,83 @@
         font-size: 9px;
     }
 
+}
+
+/* Clear, visible actions for turning an AI answer into campaign work. */
+.nx-manager-ai .nx-use-idea-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    margin: 9px 0 2px 2px;
+    padding: 9px 14px;
+    border: 1px solid var(--color-primary);
+    border-radius: 9px;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 750;
+    line-height: 1.35;
+    cursor: pointer;
+    box-shadow: 0 3px 9px color-mix(in srgb, var(--color-primary) 18%, transparent);
+    transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease,
+        transform .16s ease;
+}
+
+.nx-manager-ai .nx-use-idea-btn:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-primary-hover);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 13px color-mix(in srgb, var(--color-primary-hover) 22%, transparent);
+}
+
+.nx-manager-ai .nx-use-idea-btn:focus-visible,
+.nx-manager-ai .nx-suggestion:focus-visible {
+    outline: 3px solid rgb(217 164 65 / 50%);
+    outline-offset: 3px;
+}
+
+.nx-manager-ai .nx-suggestion {
+    color: #33383b;
+    background: #fff;
+    border-color: #dfe2e4;
+    transform: none;
+}
+
+.nx-manager-ai .nx-suggestion:hover {
+    color: #171717;
+    background: #f3f4f4;
+    border-color: #b9bec1;
+    transform: translateY(-1px);
+}
+
+.nx-manager-ai .nx-suggestion--marketing {
+    color: #5c4618;
+    border-color: #e5d2a6;
+    background: #fffaf0;
+}
+
+.nx-manager-ai .nx-suggestion--marketing .nx-suggestion-icon {
+    color: #9a6d0b;
+}
+
+.nx-manager-ai .nx-suggestion--marketing:hover {
+    color: #171717;
+    border-color: #d9a441;
+    background: #fff4d9;
+}
+
+.nx-manager-ai .nx-marketing-section {
+    scroll-margin-top: 24px;
+}
+
+@media (max-width: 520px) {
+    .nx-manager-ai .nx-use-idea-btn {
+        width: 100%;
+        margin-inline: 0;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1492,7 +1588,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: rgba(12, 27, 22, .62);
+    background: rgb(18 18 18 / 68%);
     backdrop-filter: blur(7px);
     -webkit-backdrop-filter: blur(7px);
     opacity: 0;
@@ -1509,11 +1605,11 @@
     width: 100%;
     max-width: 470px;
     padding: 38px;
-    background: #fff;
-    border: 1px solid rgba(36, 72, 59, .12);
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
     border-radius: 22px;
     text-align: center;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, .2);
+    box-shadow: 0 25px 80px color-mix(in srgb, var(--color-text) 20%, transparent);
     transform: translateY(18px) scale(.97);
     transition: transform .3s ease;
 }
@@ -1529,15 +1625,15 @@
     place-items: center;
     margin: 0 auto 20px;
     border-radius: 18px;
-    background: #edf4ef;
-    color: #24483b;
+    background: var(--color-accent-soft);
+    color: var(--color-primary-hover);
     font-size: 27px;
 }
 
 .nx-modal-eyebrow {
     display: block;
     margin-bottom: 10px;
-    color: #799286;
+    color: var(--color-text-muted);
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 2px;
@@ -1545,7 +1641,7 @@
 
 .nx-modal h3 {
     margin: 0 0 12px;
-    color: #19382d;
+    color: var(--color-primary-dark);
     font-size: 25px;
     font-weight: 750;
 }
@@ -1553,7 +1649,7 @@
 .nx-modal > p {
     margin: 0 auto 24px;
     max-width: 350px;
-    color: #718078;
+    color: var(--color-text-muted);
     font-size: 14px;
     line-height: 1.8;
 }
@@ -1561,16 +1657,16 @@
 .nx-modal-campaign {
     padding: 15px 18px;
     margin-bottom: 20px;
-    border: 1px solid #e5ece7;
+    border: 1px solid var(--color-border);
     border-radius: 13px;
-    background: #f7faf8;
+    background: var(--color-background);
     text-align: left;
 }
 
 .nx-modal-campaign span {
     display: block;
     margin-bottom: 7px;
-    color: #87958d;
+    color: var(--color-text-muted);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 1.3px;
@@ -1578,7 +1674,7 @@
 
 .nx-modal-campaign strong {
     display: block;
-    color: #24483b;
+    color: var(--color-text);
     font-size: 14px;
     overflow-wrap: anywhere;
 }
@@ -1601,22 +1697,22 @@
 }
 
 .nx-modal-cancel {
-    color: #52645a;
-    background: #edf1ee;
+    color: var(--color-text);
+    background: var(--color-background);
 }
 
 .nx-modal-cancel:hover {
-    background: #e1e9e3;
+    background: var(--color-border);
 }
 
 .nx-modal-confirm {
-    color: #fff;
-    background: #24483b;
-    box-shadow: 0 6px 16px rgba(36, 72, 59, .18);
+    color: var(--color-surface);
+    background: var(--color-primary-hover);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--color-primary) 18%, transparent);
 }
 
 .nx-modal-confirm:hover {
-    background: #19382d;
+    background: var(--color-primary-dark);
     transform: translateY(-1px);
 }
 
@@ -1641,29 +1737,29 @@
 }
 
 .nx-modal-result.success {
-    color: #216342;
-    background: #edf8f0;
-    border: 1px solid #d5eddb;
+    color: var(--color-success);
+    background: var(--color-success-bg);
+    border: 1px solid var(--color-success);
 }
 
 .nx-modal-result.error {
-    color: #a43b3b;
-    background: #fff1f0;
-    border: 1px solid #f4d8d5;
+    color: var(--color-danger);
+    background: var(--color-danger-bg);
+    border: 1px solid var(--color-danger);
 }
 
 .nx-modal-result.info {
-    color: #315c70;
-    background: #eef6fa;
-    border: 1px solid #d9eaf1;
+    color: var(--color-info);
+    background: var(--color-info-bg);
+    border: 1px solid var(--color-info);
 }
 
 .nx-modal-confirm .nx-loading-spinner {
     display: inline-block;
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255,255,255,.4);
-    border-top-color: #fff;
+    border: 2px solid color-mix(in srgb, var(--color-surface) 40%, transparent);
+    border-top-color: var(--color-surface);
     border-radius: 50%;
     animation: nxModalSpin .7s linear infinite;
     vertical-align: middle;
@@ -1684,6 +1780,47 @@
 
     .nx-modal-actions {
         flex-direction: column-reverse;
+    }
+}
+
+/* Keep AI content readable without hover and let chat messages use their space. */
+.nx-page-content.nx-manager-ai .nx-message-row {
+    width: 100%;
+    max-width: 100%;
+}
+
+.nx-page-content.nx-manager-ai .nx-message-row.ai-row .nx-message-content {
+    flex: 1 1 0;
+    width: 0;
+    max-width: 760px;
+}
+
+.nx-page-content.nx-manager-ai .nx-message {
+    text-align: left;
+}
+
+.nx-page-content.nx-manager-ai .nx-message.ai p {
+    margin: 0;
+}
+
+.nx-page-content.nx-manager-ai .nx-message.ai p + p {
+    margin-top: 12px;
+}
+
+@media (max-width: 520px) {
+    .nx-page-content.nx-manager-ai .nx-chat-status {
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-send-btn {
+        width: auto;
+        min-width: 82px;
+        padding-inline: 10px;
+    }
+
+    .nx-page-content.nx-manager-ai .nx-send-btn span {
+        display: inline;
     }
 }
 

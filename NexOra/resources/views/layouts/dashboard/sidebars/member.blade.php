@@ -16,9 +16,21 @@
 
     <div class="nx-sidebar__brand">
         @if (Route::has('explore'))
-            <a href="{{ route('explore') }}" class="nx-sidebar__logo">NexOra</a>
+            <a href="{{ route('explore') }}" class="nx-sidebar__logo">
+                <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <rect x="1" y="1" width="38" height="38" rx="11" />
+                    <path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11" />
+                </svg>
+                NexOra
+            </a>
         @else
-            <span class="nx-sidebar__logo">NexOra</span>
+            <span class="nx-sidebar__logo">
+                <svg class="nx-brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+                    <rect x="1" y="1" width="38" height="38" rx="11" />
+                    <path class="nx-brand-mark__glyph" d="M12 29V11l16 18V11" />
+                </svg>
+                NexOra
+            </span>
         @endif
         <span class="nx-sidebar__subtitle">Member Space</span>
     </div>

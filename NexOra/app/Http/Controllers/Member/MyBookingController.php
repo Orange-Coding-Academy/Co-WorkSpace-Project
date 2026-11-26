@@ -45,7 +45,7 @@ class MyBookingController extends Controller
             $query->where('room_id', $request->room_id);
         }
 
-        $bookings = $query->latest()->paginate(10)->withQueryString();
+        $bookings = $query->latest()->paginate(5)->withQueryString();
 
         // Load related room and payment
         $bookings->getCollection()->transform(function ($booking) {

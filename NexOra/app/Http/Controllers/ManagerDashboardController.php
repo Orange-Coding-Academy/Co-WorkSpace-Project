@@ -11,7 +11,6 @@ use App\Models\Review;
 
 use Carbon\CarbonImmutable;
 
-
 class ManagerDashboardController extends Controller
 {
 

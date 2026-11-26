@@ -25,14 +25,18 @@
     <link rel="stylesheet" href="{{ asset('css/nexora/typography.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/components.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nexora/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/dashboard.css') }}?v=20261125-ui2">
     <link rel="stylesheet" href="{{ asset('css/nexora/utilities.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nexora/responsive.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/nexora/chat-widget.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/nexora/chat-widget.css') }}?v=20261125-ui2">
 
     @stack('styles')
 
     @include('layouts.dashboard.partials.shell-styles')
+    <link rel="stylesheet" href="{{ asset('css/design-system.css') }}?v=20261125-green3">
+    @stack('page-overrides')
+    <link rel="stylesheet" href="{{ asset('css/nexora/role-polish.css') }}?v=20261125-ui6">
+    <link rel="stylesheet" href="{{ asset('css/pages/member-chatbot.css') }}?v=1">
 </head>
 
 <body class="nx-shell-body">
@@ -59,7 +63,9 @@
     @stack('scripts')
     @if ($nxRole === 'member')
         @include('Member.partials.chat-widget')
+
     @endif
+    
 </body>
 
 </html>

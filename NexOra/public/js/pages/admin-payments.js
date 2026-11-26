@@ -5,8 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
      * ------------------------------------------------------------------ */
     const chartElement = document.getElementById('revenueChart');
     const chartData = Array.isArray(window.paymentChartData) ? window.paymentChartData : [];
+    const chartStyles = getComputedStyle(document.documentElement);
+    const chartColor = chartStyles.getPropertyValue('--nx-chart-gmv').trim() || '#27865B';
+    const chartBorder = chartStyles.getPropertyValue('--color-border').trim() || '#E5E5E5';
+    const chartMuted = chartStyles.getPropertyValue('--color-text-muted').trim() || '#737373';
+    const chartFill = 'rgba(32, 32, 32, 0.08)';
 
     if (chartElement && typeof Chart !== 'undefined') {
+        Chart.defaults.color = chartMuted;
+        Chart.defaults.borderColor = chartBorder;
+
         new Chart(chartElement, {
             type: 'line',
             data: {
@@ -14,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 datasets: [{
                     label: 'Revenue',
                     data: chartData.map(item => Number(item.amount) || 0),
-                    borderColor: '#315c4d',
-                    backgroundColor: 'rgba(49, 92, 77, 0.10)',
+                    borderColor: chartColor,
+                    backgroundColor: chartFill,
                     borderWidth: 2,
                     tension: 0.35,
                     fill: true,
@@ -38,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, grid: { color: chartBorder } }
                 }
             }
         });
