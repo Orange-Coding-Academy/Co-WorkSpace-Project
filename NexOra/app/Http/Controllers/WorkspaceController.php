@@ -124,6 +124,8 @@ class WorkspaceController extends Controller
         //
     }
 
+    
+
 
     public function UpdateStatus(Workspace $workspace)
     {
@@ -164,4 +166,16 @@ class WorkspaceController extends Controller
 
         return back()->with('success', 'Workspace enabled successfully.');
     }
+
+    public function LastWorkspaces()
+    {
+        $workspaces = Workspace::with(['manager', 'rooms', 'images'])
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+dd($workspaces);
+       
+    
+    }    
 }

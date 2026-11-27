@@ -181,7 +181,6 @@ class AdminDashboard extends Controller
             ->limit(5)
             ->get()
             ->map(fn($workspace) => [
-                'id' => $workspace->id,
                 'name' => $workspace->name,
                 'totalBookings' => $workspace->bookings_count,
                 'totalGMV' => (float) ($workspace->bookings_sum_total_price ?? 0),

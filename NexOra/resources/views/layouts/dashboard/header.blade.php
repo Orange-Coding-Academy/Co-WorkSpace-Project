@@ -1,4 +1,3 @@
-
 @php
     $nxRole = $nxRole ?? 'admin';
 
@@ -22,7 +21,7 @@
 
     $nxUser = auth()->user();
 
-    $nxUserName = $nxUser?->name ?? $nxRoleLabels[$nxRole] ?? 'User';
+    $nxUserName = $nxUser?->name ?? ($nxRoleLabels[$nxRole] ?? 'User');
     $nxUserAvatar = $nxUser?->avatar;
     $nxUserInitial = strtoupper(substr($nxUserName, 0, 1));
 
@@ -34,18 +33,10 @@
 
     <div class="nx-topbar__left">
 
-        <button
-            type="button"
-            class="nx-icon-button"
-            id="sidebarToggle"
-            aria-label="Toggle navigation"
-            aria-controls="nxSidebar"
-            aria-expanded="true"
-        >
-            <svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
-                aria-hidden="true" focusable="false">
+        <button type="button" class="nx-icon-button" id="sidebarToggle" aria-label="Toggle navigation"
+            aria-controls="nxSidebar" aria-expanded="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true" focusable="false">
                 <path d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
@@ -53,10 +44,8 @@
         <nav class="nx-topbar__breadcrumb" aria-label="Breadcrumb">
             <span>{{ $nxAreaLabels[$nxRole] ?? 'Dashboard' }}</span>
 
-            <svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round"
-                aria-hidden="true" focusable="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true" focusable="false">
                 <path d="m9 18 6-6-6-6" />
             </svg>
 
@@ -69,7 +58,7 @@
 
     <div class="nx-topbar__right">
 
-        @if (Route::has('explore'))
+        {{-- @if (Route::has('explore'))
             <a href="{{ route('explore') }}" class="nx-topbar__explore">
                 <svg viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2"
@@ -81,39 +70,33 @@
 
                 <span>Explore Workspaces</span>
             </a>
-        @endif
+        @endif --}}
 
         @if ($nxHasProfileRoute)
-            <a
-                href="{{ route($nxProfileRoute) }}"
-                class="nx-topbar__user nx-topbar__user--link"
-                aria-label="My profile: {{ $nxUserName }}"
-            >
-        @else
-            <div class="nx-topbar__user">
+            <a href="{{ route($nxProfileRoute) }}" class="nx-topbar__user nx-topbar__user--link"
+                aria-label="My profile: {{ $nxUserName }}">
+            @else
+                <div class="nx-topbar__user">
         @endif
 
-                <div class="nx-avatar" aria-hidden="true">
-                    @if ($nxUserAvatar)
-                        <img
-                            src="{{ asset('storage/' . $nxUserAvatar) }}"
-                            alt=""
-                        >
-                    @else
-                        {{ $nxUserInitial }}
-                    @endif
-                </div>
+        <div class="nx-avatar" aria-hidden="true">
+            @if ($nxUserAvatar)
+                <img src="{{ asset('storage/' . $nxUserAvatar) }}" alt="">
+            @else
+                {{ $nxUserInitial }}
+            @endif
+        </div>
 
-                <div class="nx-topbar__user-info">
-                    <strong>{{ $nxUserName }}</strong>
-                    <span>{{ $nxRoleLabels[$nxRole] ?? 'User' }}</span>
-                </div>
+        <div class="nx-topbar__user-info">
+            <strong>{{ $nxUserName }}</strong>
+            <span>{{ $nxRoleLabels[$nxRole] ?? 'User' }}</span>
+        </div>
 
         @if ($nxHasProfileRoute)
             </a>
         @else
-            </div>
-        @endif
+    </div>
+    @endif
 
     </div>
 

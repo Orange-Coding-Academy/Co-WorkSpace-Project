@@ -140,3 +140,5 @@ Route::get('/stripe/success', [StripeController::class, 'success'])->name('strip
 Route::get('/stripe/cancel', [StripeController::class, 'cancel'])->name('stripe.cancel');
 Route::post('/stripe/webhook', [StripeController::class, 'webhook']);
 
+
+Route::get('/lastWorkespaces',[WorkspaceController::class,'LastWorkspaces']);

@@ -19,21 +19,36 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-     protected $fillable = ['name', 'email', 'password', 'role', 'is_active', 'email_verified_at', 'reminder_sent_at'];
+    protected $fillable = ['name', 'email', 'password', 'role', 'is_active', 'email_verified_at', 'reminder_sent_at'];
 
     protected $hidden = ['password', 'remember_token'];
 
-    public function managedWorkspaces(): HasMany { return $this->hasMany(Workspace::class, 'manager_id'); }
-    public function bookings(): HasMany { return $this->hasMany(Booking::class); }
-    public function memberships(): HasMany { return $this->hasMany(Membership::class); }
-    public function payments(): HasMany { return $this->hasMany(Payment::class); }
-    public function reviews(): HasMany { return $this->hasMany(Review::class); }
+    public function managedWorkspaces(): HasMany
+    {
+        return $this->hasMany(Workspace::class, 'manager_id');
+    }
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
+    public function memberships(): HasMany
+    {
+        return $this->hasMany(Membership::class);
+    }
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    
+
     /**
      * Get the attributes that should be cast.
      *
@@ -46,4 +61,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    
 }
